@@ -37,37 +37,6 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
-    <h1 class="post-title"><a href="/20170910-leetcode-contest-49/">LeetCode Contest 49</a></h1>
-    <div class="post-meta">2017-09-10</div>
-    <a data-disqus-identifier="20170910-leetcode-contest-49/" href="/20170910-leetcode-contest-49/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-49/">比赛</a>对python不友好啊，第三题在比赛的时候一直TLE，比赛结束后用C++实现同样的算法就过了😭</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-49/problems/longest-continuous-increasing-subsequence/">第一题</a><code>Longest Continuous Increasing Subsequence</code></p>
-<div class="qbar">给定一个数组，找出连续严格递增子数组的最大长度。</div>
-
-<p>扫描一遍数组即可：如果nums[i], nums[i+1], ..., nums[j-1]是当前最长严格递增子数组，下次扫描的时候可以直接从j开始。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">findLengthOfLCIS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type nums: List[int]</span>
-<span class="sd">        :rtype: int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ans</span> <span class="o">=</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
-            <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-                <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="n">j</span>
-        <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170910-leetcode-contest-49/">Read More</a></p>
-</div>
-<div class="post">
     <h1 class="post-title"><a href="/20170902-leetcode-contest-48/">LeetCode Contest 48</a></h1>
     <div class="post-meta">2017-09-02</div>
     <a data-disqus-identifier="20170902-leetcode-contest-48/" href="/20170902-leetcode-contest-48/#disqus_thread" class="disqus-comment-count"></a>
@@ -342,6 +311,20 @@
     </div>
     <p class="readmore"><a href="/20170720-lambda-calculus/">Read More</a></p>
 </div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170710-maupassant-pelican/">maupassant: a Pelican theme</a></h1>
+    <div class="post-meta">2017-07-10</div>
+    <a data-disqus-identifier="20170710-maupassant-pelican/" href="/20170710-maupassant-pelican/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>我现在用的博客生成软件是<a href="https://hexo.io/">Hexo</a>。这个软件可以快速将<a href="https://daringfireball.net/projects/markdown/">Markdown</a>格式的文章转成html格式，并且包含发布到<a href="https://pages.github.com/">github page</a>的工具。Hexo是基于<a href="https://nodejs.org/en/">Nodejs</a>，所以某天我就在想有没有一个基于Python的博客生成软件。为什么我会这样想？因为</p>
+<blockquote>
+<p>人生苦短，我用Python。</p>
+</blockquote>
+<p>当然会有基于Python的博客生成软件：<a href="https://blog.getpelican.com/">Pelican</a>是最为突出的一个。事实上，我很喜欢Pelican！其中一个亮点是它的主题都是基于<a href="http://jinja.pocoo.org/">Jinja</a>，这种简单统一的模版格式让用户很容易设计自己喜欢的主题。出于练手的原因，我将我喜欢的一个Hexo主题<a href="https://github.com/tufu9441/maupassant-hexo">maupassant</a>移植到Pelican了。</p>
+
+    </div>
+    <p class="readmore"><a href="/20170710-maupassant-pelican/">Read More</a></p>
+</div>
 
 <div class="page-navigator">
     <a class="extend prev" rel="prev" href="/page/3/">Previous</a>
@@ -394,7 +377,7 @@
 </div>
         </div></div>
         <div class="pure-u-1 pure-u-lg-3-4">
-<div id="footer">Copyright © 2019 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
     </div>
 </div>
 <a id="rocket" href="#top" class="show"></a>
