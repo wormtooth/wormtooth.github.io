@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Gelfand pairs of finite groups | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Gelfand pairs of finite groups</h1>
+    <div class="post-meta">Sep 28, 2015
+    <span> | </span> <span>Mathematics</span>
+    </div>
+    <a data-disqus-identifier="20150928-gelfand-pairs-of-finite-groups/" href="/20150928-gelfand-pairs-of-finite-groups/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>In this post, I mainly focus on introducing Gelfand pairs of finite groups.</p>
+
+<h3 id="representationsoffinitegroups">Representations of finite groups</h3>
+
+<p>Let&#8217;s recall some concepts. Let <span class="math">\(G\)</span> be a finite group. A (complex) <em>representation</em> of <span class="math">\(G\)</span> is a pair <span class="math">\((\rho, V)\)</span> where <span class="math">\(V\)</span> is a vector space over <span class="math">\(\C\)</span> and <span class="math">\(\rho: G \to GL(V)\)</span> is a group homomorphism. Let <span class="math">\((\rho_1, V_1)\)</span> and <span class="math">\((\rho_2, V_2)\)</span> be representations of <span class="math">\(G\)</span>, a <em><span class="math">\(G\)</span>-morphism</em>, or simply a <em>morphism</em>, between these two representations is a linear map <span class="math">\(\varphi: V_1 \to V_2\)</span> such that for any <span class="math">\(g \in G\)</span> and <span class="math">\(v \in V_1\)</span>,
+<span class="math">\[\varphi(\rho_1(g)v) = \rho_2(g)\varphi(v).\]</span>
+Then <span class="math">\(\mathrm{Hom}_G(\rho_1, \rho_2)\)</span>, the set of morphisms between <span class="math">\(\rho_1\)</span> and <span class="math">\(\rho_2\)</span>, is a vector space over <span class="math">\(\C\)</span>. A representation <span class="math">\((\rho, V)\)</span> is <em>irreducible</em>, if there is no proper subspace <span class="math">\(W \subset V\)</span>, such that <span class="math">\(\rho(g)w \in W\)</span> for any <span class="math">\(g \in G\)</span> and <span class="math">\(w \in W\)</span>. Between irreducible representations, we have Schur&#8217;s lemma.</p>
+
+<div class='qbox' >
+<a name='thm1'><strong>Theorem 1 (Schur&#8217;s lemma).</strong></a>
+Let <span class="math">\(\rho_1\)</span> and <span class="math">\(\rho_2\)</span> be irreducible representations of <span class="math">\(G\)</span>. Then
+<span class="math">\[\begin{equation*}
+\mathrm{Hom}_G(\rho_1, \rho_2) \cong \left\{
+\begin{array}{ll}
+\C, & \text{ if } \rho_1 \cong \rho_2; \\
+0, & \text{ otherwise.}
+\end{array}
+\right.
+\end{equation*}\]</span>
+</div>
+
+<p>It&#8217;s well known that <span class="math">\(G\)</span> is semisimple, i.e., any representation of <span class="math">\(G\)</span> decomposes into a direct sum of irreducible representations. A representation <span class="math">\((\rho, V)\)</span> of <span class="math">\(G\)</span> is called <em>multiplicity free</em>, if any irreducible representation appearing in the decomposition of <span class="math">\((\rho, V)\)</span> appears exactly once, up to isomorphism.</p>
+
+<p>Let <span class="math">\(H\)</span> be a subgroup of <span class="math">\(G\)</span>. If <span class="math">\((\rho, V)\)</span> is a representation of <span class="math">\(G\)</span>, we can certainly restrict the group homomorphism <span class="math">\(\rho: G \to GL(V)\)</span> to <span class="math">\(H\)</span> so that we can regard <span class="math">\((\rho, V)\)</span> as a representation of <span class="math">\(H\)</span>. This is called the <em>restriction of representations</em> from <span class="math">\(G\)</span> to <span class="math">\(H\)</span>, and the restricted representation of <span class="math">\(\rho\)</span> will be denoted as <span class="math">\(r^G_H(\rho)\)</span>. Conversely, if <span class="math">\((\pi, W)\)</span> is a representation of <span class="math">\(H\)</span>, we can build a representation <span class="math">\((\rho, V)\)</span> of <span class="math">\(G\)</span> out of <span class="math">\(\pi\)</span>, which is the <em>induced representation</em>, as follow.</p>
+
+<!--more-->
+
+<p><span class="math">\(\newcommand{\slash}{{\bf /}}\)</span></p>
+
+<p>Let <span class="math">\(V\)</span> be a space of functions defined by
+<span class="math">\[V = \{f: G \to W: f(hg) = \pi(h)f(g)\}.\]</span>
+The group homomorphism <span class="math">\(\rho: G \to GL(V)\)</span> is given by
+<span class="math">\[(\rho(g)f)(g^\prime) = f(g^\prime g).\]</span>
+We use the notations <span class="math">\(\rho = i_H^G(\pi)\)</span> and <span class="math">\(V = i_H^G(W)\)</span> for induced representations. Restrictions and inductions of representations are related by Frobenius reciprocity theorem.</p>
+
+<div class='qbox' >
+<a name='thm2'><strong>Theorem 2 (Frobenius reciprocity).</strong></a>
+Let <span class="math">\((\rho, V)\)</span> be representation of <span class="math">\(G\)</span> and let <span class="math">\((\pi, W)\)</span> be representation of <span class="math">\(H\)</span>. Then there is a canonical linear isomorphism <span class="math">\(L: \mathrm{Hom}_G(\rho, i_H^G \pi) \to \mathrm{Hom}_H(r^G_H \rho, \pi)\)</span> given by
+<span class="math">\[L(\varphi)(v) = \varphi(v)(e),\]</span>
+where <span class="math">\(\varphi \in \mathrm{Hom}_G(\rho, i_H^G \pi), v \in V\)</span> and <span class="math">\(e\)</span> is the identity of <span class="math">\(G\)</span>. Moreover, the inverse <span class="math">\(L^{-1}: \mathrm{Hom}_H(r^G_H \rho, \pi) \to \mathrm{Hom}_G(\rho, i_H^G \pi)\)</span> is given by
+<span class="math">\[L^{-1}(\psi)(v)(g) = \psi(\rho(g)v),\]</span>
+where <span class="math">\(\psi \in \mathrm{Hom}_H(r^G_H \rho, \pi), v \in V\)</span> and <span class="math">\(g \in G\)</span>.
+</div>
+
+<p>Also, we have Mackey&#8217;s theorem relating two representations inducing from different representations. Let <span class="math">\(H_1\)</span> and <span class="math">\(H_2\)</span> be subgroups of <span class="math">\(G\)</span>. Let <span class="math">\((\pi_1, W_1)\)</span> and <span class="math">\((\pi_2, W_2)\)</span> be representations of <span class="math">\(H_1\)</span> and <span class="math">\(H_2\)</span>, respectively. Consider the space <span class="math">\(\mathcal{D}\)</span> of functions <span class="math">\(\Delta: G \to \mathrm{Hom}_\C(W_1, W_2)\)</span> such that
+<span class="math">\[\Delta(h_2 g h_1) = \pi_2(h_2) \Delta(g) \pi_1(h_1),\]</span>
+for any <span class="math">\(h_1 \in H_1, h_2 \in H_2\)</span> and <span class="math">\(g \in G\)</span>.</p>
+
+<div class='qbox' >
+<a name='thm3'><strong>Theorem 3 (Mackey&#8217;s theorem).</strong></a>
+As vector spaces,
+<span class="math">\[\mathcal{D} \cong \mathrm{Hom}_G(i_{H_1}^G \pi_1, i_{H_2}^G \pi_2).\]</span>
+</div>
+
+<p>**Remark. **If <span class="math">\((\pi_1, W_1) = (\pi_2, W_2)\)</span>, implicitly, this implies <span class="math">\(H_1 = H_2\)</span>. Let <span class="math">\(H=H_1=H_2\)</span> and let <span class="math">\(\pi=\pi_1=\pi_2\)</span>. In this case, for any <span class="math">\(\Delta_1, \Delta_2 \in \mathcal{D}\)</span>, we can define convolution by
+<span class="math">\[\begin{equation*}
+\Delta_1 \ast \Delta_2(g) = \sum_{g^\prime \in G} \Delta_1({g^\prime}) \circ \Delta_2({g^\prime}^{-1}g).
+\end{equation*}\]</span>
+Then <span class="math">\(\mathcal{D}\)</span> becomes a ring. On the other hand, <span class="math">\(\mathrm{Hom}_G(i_H^G \pi, i_H^G \pi)\)</span> is naturally a ring by compositions. Under this special situation, the isomorphism in <a href="#thm3">Theorem 3</a> is actually a ring isomorphism.</p>
+
+<h3 id="gelfandpairswithrespecttotrivialcharacter">Gelfand pairs with respect to trivial character</h3>
+
+<p>Let <span class="math">\(C(H \backslash G \slash H)\)</span> be a set of functions <span class="math">\(\Delta: G \to \C\)</span> such that
+<span class="math">\[\Delta(h_1 g h_2) = \Delta(g).\]</span>
+Given <span class="math">\(\Delta_1, \Delta_2 \in C(H \backslash G \slash H)\)</span>, define the convolution
+<span class="math">\[\begin{equation}
+\Delta_1 \ast \Delta_2(g) = \sum_{{g^\prime} \in G} \Delta_1({g^\prime})\Delta_2({g^\prime}^{-1}g).
+\label{20150928-1}
+\end{equation}\]</span></p>
+
+<p>It&#8217;s quite straightforward to check that <span class="math">\(\Delta_1 \ast \Delta_2 \in C(H \backslash G \slash H)\)</span>. Then under point-wise addition and convolution, <span class="math">\(C(H \backslash G \slash H)\)</span> becomes a ring.</p>
+
+<div class='qbox' >
+
+<p><a name='thm4'><strong>Theorem 4.</strong></a>Let <span class="math">\(G\)</span> be a finite group and let <span class="math">\(H\)</span> be a subgroup. Let
+<span class="math">\[C(H \backslash G) = \{f:G \to \C: f(hg)=f(g) \, \forall h \in H, g \in G\}.\]</span>
+The right translation <span class="math">\(\rho\)</span> of <span class="math">\(G\)</span> on <span class="math">\(C(H \backslash G)\)</span> is a representation.
+The following are equivalent.</p>
+
+<p>(1) Every irreducible representation <span class="math">\(V\)</span> of <span class="math">\(G\)</span> has at most one <span class="math">\(H\)</span>-fixed vector, up to scalar multiplication.</p>
+
+<p>(2) <span class="math">\((\rho, C(H \backslash G))\)</span> is multiplicity free.</p>
+
+<p>(3) <span class="math">\(C(H \backslash G \slash H)\)</span> is commutative under convolution.</p>
+</div>
+
+<p><em>Proof.</em> Suppose statement <span class="math">\(1\)</span> and statement <span class="math">\(2\)</span> are equivalent. Let <span class="math">\((\chi_0, \C)\)</span> be the trivial representation of <span class="math">\(H\)</span>, i.e., <span class="math">\(\chi_0(h) = id_\C\)</span> for any <span class="math">\(h \in H\)</span>. Then by the definition of induction, <span class="math">\(\rho = i_H^G \chi_0\)</span>. <span class="math">\(\rho\)</span> is multiplicity free, if and only if for any irreducible representation <span class="math">\(\pi\)</span> of <span class="math">\(G\)</span>, <span class="math">\(\pi\)</span> appears in <span class="math">\(\rho\)</span> at most one. By <a href="#thm1">Theorem 1</a>, the number of times of <span class="math">\(\pi\)</span> in <span class="math">\(\rho\)</span> can be calculated by <span class="math">\(\dim \mathrm{Hom}_G(\pi, \rho)\)</span>. Using <a href="#thm2">Theorem 2</a>, this is the same as <span class="math">\(\dim \mathrm{Hom}_H(i_H^G \pi, \chi_0)\)</span>, i.e., the dimension of <span class="math">\(H\)</span>-fixed vectors in <span class="math">\(\pi\)</span>.</p>
+
+<p>Suppose statement <span class="math">\(2\)</span> is equivalent to statement <span class="math">\(3\)</span>. By <a href="#thm3">Theorem 3</a> (See also <strong>Remark</strong> after the theorem),
+<span class="math">\[C(H \backslash G \slash H) \cong \mathrm{Hom}_G(\rho, \rho) \text{ as rings}.\]</span>
+Using <a href="#thm1">Theorem 1</a>, we can see that <span class="math">\(\rho\)</span> is multiplicity free if and only if <span class="math">\(\mathrm{Hom}_G(\rho, \rho)\)</span> is commutative, therefore if and only if <span class="math">\(C(H \backslash G \slash H)\)</span> is commutative.
+<span class='qed'><span class="math">\(\square\)</span></span></p>
+
+<div class='qbar' >
+<a name='defn5'><strong>Definition 5.</strong></a>Let <span class="math">\(G\)</span> be a finite groups and let <span class="math">\(H\)</span> be a subgroup. Then <span class="math">\((G, H)\)</span> is called a <em>Gelfand pair (with respect to <span class="math">\(\chi_0\)</span>)</em>, if <span class="math">\(G\)</span> and <span class="math">\(H\)</span> satisfy the equivalent statements in <a href="#thm4">Theorem 4</a>.
+</div>
+
+<h3 id="gelfandpairswithrespecttogeneralcharacters">Gelfand pairs with respect to general characters</h3>
+
+<p>Let&#8217;s look back to <a href="#thm4">Theorem 4</a> and see how it relates to the trivial character <span class="math">\(\chi_0\)</span> of <span class="math">\(H\)</span>. As seen in the proof of <a href="#thm4">Theorem 4</a>, the first statement is equivalent to <span class="math">\(\dim \mathrm{Hom}_H(r^G_H \pi, \chi_0) \le 1\)</span> for any irreducible representation <span class="math">\(\pi\)</span> of <span class="math">\(G\)</span>. In the second statement,
+<span class="math">\[(\rho, C(H \backslash G)) = (i_H^G \chi_0, i_H^G \C).\]</span>
+And in the third statement, we know by <a href="#thm3">Theorem 3</a> that
+<span class="math">\[C(H \backslash G \slash H) \cong \mathrm{Hom}_G(\rho, \rho) = \mathrm{Hom}_G(i_H^G \chi_0, i_H^G \chi_0).\]</span>
+Therefore, all statements are actually coming from <span class="math">\(\chi_0\)</span> and it&#8217;s not surprising that <a href="#thm4">Theorem 4</a> holds with <span class="math">\(\chi_0\)</span> replaced by any character <span class="math">\(\chi\)</span> of <span class="math">\(H\)</span>.</p>
+
+<p>Let <span class="math">\(\chi\)</span> be a character of <span class="math">\(H\)</span>. Define <span class="math">\(C(H \backslash G \slash H; \chi)\)</span> to be a space of functions <span class="math">\(\Delta: G \to C\)</span> such that
+<span class="math">\[\Delta(h_1 g h_2) = \chi(h_1)\Delta(g)\chi(h_2),\]</span>
+for any <span class="math">\(h_1, h_2 \in H\)</span> and <span class="math">\(g \in G\)</span>. Then <span class="math">\(C(H \backslash G \slash H; \chi)\)</span> becomes a ring under the convolution defined in <span class="math">\(\eqref{20150928-1}\)</span>. Using <a href="#thm3">Theorem 3</a>,
+<span class="math">\[C(H \backslash G \slash H; \chi) \cong \mathrm{Hom}_G(i_H^G \chi, i_H^G \chi).\]</span></p>
+
+<p>Now following the same proof in <a href="#thm4">Theorem 4</a>, we can prove a similar theorem. Henceforth, we get a more general definition for Gelfand pairs.</p>
+
+<div class='qbox' >
+
+<p><a name='thm6'><strong>Theorem 6.</strong></a>The following are equivalent.</p>
+
+<p>(1) <span class="math">\(\dim \mathrm{Hom}_H(r^G_H \pi, \chi) \le 1\)</span>, for any irreducible representation <span class="math">\(\pi\)</span> of <span class="math">\(G\)</span>.</p>
+
+<p>(2) <span class="math">\(i_H^G \chi\)</span> is multiplicity free.</p>
+
+<p>(3) <span class="math">\(C(H \backslash G \slash H; \chi)\)</span> is commutative under the convolution.</p>
+</div>
+
+<div class='qbar' >
+<a name='defn7'><strong>Definition 7.</strong></a>Let <span class="math">\(G\)</span> be a finite groups and let <span class="math">\(H\)</span> be a subgroup. Then <span class="math">\((G, H)\)</span> is called a <em>Gelfand pair with respect to <span class="math">\(\chi\)</span></em>, if <span class="math">\(G\)</span> and <span class="math">\(H\)</span> satisfy the equivalent statements in <a href="#thm6">Theorem 6</a>.
+</div>
+
+<h3 id="gelfandslemma">Gelfand&#8217;s Lemma</h3>
+
+<p>We use notations as in previous sections. A set bijection <span class="math">\(\iota: G \to G\)</span> is called an anti-involution if <span class="math">\(\iota(gh) = \iota(h)\iota(g)\)</span>, for any <span class="math">\(h, g \in G\)</span>. Then <span class="math">\(\iota\)</span> induces an action on the double coset <span class="math">\(H \backslash G \slash H\)</span>, which sends <span class="math">\(HgH\)</span> to <span class="math">\(H\iota(g)H\)</span>.</p>
+
+<div class='qbox' >
+<a name='thm8'><strong>Theorem 8 (Gelfand&#8217;s lemma).</strong></a>
+Let <span class="math">\(\iota: G \to G\)</span> be an anti-involution. The ring <span class="math">\(C(H \backslash G \slash H; \chi)\)</span> is commutative under convolution if <span class="math">\(\iota\)</span> acts trivially on <span class="math">\(H \backslash G \slash H\)</span> and <span class="math">\(\chi\)</span>, i.e., <span class="math">\(\iota(r_i)=r_i\)</span> for a set of representatives <span class="math">\(\{r_i\}\)</span> of <span class="math">\(H \backslash G \slash H\)</span> and <span class="math">\(\iota(h) \in H\)</span> with <span class="math">\(\chi(h) = \chi(\iota(h))\)</span> for <span class="math">\(h \in H\)</span>.
+</div>
+
+<p><em>Proof.</em> Define an action of <span class="math">\(\iota\)</span> on <span class="math">\(C(H \backslash G \slash H; \chi)\)</span> by
+<span class="math">\[\iota(\Delta)(g) = \Delta(\iota(g)).\]</span>
+The action is well defined, because for <span class="math">\(h_1, h_2 \in H\)</span>,
+<span class="math">\[\begin{equation}
+\begin{split}
+\iota(\Delta)(h_1 g h_2)
+&= \Delta(\iota(h_2) \iota(g) \iota(h_1)) \\
+&= \chi(\iota(h_2)) \Delta(\iota(g)) \chi(\iota(h_1)) \\
+&= \chi(h_2) \iota(\Delta)(g) \chi(h_1),
+\end{split}
+\label{20150928-2}
+\end{equation}\]</span></p>
+
+<p>so <span class="math">\(\iota(\Delta) \in C(H \backslash G \slash H; \chi)\)</span>.
+By an easy calculation, we can see that <span class="math">\(\iota\)</span> is an anti-involution on <span class="math">\(C(H \backslash G \slash H; \chi)\)</span>,
+<span class="math">\[\iota(\Delta_1 \ast \Delta_2) = \iota(\Delta_2) \ast \iota(\Delta_1).\]</span>
+Moreover, since <span class="math">\(\iota\)</span> acts trivial on <span class="math">\(H \backslash G \slash H\)</span>, a calculation similar to <span class="math">\(\eqref{20150928-2}\)</span> shows that <span class="math">\(\iota\)</span> is actually the identity map on <span class="math">\(C(H \backslash G \slash H; \chi)\)</span>. If the identity map is anti-involution, then the ring <span class="math">\(C(H \backslash G \slash H; \chi)\)</span> is commutative.
+<span class='qed'><span class="math">\(\square\)</span></span></p>
+
+<p><strong>Remark.</strong>Actually, we don&#8217;t need <span class="math">\(\iota\)</span> to act trivially on all <span class="math">\(r_i\)</span>. We just need <span class="math">\(\iota\)</span> act trivially on those <span class="math">\(r_i\)</span> having some <span class="math">\(\Delta\)</span> such that <span class="math">\(\Delta(r_i) \ne 0\)</span>. </p>
+
+<p>The condition that <span class="math">\(\iota\)</span> acts trivially on <span class="math">\(\chi\)</span> is obtained under either of the following situations.</p>
+
+<p>(1) <span class="math">\(\iota\)</span> acts trivially on <span class="math">\(H\)</span>, i.e., <span class="math">\(\iota(h)=h\)</span> for <span class="math">\(h \in H\)</span>.</p>
+
+<p>(2) <span class="math">\(\chi=\chi_0\)</span> and <span class="math">\(\iota\)</span> stabilizes <span class="math">\(H\)</span>, i.e., <span class="math">\(\iota(h) \in H\)</span> for <span class="math">\(h \in H\)</span>.</p>
+
+<h3 id="anapplication:uniquenessofwhittakermodels">An application: Uniqueness of Whittaker models</h3>
+
+<p>Let <span class="math">\(F\)</span> be a finite field. Let <span class="math">\(G=GL(2, F)\)</span> be the invertible <span class="math">\(2 \times 2\)</span> matrices, and let <span class="math">\(N\)</span> be a subgroup of <span class="math">\(G\)</span> defined by
+<span class="math">\[\begin{equation*}
+N = \left\{
+\left(\begin{array}{cc}
+1 & x \\
+0 & 1
+\end{array}\right)
+: x \in F
+\right\}.
+\end{equation*}\]</span>
+<span class="math">\(N\)</span> is so called the standard nilpotent subgroup of <span class="math">\(G\)</span>. Let <span class="math">\(\psi\)</span> be a nontrivial additive character of <span class="math">\(F\)</span>, then it can be extended to a character of <span class="math">\(N\)</span> given by
+<span class="math">\[\begin{equation*}
+\psi_N\left(\begin{array}{cc}
+1 & x \\
+0 & 1
+\end{array}\right)
+=\psi(x).
+\end{equation*}\]</span>
+Then we can induce <span class="math">\(\psi_N\)</span> to form a representation <span class="math">\((\rho, \mathcal{W}_\psi) = (i_N^G \psi_N, i_N^G \C)\)</span> of <span class="math">\(G\)</span>. Given an irreducible representation <span class="math">\((\pi, V)\)</span> of <span class="math">\(G\)</span>, we say <span class="math">\(\pi\)</span> has a Whittaker model with respect to <span class="math">\(\psi_N\)</span> if <span class="math">\(\pi\)</span> can be embedded into <span class="math">\(\mathcal{W}_\psi\)</span>. We call the image of this embedding the Whittaker model of <span class="math">\(\pi\)</span>.</p>
+
+<p>The motivation of Whittaker models is clear: We try to realize an abstract irreducible representation as a concrete space of functions <span class="math">\(f: G \to \C\)</span> such that
+<span class="math">\[\begin{equation*}
+f\left(\left(\begin{array}{cc}
+1 & x \\
+0 & 1
+\end{array}\right)g\right)
+=\psi(x)f(g).
+\end{equation*}\]</span></p>
+
+<p>Given an abstract irreducible representation <span class="math">\((\pi, V)\)</span>, there are two immediate questions should be ask:</p>
+
+<p>(1) Does <span class="math">\(\pi\)</span> have a Whittaker model with respect to some character <span class="math">\(\psi\)</span>?</p>
+
+<p>(2) If <span class="math">\(\pi\)</span> has a Whittaker model, is it unique?</p>
+
+<p>As for the first question, we need to understand what kinds of irreducible representation of <span class="math">\(G\)</span> have. This would be another long story and not related to this post, so I would rather ignore it. But the upshot is that not every irreducible representation has a Whittaker model.</p>
+
+<p>For the second question, it&#8217;s the same to ask whether or not <span class="math">\(\mathcal{W}_\psi\)</span> is multiplicity free. Therefore, based on <a href="#thm6">Theorem 6</a>, it suffices to answer whether or not <span class="math">\((G, N)\)</span> is a Gelfand pair with respect to <span class="math">\(\psi\)</span>.</p>
+
+<div class='qbox' >
+<a name='thm9'><strong>Theorem 9 (Uniqueness of Whittaker models).</strong></a>
+<span class="math">\((G, N)\)</span> is a Gelfand pairs with respect to any non-trivial character <span class="math">\(\psi\)</span>. Equivalently, <span class="math">\(\mathcal{W}_\psi\)</span> is multiplicity free.
+</div>
+
+<p><em>Proof.</em> Under the light of <a href="#thm8">Theorem 8</a>, we just need to find an anti-involution <span class="math">\(\iota: G \to G\)</span> such that <span class="math">\(\iota\)</span> acts trivially on <span class="math">\(N \backslash G \slash N\)</span> and <span class="math">\(N\)</span> (see <strong>Remark</strong> after <a href="#thm8">Theorem 8</a>).</p>
+
+<p>It&#8217;s from Bruhat decomposition that the representatives of <span class="math">\(N \backslash G \slash N\)</span> are of forms
+<span class="math">\[\begin{equation*}
+\left(\begin{array}{cc}
+a & \\
+ & d
+\end{array}\right),
+\left(\begin{array}{cc}
+ & b\\
+c &
+\end{array}\right).
+\end{equation*}\]</span>
+Recall that we want to prove <span class="math">\(C(N \backslash G \slash N; \psi)\)</span> is commutative as in <a href="#thm8">Theorem 8</a>. Let <span class="math">\(\Delta \in C(N \backslash G \slash N; \psi)\)</span>, then
+<span class="math">\[\begin{equation*}
+\begin{split}
+&\Delta \left(\begin{array}{cc}
+a & \\
+ & d
+\end{array}\right) \\
+&= \Delta
+\left(
+\left(\begin{array}{cc}
+1 & -a\\
+ & 1
+\end{array}\right)
+\left(\begin{array}{cc}
+a & \\
+ & d
+\end{array}\right)
+\left(\begin{array}{cc}
+1 & d\\
+ & 1
+\end{array}\right)
+\right) \\
+&= \psi(d-a) \Delta
+\left(\begin{array}{cc}
+a & \\
+ & d
+\end{array}\right)
+\end{split}
+\end{equation*}\]</span>
+Since <span class="math">\(\psi\)</span> is non-trivial, <span class="math">\(\Delta\)</span> is support on <span class="math">\(\left(\begin{array}{cc}a &\\& d \end{array}\right)\)</span> if and only if <span class="math">\(a=d\)</span>. Therefore, we just need to find an anti-involution <span class="math">\(\iota: G \to G\)</span> such that <span class="math">\(\iota\)</span> acts trivially on <span class="math">\(N\)</span> and on matrices of forms
+<span class="math">\[\begin{equation*}
+\left(\begin{array}{cc}
+a & \\
+ & a
+\end{array}\right),
+\left(\begin{array}{cc}
+ & b\\
+c &
+\end{array}\right).
+\end{equation*}\]</span>
+Define <span class="math">\(\iota: G \to G\)</span> by
+<span class="math">\[\begin{equation*}
+\iota(g) =
+\left(\begin{array}{cc}
+ & 1\\
+1 &
+\end{array}\right)
+g^T
+\left(\begin{array}{cc}
+ & 1\\
+1 &
+\end{array}\right),
+\end{equation*}\]</span>
+where <span class="math">\(g^T\)</span> is the transpose of <span class="math">\(g\)</span>. It&#8217;s easy to verify that <span class="math">\(\iota\)</span> is the desired anti-involution.
+<span class='qed'><span class="math">\(\square\)</span></span></p>
+
+        <div class="tags">
+        <a href="/tag/gelfand-pairs">Gelfand pairs</a>
+        <a href="/tag/representation-theory">representation theory</a>
+        <a href="/tag/whittaker-model">Whittaker model</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20150928-gelfand-pairs-of-finite-groups/';
+    var disqus_title = 'Gelfand pairs of finite groups';
+    var disqus_url = 'https://wormtooth.com/20150928-gelfand-pairs-of-finite-groups/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

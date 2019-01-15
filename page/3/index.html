@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+    叶某人的碎碎念 | Believe in Mathematics    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title"><a href="/20171014-leetcode-contest-54/">LeetCode Contest 54</a></h1>
+    <div class="post-meta">2017-10-14</div>
+    <a data-disqus-identifier="20171014-leetcode-contest-54/" href="/20171014-leetcode-contest-54/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-54">比赛</a>之后，下次再遇到O(n<sup>2</sup>)的题目，而且n &lt; 1000的时候，一定要用C++！这是泪的教训啊😭</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-54/problems/degree-of-an-array/">第一题</a><code>Degree of an Array</code></p>
+<div class="qbar">
+<p>给定一个非空包含非负整数的数组<code>nums</code>，它的<em>degree</em>定义为出现次数最多的数字的出现次数。找出一个最短的连续子数组，使得它的degree与<code>nums</code>的degree一样。返回子数组的长度。</p>
+</div>
+<p>在统计每个数字频率的同时，记录这个数字出现的最左和最右位置(l, r)。那么包含这个数字的最短数组的长度为r-l+1。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findShortestSubArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type nums: List[int]</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cnt</span><span class="p">:</span>
+                <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+                <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cnt</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20171014-leetcode-contest-54/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20171008-leetcode-contest-53/">LeetCode Contest 53</a></h1>
+    <div class="post-meta">2017-10-08</div>
+    <a data-disqus-identifier="20171008-leetcode-contest-53/" href="/20171008-leetcode-contest-53/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-53">比赛</a>又是对Python不友好。最后一题同样的实现Python会TLE，但是C++就AC。不过也有可能我的算法不是太好。值得一提的是，我发现比赛时我第三题的算法是错误的，但是还是过了。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-53/problems/binary-number-with-alternating-bits/">第一题</a><code>Binary Number with Alternating Bits</code></p>
+<div class="qbar">给定一个正整数，问它的二进制表示是否01交错。</div>
+
+<p>比较直接，代码如下。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">hasAlternatingBits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type n: int</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">n</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20171008-leetcode-contest-53/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20171008-support-vector-machine/">Support Vector Machine</a></h1>
+    <div class="post-meta">2017-10-08</div>
+    <a data-disqus-identifier="20171008-support-vector-machine/" href="/20171008-support-vector-machine/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This article is my notes on support vector machine for Lecture 7 and 8 of <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">Machine Learning</a> by Andrew Ng.</p>
+<h2>Intuition</h2>
+<p>In a binary classification problem, we can use logistic regression<br>
+</p>
+<div class="math">$$h_\theta(x) = \frac{1}{1+e^{-\theta^T x}} = g(\theta^T x),$$</div>
+<p><br>
+where <span class="math">\(g\)</span> is the sigmoid function with a figure of it below.</p>
+<pre><matplotlib.figure.Figure at 0x10b5a5250></pre>
+
+<p><img src="data:image/png;base64,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
+"/></p>
+<p>Then given input <span class="math">\(x\)</span>, the model predicts <span class="math">\(1\)</span> if and only if <span class="math">\(\theta^x \ge 0\)</span>, in which case <span class="math">\(h_\theta(x) = g(\theta^T x) \ge 0.5\)</span>; and it predicts <span class="math">\(0\)</span> if and only if <span class="math">\(\theta^T x &lt; 0\)</span>. Moreover, based on the shape of sigmoid function, if <span class="math">\(\theta^T x &gt;&gt; 0\)</span>, we are very confident that <span class="math">\(y=1\)</span>. Likewise, if <span class="math">\(\theta^T x &lt;&lt; 0\)</span>, we are very confident that <span class="math">\(y=0\)</span>. Therefore, we hope that for the training set <span class="math">\(\{(x^{(i)}, y^{(i)})\}_{i=1}^m\)</span>, we can find such a <span class="math">\(\theta\)</span> that <span class="math">\(\theta^T x^{(i)} &gt;&gt; 0\)</span> if <span class="math">\(y^{(i)}=1\)</span> and <span class="math">\(\theta^T x^{(i)} &lt;&lt; 0\)</span> if <span class="math">\(y^{(i)}=0\)</span>.</p>
+
+    </div>
+    <p class="readmore"><a href="/20171008-support-vector-machine/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20171002-generative-model/">Generative Model</a></h1>
+    <div class="post-meta">2017-10-02</div>
+    <a data-disqus-identifier="20171002-generative-model/" href="/20171002-generative-model/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This article is my notes on generative model for Lecture 5 and 6 of <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">Machine Learning</a> by Andrew Ng. What we do in logistic regression using generalized linear model is that, we approximate <span class="math">\(P(y|x)\)</span> using given data. This kind of learning algorithms is <em>discriminative</em>, in which we predict <span class="math">\(y\)</span> based on the input features <span class="math">\(x\)</span>. On the contrary, <em>generative</em> model is to model <span class="math">\(P(x|y)\)</span>, the probability of the features <span class="math">\(x\)</span> given class <span class="math">\(y\)</span>. In other words, we want to study how the features structure looks like given a class <span class="math">\(y\)</span>. If we also learn what <span class="math">\(P(y)\)</span> is, we can easily recover <span class="math">\(P(y|x)\)</span>, for example, in the binary classification problem,<br>
+</p>
+<div class="math">$$\begin{equation}
+P(y=1|x) = \frac{P(x|y=1)P(y=1)}{P(x)},
+\label{eqn:bayes}
+\end{equation}$$</div>
+<p><br>
+where <span class="math">\(P(x) = P(x|y=0)P(y=0) + P(x|y=1)P(y=1)\)</span>.</p>
+<p>In this article, we are going to see a simple example of generative model on Gaussian discriminant analysis and Naive Bayes.</p>
+
+    </div>
+    <p class="readmore"><a href="/20171002-generative-model/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20171001-leetcode-contest-52/">LeetCode Contest 52</a></h1>
+    <div class="post-meta">2017-10-01</div>
+    <a data-disqus-identifier="20171001-leetcode-contest-52/" href="/20171001-leetcode-contest-52/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-52">比赛</a>跪了。。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-52/problems/repeated-string-match/">第一题</a><code>Repeated String Match</code></p>
+<div class="qbar">给定字符串A和B，问至少要重复多少次A使得B是A的子字符串。</div>
+
+<p>二分查找。首先算出最少需要多少次才有可能使得B是子字符串：必须要保证重复后的A的长度不小于B的长度。我们可以简单算出最少需要重复：<br>
+<center>i = (len(A) + len(B) - 1) / len(A)</center><br>
+最大次数j的上界是2i。然后对[i, j]这个区间进行二分查找。</p>
+<p>这题竟然WA了2次(因为typo)，TLE一次(一开始用j＝10i)。。。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">repeatedStringMatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type A: str</span>
+<span class="sd">        :type B: str</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">j</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="n">k</span>
+            <span class="k">if</span> <span class="n">tmp</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">ans</span> <span class="o">=</span> <span class="n">k</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20171001-leetcode-contest-52/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170923-generalized-linear-model-examples/">Generalized Linear Model (Examples)</a></h1>
+    <div class="post-meta">2017-09-23</div>
+    <a data-disqus-identifier="20170923-generalized-linear-model-examples/" href="/20170923-generalized-linear-model-examples/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This article is a companion article to my another post <a href="https://wormtooth.com/20170920-generalized-linear-model/">Generalized Linear Model</a>. In this article, I will implement some of the learning algorithms in <a href="https://wormtooth.com/20170920-generalized-linear-model/">Generalized Linear Model</a>. To be more specific, I will do some examples on linear regression and logistic regression. With some effort, google search gives me some very good example data sets to work with. The <a href="http://www.stat.ufl.edu/~winner/datasets.html">datasets</a> collected by <a href="http://www.stat.ufl.edu/~winner/">Larry Winner</a> is one of the excellent sets, which will be used in the article.</p>
+<p>The implementations here use Python. Required 3rd party libraries are:</p>
+<ul>
+<li><a href="http://docs.python-requests.org/en/master/">Requests</a>: use to get online data</li>
+<li><a href="https://matplotlib.org/">Matplotlib</a>: use for plotting</li>
+<li><a href="http://www.numpy.org/">NumPy</a>: use for matrix calculation</li>
+</ul>
+
+    </div>
+    <p class="readmore"><a href="/20170923-generalized-linear-model-examples/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170923-leetcode-contest-51/">LeetCode Contest 51</a></h1>
+    <div class="post-meta">2017-09-23</div>
+    <a data-disqus-identifier="20170923-leetcode-contest-51/" href="/20170923-leetcode-contest-51/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-51">比赛</a>做得还算可以，只是最后一题看错题目WA了3次😭</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-51/problems/baseball-game/">第一题</a><code>Baseball Game</code></p>
+<div class="qbar">
+<p>给定一串字符串，每个字符串有四种可能：</p>
+<ol>
+<li>整数：代表本轮得分</li>
+<li>"+"：本轮得分为上两轮得分之和</li>
+<li>"D"：本轮得分为上轮得分的两倍</li>
+<li>"C"：上轮得分无效。</li>
+</ol>
+<p>问最终得分之和。</p>
+</div>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">calPoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ops</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type ops: List[str]</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">ops</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span>
+                <span class="n">points</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span>
+                <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span><span class="p">:</span>
+                <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">op</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170923-leetcode-contest-51/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170920-generalized-linear-model/">Generalized Linear Model</a></h1>
+    <div class="post-meta">2017-09-20</div>
+    <a data-disqus-identifier="20170920-generalized-linear-model/" href="/20170920-generalized-linear-model/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This article on <em>Generalized Linear Model (GLM)</em> is based on the first four lectures of <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">Machine Learning</a> by Andrew Ng. But the structure of the article is quite different from the lecture. I will talk about exponential family of distributions first. Then I will discuss the general idea of GLM. Finally, I will try to derive some well known learning algorithms from GLM.</p>
+<h2>Exponential Family</h2>
+<div class="qbar">
+A family of distributions is an exponential family if it can be parametrized by vector $\eta$ in the form
+
+$$P(y; \eta) = b(y)\exp(\eta^{T} T(y)-a(\eta)),$$
+
+where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\eta)$ is a function in terms of $\eta$.
+</div>
+
+<p><span class="math">\(\eta\)</span> is called the natural parameter and <span class="math">\(T(y)\)</span> is called the sufficient statistic.</p>
+
+    </div>
+    <p class="readmore"><a href="/20170920-generalized-linear-model/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170912-simple-python-crawler/">简单的python爬虫</a></h1>
+    <div class="post-meta">2017-09-12</div>
+    <a data-disqus-identifier="20170912-simple-python-crawler/" href="/20170912-simple-python-crawler/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>一个网络爬虫大致可以分成三个部分：获取网页，提取信息以及保存信息。Python有很多爬虫框架，其中最出名要数<a href="https://scrapy.org/">Scrapy</a>了。这也是我唯一用过的Python爬虫框架，用起来很省心。让我苦恼的是，<a href="https://scrapy.org/">Scrapy</a>在我的Raspberry Pi Zero W安装起来很麻烦，而且我觉得我爬取的网页比较容易处理，没有必要用这么重量级的框架。抱着学习的心态，我开始自己造轮子了。</p>
+<p>在造轮子之前我找到些轻量级的框架，<a href="https://github.com/iogf/sukhoi">Sukhoi</a>是我比较喜欢的一个。该库作者<a href="https://github.com/iogf">iogf</a>使用了自己的异步库、网络库来写这个框架。这让我很佩服他。我写的框架受到了<a href="https://github.com/iogf/sukhoi">Sukhoi</a>很大的启发与影响。</p>
+
+    </div>
+    <p class="readmore"><a href="/20170912-simple-python-crawler/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170910-leetcode-contest-49/">LeetCode Contest 49</a></h1>
+    <div class="post-meta">2017-09-10</div>
+    <a data-disqus-identifier="20170910-leetcode-contest-49/" href="/20170910-leetcode-contest-49/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-49/">比赛</a>对python不友好啊，第三题在比赛的时候一直TLE，比赛结束后用C++实现同样的算法就过了😭</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-49/problems/longest-continuous-increasing-subsequence/">第一题</a><code>Longest Continuous Increasing Subsequence</code></p>
+<div class="qbar">给定一个数组，找出连续严格递增子数组的最大长度。</div>
+
+<p>扫描一遍数组即可：如果nums[i], nums[i+1], ..., nums[j-1]是当前最长严格递增子数组，下次扫描的时候可以直接从j开始。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findLengthOfLCIS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type nums: List[int]</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">j</span>
+        <span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170910-leetcode-contest-49/">Read More</a></p>
+</div>
+
+<div class="page-navigator">
+    <a class="extend prev" rel="prev" href="/page/2/">Previous</a>
+    <a class="page-number" href="/">1</a>
+    <a class="page-number" href="/page/2/">2</a>
+    <span class="page-number current">3</span>
+    <a class="page-number" href="/page/4/">4</a>
+    <a class="page-number" href="/page/5/">5</a>
+    <span class="space">...</span>
+    <a class="page-number" href="/page/9/">9</a>
+    <a class="extend next" rel="next" href="/page/4/">Next</a></nav>
+</div class="page-navigator">
+
+    <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

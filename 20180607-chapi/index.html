@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Chapi | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Chapi</h1>
+    <div class="post-meta">Jun 07, 2018
+    <span> | </span> <span>Programming</span>
+    </div>
+    <a data-disqus-identifier="20180607-chapi/" href="/20180607-chapi/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>I recently built a <a href="http://flask.pocoo.org/">flask</a> app that run on my raspberry pi. Then I turned it down. Why? In order to access the app from outside the home internet, I had to expose my pi to public. After only one day of exposure, my pi received several attack attempts and the flask app then always replied 301. Here are some attack logs:</p>
+<div class="highlight"><pre><span></span>139.162.83.10 - &quot;GET / HTTP/1.1&quot; 404 -
+45.33.115.189 - &quot;GET / HTTP/1.0&quot; 404 -
+79.55.11.21 - &quot;GET / HTTP/1.0&quot; 404 -
+5.101.40.78 - code 400, message Bad HTTP/0.9 request type (&#39;\x03\x00\x00/*à\x00\x00\x00\x00\x00Cookie:&#39;)
+5.101.40.78 - &quot;/*àCookie: mstshash=Administr&quot; HTTPStatus.BAD_REQUEST -
+123.151.42.61 - &quot;GET http://www.baidu.com/ HTTP/1.1&quot; 404 -
+158.85.81.116 - &quot;GET / HTTP/1.1&quot; 404 -
+</pre></div>
+
+
+<p>To be more precise, the flask app was still running, but the home router seemed not forwarding the requests to my pi. Anyway, I have no idea of what have happened. I just shut the app down, flashed a fresh new image to my pi.</p>
+<p>I want a way to communicate with my pi without exposing it. That is the motivation I start the project <a href="https://github.com/wormtooth/chapi">chapi</a>, which means "<strong>cha</strong>t with <strong>pi</strong>".</p>
+<!--more-->
+
+<h2>Ideas</h2>
+<p>My first thought is to use <a href="https://cloud.google.com/appengine/">Google App Engine</a>(GAE) as a communication hub: run a GAE app that receives clients' api requests and stores them, and a server will periodically asks the GAE app for api requests. This idea is fine for asking the server to do something that is not time sensitive. But the drawbacks are obvious. We need to write extra codes for the GAE app, it is not real-time request and response, it is hard for the server's APIs to return something to clients, and etc.</p>
+<p>The second thought is to use <a href="https://en.wikipedia.org/wiki/WeChat">WeChat</a> as a communication hub. The idea is simple. Use <a href="https://github.com/littlecodersh/ItChat">ItChat</a> to build api services on the server, and use WeChat clients on the phones to communicate with the server directly. This is really a good idea. However, <a href="https://github.com/littlecodersh/ItChat">ItChat</a> under the hood is <a href="https://web.wechat.com/">WeChat for Web</a>, which means the server build from <a href="https://github.com/littlecodersh/ItChat">ItChat</a> might not be able to run for a long period of time. This idea is worth trying. I probably will try this out in the future.</p>
+<p>The third thought is similar to the second one: use <a href="https://pusher.com/">Pusher</a> service, more specifically, <a href="https://pusher.com/channels">Pusher Channel</a> service. To access its channel service in Python, we need two libraries: <a href="https://github.com/pusher/pusher-http-python">Pusher HTTP Python Library</a>(call it Pusher from now on) and <a href="https://github.com/nlsdfnbch/Pysher">Pysher</a>.</p>
+<p>The core idea is to use a channel to link a server end and a client end. On the server end, it uses Pysher to subscribe this channel and waiting for request events. Once it receives a request event, the server will handle it. After the request event is done, the server trigger a response event using Pusher.</p>
+<p>On the client end, it uses Pysher to subscribe the channel and waiting for response events. The data received from a response event is a response to some request event, and this data should contain enough information to reconstruct the request. To request, the client use Pusher to trigger a request event.</p>
+<h2>chapi</h2>
+<p><a href="https://github.com/wormtooth/chapi">chapi</a> is an implementation of the third idea. It requires <a href="https://github.com/pusher/pusher-http-python">Pusher HTTP Python Library</a>(call it Pusher from now on) and <a href="https://github.com/nlsdfnbch/Pysher">Pysher</a>, as mentioned. To install the requirements:</p>
+<div class="highlight"><pre><span></span>pip install pusher pysher
+</pre></div>
+
+
+<p>To install <a href="https://github.com/wormtooth/chapi">chapi</a>,</p>
+<div class="highlight"><pre><span></span>pip install git+https://github.com/wormtooth/chapi.git
+</pre></div>
+
+
+<p>At this moment, <a href="https://github.com/wormtooth/chapi">chapi</a> does not have any docstrings. But it should be easy to read the codes directly since the codes are simple. I will add docstrings in the near future.</p>
+<p>Let's look at a piece of server codes.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">chapi</span> <span class="kn">import</span> <span class="n">Server</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="n">app_id</span> <span class="o">=</span> <span class="s1">&#39;APP_ID&#39;</span>
+<span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;KEY&#39;</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s1">&#39;SECRET&#39;</span>
+<span class="n">cluster</span> <span class="o">=</span> <span class="s1">&#39;CLUSTER&#39;</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">app_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">secret</span><span class="p">,</span> <span class="n">cluster</span><span class="p">)</span>
+
+<span class="nd">@server.api</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;echo&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">echo</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">kwargs</span>
+
+<span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;received api request {}: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]))</span>
+
+<span class="n">server</span><span class="o">.</span><span class="n">add_request_handler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+
+<span class="n">server</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+
+
+<p>The credentials <code>app_id</code>, <code>key</code>, <code>secret</code> and <code>cluster</code> can be found on your pusher app dashboard on <a href="https://pusher.com/">Pusher</a>. <code>chapi.Server</code> is a subclass of <code>chapi.Pusher</code>, which has the essential functionalities to build the server end. It takes credentials and an optional argument <code>name</code> (default <code>"server"</code>) to establish connections. To register an API, we can use decorator <code>chapi.Server.api(name)</code>. Internally, <code>chapi.Server</code> maintains a <code>dict</code> with pairs <code>name: f</code>, where <code>f</code> is the decorated function. When a client end requests API <code>name</code>, function <code>f</code> will be called.</p>
+<p><code>chapi.Pusher</code> has two methods enabling custom requests and responses handling: <code>chapi.Pusher.add_request_handler(handler)</code> and <code>chapi.Pusher.add_response_handler(handler)</code>. A handler is a function with exactly one positional argument, and this argument is the raw data from an event within the channel. In the above server example, we have a handler <code>handler(data)</code> that prints the request information.</p>
+<p>Finally, in order to keep server running, we need call <code>chapi.Server.run(worker_num=1)</code>. It will start <code>worker_num</code> threads to run API requests and then block the main thread from existing.</p>
+<p>Once the server is running, we can use <code>chapi.Client</code> to request API services as below.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">chapi</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">app_id</span> <span class="o">=</span> <span class="s1">&#39;APP_ID&#39;</span>
+<span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;KEY&#39;</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s1">&#39;SECRET&#39;</span>
+<span class="n">cluster</span> <span class="o">=</span> <span class="s1">&#39;CLUSTER&#39;</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">app_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">secret</span><span class="p">,</span> <span class="n">cluster</span><span class="p">)</span>
+<span class="n">wait_time</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># make wait_time longer if run in poor connection</span>
+
+<span class="k">def</span> <span class="nf">print_result</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;result of {}: {}&#39;</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]))</span>
+
+<span class="n">client</span><span class="o">.</span><span class="n">add_response_handler</span><span class="p">(</span><span class="n">print_result</span><span class="p">)</span>
+
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait_time</span><span class="p">)</span> <span class="c1"># give some time to establish connections</span>
+
+<span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s1">&#39;echo&#39;</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s1">&#39;wrong_api&#39;</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait_time</span><span class="p">)</span> <span class="c1"># wait for responses</span>
+</pre></div>
+
+
+<p><code>chapi.Client</code> is also a subclass of <code>chapi.Pusher</code>. It has a specific method <code>chapi.Client.request(api, **kwargs)</code> designed to send requests. Argument <code>api</code> is the requested API name, and <code>kwargs</code> will be passed to this API in the server end. To see the results of requests, we need to write our own response handlers. In the client example, we have <code>print_result(data)</code> to print out the API name with its result.</p>
+<p>Note that, it needs time to connect to <a href="https://pusher.com/">Pusher</a>, so we have <code>wait_time</code> in the example.</p>
+<h2>Improvements</h2>
+<p>I have used <a href="https://github.com/wormtooth/chapi">chapi</a> to build a server on my raspberry pi. So far, it is satisfying. On my phone, I can use <a href="http://omz-software.com/pythonista/">Pythonista</a> to send requests to my pi and receive responses from it. For android devices, one can use <a href="https://www.qpython.com/">QPython</a> to build a client.</p>
+<p>For now, I would like to improve <a href="https://github.com/wormtooth/chapi">chapi</a> by finishing the following tasks.</p>
+<ul>
+<li>
+<p>Design a data class for requests and responses. Timestamp should be split into two attributes: request_time and response_time.</p>
+</li>
+<li>
+<p>Add docstrings.</p>
+</li>
+<li>
+<p>Enable <code>chapi.Server</code> to register, delete and manipulate APIs. </p>
+</li>
+</ul>
+<p>Any suggestions will be welcomed!</p>
+
+        <div class="tags">
+        <a href="/tag/pusher">pusher</a>
+        <a href="/tag/api">api</a>
+        <a href="/tag/chapi">chapi</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20180607-chapi/';
+    var disqus_title = 'Chapi';
+    var disqus_url = 'https://wormtooth.com/20180607-chapi/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

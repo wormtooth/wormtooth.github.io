@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+    叶某人的碎碎念 | Believe in Mathematics    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title"><a href="/20180814-simple-grid-dection-for-sudoku/">Simple Grid Detection for Sudoku</a></h1>
+    <div class="post-meta">2018-08-14</div>
+    <a data-disqus-identifier="20180814-simple-grid-dection-for-sudoku/" href="/20180814-simple-grid-dection-for-sudoku/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p><a href="https://en.wikipedia.org/wiki/Sudoku">Sudoku</a> is a very interesting puzzle, and it is very easy to get familiar with the rules of the game. I always like to compare sudoku with number theory, they are easy to be understood but can be hard to solve. <a href="https://en.wikipedia.org/wiki/Fermat%27s_Last_Theorem">Fermat's Last Theorem</a>, an easily understood problem even by middle school students, took mathematians 358 years to solve it completely. Solving sudoku puzzles can take even longer: it is proven that solving sudoku puzzels is an <a href="https://en.wikipedia.org/wiki/NP-completeness">NP-complete</a> problem! However, classical 9x9 sudoku puzzles are still feasible using backtracking algorithm. We are not going to talk about how to solve sudoku puzzles here though, we are trying to sovle another problem: <strong>detect grids in images containing sudoku puzzles.</strong></p>
+<p>To make the problem more concrete, let's make some assumption on the image that contains a sudoku puzzle:</p>
+<ol>
+<li>The image only contains one sudoku puzzle</li>
+<li>The sudoku puzzle is the largest block in the image</li>
+<li>There is no/little distorsion/rotation of the sudoku puzzle grid</li>
+</ol>
+<p>Also in this article, we focus on only simple solutions without heavy image processing. We will use <a href="https://pillow.readthedocs.io/en/latest/">Pillow</a> to read images and convert them to gray scale images, and we use <a href="http://www.numpy.org/">Numpy</a> to manipulate images as arrays. For visualization, we use <a href="https://matplotlib.org/">Matplotlib</a>.</p>
+
+    </div>
+    <p class="readmore"><a href="/20180814-simple-grid-dection-for-sudoku/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20180617-pytorch-on-raspberrypi/">Pytorch on RaspberryPi</a></h1>
+    <div class="post-meta">2018-06-17</div>
+    <a data-disqus-identifier="20180617-pytorch-on-raspberrypi/" href="/20180617-pytorch-on-raspberrypi/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>Finally, I successfully installed <a href="https://pytorch.org/">Pytorch</a> on my RaspberryPi 3B. I followed the instructions on <a href="https://gist.github.com/fgolemo/b973a3fa1aaa67ac61c480ae8440e754">How to install PyTorch v0.3.1 on RaspberryPi 3B</a> and a blog post (in Chinese) <a href="https://haoyu.love/blog509.html">在 RaspberryPi 上编译 PyTorch</a>. I am running latest raspian image <em>2018-04-18-raspbian-stretch</em> and a self-compiled <em>Python 3.6.5</em>. If you are interested in compile Python 3.6.5 or above on your own, check out <a href="https://gist.github.com/dschep/24aa61672a2092246eaca2824400d37f#installing-python-36-on-raspbian">Installing Python 3.6 on Raspbian</a>. In this post, I will write down steps to my successful installation, and share my compiled wheel file at the end.</p>
+
+    </div>
+    <p class="readmore"><a href="/20180617-pytorch-on-raspberrypi/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20180607-chapi/">Chapi</a></h1>
+    <div class="post-meta">2018-06-07</div>
+    <a data-disqus-identifier="20180607-chapi/" href="/20180607-chapi/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>I recently built a <a href="http://flask.pocoo.org/">flask</a> app that run on my raspberry pi. Then I turned it down. Why? In order to access the app from outside the home internet, I had to expose my pi to public. After only one day of exposure, my pi received several attack attempts and the flask app then always replied 301. Here are some attack logs:</p>
+<div class="highlight"><pre><span></span>139.162.83.10 - &quot;GET / HTTP/1.1&quot; 404 -
+45.33.115.189 - &quot;GET / HTTP/1.0&quot; 404 -
+79.55.11.21 - &quot;GET / HTTP/1.0&quot; 404 -
+5.101.40.78 - code 400, message Bad HTTP/0.9 request type (&#39;\x03\x00\x00/*à\x00\x00\x00\x00\x00Cookie:&#39;)
+5.101.40.78 - &quot;/*àCookie: mstshash=Administr&quot; HTTPStatus.BAD_REQUEST -
+123.151.42.61 - &quot;GET http://www.baidu.com/ HTTP/1.1&quot; 404 -
+158.85.81.116 - &quot;GET / HTTP/1.1&quot; 404 -
+</pre></div>
+
+
+<p>To be more precise, the flask app was still running, but the home router seemed not forwarding the requests to my pi. Anyway, I have no idea of what have happened. I just shut the app down, flashed a fresh new image to my pi.</p>
+<p>I want a way to communicate with my pi without exposing it. That is the motivation I start the project <a href="https://github.com/wormtooth/chapi">chapi</a>, which means "<strong>cha</strong>t with <strong>pi</strong>".</p>
+
+    </div>
+    <p class="readmore"><a href="/20180607-chapi/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20180430-a-naive-recommender-system/">一个“朴素”的推荐系统</a></h1>
+    <div class="post-meta">2018-04-30</div>
+    <a data-disqus-identifier="20180430-a-naive-recommender-system/" href="/20180430-a-naive-recommender-system/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <h2>Introduction</h2>
+<p>在这篇文章中，我将使用<a href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier">朴素贝叶斯分类器(Naive Bayes Classifier)</a>打造一个简单的个人推荐系统：给定一篇中文文章(article)，返回我喜欢(like)这篇文章的概率。用数学的语言来描述的话，我们要计算的是<br>
+</p>
+<div class="math">$$P(like|aritcle)$$</div>
+<p><br>
+根据贝叶斯公式，<br>
+</p>
+<div class="math">$$P(like|aritcle) = \frac{P(article|like)P(like)}{P(article|like)P(like)+P(article|dislike)P(dislike)}$$</div>
+
+    </div>
+    <p class="readmore"><a href="/20180430-a-naive-recommender-system/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20180417-decrypt-wechat-database/">解密安卓微信聊天记录数据库</a></h1>
+    <div class="post-meta">2018-04-17</div>
+    <a data-disqus-identifier="20180417-decrypt-wechat-database/" href="/20180417-decrypt-wechat-database/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>我一直想把自己的微信聊天记录导出来，用来做一些奇奇怪怪的东西。可以用来分析一下过去一年里跟谁聊天了，聊的都是啥，或者做一个带有自己特点的聊天机器人。问题是，微信现在并没有简单导出聊天记录的方法。从我网上搜到的资料，安卓机器上的微信会将聊天记录（还有很多其他数据，比如联系人）保存在一个叫做<code>EnMicroMsg.db</code>的数据库中。这个数据库是使用<a href="https://www.zetetic.net/sqlcipher/">SQLCipher</a>生成的，没有密码是无法正常打开的。这个密码其实可以很容易通过自己手机的信息以及微信的信息计算出来，我也根据网上的教程计算出属于我的密码了。但是我一直没有成功解密我的聊天记录数据库。直到今天我再次搜寻了关于微信数据库的资料，才发现我不仅仅需要密码，还需要其他一下数据库的设置才能正确打开。这篇博文主要的目的是记录我该怎么做才能导出微信聊天记录，以方便以后使用。</p>
+
+    </div>
+    <p class="readmore"><a href="/20180417-decrypt-wechat-database/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20180416-les-miserables/">Les misérables</a></h1>
+    <div class="post-meta">2018-04-16</div>
+    <a data-disqus-identifier="20180416-les-miserables/" href="/20180416-les-miserables/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>昨天跟永佳在路村看了音乐剧<a href="https://en.wikipedia.org/wiki/Les_Mis%C3%A9rables_(musical)">《悲惨世界》</a>，演员细腻的表演与出色舞台灯光效果让我对舞台剧的热爱更深一分。</p>
+<p><img alt="剧院终场" src="/images/20180416-les-miserables.jpeg"></p>
+
+    </div>
+    <p class="readmore"><a href="/20180416-les-miserables/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20180405-digit-recognition-cnn/">Digit recognition, CNN</a></h1>
+    <div class="post-meta">2018-04-05</div>
+    <a data-disqus-identifier="20180405-digit-recognition-cnn/" href="/20180405-digit-recognition-cnn/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>最近看了一些关于卷积网络（<a href="https://en.wikipedia.org/wiki/Convolutional_neural_network">Convolution Neural Network</a>）的内容，我想用<a href="http://yann.lecun.com/exdb/mnist/">mnist数据集</a>重复一下网上的教程，好让自己能更好地理解并使用卷积网络。比较了一下<a href="https://www.tensorflow.org/">Tensorflow</a>和<a href="http://pytorch.org/">Pytorch</a>，个人比较喜欢Pytorch，所以以后基本就用它了。Pytorch里是包含获取mnist数据集的api的，使用这api我们可以很简单就能准备好数据。但是出于学习Pytorch的目的，我决定自己准备数据。</p>
+<p>之前我在另一篇<a href="https://wormtooth.com/20171017-digit-recognition-softmax/">博文</a>用了广义线性模型Softmax来识别这些手写数字，错误率最低达到了7.77%。使用图像识别领域上常用有效的卷积网络，我们会得到更低的错误率。这点会在本文后面看到。这篇博文不会用太多的文字解释，基本上都是代码。</p>
+
+    </div>
+    <p class="readmore"><a href="/20180405-digit-recognition-cnn/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20180401-leetcode-contest-78/">LeetCode Contest 78</a></h1>
+    <div class="post-meta">2018-04-01</div>
+    <a data-disqus-identifier="20180401-leetcode-contest-78/" href="/20180401-leetcode-contest-78/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>好久没有比赛了，上次比赛还是去年11月了。这次<a href="https://leetcode.com/contest/weekly-contest-78">比赛</a>表现比较差，只做出了前两道。后来发现，第三道我跟小伙伴都有正确的想法了，只是没有意识到答案允许有10<sup>-6</sup>的误差。</p>
+<p><a href="https://leetcode.com/contest/weekly-contest-78/problems/subdomain-visit-count/">第一题</a><code>Subdomain Visit Count</code></p>
+<div class="qbar">
+<p>给定一个列表，其中的元素形如<br>
+<center>"9001 discuss.leetcode.com"</center><br>
+这里的数字表示后面域名（各级域名）的访问量。统计各级域名的访问量。</p>
+</div>
+<p>比较简单的统计。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">subdomainVisits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpdomains</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type cpdomains: List[str]</span>
+<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">cp</span> <span class="ow">in</span> <span class="n">cpdomains</span><span class="p">:</span>
+            <span class="n">n</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="n">n</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="s1">&#39;.&#39;</span><span class="o">+</span><span class="n">addr</span><span class="p">,</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="n">p</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">addr</span> <span class="o">=</span> <span class="n">addr</span><span class="p">[</span><span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="n">cnt</span><span class="p">[</span><span class="n">addr</span><span class="p">]</span> <span class="o">+=</span> <span class="n">n</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;{} {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cnt</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20180401-leetcode-contest-78/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20180325-markov-decision-process-finite-horizon/">Markov Decision Process: Finite horizon</a></h1>
+    <div class="post-meta">2018-03-25</div>
+    <a data-disqus-identifier="20180325-markov-decision-process-finite-horizon/" href="/20180325-markov-decision-process-finite-horizon/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This post is considered to the notes on finite horizon Markov decision process for lecture 18 in Andrew Ng's <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">lecture series</a>. In my previous two notes (<a href="https://wormtooth.com/20180207-markov-decision-process/">[1]</a>, <a href="https://wormtooth.com/20180306-markov-decision-process-continuous-states/">[2]</a>) about Markov decision process (MDP), only state rewards are considered. We can easily generalize MDP to state-action reward.</p>
+<h2>State-Action Reward</h2>
+<p>Our reward function now is a function in terms of both states and actions. More precisely, the reward function is a function<br>
+</p>
+<div class="math">$$R: S \times A \to \R.$$</div>
+<p><br>
+All other requirements in definition of MDP will remain intact. For completeness, we include the definition here. We shall pay attention to the fifth components.</p>
+
+    </div>
+    <p class="readmore"><a href="/20180325-markov-decision-process-finite-horizon/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20180306-markov-decision-process-continuous-states/">Markov Decision Process: Continuous states</a></h1>
+    <div class="post-meta">2018-03-06</div>
+    <a data-disqus-identifier="20180306-markov-decision-process-continuous-states/" href="/20180306-markov-decision-process-continuous-states/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>I wrote this post for lecture 17 in Andrew Ng's lecture collections on <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">Machine Learning</a>. In my <a href="https://wormtooth.com/20180207-markov-decision-process/">previous post</a>, we discussed Markov Decision Process (MDP) in its simplest form, where the set of states and the set of actions are both finite. But in real world application, states and actions can be infinite and even continuous. For example, if we want to model states of a self-driving car in a 2D plane, we must at least have the position <span class="math">\((x, y)\)</span>, the direction <span class="math">\(\theta\)</span> of the car pointing to, its velocity <span class="math">\((v_x, v_y)\)</span> and the rate <span class="math">\(r\)</span> of change in <span class="math">\(\theta\)</span>. So the states of a car is at least a 6 dimensional space. For actions of a car, we can control how fast it goes in direction <span class="math">\(\theta\)</span> and we can also control <span class="math">\(r\)</span>. Thus the actions have dimension 2.</p>
+<p>In this post, we consider only continuous states with finite actions. Indeed, actions space usually has much lower dimension than states space, so in case of continuous actions, we might just discretize the actions spaces to get a finite set of representatives of actions. One may argue that we can also discretize the states space. Yes, we can do it, but only when the dimension <span class="math">\(n\)</span> of state space is small enough: if we discretize each dimension into <span class="math">\(k\)</span> parts, then there would be <span class="math">\(k^n\)</span> many states. If <span class="math">\(n\)</span> is large, then <span class="math">\(k^n\)</span> is not feasible. This is so called the curse of dimensionality. Moreover, discretizing states space usually results in lack of smoothness.</p>
+
+    </div>
+    <p class="readmore"><a href="/20180306-markov-decision-process-continuous-states/">Read More</a></p>
+</div>
+
+<div class="page-navigator">
+    <span class="page-number current">1</span>
+    <a class="page-number" href="/page/2/">2</a>
+    <a class="page-number" href="/page/3/">3</a>
+    <span class="space">...</span>
+    <a class="page-number" href="/page/9/">9</a>
+    <a class="extend next" rel="next" href="/page/2/">Next</a></nav>
+</div class="page-navigator">
+
+    <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

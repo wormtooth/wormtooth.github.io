@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Examples of split and non-split tori | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Examples of split and non-split tori</h1>
+    <div class="post-meta">Sep 28, 2014
+    <span> | </span> <span>Mathematics</span>
+    </div>
+    <a data-disqus-identifier="20140928-examples-of-split-non-split-tori/" href="/20140928-examples-of-split-non-split-tori/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>Let <span class="math">\(T\)</span> be an algebraic group. <span class="math">\(T\)</span> is called an <em>algebraic torus</em> over <span class="math">\(k\)</span>, if <span class="math">\(T(E)\)</span> is isomorphic to a finite direct product of copies of <span class="math">\(G_m(E)\)</span> for some finite finite extension <span class="math">\(E\)</span> of <span class="math">\(k\)</span>, where <span class="math">\(G_m\)</span> is the multiplicative group. If <span class="math">\(E\)</span> can be <span class="math">\(k\)</span>, then <span class="math">\(T\)</span> is called a <em>split</em> torus over <span class="math">\(k\)</span>; otherwise, <span class="math">\(T\)</span> is called a <em>non split</em> torus over <span class="math">\(k\)</span>. In this post, I am going to talk something about <span class="math">\(SO\)</span> to give examples of non split and split tori.</p>
+
+<div class="qbar"><strong>Definition.</strong> Let $k$ be a field, and $V$ be a vector space over $k$. Let $q$ be a quadratic form on $V$. Define
+$$SO(V,q;k)=\{\gamma \in SL(V) : q(\gamma v)=q(v), \forall v \in V\}.$$
+</div>
+
+<!--more-->
+
+<p>Let <span class="math">\(k\)</span> be a field. Let <span class="math">\(d \in k\backslash k^2\)</span>. Then <span class="math">\(E=k(\sqrt{d})\)</span> is a quadratic extension of <span class="math">\(k\)</span>. If we regard <span class="math">\(E\)</span> as a <span class="math">\(2\)</span> dimensional vector space over <span class="math">\(k\)</span>, there is a natural quadratic form q on <span class="math">\(E\)</span>, given by the field norm. If <span class="math">\(e=a+b\sqrt{d} \in E\)</span> for some <span class="math">\(a,b \in k\)</span>, then <span class="math">\(q(e)=a^2-b^2 d\)</span>. We denote <span class="math">\(E^1\)</span> for the collections of all elements <span class="math">\(e \in E\)</span> such that <span class="math">\(q(e)=1\)</span>, i.e.,
+<span class="math">\[E^1 = \{e=a+b\sqrt{d}\in E: a^2-b^2d=1\}.\]</span>
+If we use <span class="math">\(\{1, \sqrt{d}\}\)</span> as a basis for <span class="math">\(E\)</span> over <span class="math">\(k\)</span>, we can represent <span class="math">\(q\)</span> by the matrix
+<span class="math">\[M_q=\left(\begin{array}{cc}
+1 &  \\
+  & -d
+\end{array}\right)\]</span>
+Now, if we tensor the extension tower <span class="math">\(k \subset E\)</span> by <span class="math">\(E\)</span>, we get a vector space <span class="math">\(E \oplus E\)</span> over <span class="math">\(E\)</span>, with a quadratic form <span class="math">\(\tilde{q}\)</span> on <span class="math">\(E \oplus E\)</span> given also by the matrix <span class="math">\(M_q\)</span>.</p>
+
+<div class="qbar" ><strong>Claim 1.</strong> <span class="math">\(SO(E,q;k)\)</span> is a non split torus over <span class="math">\(k\)</span>. More precisely, <span class="math">\(SO(E,q;k) \cong E^1\)</span> and <span class="math">\(SO(E\oplus E, \tilde{q};E) \cong G_m(E)\)</span>.
+</div>
+
+<p><em>Proof.</em> Representing <span class="math">\(\gamma \in GL(E)\)</span> as a matrix with coefficients in <span class="math">\(k\)</span> under the basis <span class="math">\(\{1, \sqrt{d}\}\)</span>, say,
+<span class="math">\[M_\gamma = \left(\begin{array}{cc}
+x & y \\
+z & w
+\end{array}\right)\]</span>
+Then <span class="math">\(\gamma \in SO(E,q;k)\)</span> is equivalent to <span class="math">\(M_\gamma^T M_q M_\gamma=M_q\)</span>, where <span class="math">\(M_\gamma^T\)</span> is the transpose of <span class="math">\(M_\gamma\)</span>. If we write down the relations explicitly, we have a system of equations:</p>
+
+<p><span class="math">\[\left\{\begin{equation}\begin{split}
+& x^2-z^2d=1 \\
+& xy-zwd=0 \\
+& y^2-w^2d=-d \\
+& xw-yz = 1
+\end{split}\label{eq:system_of_equations}\end{equation}\right.\]</span></p>
+
+<p>Now, if we fix <span class="math">\(x, y \in k\)</span> with <span class="math">\(x^2-z^2d=1\)</span>, which is to say <span class="math">\(x+z\sqrt{d} \in E^1\)</span>. It&#8217;s easy to see from <span class="math">\(\eqref{eq:system_of_equations}\)</span> that <span class="math">\(y\)</span> and <span class="math">\(z\)</span> can be solved. Hence, the solutions to <span class="math">\(\eqref{eq:system_of_equations}\)</span> is parametrized by <span class="math">\(E^1\)</span>, which means <span class="math">\(SO(E,q;k) \cong E^1\)</span>.</p>
+
+<p>If we consider <span class="math">\(SO(E \oplus E, \tilde{q}; E)\)</span>, since the corresponding matrices to <span class="math">\(q\)</span> and <span class="math">\(\tilde{q}\)</span> are the same, we will have the same system of equations as <span class="math">\(\eqref{eq:system_of_equations}\)</span>. However, instead of finding solutions in <span class="math">\(k\)</span>, we now need to solve <span class="math">\(\eqref{eq:system_of_equations}\)</span> in <span class="math">\(E\)</span>. In <span class="math">\(E\)</span>, we can factor <span class="math">\(x^2-z^2d=1\)</span>:
+<span class="math">\[(x+z\sqrt{d})(x-z\sqrt{d})=1.\]</span>
+Then <span class="math">\(x+z\sqrt{d} \in G_m(E)\)</span>. If we set <span class="math">\(x+z\sqrt{d}=e \in G_m(E)\)</span>, then <span class="math">\(x-z\sqrt{d}=e^{-1}\)</span>. We can then easily solve <span class="math">\(\eqref{eq:system_of_equations}\)</span> in terms of <span class="math">\(e\)</span>. Hence, <span class="math">\(SO(E \oplus E, \tilde{q}; E) \cong G_m(E)\)</span>. <span class='qed'><span class="math">\(\square\)</span></span></p>
+
+<p>The <strong>Claim 1</strong> above shows that <span class="math">\(SO(E,q;k)\)</span> is a non split torus over <span class="math">\(k\)</span>. Below, I will construct a quadratic form on <span class="math">\(E\)</span> such that <span class="math">\(SO(E,q; k)\)</span> is a split torus.</p>
+
+<p>Let <span class="math">\(k\)</span> be a field with <span class="math">\(\text{char } k \ne 2\)</span>. Let <span class="math">\(E=k \oplus k\)</span>. Let <span class="math">\(q\)</span> be the quadratic form on <span class="math">\(E\)</span> define by
+<span class="math">\[q(e)=2xy,\]</span>
+where <span class="math">\(x, y \in k\)</span> and <span class="math">\(e=(x,y) \in E\)</span>.</p>
+
+<div class="qbar" ><strong>Claim 2.</strong> <span class="math">\(SO(E, q;k) \cong G_m(k)\)</span>. Hence, <span class="math">\(SO(E, q; k)\)</span> is a split torus over <span class="math">\(k\)</span>.
+</div>
+
+<p><em>Proof.</em> Let <span class="math">\(e_1=(1,0)\)</span> and <span class="math">\(e_2=(0,1)\)</span>. Then <span class="math">\(\{e_1, e_2\}\)</span> is a basis for <span class="math">\(E\)</span> over <span class="math">\(k\)</span>. Under this basis, the quadratic form <span class="math">\(q\)</span> corresponds to the matrix
+<span class="math">\[M_q=\left(\begin{array}{cc}
+  & 1 \\
+1 & 
+\end{array}\right).\]</span></p>
+
+<p>Let <span class="math">\(\gamma \in SO(E, q; k)\)</span>. Let
+<span class="math">\[M_\gamma = \left(\begin{array}{cc}
+x & y \\
+z & w
+\end{array}\right)\]</span>
+be the matrix of <span class="math">\(\gamma\)</span> under the basis.</p>
+
+<p>Similar to the procedure in the proof of <strong>Claim 1</strong>, we can get another system of equations:</p>
+
+<p><span class="math">\[\left\{\begin{equation}\begin{split}
+& xz=yw=0 \\
+& xw+yz=1 \\
+& xw-yz = 1
+\end{split}\label{eq:system_of_equations_2}\end{equation}\right.\]</span></p>
+
+<p>Solving <span class="math">\(\eqref{eq:system_of_equations_2}\)</span>, we get <span class="math">\(y=z=0\)</span> and <span class="math">\(xw=1\)</span>. Hence, all the elements in <span class="math">\(SO(E, q; k)\)</span> have the form
+<span class="math">\[\left(\begin{array}{cc}
+x &  \\
+  & x^{-1}
+\end{array}\right).\]</span>
+Therefore, <span class="math">\(SO(E, q; k) \cong G_m(k)\)</span>. <span class='qed'><span class="math">\(\square\)</span></span></p>
+
+        <div class="tags">
+        <a href="/tag/split">split</a>
+        <a href="/tag/torus">torus</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20140928-examples-of-split-non-split-tori/';
+    var disqus_title = 'Examples of split and non-split tori';
+    var disqus_url = 'https://wormtooth.com/20140928-examples-of-split-non-split-tori/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

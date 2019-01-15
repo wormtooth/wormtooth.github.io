@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Locally closed subgroups are closed | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Locally closed subgroups are closed</h1>
+    <div class="post-meta">Oct 23, 2014
+    <span> | </span> <span>Mathematics</span>
+    </div>
+    <a data-disqus-identifier="20141023-locally-closed-subgroups/" href="/20141023-locally-closed-subgroups/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>In a topology group <span class="math">\(G\)</span>, an open subgroup <span class="math">\(H\)</span> is also closed. The proof of this statement is not hard: <span class="math">\(G=\bigcup_{g_i} g_iH\)</span> is a disjoint union of open left cosets, where <span class="math">\(\{g_i\}\)</span> is a complete representatives set of <span class="math">\(G/H\)</span>. Then <span class="math">\(\bigcup_{g_i \ne 1}g_iH\)</span> is open and <span class="math">\(H=G-\bigcup_{g_i \ne 1}g_iH\)</span> is the complement of an open set, and therefore <span class="math">\(H\)</span> is closed. In this post, I will prove a slightly more general theorem: </p>
+
+<div class='qbox' ><a name='theorem'><strong>Theorem.</strong></a> Let <span class="math">\(G\)</span> be a topological group. If <span class="math">\(H\)</span> is a locally closed subgroup in <span class="math">\(G\)</span>, then <span class="math">\(H\)</span> is closed.
+</div>
+
+<p>We will see that an open subgroup <span class="math">\(H\)</span> is locally closed, so it&#8217;s closed by the <a href="#theorem"><strong>Theorem</strong></a>. Before the proof of the <a href="#theorem"><strong>Theorem</strong></a>, let&#8217;s talk about <em>locally closed</em> sets first.</p>
+
+<!--more-->
+
+<div class='qbar' ><a name='def'><strong>Definition.</strong></a> Let <span class="math">\(X\)</span> be a topological space and <span class="math">\(S\)</span> be a subset of <span class="math">\(X\)</span>. <span class="math">\(S\)</span> is called <em>locally closed</em>, if for any point <span class="math">\(s \in S\)</span>, there exists a neighborhood <span class="math">\(U\)</span> of <span class="math">\(s\)</span> in <span class="math">\(X\)</span> such that <span class="math">\(S \cap U\)</span> is closed in <span class="math">\(U\)</span>.
+</div>
+
+<p><a name='remark'><strong>Remark.</strong></a> Let <span class="math">\(X\)</span> be a topological space and <span class="math">\(S\)</span> be a subset of <span class="math">\(X\)</span>. If <span class="math">\(S\)</span> is open, then for any <span class="math">\(s \in S\)</span>, there exists an open neighborhood <span class="math">\(U\)</span> of <span class="math">\(s\)</span> in <span class="math">\(X\)</span> such that <span class="math">\(U \subset S\)</span>. But this implies <span class="math">\(S \cap U=U\)</span> is closed in <span class="math">\(U\)</span>, so <span class="math">\(S\)</span> is locally closed. This shows any open set is locally closed. Hence, if <span class="math">\(H\)</span> is an open subgroup in a topological group <span class="math">\(G\)</span>, then <span class="math">\(H\)</span> is forced to be closed by the <a href="#theorem"><strong>Theorem</strong></a>. </p>
+
+<div class="qbox" ><a name="proposition1"><strong>Proposition 1.</strong></a> Let <span class="math">\(X\)</span> be a topological space and <span class="math">\(S\)</span> be a subset of <span class="math">\(X\)</span>. Let <span class="math">\(\overline{S}\)</span> be the closure of <span class="math">\(S\)</span> in <span class="math">\(X\)</span>. Then the following are equivalent.<br/>
+(1) <span class="math">\(S\)</span> is locally closed.<br/>
+(2) <span class="math">\(S\)</span> is open in <span class="math">\(\overline{S}\)</span>.<br/>
+(3) <span class="math">\(S\)</span> is an intersection of an open set and a closed set.
+</div>
+
+<p><em>Proof.</em> (1)<span class="math">\(\Longrightarrow\)</span>(2): Suppose <span class="math">\(S\)</span> is locally closed. For any <span class="math">\(s \in S\)</span>, since <span class="math">\(S\)</span> is locally closed, there exists a neighborhood <span class="math">\(U\)</span> of <span class="math">\(s\)</span> in <span class="math">\(X\)</span> such that <span class="math">\(U \cap S\)</span> is closed in <span class="math">\(U\)</span>. Let <span class="math">\(V\)</span> be the open set containing <span class="math">\(s\)</span> in <span class="math">\(U\)</span>, then <span class="math">\(V \cap S\)</span> is also closed in <span class="math">\(V\)</span>. Since <span class="math">\(V\)</span> is open, <span class="math">\(V \cap \overline{S}\)</span> is the closure of <span class="math">\(V \cap S\)</span> in <span class="math">\(V\)</span>, so <span class="math">\(V \cap \overline{S} = V \cap S \subset S\)</span>. Hence, we find an open neighborhood <span class="math">\(V \cap \overline{S}\)</span> of <span class="math">\(s\)</span> in <span class="math">\(\overline{S}\)</span> that is contained in <span class="math">\(S\)</span>, so <span class="math">\(S\)</span> is open in <span class="math">\(\overline{S}\)</span>.</p>
+
+<p>(2)<span class="math">\(\Longrightarrow\)</span>(3): Suppose <span class="math">\(S\)</span> is open in <span class="math">\(\overline{S}\)</span>. Then there exists an open set <span class="math">\(U\)</span> in <span class="math">\(X\)</span> such that <span class="math">\(S = U \cap \overline{S}\)</span>. Therefore, <span class="math">\(S\)</span> is an intersection of an open set and a closed set.</p>
+
+<p>(3)<span class="math">\(\Longrightarrow\)</span>(1): Suppose <span class="math">\(S=U \cap C\)</span>, where <span class="math">\(U\)</span> is open and <span class="math">\(C\)</span> is closed. Then for any <span class="math">\(s \in S\)</span>, take <span class="math">\(U\)</span> as the neighborhood of <span class="math">\(s\)</span> in <span class="math">\(X\)</span>, then <span class="math">\(U \cap S=U \cap U \cap C=U \cap C\)</span> is closed in <span class="math">\(U\)</span>, because <span class="math">\(C\)</span> is closed. Hence, <span class="math">\(S\)</span> is locally closed.
+<span class="qed"><span class="math">\(\square\)</span></span></p>
+
+<div class="qbox" ><a name="proposition2"><strong>Proposition 2.</strong></a> Let <span class="math">\(X\)</span> be a Hausdorff topological space. If <span class="math">\(S\)</span> is a locally compact subspace in <span class="math">\(X\)</span>, then <span class="math">\(S\)</span> is locally closed.
+</div>
+
+<p><em>Proof.</em> For any <span class="math">\(s \in S\)</span>, since <span class="math">\(X\)</span> is Hausdorff and <span class="math">\(S\)</span> is locally compact, there exists an open set <span class="math">\(U\)</span> containing <span class="math">\(s\)</span> in <span class="math">\(X\)</span> such that <span class="math">\(\overline{U} \cap S\)</span> is compact in <span class="math">\(S\)</span>, where <span class="math">\(\overline{U}\)</span> is the closure of <span class="math">\(U\)</span> in <span class="math">\(X\)</span>. In particular, it is compact in <span class="math">\(X\)</span>. Therefore, <span class="math">\(\overline{U} \cap S\)</span> is closed in <span class="math">\(X\)</span>. Then <span class="math">\(U \cap S = U \cap (\overline{U} \cap S)\)</span> is closed in <span class="math">\(U\)</span>. Hence, <span class="math">\(S\)</span> is locally closed.
+<span class="qed"><span class="math">\(\square\)</span></span></p>
+
+<p>We need some lemmas before going into the proof of the <a href="#theorem"><strong>Theorem</strong></a>.</p>
+
+<div class='qbar' ><a name='lemma1'><strong>Lemma 1.</strong></a> Let <span class="math">\(G\)</span> be a topological group and <span class="math">\(H\)</span> be a subgroup in <span class="math">\(G\)</span>, then <span class="math">\(\overline{H}\)</span>, the closure of <span class="math">\(H\)</span> in <span class="math">\(G\)</span>, is a closed subgroup of <span class="math">\(G\)</span>.
+</div>
+
+<p><em>Pf.</em> Clearly, <span class="math">\(\overline{H}\)</span> is closed. It remains to prove <span class="math">\(\overline{H}\)</span> is a subgroup, i.e., for <span class="math">\(a, b \in \overline{H}\)</span>, we need to show <span class="math">\(a^{-1} \in \overline{H}\)</span> and <span class="math">\(ab \in \overline{H}\)</span>.</p>
+
+<p>Let <span class="math">\(a \in \overline{H}\)</span>. Since <span class="math">\(g \mapsto g^{-1}\)</span> is homeomorphism of <span class="math">\(G\)</span> to itself, for any open neighborhood <span class="math">\(U\)</span> of <span class="math">\(a^{-1}\)</span> in <span class="math">\(G\)</span>, <span class="math">\(U^{-1}=\{u^{-1}: u \in U\}\)</span> is an open neighborhood of <span class="math">\(a\)</span>. Then <span class="math">\((U^{-1}-\{a\}) \cap H \ne \varnothing\)</span>, since <span class="math">\(a \in \overline{H}\)</span>. Therefore, <span class="math">\((U-\{a^{-1}\}) \cap H \ne \varnothing\)</span>, which means <span class="math">\(a^{-1} \in \overline{H}\)</span>.</p>
+
+<p>Let <span class="math">\(a, b \in \overline{H}\)</span>. Since <span class="math">\(m: G \times G \to G\)</span> defined by <span class="math">\(m(xy)=xy\)</span> is continuous, for any open neighborhood <span class="math">\(U\)</span> of <span class="math">\(ab\)</span> in <span class="math">\(G\)</span>, <span class="math">\(m^{-1}(U)\)</span> is open in <span class="math">\(G \times G\)</span>. Since <span class="math">\(ab \in U\)</span>, <span class="math">\((a, b) \in m^{-1}(U)\)</span>, there there exists <span class="math">\(V\)</span> and <span class="math">\(W\)</span>, open neighborhood of <span class="math">\(a\)</span> and <span class="math">\(b\)</span> respectively, such that <span class="math">\(V \times W \subset m^{-1}(U)\)</span>. Since <span class="math">\(a, b \in \overline{H}\)</span>, <span class="math">\((V-\{a\}) \cap H \ne \varnothing\)</span> and <span class="math">\((W-\{b\}) \cap H \ne \varnothing\)</span>, so <span class="math">\(({m(V \times W)-ab}) \cap H \ne \varnothing\)</span>. Therefore, <span class="math">\((U-\{ab\}) \cap H \ne \varnothing\)</span>. This shows <span class="math">\(ab \in \overline{H}\)</span>.
+<span class="qed"><span class="math">\(\vartriangleleft\)</span></span></p>
+
+<div class='qbar' ><a name="lemma2"><strong>Lemma 2.</strong></a> Let <span class="math">\(X\)</span> be a topological space. Let <span class="math">\(U\)</span> and <span class="math">\(V\)</span> be two open dense subsets in <span class="math">\(X\)</span>, then <span class="math">\(U \cap V\)</span> is also open dense in <span class="math">\(X\)</span>. In particular, <span class="math">\(U \cap V \ne \varnothing\)</span>.
+</div>
+
+<p><em>Pf.</em> Since <span class="math">\(U\)</span> and <span class="math">\(V\)</span> are open, so is <span class="math">\(U \cap V\)</span>. For any <span class="math">\(x \in X\)</span>, for any open neighborhood <span class="math">\(W\)</span> of <span class="math">\(x\)</span>, since <span class="math">\(U\)</span> is dense, <span class="math">\(U \cap W\)</span> is a nonempty open set. Hence, <span class="math">\(U \cap V \cap W\)</span> is nonempty, because <span class="math">\(V\)</span> is dense. Therefore, <span class="math">\(U \cap V\)</span> is open dense in <span class="math">\(X\)</span>.
+<span class="qed"><span class="math">\(\vartriangleleft\)</span></span></p>
+
+<p><em>Proof of the <a href="#theorem"><strong>Theorem</strong></a>.</em> Let <span class="math">\(\overline{H}\)</span> be the closure of <span class="math">\(H\)</span> in <span class="math">\(G\)</span>. <span class="math">\(\overline{H}\)</span> is a subgroup by <a href="#lemma1"><strong>Lemma 1</strong></a>. Because <span class="math">\(H\)</span> is locally closed, we can apply the <a href="#proposition1"><strong>Proposition 1</strong></a> above to conclude that <span class="math">\(H\)</span> is open dense in <span class="math">\(\overline{H}\)</span>. Suppose <span class="math">\(H \ne \overline{H}\)</span>, then <span class="math">\(\overline{H}= \bigcup_{g_i} g_i H\)</span>, a disjoint union of left cosets of <span class="math">\(H\)</span> in <span class="math">\(\overline{H}\)</span>. Since <span class="math">\(H \ne \overline{H}\)</span>, there exists at least two disjoint left cosets. But <span class="math">\(H\)</span> is open dense in <span class="math">\(\overline{H}\)</span>, all its left cosets are also open dense in <span class="math">\(\overline{H}\)</span>, so by <a href="#lemma2"><strong>Lemma 2</strong></a>, any two of them have nonempty intersection, which contradicts the fact that they are disjoint. Hence, <span class="math">\(H=\overline{H}\)</span>, so <span class="math">\(H\)</span> is closed.
+<span class="qed"><span class="math">\(\square\)</span></span></p>
+
+<div class="qbox" ><a name="corollary"><strong>Corollary.</strong></a> Let <span class="math">\(G\)</span> be a topological group and <span class="math">\(H\)</span> be a subgroup of <span class="math">\(G\)</span>. Then if either one of the following conditions holds, then <span class="math">\(H\)</span> is closed:<br/>
+(1) <span class="math">\(H\)</span> is an open subgroup;<br/>
+(2) <span class="math">\(G\)</span> is a <span class="math">\(T_1\)</span> space and <span class="math">\(H\)</span> is discrete;<br/>
+(3) <span class="math">\(G\)</span> is a Hausdorff space and <span class="math">\(H\)</span> is locally compact.
+</div>
+
+<p><em>Proof.</em> (1) See <a href="#remark"><strong>Remark</strong></a> above.</p>
+
+<p>(2) If <span class="math">\(G\)</span> is <span class="math">\(T_1\)</span>, then sets containing single point are closed, so discrete sets are locally closed. Hence, <span class="math">\(H\)</span> is locally closed, and therefore closed.</p>
+
+<p>(3) This follows immediately from <a href="#proposition2"><strong>Proposition 2</strong></a> and the <a href="#theorem"><strong>Theorem</strong></a>.
+<span class="qed"><span class="math">\(\square\)</span></span></p>
+
+        <div class="tags">
+        <a href="/tag/locally-closed">locally closed</a>
+        <a href="/tag/group">group</a>
+        <a href="/tag/topological-group">topological group</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20141023-locally-closed-subgroups/';
+    var disqus_title = 'Locally closed subgroups are closed';
+    var disqus_url = 'https://wormtooth.com/20141023-locally-closed-subgroups/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

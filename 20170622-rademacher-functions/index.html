@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Rademacher functions | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Rademacher functions</h1>
+    <div class="post-meta">Jun 22, 2017
+    <span> | </span> <span>Mathematics</span>
+    </div>
+    <a data-disqus-identifier="20170622-rademacher-functions/" href="/20170622-rademacher-functions/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This post is my note for <a href="https://math.osu.edu/whatis"><em>What is&#8230;?</em></a> seminar on Rademacher function.</p>
+
+<p>For a real number <span class="math">\(x\)</span> in <span class="math">\([0, 1]\)</span>, let <span class="math">\((a_1(x), a_2(x), \cdots, a_n(x), \cdots)\)</span> be its binary representation. That is to say,
+<span class="math">\[\begin{equation}
+x = \sum_{n=1}^\infty \frac{a_n(x)}{2^n}.
+\label{20170623-1}
+\end{equation}\]</span></p>
+
+<p>For some <span class="math">\(x\)</span>, there might be two possible binary representation. Take <span class="math">\(\frac{1}{2}\)</span> for example, it can be represented as <span class="math">\((1, 0, 0, \cdots)\)</span> or <span class="math">\((0, 1, 1, \cdots)\)</span>. In this situation, we always prefer the former representation, in which all terms become <span class="math">\(0\)</span> eventually.</p>
+
+<div class='qbar' >
+<a name='defn1'><strong>Definition 1.</strong></a> Let <span class="math">\(n \ge 1\)</span> be an integer. The <span class="math">\(n\)</span>-th <em>Rademacher function</em> <span class="math">\(r_n: [0, 1] \to \{-1,1\}\)</span> is defined to be
+<span class="math">\[r_n(x) = 1 - 2a_n(x).\]</span>
+</div>
+
+<!--more-->
+
+<p>Rademacher functions are closely related to binary representation. In fact, we can easily get the following:
+<span class="math">\[\begin{equation}
+\sum_{n=1}^{\infty} \frac{r_n(x)}{2^n} = \sum_{n=1}^{\infty}\frac{1}{2^n} - 2\sum_{n=1}^\infty \frac{a_n(x)}{2^n} = 1 - 2x.
+\label{20170623-2}
+\end{equation}\]</span></p>
+
+<p>Another easy fact is the equivalent definition of <span class="math">\(r_n(x)\)</span> as follow. We define <span class="math">\(r: \R \to \{-1, 1\}\)</span> by
+<span class="math">\[r(x) = (-1)^{\lfloor x \rfloor},\]</span>
+where <span class="math">\(\lfloor x \rfloor\)</span> is the biggest integer that is less than or equal <span class="math">\(x\)</span>. Then we have an alternative definition of Radamecher function as</p>
+
+<div class='qbar' >
+<a name='lemma2'><strong>Lemma 2.</strong></a> <span class="math">\(r_n(x) = r(2^nx)\)</span>.
+</div>
+
+<p>We are going to reprove two classical results using Radamecher functions.</p>
+
+<div class='qbox' >
+<a name='thm3'><strong>Theorem 3.</strong></a> <span class="math">\(\displaystyle \prod_{n=1}^\infty \cos \left(\frac{x}{2^n}\right) = \frac{\sin x}{x}\)</span>.
+</div>
+
+<p><em>Proof.</em> This theorem can be proved easily by recursively using
+<span class="math">\[\sin x = 2 \sin \frac{x}{2} \cos \frac{x}{2},\]</span>
+and using
+<span class="math">\[\lim_{x \to 0} \frac{\sin x}{x} = 1.\]</span>
+But we will use Radamecher functions to give another interesting proof.</p>
+
+<p>Let <span class="math">\(n \ge 1\)</span> be an integer. For any <span class="math">\(c_1, \cdots, c_n \in \R\)</span>, consider a function <span class="math">\(f:[0, 1] \to \R\)</span> by
+<span class="math">\[f(t) = \sum_{j=1}^n c_jr_j(t).\]</span>
+From <a href="#lemma2">Lemma 2</a>, we can see that for any <span class="math">\(j \le n\)</span>, <span class="math">\(r_j(t)\)</span> is constant on
+<span class="math">\[\left[\frac{k}{2^n}, \frac{k+1}{2^n}\right),\]</span>
+for <span class="math">\(k=0, 1, \cdots, 2^n-1\)</span>. Therefore, <span class="math">\(f(t)\)</span> is constant on each above interval. If we fix a <span class="math">\(k\)</span>, then all <span class="math">\(t \in \left[\frac{k}{2^n}, \frac{k+1}{2^n}\right)\)</span> share the same first <span class="math">\(n\)</span> terms in their binary representation. From this observation, one can conclude that there is a bijection between <span class="math">\(\Delta_n = \{-1, 1\}^n\)</span> and
+<span class="math">\[\left\{\left[\frac{k}{2^n}, \frac{k+1}{2^n}\right): k=0, \cdots, 2^n-1\right\}.\]</span>
+Therefore,
+<span class="math">\[\begin{equation*}
+\begin{split}
+\int_0^1 e^{if(t)} \, dt &= \int_0^1 \exp\left(i\sum_{j=1}^n c_jr_j(t)\right) \\
+&= \sum_{k=0}^{2^n-1} \int_{\frac{k}{2^n}}^{\frac{k+1}{2^n}}  \exp\left(i\sum_{j=1}^n c_jr_j(t)\right) \, dt \\
+&= \sum_{\delta \in \Delta_n} \frac{1}{2^n} \exp\left(i\sum_{j=1}^n c_j \delta_j\right) \\
+&= \sum_{\delta \in \Delta_n} \prod_{j=1}^{n} \frac{e^{ic_j\delta_j}}{2}.
+\end{split}
+\end{equation*}\]</span>
+The second to the last equality above coming the bijection mentioned in the previous paragraph. For length <span class="math">\(n\)</span> 01-sequences, those start with 0 and those start with 1 are exactly the same except the first term. Thus,
+<span class="math">\[\begin{equation*}
+\sum_{\delta \in \Delta_n} \prod_{j=1}^{n} \frac{e^{ic_j\delta_j}}{2} =
+\left(\frac{e^{ic_1}+e^{-ic_1}}{2}\right)\sum_{\delta \in \Delta_{n-1}} \prod_{j=2}^{n} \frac{e^{ic_j\delta_j}}{2}.
+\end{equation*}\]</span>
+By induction, we have
+<span class="math">\[\begin{equation*}
+\sum_{\delta \in \Delta_n} \prod_{j=1}^{n} \frac{e^{ic_j\delta_j}}{2} =
+\prod_{j=1}^n \left(\frac{e^{ic_j}+e^{-ic_j}}{2}\right) = \prod_{j=1}^n \cos(c_j).
+\end{equation*}\]</span>
+We then get an interesting formula
+<span class="math">\[\begin{equation}
+\int_0^1 e^{if(t)} \, dt = \prod_{j=1}^n \cos(c_j).
+\label{20170623-3}
+\end{equation}\]</span></p>
+
+<p>If we set <span class="math">\(c_j = \frac{x}{2^j}\)</span>, we then have
+<span class="math">\[\begin{equation*}
+\int_0^1 \exp \left(ix\sum_{j=1}^n \frac{r_j(t)}{2^j}\right)
+= \prod_{j=1}^n \cos \left(\frac{x}{2^j}\right).
+\end{equation*}\]</span>
+If we let <span class="math">\(n \to \infty\)</span>, using <span class="math">\(\eqref{20170623-2}\)</span>,
+<span class="math">\[\begin{equation*}
+\int_0^1 e^{ix (1-2t)}
+= \prod_{n=1}^\infty \cos \left(\frac{x}{2^n}\right).
+\end{equation*}\]</span>
+Now the left hand side can be easily evaluate to be <span class="math">\(\frac{\sin x}{x}\)</span>, which then concludes the theorem.
+<span class='qed'><span class="math">\(\square\)</span></span></p>
+
+<p>The proof using Rademacher function is rather involved. However, <span class="math">\(\eqref{20170623-3}\)</span> alone makes it worth the effort. The next application of Rademacher functions seems to me a little bit overkill.</p>
+
+<div class='qbox' >
+<a name='thm4'><strong>Theorem 4.</strong></a> Let <span class="math">\(n \in \N\)</span> and <span class="math">\(0 \le l \le n\)</span>. If we toss a coin <span class="math">\(n\)</span> times, then the probability that we get <span class="math">\(l\)</span> heads is <span class="math">\(\frac{1}{2^n}{n \choose l}\)</span>.
+</div>
+
+<p><em>Proof.</em> Well, this is immediate from basic combinatorics. For the sake of application, we can prove it using Rademacher functions. I will only sketch the idea to the proof.</p>
+
+<p>In the proof of <a href="#thm3">Theorem 3</a>, we have known that there is a bijection between <span class="math">\(\Delta_n = \{-1, 1\}^n\)</span> and
+<span class="math">\[\left\{\left[\frac{k}{2^n}, \frac{k+1}{2^n}\right): k=0, \cdots, 2^n-1\right\}.\]</span>
+So the outcome space of tossing coins can now identify with a collection of intervals with equal length. This gives the possibility to interpret the problem in terms of Rademacher functions. For a <span class="math">\(t \in [0, 1]\)</span>, it prescribes one outcome of tossing coins: if <span class="math">\(r_j(t)\)</span> is <span class="math">\(1\)</span> then <span class="math">\(j\)</span>-th toss gives a head, otherwise, if <span class="math">\(r_j(t)=-1\)</span> then <span class="math">\(j\)</span>-th toss gives a tail. Then that <span class="math">\(l\)</span> heads appear in <span class="math">\(n\)</span> tosses is amount to say
+<span class="math">\[\sum_{j=1}^n r_j(t) = l - (n-l) = 2l - n.\]</span>
+If we define
+<span class="math">\[\phi(t) = \frac{1}{\pi}\int_0^{2\pi}e^{ix\left(\sum_{j=0}^{n}r_j(t)-(2l-n)\right)}\,dx,\]</span>
+then the wanted probability can be calculated by
+<span class="math">\[\begin{equation}
+\int_0^1 \phi(t) \, dt.
+\label{20170623-4}
+\end{equation}\]</span></p>
+
+<p>This is because <span class="math">\(\phi(t)=1\)</span> if and only if <span class="math">\(\sum_{j=1}^n r_j(t) = 2l - n\)</span> and <span class="math">\(0\)</span> otherwise. Unfold <span class="math">\(\eqref{20170623-4}\)</span> with a somewhat lengthy but easy calculation, we get the desired result.
+<span class='qed'><span class="math">\(\square\)</span></span></p>
+
+<p>On the writing of the post, I found a <a href="http://individual.utoronto.ca/jordanbell/notes/rademacher.pdf">note</a> by <a href="http://individual.utoronto.ca/jordanbell/">Jordan Bell</a> on Rademacher functions. The talk today followed this note very closely. And the note also contains more applications which are interesting.</p>
+
+        <div class="tags">
+        <a href="/tag/what-is">what is</a>
+        <a href="/tag/note">note</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20170622-rademacher-functions/';
+    var disqus_title = 'Rademacher functions';
+    var disqus_url = 'https://wormtooth.com/20170622-rademacher-functions/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

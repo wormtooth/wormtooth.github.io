@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+简单的python爬虫 | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">简单的python爬虫</h1>
+    <div class="post-meta">Sep 12, 2017
+    <span> | </span> <span>Programming</span>
+    </div>
+    <a data-disqus-identifier="20170912-simple-python-crawler/" href="/20170912-simple-python-crawler/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>一个网络爬虫大致可以分成三个部分：获取网页，提取信息以及保存信息。Python有很多爬虫框架，其中最出名要数<a href="https://scrapy.org/">Scrapy</a>了。这也是我唯一用过的Python爬虫框架，用起来很省心。让我苦恼的是，<a href="https://scrapy.org/">Scrapy</a>在我的Raspberry Pi Zero W安装起来很麻烦，而且我觉得我爬取的网页比较容易处理，没有必要用这么重量级的框架。抱着学习的心态，我开始自己造轮子了。</p>
+<p>在造轮子之前我找到些轻量级的框架，<a href="https://github.com/iogf/sukhoi">Sukhoi</a>是我比较喜欢的一个。该库作者<a href="https://github.com/iogf">iogf</a>使用了自己的异步库、网络库来写这个框架。这让我很佩服他。我写的框架受到了<a href="https://github.com/iogf/sukhoi">Sukhoi</a>很大的启发与影响。</p>
+<!--more-->
+
+<p>下面的代码可以在<a href="https://ipython.org/">IPython</a>中依次执行。Python版本2和3都应该没有问题。这些代码也可以在<a href="https://github.com/wormtooth/miner">github</a>找到。</p>
+<h3>基本框架</h3>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">lxml.html</span> <span class="kn">as</span> <span class="nn">xhtml</span>
+</pre></div>
+
+
+<p><a href="http://docs.python-requests.org/en/master/">requests</a>用来获取网页，而<a href="http://lxml.de/">lxml</a>则用来提取信息。</p>
+<div class="highlight"><pre><span></span><span class="n">HEADERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="s2">&quot;Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0)&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#39;</span><span class="p">}</span>
+
+
+<span class="k">class</span> <span class="nc">Miner</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span>
+                 <span class="n">headers</span><span class="o">=</span><span class="n">HEADERS</span><span class="p">,</span>
+                 <span class="n">method</span><span class="o">=</span><span class="s1">&#39;get&#39;</span><span class="p">,</span>
+                 <span class="n">payload</span><span class="o">=</span><span class="p">{},</span>
+                 <span class="n">cookies</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="n">method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">payload</span> <span class="o">=</span> <span class="n">payload</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cookies</span> <span class="o">=</span> <span class="n">cookies</span>
+        <span class="nb">super</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fetch</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dom</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+        <span class="n">dom</span> <span class="o">=</span> <span class="n">xhtml</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">dom</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;get&#39;</span><span class="p">:</span>
+            <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+                               <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+                               <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cookies</span><span class="p">,</span>
+                               <span class="n">params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+                                <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+                                <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cookies</span><span class="p">,</span>
+                                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span>
+        <span class="n">req</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+</pre></div>
+
+
+<p><code>Miner</code>是这个框架的核心部分。它继承<code>list</code>，所以可以作为容器存储提取的信息。<code>Miner</code>的逻辑很简单：首先是<code>fetch</code>方法获取网页，然后调用<code>build</code>方法将获取的网页变成一个<code>lxml.html.HtmlElement</code>实例<code>dom</code>，最后调用<code>parse</code>方法提取信息。<code>Miner.parse</code>是没有实现的，使用这个框架的最简单的办法就是继承并重载<code>Miner.parse</code>。</p>
+<p>这个简单的框架包含了爬虫最重要的三个部分：用<code>requests</code>获取网页，用<code>lxml</code>提取信息，用<code>list</code>保存信息。因为<code>Miner</code>逻辑比较简单，所以扩展起来也很容易。如果抓取的网页需要验证，那么重载<code>Miner.fetch</code>；如果想用其他方法提取网页信息，那么重载<code>Miner.build</code>；如果想存在数据库里，那么只要在重载<code>Miner.parse</code>时处理就行。</p>
+<h3>测试</h3>
+<p>下面让我们尝试用这个简单的框架抓取一些<a href="http://quotes.toscrape.com/">Quotes</a>。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">QuoteMiner</span><span class="p">(</span><span class="n">Miner</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dom</span><span class="p">):</span>
+        <span class="n">texts</span> <span class="o">=</span> <span class="n">dom</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//div[@class=&quot;quote&quot;]//span[@class=&quot;text&quot;]/text()&#39;</span><span class="p">)</span>
+        <span class="n">authors</span> <span class="o">=</span> <span class="n">dom</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//div[@class=&quot;quote&quot;]//small/text()&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">author</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">authors</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;author&#39;</span><span class="p">:</span> <span class="n">author</span><span class="p">,</span>
+                <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="p">})</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://quotes.toscrape.com/&#39;</span>
+<span class="n">quotes</span> <span class="o">=</span> <span class="n">QuoteMiner</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">quotes</span>
+</pre></div>
+
+
+<p><code>QuoteMiner</code>抓取了<a href="http://quotes.toscrape.com/">Quotes</a>页面所有名言的作者与内容。<code>quotes</code>的值为</p>
+<pre>
+[{'author': 'Albert Einstein',
+  'text': u'The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.'},
+...
+ {'author': 'Steve Martin',
+  'text': u'A day without sunshine is like, you know, night.'}]
+</pre>
+
+<h3>多线程</h3>
+<p><a href="http://docs.python-requests.org/en/master/">requests</a>是一个阻塞式的网络库，所以在处理很多网页的时候速度会很慢。影响速度的最大因素是获取网页时的等待。这种io密集型的任务，最适合的就是使用多线程了。还是<a href="http://quotes.toscrape.com/">Quotes</a>这个网站为例，但是这次我们要抓取所有的名言：</p>
+<div class="highlight"><pre><span></span><span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;http://quotes.toscrape.com/page/{}/&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)]</span>
+</pre></div>
+
+
+<p>在这种情况下，最适合的多线程库是Python的标准库<code>multiprocessing</code>：</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">multiprocessing.dummy</span> <span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">get_quotes</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">QuoteMiner</span><span class="p">,</span> <span class="n">urls</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">end</span><span class="o">-</span><span class="n">start</span>
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;{} thread(s): {}s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">get_quotes</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+</pre></div>
+
+
+<p>下面是在iMac(i5, 8G)的运行结果：</p>
+<pre>
+1 thread(s): 2.82291603088s
+5 thread(s): 0.505815029144s
+10 thread(s): 0.29133105278s
+</pre>
+
+<p>可以看出，5个线程用的时间大概是1个进程的1/5，而10个进程用的时间大概是1个进程的1/10。因为<code>urls</code>中只有10个链接，所以多于10个进程并不会让程序更快。</p>
+<p>在我的Raspberry Pi Zero W上执行以上测试，我得到的结果是</p>
+<pre>
+1 thread(s): 3.24732995033s
+5 thread(s): 1.0491271019s
+10 thread(s): 0.768465995789s
+</pre>
+
+<p>Raspberry Pi Zero W的配置低，所以使用进程并没有预想中那么快。事实上，在线程数量超出一定数量之后（跟电脑配置以及任务数量有关），程序的运行时间基本趋于稳定。</p>
+<h3>BeautifulSoup</h3>
+<p>接下来我们展示怎样将<a href="http://lxml.de/">lxml</a>换成<a href="https://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a>。</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="k">class</span> <span class="nc">SoupMiner</span><span class="p">(</span><span class="n">Miner</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+        <span class="n">dom</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">dom</span><span class="p">)</span>
+</pre></div>
+
+
+<p><code>SoupMiner</code>重载了<code>Miner.build</code>方法，以使用<a href="https://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a>。你会发现<code>SoupMiner.build</code>和<code>Miner.build</code>只相差了一行代码。现在使用<code>SoupMiner</code>来抓取<a href="http://quotes.toscrape.com/">Quotes</a>。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">QuoteSoup</span><span class="p">(</span><span class="n">SoupMiner</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dom</span><span class="p">):</span>
+        <span class="n">quotes</span> <span class="o">=</span> <span class="n">dom</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s1">&#39;quote&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">quote</span> <span class="ow">in</span> <span class="n">quotes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">quote</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">()[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                <span class="s1">&#39;author&#39;</span><span class="p">:</span> <span class="n">quote</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;small&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span> 
+            <span class="p">})</span>
+
+<span class="n">quotes</span> <span class="o">=</span> <span class="n">QuoteSoup</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">quotes</span>
+</pre></div>
+
+
+<p>执行结果：</p>
+<pre>
+[{'author': 'Albert Einstein',
+  'text': u'The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.'},
+...
+ {'author': 'Steve Martin',
+  'text': u'A day without sunshine is like, you know, night.'}]
+</pre>
+
+<h3>数据库</h3>
+<p>常用的数据库关系库有<a href="https://www.sqlalchemy.org/">SQLAlchemy</a>与<a href="http://docs.peewee-orm.com/en/latest/">peewee</a>，但对于小的项目我更喜欢<a href="https://ponyorm.com/">Pony</a>。我以<a href="https://ponyorm.com/">Pony</a>为例子，展示如何将获取的信息存到一个数据库里。</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pony.orm</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span><span class="s2">&quot;sqlite&quot;</span><span class="p">,</span> <span class="s2">&quot;:memory:&quot;</span><span class="p">,</span> <span class="n">create_db</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Quote</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Entity</span><span class="p">):</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">PrimaryKey</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">auto</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="n">Required</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">Required</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="n">db</span><span class="o">.</span><span class="n">generate_mapping</span><span class="p">(</span><span class="n">create_tables</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="nd">@db_session</span>
+<span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">Quote</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+
+<p>上面代码在内存中创建了一个数据库<code>db</code>，然后将<code>Quote</code>类关联到此数据库上的一张名为Quote的表。这个数据表有三个关键字：<code>id</code>, <code>author</code>和<code>text</code>。其中<code>id</code>是自动生成的主键，<code>author</code>和<code>text</code>是抓取的信息。现在我们只要稍微修改刚才的<code>QuoteMiner</code>就成了一个使用数据库的<code>PonyQuote</code>：</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PonyQuote</span><span class="p">(</span><span class="n">Miner</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dom</span><span class="p">):</span>
+        <span class="n">texts</span> <span class="o">=</span> <span class="n">dom</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//div[@class=&quot;quote&quot;]//span[@class=&quot;text&quot;]/text()&#39;</span><span class="p">)</span>
+        <span class="n">authors</span> <span class="o">=</span> <span class="n">dom</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s1">&#39;//div[@class=&quot;quote&quot;]//small/text()&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">author</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">authors</span><span class="p">):</span>
+            <span class="n">save</span><span class="p">({</span>
+                <span class="s1">&#39;author&#39;</span><span class="p">:</span> <span class="n">author</span><span class="p">,</span>
+                <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="p">})</span>
+
+<span class="n">PonyQuote</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">db_session</span><span class="p">:</span>
+    <span class="n">quote_einstein</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">Quote</span> <span class="k">if</span> <span class="s1">&#39;Einstein&#39;</span> <span class="ow">in</span> <span class="n">q</span><span class="o">.</span><span class="n">author</span><span class="p">)[:]</span>
+</pre></div>
+
+
+<p><code>quote_einstein</code>查询了数据库中所有Einstein的名言，其值为：</p>
+<pre>
+[u'The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.',
+ u'There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.',
+ u'Try not to become a man of success. Rather become a man of value.']
+</pre>
+
+        <div class="tags">
+        <a href="/tag/wang-luo-pa-chong">网络爬虫</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20170912-simple-python-crawler/';
+    var disqus_title = '简单的python爬虫';
+    var disqus_url = 'https://wormtooth.com/20170912-simple-python-crawler/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

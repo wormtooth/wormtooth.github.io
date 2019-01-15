@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Support Vector Machine | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Support Vector Machine</h1>
+    <div class="post-meta">Oct 08, 2017
+    <span> | </span> <span>Machine Learning</span>
+    </div>
+    <a data-disqus-identifier="20171008-support-vector-machine/" href="/20171008-support-vector-machine/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This article is my notes on support vector machine for Lecture 7 and 8 of <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">Machine Learning</a> by Andrew Ng.</p>
+<h2>Intuition</h2>
+<p>In a binary classification problem, we can use logistic regression<br>
+</p>
+<div class="math">$$h_\theta(x) = \frac{1}{1+e^{-\theta^T x}} = g(\theta^T x),$$</div>
+<p><br>
+where <span class="math">\(g\)</span> is the sigmoid function with a figure of it below.</p>
+<pre><matplotlib.figure.Figure at 0x10b5a5250></pre>
+
+<p><img src="data:image/png;base64,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
+"/></p>
+<p>Then given input <span class="math">\(x\)</span>, the model predicts <span class="math">\(1\)</span> if and only if <span class="math">\(\theta^x \ge 0\)</span>, in which case <span class="math">\(h_\theta(x) = g(\theta^T x) \ge 0.5\)</span>; and it predicts <span class="math">\(0\)</span> if and only if <span class="math">\(\theta^T x &lt; 0\)</span>. Moreover, based on the shape of sigmoid function, if <span class="math">\(\theta^T x &gt;&gt; 0\)</span>, we are very confident that <span class="math">\(y=1\)</span>. Likewise, if <span class="math">\(\theta^T x &lt;&lt; 0\)</span>, we are very confident that <span class="math">\(y=0\)</span>. Therefore, we hope that for the training set <span class="math">\(\{(x^{(i)}, y^{(i)})\}_{i=1}^m\)</span>, we can find such a <span class="math">\(\theta\)</span> that <span class="math">\(\theta^T x^{(i)} &gt;&gt; 0\)</span> if <span class="math">\(y^{(i)}=1\)</span> and <span class="math">\(\theta^T x^{(i)} &lt;&lt; 0\)</span> if <span class="math">\(y^{(i)}=0\)</span>.</p>
+<!--more-->
+
+<p>We can illustrate the idea using the figure below. Suppose we want to draw a line to separate the red dots and blue crosses. Then three lines in the figure serve this purpose.</p>
+<pre><matplotlib.figure.Figure at 0x104c17a90></pre>
+
+<p><img src="data:image/png;base64,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
+cyWGkT0UAAAAAElFTkSuQmCC
+"/></p>
+<p>However, the bold green line is considered the best among these three lines since it is far away from both sides of data. This green line will meet our hope. With this intuition in mind, support vector machine is a model to find the bold green "line" for a classification problem.</p>
+<h2>Margins</h2>
+<p>For now, we assume that the training set is <em>linearly</em> separable. Instead of <span class="math">\(\{0, 1\}\)</span>, we assume that <span class="math">\(y\)</span> is valued in <span class="math">\(\{\pm 1\}\)</span>, so the learning algorithm <span class="math">\(h\)</span> should output <span class="math">\(1\)</span> or <span class="math">\(-1\)</span> based on the input features <span class="math">\(x\)</span>. We define a step function in place of sigmoid function:<br>
+</p>
+<div class="math">$$\begin{equation}
+g(z) = \left\{
+\begin{array}{ll}
+1 &amp; \text{ if } z \ge 0 \\
+-1 &amp; \text{ otherwise.}
+\end{array}
+\right.
+\label{eqn:step}
+\end{equation}$$</div>
+<p><br>
+Suppose features <span class="math">\(x \in \mathbb{R}^n\)</span>, since we assume the training set to be linearly separable, the learning algorithm takes the form<br>
+</p>
+<div class="math">$$\begin{equation}
+h_{w, b}(x) = g(w^T x + b),
+\label{eqn:hypo}
+\end{equation}$$</div>
+<p><br>
+where <span class="math">\(w \in \mathbb{R}^n\)</span> and <span class="math">\(b \in \mathbb{R}\)</span> is the parameters.</p>
+<p>In logistic regression, we find the parameters via maximum likelihood estimate. However, in support vector machines, we want to reflect the intuition above to find a hyperplane determined by <span class="math">\((w, b)\)</span> which is "far away" from both sides of the training data. To formulate this intuition precisely, we need a notion of margin.</p>
+<div class="qbar">
+<p><a name="fmargin"><strong>Definition 1.</strong></a> The <em>functional margin</em> of a hyperplane $(w, b)$ with respect to a training sample $(x^{(i)}, y^{(i)})$ is
+$$\hat{\gamma}^{(i)} = y^{(i)}(w^T x^{(i)}+b).$$</p>
+<p>The <em>function margin</em> of a hyperplane <span class="math">\((w, b)\)</span> with respect to the entire training set is<br>
+<div class="math">$$\hat{\gamma} = \min_i \hat{\gamma}^{(i)}.$$</div>
+</p>
+</div>
+<p><strong>Remark.</strong> (1) The hyperplane <span class="math">\((w, b)\)</span> in <span class="math">\(\mathbb{R}^n\)</span> is given by the equation <span class="math">\(w^T x + b = 0\)</span>. Since <span class="math">\(kw^T x + kb = 0\)</span> determines the same hyperplane for any <span class="math">\(k \in \mathbb{R}^\times\)</span>, the definition of functional margin depends not only on the position of the hyperplane, but also the parametrization of the hyperplane.</p>
+<p>(2) Suppose <span class="math">\(\hat{\gamma}^{(i)} &gt; 0\)</span>. If <span class="math">\(y^{(i)} = 1\)</span>, then <span class="math">\(w^T x^{(i)} + b &gt; 0\)</span>. By Equation (<span class="math">\(\ref{eqn:hypo}\)</span>), <span class="math">\(h_{w, b}(x^{(i)} = 1\)</span>. Similarly for the case <span class="math">\(y^{(i)} = -1\)</span>. That is to say, that <span class="math">\(\hat{\gamma}^{(i)} &gt; 0\)</span> means the i-th sample <span class="math">\((x^{(i)}, y^{(i)})\)</span> is classified correctly with respect to <span class="math">\((w, b)\)</span>.</p>
+<p>(3) The intuition section says, if <span class="math">\(y^{(i)} = 1\)</span>, we want <span class="math">\(w^T x^{(i)} + b &gt;&gt; 0\)</span>; if if <span class="math">\(y^{(i)} = -1\)</span>, we want <span class="math">\(w^T x^{(i)} + b &lt;&lt; 0\)</span>. That amounts to require <span class="math">\(\hat{\gamma}^{(i)} &gt;&gt; 0\)</span>. However, due to Remark (1), we can scale <span class="math">\(\hat{\gamma}^{(i)}\)</span> as much as we like, which is bad. To fix it, we introduce the following definition of geometric margins.</p>
+<div class="qbar">
+<p><a name="gmargin"><strong>Definition 2.</strong></a>
+The <em>geometric margin</em> of a hyperplane $(w, b)$ with respect to a training sample $(x^{(i)}, y^{(i)})$ is
+$$\gamma^{(i)} = y^{(i)}\left(\frac{w^T}{||w||} x^{(i)}+\frac{b}{||w||}\right).$$</p>
+<p>The <em>geometric margin</em> of a hyperplane <span class="math">\((w, b)\)</span> with respect to the entire training set is<br>
+<div class="math">$$\gamma = \min_i \gamma^{(i)}.$$</div>
+<br>
+Here, <span class="math">\(||w|| = \sqrt{&lt;w, w&gt;} = \sqrt{w^T w}\)</span> is the <span class="math">\(L^2\)</span> norm of <span class="math">\(w\)</span>.</p>
+</div>
+<p><strong>Remark.</strong> (1) <span class="math">\(\frac{w^T}{||w||} x^{(i)}+\frac{b}{||w||}\)</span> is signed distance from the sample point <span class="math">\((x^{(i)}, y^{(i)})\)</span> to its projection on the hyperplace <span class="math">\(w^T x + b = 0\)</span>. See the figure below. If <span class="math">\((x^{(i)}, y^{(i)})\)</span> is classified correctly, then <span class="math">\(\gamma^{(i)}\)</span> is positive and it is the distance from the sample point to its projection.</p>
+<pre><matplotlib.figure.Figure at 0x10cef5090></pre>
+
+<p><img src="data:image/png;base64,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
+2P8D+d7GkfH1fE4AAAAASUVORK5CYII=
+"/></p>
+<p>(2) Functional margins and geometric margins are related by<br>
+</p>
+<div class="math">$$\begin{equation}
+\gamma^{(i)} = \frac{\hat{\gamma}^{(i)}}{||w||}.
+\label{eqn:margins}
+\end{equation}$$</div>
+<h2>Maximum margin classifier</h2>
+<p>With the definitions of margins, we now are able to formulate the intuition precisely.</p>
+<h3>Form 1</h3>
+<div class="math">$$\max_{\gamma, w, b} \gamma,$$</div>
+<p><br>
+subject to <span class="math">\(y^{(i)}(w^T x^{(i)} + b) \ge \gamma\)</span> and <span class="math">\(||w||=1\)</span>.</p>
+<p>Since we require <span class="math">\(||w||=1\)</span>, functional margins and geometric margins are the same. In this form, the formulation means that the parameters <span class="math">\(w^T\)</span> and <span class="math">\(b\)</span> will maximize the worse case margins.</p>
+<p>The scaling condition <span class="math">\(||w||=1\)</span> can be replaced by any other similar conditions. For example, we can set <span class="math">\(|w_1| = 1\)</span> or something like <span class="math">\(w_1^2+w_2 = 17\)</span>, where <span class="math">\(w = (w_1, w_2, ..., w_n)^T\)</span>.</p>
+<h3>Form 2</h3>
+<div class="math">$$\max_{\hat{\gamma}, w, b} \frac{\hat{\gamma}}{||w||},$$</div>
+<p><br>
+such that <span class="math">\(\hat{\gamma}^{(i)} = y^{(i)}(w^Tx+b) \ge \hat{\gamma}\)</span>.</p>
+<p>According to Equation (<span class="math">\(\ref{eqn:margins}\)</span>), Form 2 is the same as Form 1, but removing the condition <span class="math">\(||w||=1\)</span>. These two forms are hard to optimize: Form 1 has a nonlinear boundary while Form 2 has a non-convex objective function.</p>
+<h3>Form 3</h3>
+<p>Since <span class="math">\(\hat{\gamma}\)</span> is scalable (see remark (1) of <a href="#fmargin">Definition 1</a>), we can then set <span class="math">\(\hat{\gamma}=1\)</span>. Then Form 2 can be transformed into</p>
+<div class="math">$$\begin{equation}
+\min_{w, b} \frac{1}{2} ||w||^2,
+\label{eqn:form3}
+\end{equation}$$</div>
+<p><br>
+subject to <span class="math">\(y^{(i)}(w^T x^{(i)}+b) \ge 1\)</span>.</p>
+<p>Form 3 has the advantages that the objective function is convex and the boundaries are linear. It is in this form that we will determine <span class="math">\(w\)</span> and <span class="math">\(b\)</span>.</p>
+<h2>Karush-Kuhn-Tucker conditions</h2>
+<p>We note that <span class="math">\(f(w, b) = \frac{1}{2}||w||^2\)</span> is a smooth function in <span class="math">\(w\)</span> and <span class="math">\(b\)</span>. If we set <br>
+</p>
+<div class="math">$$g_i(w, b) = 1 - y^{(i)}(w^T x^{(i)}+b),$$</div>
+<p><br>
+then <span class="math">\(g_i\)</span> are also smooth in <span class="math">\(w\)</span> and <span class="math">\(b\)</span>. Moreover, <span class="math">\(g_i(x)\)</span> are affine functions, so <a href="https://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions">Karush-Kuhn-Tuchker</a> can be applied without any other extra conditions. That is to say, if <span class="math">\(w^\ast\)</span> and <span class="math">\(b^\ast\)</span> is a local minimum for <span class="math">\(f\)</span>, then it is necessary that there exist <span class="math">\(\alpha_1, \dots, \alpha_m\)</span>, called the KKT multipliers, such that</p>
+<p><strong>Stationarity</strong><br>
+</p>
+<div class="math">$$\nabla f(w^\ast, b^\ast) + \sum_{i=1}^m \alpha_i \nabla g_i(w^\ast, b^\ast) = 0,$$</div>
+<p><br>
+where <span class="math">\(\nabla\)</span> is with respect to <span class="math">\(w\)</span> and <span class="math">\(b\)</span>.</p>
+<p><strong>Primal feasibility</strong></p>
+<p><span class="math">\(g_i(w^\ast, b^\ast) \le 0\)</span>, for <span class="math">\(i = 1, \dots, m\)</span>.</p>
+<p><strong>Dual feasibility</strong></p>
+<p><span class="math">\(\alpha_i \ge 0\)</span>, for <span class="math">\(i = 1, \dots, m\)</span>.</p>
+<p><strong>Complementary slackness</strong></p>
+<p><span class="math">\(\alpha_ig_i(w^\ast, b^\ast) = 0\)</span>, for <span class="math">\(i = 1, \dots, m\)</span>.</p>
+<p>Since the objective function <span class="math">\(f\)</span> is a nice quadratic function, the local minimum is indeed the absolute minimum.</p>
+<p>We will say <span class="math">\(g_i\)</span> is a <em>active</em> constraint if <span class="math">\(g_i(w^\ast, b^\ast) = 0\)</span>. By <strong>Complementary slackness</strong>, if <span class="math">\(\alpha_i &gt; 0\)</span>, then <span class="math">\(g_i(w^\ast, b^\ast) = 0\)</span>.</p>
+<p><span class="math">\(g_i\)</span> is active amounts to <span class="math">\(y^{(i)}((w\ast)^T x^{(i)}+b^\ast)=1\)</span> by definition of <span class="math">\(g_i\)</span>. It is the same as the functional margin of <span class="math">\((x^{(i)}, y^{(i)})\)</span> with respect to the hyperplane <span class="math">\((w^\ast, b^\ast)\)</span> is <span class="math">\(1\)</span>. These special and important sample points <span class="math">\((x^{(i)}, y^{(i)})\)</span> where <span class="math">\(g_i\)</span> is active are called <em>suppoert vectors</em>.</p>
+<p>If we write <span class="math">\(w = (w_1, \dots, w_n) \in \mathbb{R}^n\)</span> and <span class="math">\(x^{(i)} = (x^{(i)}_1, \dots, x^{(i)}_n)\)</span>, then we can expand <span class="math">\(f\)</span> to be<br>
+</p>
+<div class="math">$$f(w, b) = \frac{1}{2}||w||^2 = \frac{1}{2}(w_1^2+\cdots+w_n^2),$$</div>
+<p><br>
+and <span class="math">\(g_i\)</span> to be<br>
+</p>
+<div class="math">$$g_i(w, b) = 1 - y^{(i)}(w_1x^{(i)}_1+\cdots+w_nx^{(i)}_n+b).$$</div>
+<p><br>
+Then,<br>
+</p>
+<div class="math">$$\begin{array}{ll}
+\frac{\partial f}{\partial w_j} = w_j &amp; \frac{\partial f}{\partial 0} = 0 \\
+\frac{\partial g_i}{\partial w_j} = -y^{(i)}x^{(i)}_j &amp; \frac{\partial g_i}{\partial b} = -y^{(i)}
+\end{array}$$</div>
+<p>Therefore, <strong>Stationarity</strong> becomes<br>
+</p>
+<div class="math">$$\begin{equation}
+w = \sum_{i=1}^m \alpha_i y^{(i)} x^{(i)} \text{ and } \sum_{i=1}^m \alpha_i y^{(i)} = 0.
+\label{eqn:station}
+\end{equation}$$</div>
+<h2>Primal problem and its dual</h2>
+<p>The Lagragian of the optimization problem in Form 3 is<br>
+</p>
+<div class="math">$$\begin{equation}
+\begin{split}
+L(w, b, \alpha) &amp;= f(w, b) + \sum_{i=1}^m \alpha_i g_i(w, b) \\
+&amp;= \frac{1}{2}||w||^2 + \sum_{i=1}^{m} \alpha_i(1-y^{(i)}(w^T x^{(i)}+b))
+\end{split}
+\label{eqn:lagragian}
+\end{equation}$$</div>
+<p>The primal problem attached to Form 3<br>
+</p>
+<div class="math">$$\min_{w, b} \Theta_P(w, b),$$</div>
+<p><br>
+where<br>
+</p>
+<div class="math">$$\Theta_P(w, b) = \max_{\alpha, \alpha_i \ge 0} L(w, b, \alpha)$$</div>
+<p><br>
+is an equivalent form of Form 3. This is because an observation that<br>
+</p>
+<div class="math">$$\Theta_P(w, b) = \left\{\begin{array}{ll}
+\frac{1}{2}||w||^2 &amp; \text{ if } g_i(w, b) \le 0 \\
+\infty &amp; \text{ otherwise.}
+\end{array}\right.$$</div>
+<p>The dual problem of this primal problem is<br>
+</p>
+<div class="math">$$\max_{\alpha, \alpha_i \ge 0} \Theta_D(\alpha),$$</div>
+<p><br>
+where<br>
+</p>
+<div class="math">$$\Theta_D(\alpha) = \min_{w, b} L(w, b, \alpha).$$</div>
+<p><br>
+In general, </p>
+<div class="math">$$\max_{\alpha, \alpha_i \ge 0} \Theta_D(\alpha) \le \min_{w, b} \Theta_P(w, b).$$</div>
+<p><br>
+If we assume <span class="math">\(g_i\)</span> are <em>strictly</em> feasible, i.e., there exist <span class="math">\(w\)</span> and <span class="math">\(b\)</span> such that <span class="math">\(g_i(w, b) &lt; 0\)</span> for all <span class="math">\(i=1, \dots, m\)</span>, then <span class="math">\(\max_{\alpha, \alpha_i \ge 0} \Theta_D(\alpha) = \min_{w, b} \Theta_P(w, b)\)</span> because <span class="math">\(f(w, b)\)</span> is convex. Since the primal problem is the same as the original problem in Form 3, <span class="math">\(w, b\)</span> and <span class="math">\(\alpha_i\)</span> satisfying Karush-Kuhn-Tucker(KKT) conditions above solve the primal problem, and therefore solve the dual problem also.</p>
+<p>Suppose <span class="math">\(w, b\)</span> and <span class="math">\(\alpha_i\)</span> satisfy KKT condition for the optimization problem in Form 3, then Equations <span class="math">\((\ref{eqn:station})\)</span> hold. Put them into <span class="math">\((\ref{eqn:lagragian})\)</span>,<br>
+</p>
+<div class="math">$$\begin{split}
+L(w, b, \alpha) &amp;= \frac{1}{2}&lt;w, w&gt; + \sum_{i=1}^{m} \alpha_i(1-y^{(i)}(&lt;w, x^{(i)}&gt;+b)) \\
+&amp;= \frac{1}{2} &lt;\sum_{i=1}^m \alpha_i y^{(i)} x^{(i)}, \sum_{j=1}^m \alpha_j y^{(j)} x^{(j)}&gt; +
+\sum_{i=1}^{m} \alpha_i(1-y^{(i)}(&lt;\sum_{j=1}^m \alpha_j y^{(j)} x^{(j)}, x^{(i)}&gt;+b)) \\
+&amp;= \sum_{i=1}\alpha_i - \frac{1}{2}y^{(i)}y^{(j)}&lt;x^{(i)}, x^{(j)}&gt;\alpha_i\alpha_j - b\sum_{i=1}^m \alpha_iy^{(i)} \\
+&amp;= \sum_{i=1}\alpha_i - \frac{1}{2}\sum_{i=1}^m \sum_{j=1}^m y^{(i)}y^{(j)}&lt;x^{(i)}, x^{(j)}&gt;\alpha_i\alpha_j
+\end{split}$$</div>
+<p><br>
+If we set<br>
+</p>
+<div class="math">$$\begin{equation}
+W(\alpha) = \sum_{i=1}\alpha_i - \frac{1}{2}\sum_{i=1}^m \sum_{j=1}^m y^{(i)}y^{(j)}&lt;x^{(i)}, x^{(j)}&gt;\alpha_i\alpha_j,
+\label{eqn:dual}
+\end{equation}$$</div>
+<p><br>
+then the dual problem is equivalent to<br>
+</p>
+<div class="math">$$\max_{\alpha} W(\alpha),$$</div>
+<p><br>
+subject to <span class="math">\(\alpha_i \ge 0\)</span> and <span class="math">\(\sum_{i=1}^m y^{(i)}\alpha_i = 0\)</span>.</p>
+<p>If we can solve for <span class="math">\(\alpha\)</span> from this dual problem, then by part of Equation (<span class="math">\(\ref{eqn:station}\)</span>), we can calculate <span class="math">\(w\)</span>:<br>
+</p>
+<div class="math">$$w = \sum_{i=1}^m \alpha_i y^{(i)} x^{(i)}.$$</div>
+<p><br>
+And <span class="math">\(b\)</span> is calculated by<br>
+</p>
+<div class="math">$$b = -\frac{\max_{i, y^{(i)}=-1}&lt;w, x^{(i)}&gt;+\min_{i, y^{(i)}=1} &lt;w,x^{(i)}&gt;}{2}.$$</div>
+<p><br>
+Therefore, we get the model:<br>
+</p>
+<div class="math">$$\begin{split}
+h_{w, b}(x) &amp;= g(w^Tx+b) \\
+&amp;= g\left(\sum_{i=1}^m \alpha_i y^{(i)}&lt;x^{(i)}, x&gt;+b)\right)
+\end{split},$$</div>
+<p><br>
+with <span class="math">\(g\)</span> being defined in Equation (<span class="math">\(\ref{eqn:step}\)</span>).</p>
+<h2>Kernel</h2>
+<p>The key of SVM is to maximize <span class="math">\(W(\alpha)\)</span> in Equation (<span class="math">\(\ref{eqn:dual}\)</span>), which we will discuss later. But we note that the function <span class="math">\(W(\alpha)\)</span> only use <span class="math">\(x^{(i)}\)</span>'s in inner products. We can replace inner product <span class="math">\(&lt;x^{(i)}, x^{(j)}&gt;\)</span> with some reasonable function <span class="math">\(K(x^{(i)}, x^{(j)})\)</span> without changing the algorithm. </p>
+<div class="qbar">
+<p><a name="kernel"><strong>Definition.</strong></a> A continuous function <span class="math">\(K: \mathbb{R}^n \times \mathbb{R}^n \to \mathbb{R}\)</span> is a <em>Mercer kernel</em> if there exists a continuous function <span class="math">\(\phi: \mathbb{R}^n \to V\)</span> for some real vector space <span class="math">\(V\)</span> such that<br>
+<div class="math">$$K(x, y) = &lt;\phi(x), \phi(y)&gt;,$$</div>
+</p>
+</div>
+<p>where <span class="math">\(&lt;,&gt;\)</span> is a inner product in <span class="math">\(V\)</span>.</p>
+<p><strong>Remark.</strong> Under the hood, Mercer kernel is still a inner product. So if we replace the inner products by a Mercer kernel, what it does is to replace the original features <span class="math">\(x\)</span> by the new features <span class="math">\(\phi(x)\)</span>. Usually, it is more inexpensive to calculate <span class="math">\(K(x, y)\)</span> than to calculate <span class="math">\(&lt;\phi(x), \phi(y)&gt;\)</span> directly. There might be some cases where <span class="math">\(V\)</span> is infinite dimension while <span class="math">\(K(x, y)\)</span> is still feasible for calculation.</p>
+<p><strong>Example 1.</strong> Let <span class="math">\(x, y \in \mathbb{R}^n\)</span>, consider<br>
+</p>
+<div class="math">$$K(x, y) = (&lt;x, y&gt;)^2.$$</div>
+<p><br>
+Then<br>
+</p>
+<div class="math">$$\begin{split}
+K(x, y) &amp;= (&lt;x, y&gt;)^2 = \left(\sum_{i=1}^nx_iy_i\right)\left(\sum_{j=1}^nx_jy_j\right) \\
+&amp;= \sum_{i, j}(x_ix_j)(y_iy_j) = &lt;\phi(x), \phi(y)&gt;,
+\end{split}$$</div>
+<p><br>
+where <span class="math">\(\phi: \mathbb{R}^n \to \mathbb{R}^{n^2}\)</span> is<br>
+</p>
+<div class="math">$$\phi(x) = (x_1x_1, \dots, x_ix_j, \dots, x_nx_n).$$</div>
+<p>In this example, it takes <span class="math">\(O(n)\)</span> to calculate <span class="math">\(K(x, y)\)</span> while it takes <span class="math">\(O(n^2)\)</span> to calculate <span class="math">\(&lt;\phi(x), \phi(y)&gt;\)</span>.</p>
+<p>Similarly, for any integer <span class="math">\(d \ge 1\)</span>, we can define a Mercer kernel<br>
+</p>
+<div class="math">$$K(x, y) = (&lt;x, y&gt;)^d.$$</div>
+<p><strong>Example 2.</strong> Let <span class="math">\(x, y \in \mathbb{R}^n\)</span>, define for a constant <span class="math">\(c\)</span><br>
+</p>
+<div class="math">$$K(x, y) = (&lt;x, y&gt;+c)^2.$$</div>
+<p><br>
+<span class="math">\(K\)</span> is still a Mercer kernel, with <span class="math">\(\phi\)</span> being<br>
+</p>
+<div class="math">$$\phi(x) = (x_1x_1, \dots, x_nx_n, \sqrt{2c}x_1, \dots, \sqrt{2c}x_n, c).$$</div>
+<p><br>
+Therefore, by using <span class="math">\(K(x, y)\)</span> in SVM, we use quadratic polynomials implicitly instead of linear functions. To generalize this, we can define for <span class="math">\(d \ge 1\)</span><br>
+</p>
+<div class="math">$$K(x, y) = (&lt;x, y&gt;+c)^d.$$</div>
+<p><strong>Example 3.</strong> <span class="math">\(\displaystyle K(x, y) = \exp\left(-\frac{||x-y||^2}{2\sigma^2}\right)\)</span> for any <span class="math">\(\sigma \ne 0\)</span> is a Mercer kernel.</p>
+<p>We don't have the tools to prove this is a Mercer kernel. To prove this, we need to construct Mercer kernels out of some given Mercer kernels. For example, we need that the product of two Mercer kernels is still a Mercer kernel, among other things.</p>
+<p>Suppose <span class="math">\(K(x, y)\)</span> is a Mercer kernel, and <span class="math">\(\phi\)</span> is the attched function. Then for any set of points <span class="math">\(\{x^{(1)}, \dots, x^{m}\}\)</span>, we define a <span class="math">\(m \times m\)</span> matrix <span class="math">\(K\)</span> where<br>
+</p>
+<div class="math">$$K_{ij} = K(x^{(i)}, x^{(j)}) = &lt;\phi(x^{(i)}), \phi(x^{(j)})&gt;.$$</div>
+<p><br>
+For any <span class="math">\(z \in \mathbb{R}^m\)</span>, <br>
+</p>
+<div class="math">$$\begin{split}
+z^T K z &amp;= \sum_{i, j}z_iK_{ij}z_j \\
+&amp;= \sum_{i, j}z_iz_j&lt;\phi(x^{(i)}), \phi(x^{(j)})&gt; \\
+&amp;= &lt;\sum_i z_i\phi(x^{(i)}), \sum_j z_j\phi(x^{(j)})&gt; \\
+&amp;= ||\sum_i z_i \phi(x^{(i)})||^2 \ge 0.
+\end{split}$$</div>
+<p><br>
+Therefore, the matrix <span class="math">\(K\)</span> is semi-positive definite. This necessary condition actually characterizes Mercer kernels.</p>
+<div class="qbox">
+<p><a name="mercer"><strong>Theorem (Mercer).</strong></a> Let <span class="math">\(K: \mathbb{R}^n \times \mathbb{R}^n \to \mathbb{R}\)</span> be a symmetric function. Then <span class="math">\(K(x, y)\)</span> is a Mercer kernel if and only if for any set of points <span class="math">\(\{x^{(1)}, \dots, x^{(m)}\}\)</span>, the corresponding <span class="math">\(m \times m\)</span> matrix is semi-positive definite.</p>
+</div>
+<p>The idea of kernel is to map the original features/inputs into a higher dimensional (possibly infinite dimensional) feature space where we can separate classes using affine hyperplanes. The kernel trick is not only applied to SVM, but also be used in any algorithm involing inner product.</p>
+<h2><span class="math">\(L_1\)</span> norm soft margin SVM</h2>
+<p>Don't forget that the model given by the optimization problem (<span class="math">\(\ref{eqn:form3}\)</span>) has a very strong assumption: the data are <em>linearly</em> separable. Even the data can be linearly separable, it might be a bad idea to do that, since it might be overfitting. To solve this problem, we relex the model, using the following optimization problem:</p>
+<div class="math">$$\min_{w, b, \xi} \frac{1}{2}||w||^2 + c\sum_{i=1}^m \xi_i,$$</div>
+<p><br>
+subject to <span class="math">\(y^{(i)}(w^Tx^{(i)}+b) \ge 1 - \xi_i\)</span> and <span class="math">\(\xi_i \ge 0\)</span> for <span class="math">\(i=1, \dots, m\)</span>, where <span class="math">\(c\)</span> is some fixed constant.</p>
+<p>By introducing the parameters <span class="math">\(\xi_i\)</span>, we allow the model to be error tolerent: If <span class="math">\(y^{(i)}(w^Tx^{(i)}+b) &gt; 0\)</span>, then the model classifies <span class="math">\((x^{(i)}, y^{(i)})\)</span> correctly. Without <span class="math">\(\xi_i\)</span>, <span class="math">\(y^{(i)}(w^Tx^{(i)}+b) \ge 1\)</span> requires the model to classify every point correctly. But in the new optimization problem, <span class="math">\(\xi_i &gt; 1\)</span> allows <span class="math">\(y^{(i)}(w^Tx^{(i)}+b)\)</span> to be negative, meaning that the model accepts errors. Adding <span class="math">\(\xi_i\)</span> to the objective function is the reflection of penalty of classifying it incorrectly.</p>
+<p>Let <span class="math">\(g_i(w, b, \xi) = 1-\xi_i-y^{(i)}(w^Tx^{(i)}+b)\)</span> and <span class="math">\(h_i(w, b, \xi) = -\xi_i\)</span> for <span class="math">\(i=1, \dots, m\)</span>. There are KKT multiplers <span class="math">\(\alpha_1, \dots, \alpha_m, \beta_1, \dots, \beta_m\)</span>, such that</p>
+<p><strong>Stationarity</strong><br>
+</p>
+<div class="math">$$\nabla f(w, b, \xi) + \sum_{i=1}^m \alpha_i \nabla g_i(w, b, \xi) + \sum_{i=1}^m \beta_i \nabla h_i(w, b, \xi)= 0,$$</div>
+<p><br>
+where <span class="math">\(\nabla\)</span> is with respect to <span class="math">\(w, b\)</span> and <span class="math">\(\xi\)</span>. If we put in the formulas for <span class="math">\(f, g_i\)</span> and <span class="math">\(h_i\)</span>, we get<br>
+</p>
+<div class="math">$$\begin{equation}
+\begin{split}
+&amp; w = \sum_{i=1}^m \alpha_i y^{(i)} x^{(i)} \\
+&amp; \sum_{i=1}^m \alpha_i y^{(i)} = 0 \\
+&amp; \alpha_i + \beta_i = c \text{ for }i = 1, \dots, m
+\end{split}
+\label{eqn:station2}
+\end{equation}$$</div>
+<p><strong>Primal feasibility</strong></p>
+<p><span class="math">\(g_i(w, b, \xi) \le 0\)</span> and <span class="math">\(h_i(w, b, \xi) \le 0\)</span>, for <span class="math">\(i = 1, \dots, m\)</span>.</p>
+<p><strong>Dual feasibility</strong></p>
+<p><span class="math">\(\alpha_i \ge 0\)</span> and <span class="math">\(\beta_i \ge 0\)</span>, for <span class="math">\(i = 1, \dots, m\)</span>.</p>
+<p><strong>Complementary slackness</strong></p>
+<p><span class="math">\(\alpha_ig_i(w, b, \xi) = 0\)</span> and <span class="math">\(\beta_i h_i(w, b, \xi) = 0\)</span>, for <span class="math">\(i = 1, \dots, m\)</span>.</p>
+<p>The Lagragian for the problem is<br>
+</p>
+<div class="math">$$L(w, b, \xi, \alpha, \beta) = f(w, b, \xi) + \sum_{i=1}^m \alpha_i g_i(w, b, \xi) + \sum_{i=1}^m \beta_i h_i(w, b, \xi).$$</div>
+<p><br>
+Using Stationarity (<span class="math">\(\ref{eqn:station2}\)</span>),<br>
+</p>
+<div class="math">$$\begin{split}
+L(w, b, \xi, \alpha, \beta) &amp;= \frac{1}{2}&lt;w, w&gt; + c\sum_{i=1}^m \xi_i + \sum_{i=1}^{m} \alpha_i(1-\xi_i - y^{(i)}(&lt;w, x^{(i)}&gt;+b)) - \sum_{i=1}^m \beta_i \xi_i \\
+&amp;= \sum_{i=1}\alpha_i - \frac{1}{2}y^{(i)}y^{(j)}&lt;x^{(i)}, x^{(j)}&gt;\alpha_i\alpha_j - b\sum_{i=1}^m \alpha_iy^{(i)} + \sum_{i=1}^m (c-\alpha_i-\beta_i) \xi_i\\
+&amp;= \sum_{i=1}\alpha_i - \frac{1}{2}\sum_{i=1}^m \sum_{j=1}^m y^{(i)}y^{(j)}&lt;x^{(i)}, x^{(j)}&gt;\alpha_i\alpha_j
+\end{split}$$</div>
+<p><br>
+Then the dual problem is to maximize<br>
+</p>
+<div class="math">$$\begin{equation}
+W(\alpha) = \sum_{i=1}\alpha_i - \frac{1}{2}\sum_{i=1}^m \sum_{j=1}^m y^{(i)}y^{(j)}&lt;x^{(i)}, x^{(j)}&gt;\alpha_i\alpha_j,
+\label{eqn:dual2}
+\end{equation}$$</div>
+<p><br>
+suject to <span class="math">\(\sum_i\alpha_i y^{(i)} = 0, \alpha_i \ge 0\)</span>, and <span class="math">\(\beta_i \ge 0\)</span> which is the same as <span class="math">\(\alpha_i \le c\)</span> since <span class="math">\(\alpha_i+\beta_i = c\)</span>.</p>
+<h2>SMO algorithm</h2>
+<p>The last thing left is to solve optimization problem (<span class="math">\(\ref{eqn:dual2}\)</span>). It can be solved using a modified version of <a href="https://en.wikipedia.org/wiki/Coordinate_descent">coordinate descent</a> algorithm, which is called <a href="https://en.wikipedia.org/wiki/Sequential_minimal_optimization">sequential minimal optimization</a>.</p>
+<div class="qbar">
+<p>The core idea of SMO is to choose a pair <span class="math">\((\alpha_i, \alpha_j)\)</span> in each iteration, and treat all other <span class="math">\(\alpha_k\)</span> as constants. The original problem (<span class="math">\(\ref{eqn:dual2}\)</span>) becomes a problem only involving two varibles, which can be solved easily. </p>
+</div>
+<p>But in each iteration, which pair <span class="math">\((\alpha_i, \alpha_j)\)</span> should we choose? And when should the algorithm terminate? To answer this question, we need to go back to the KKT conditions. To derive the dual problem (<span class="math">\(\ref{eqn:dual2}\)</span>), we only use stationarity. There will be some implications from other conditions. For example, if <span class="math">\(\alpha_i=0\)</span>, then from stationarity (<span class="math">\(\ref{eqn:station2}\)</span>), <span class="math">\(\beta_i = c-\alpha_i=c\)</span>. Now by complementary slackness that <span class="math">\(\beta_ih_i=0\)</span>, we must have <span class="math">\(\xi_i = 0.\)</span> By primal feasibility, we have <span class="math">\(g_i \le 0\)</span>, i.e.,<br>
+</p>
+<div class="math">$$y^{(i)}(w^Tx^{(i)}+b) \ge 1.$$</div>
+<p><br>
+Similarly, if <span class="math">\(\alpha_i=c\)</span>, then <span class="math">\(y^{(i)}(w^Tx^{(i)}+b) \le 1\)</span>; if <span class="math">\(0 &lt; \alpha_i &lt; 1\)</span>, then <span class="math">\(y^{(i)}(w^Tx^{(i)}+b) = 1\)</span>. Put them together, <br>
+</p>
+<div class="math">$$\begin{equation}
+\begin{array}{llll}
+&amp; \alpha_i = 0 &amp; \implies &amp; y^{(i)}(w^Tx^{(i)}+b) \ge 1 \\
+&amp; 0 &lt; \alpha_i &lt; c &amp; \implies &amp; y^{(i)}(w^Tx^{(i)}+b) = 1 \\
+&amp; \alpha_i = c &amp; \implies &amp; y^{(i)}(w^Tx^{(i)}+b) \le 1
+\end{array}
+\label{eqn:conv}
+\end{equation}$$</div>
+<p>Once we know the values of <span class="math">\(\alpha_i\)</span> for all <span class="math">\(i=1, \dots, m\)</span>, we can calculate <span class="math">\(w\)</span> by<br>
+</p>
+<div class="math">$$w = \sum_{i=1}^m \alpha_iy^{(i)}x^{(i)},$$</div>
+<p><br>
+and <span class="math">\(b\)</span> by<br>
+</p>
+<div class="math">$$b = -\frac{\max_{i, y^{(i)}=-1}&lt;w, x^{(i)}&gt;+\min_{i, y^{(i)}=1} &lt;w,x^{(i)}&gt;}{2},$$</div>
+<p><br>
+where max and min are over those <span class="math">\(i\)</span> such that <span class="math">\((x^{(i)}, y^{(i)})\)</span> are classfied correctly.</p>
+<p>So in each iteration, we can try to find out one <span class="math">\(\alpha_i\)</span> such that it violates Equations <span class="math">\((\ref{eqn:conv})\)</span> and pair it with anohter <span class="math">\(\alpha_j\)</span>. And the algorithm terminates when all <span class="math">\(\alpha_i\)</span> satisfy Equations <span class="math">\((\ref{eqn:conv})\)</span> within some error.</p>
+
+        <div class="tags">
+        <a href="/tag/svm">svm</a>
+        <a href="/tag/note">note</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20171008-support-vector-machine/';
+    var disqus_title = 'Support Vector Machine';
+    var disqus_url = 'https://wormtooth.com/20171008-support-vector-machine/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

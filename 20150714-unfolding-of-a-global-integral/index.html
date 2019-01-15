@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Unfolding of a global integral for $GL_n \times GL_m$ | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Unfolding of a global integral for $GL_n \times GL_m$</h1>
+    <div class="post-meta">Jul 14, 2015
+    <span> | </span> <span>Mathematics</span>
+    </div>
+    <a data-disqus-identifier="20150714-unfolding-of-a-global-integral/" href="/20150714-unfolding-of-a-global-integral/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>Let <span class="math">\((\pi, V_\pi)\)</span> and <span class="math">\((\pi^\prime, V_{\pi^\prime})\)</span> be cuspidal, unitary, irreducible automorphic representations of <span class="math">\(GL_n(\mathbb{A})\)</span> and <span class="math">\(GL_m(\mathbb{A})\)</span> respectively. We assume <span class="math">\(m < n\)</span>. Let <span class="math">\(\varphi \in V_\pi\)</span> and <span class="math">\(\varphi \in V_{\pi^\prime}\)</span>. To pair <span class="math">\(\varphi\)</span> and <span class="math">\(\varphi^\prime\)</span> suitably together, we first need to project <span class="math">\(\varphi\)</span> correspondingly. </p>
+
+<p>Let <span class="math">\(\psi\)</span> be a additive continuous automorphic character of <span class="math">\(\mathbb{A}\)</span>. We can extend it to a character of <span class="math">\(N_n(\mathbb{A})\)</span>, the standard Borel subgroup of <span class="math">\(GL_n(\mathbb{A})\)</span>, in the standard way:
+<span class="math">\[\psi(u) = \psi\left(\sum_{i=1}^{n-1}u_{i,i+1}\right),\]</span>
+for <span class="math">\(u = (u_{i,j}) \in N_n(\mathbb{A})\)</span>. Let <span class="math">\(Y=Y_{n, m}\)</span> be the standard unipotent radical associated to the partition <span class="math">\((m+1, 1, \dots, 1)\)</span> of <span class="math">\(GL_n\)</span>, i.e.,
+<span class="math">\[Y=\left\{\left(\begin{array}{cc}I_{m+1}&*\\ 0&u\end{array}\right): u \in N_{n-m-1}\right\} \subset N_n.\]</span>
+Let <span class="math">\(P_{m+1}\)</span> be the mirabolic subgroup of <span class="math">\(GL_{m+1}\)</span>, then for <span class="math">\(p \in P_{m+1}(\mathbb{A})\)</span> define
+<span class="math">\[\mathbb{P}^n_m \varphi(p) = |\det p|^{-\frac{n-m-1}{2}}\int_{Y(k)\backslash Y(\mathbb{A})} \varphi\left(y\left(\begin{array}{cc} p& \\ & I_{n-m-1} \end{array}\right)\right)\psi^{-1}(y) dy.\]</span></p>
+
+<p>Now we can pair <span class="math">\(\varphi\)</span> and <span class="math">\(\varphi^{\prime}\)</span> in the following way:
+<span class="math">\[I(s; \varphi, \varphi^\prime) = \int_{GL_m(k)\backslash GL_m(\mathbb{A})} \mathbb{P}^n_m \varphi\left(\begin{array}{cc} h& \\ &1\end{array}\right)\varphi^\prime(h)|\det h|^{s-\frac{1}{2}}dh.\]</span>
+
+<!--more-->
+
+The above integral converges absolutely for <span class="math">\(s \in \C\)</span>. For any matrix <span class="math">\(x\)</span>, let <span class="math">\(x^\iota\)</span> be the transpose inverse of <span class="math">\(x\)</span>. If we do the change of variables <span class="math">\(h \mapsto h^\iota\)</span>, then we can get the global functional equation
+<span class="math">\[\begin{equation}
+I(s; \varphi, \varphi^\prime) = \widetilde{I}(1-s; \tilde{\varphi}, \tilde{\varphi^\prime}),
+\label{20150712-1}
+\end{equation}\]</span></p>
+
+<p>where <span class="math">\(\tilde{\varphi}(g) = \varphi(g^\iota)\)</span> and
+<span class="math">\[\widetilde{I}(s; \varphi, \varphi^\prime) = \int_{GL_m(k)\backslash GL_m(\mathbb{A})} \widetilde{\mathbb{P}}^n_m \varphi\left(\begin{array}{cc} h& \\ &1\end{array}\right)\varphi^\prime(h)|\det h|^{s-\frac{1}{2}}dh,\]</span>
+with <span class="math">\(\tilde{\mathbb{P}}^n_m = \iota \circ \mathbb{P}^n_m \circ \iota\)</span>.</p>
+
+<p>The unfolding of the left hand side of <span class="math">\(\eqref{20150712-1}\)</span> can be found in James Cogdell&#8217;s note on <a href="http://people.math.osu.edu/cogdell.1/pcmi-www.pdf"><span class="math">\(L\)</span>-functions and Converse Theorem for <span class="math">\(GL_n\)</span></a>, with additional details to what have been told above. This post will do the unfolding of the right hand side of <span class="math">\(\eqref{20150712-1}\)</span>. I learned the unfolding from <a href="http://people.math.osu.edu/cogdell.1">James Cogdell</a>.</p>
+
+<p><strong>Notations</strong>: I will write <span class="math">\(G_n\)</span> for <span class="math">\(GL_n\)</span> and denote <span class="math">\(G(k) \backslash G(\mathbb{A})\)</span> as <span class="math">\(\underline{G}\)</span> for various <span class="math">\(G\)</span>. Inside a matrix, I will use &#8220;<span class="math">\([\;]\)</span>&#8221; to group blocks together to form one single block. Let <span class="math">\(M=M_{n-m-1,m}\)</span> denote the group of all <span class="math">\((n-m-1) \times m\)</span> matrices. Dimensions of zero vectors will be omitted. Also, let
+<span class="math">\[\begin{equation*}
+w_n = \left(\begin{array}{ccc} &&1 \\ &\unicode{x22F0}& \\  1&&\end{array}\right),\;\; w_{n, m} = \left(\begin{array}{cc} I_m& \\ &w_{n-m}\end{array}\right)
+\end{equation*}\]</span>
+Let <span class="math">\(\rho\)</span> be the regular action. Let <span class="math">\(W_{\varphi} \in \mathcal{W}(\pi, \psi^{-1})\)</span> be the Fourier expansion of <span class="math">\(\varphi\)</span> with respect to <span class="math">\(\psi^{-1}\)</span>, i.e.,
+<span class="math">\[W_\varphi(g) = \int_{\underline{N_n}} \varphi(ug)\psi(u)du.\]</span>
+Similarly, one can define <span class="math">\(W_{\varphi^\prime} \in \mathcal{W}(\pi^\prime, \psi)\)</span>.</p>
+
+<p>Using the above notations, the main theorem of the post is the following unfolding.</p>
+
+<div class='qbox' >
+<a name='thm1'><strong>Theorem 1.</strong></a><span class="math">\(\displaystyle \widetilde{I}(s; \varphi, \varphi^\prime) = \widetilde{\Psi}(s; \rho(w_{n, m})W_{\varphi}, W_{\varphi^\prime})\)</span>, where
+<span class="math">\[\widetilde{\Psi}(s; W, W^\prime) = \int_{N_m(\mathbb{A})\backslash G_m(\mathbb{A})} \int_{M(\mathbb{A})}W\left(\begin{array}{cc} h & \\ \left[\begin{array}{cc}x\\0\end{array}\right]&I_{n-m}\end{array}\right) dx W^\prime(h) |\det h|^{s-\frac{n-m}{2}}dh.\]</span>
+</div>
+
+<p>In order to obtain the above unfolding, we need to understand <span class="math">\(\widetilde{\mathbb{P}}^n_m \varphi\left(\begin{array}{cc} h& \\ &1\end{array}\right)\)</span> first. To this end, we have</p>
+
+<div class='qbox' >
+<a name='thm2'><strong>Theorem 2.</strong></a><span class="math">\[\widetilde{\mathbb{P}}^n_m \varphi\left(\begin{array}{cc} h& \\ &1\end{array}\right) = |\det h|^{-\frac{n-m-1}{2}}\sum_{\gamma\in N_m(k)\backslash G_m(k)}\int_{M(\mathbb{A})}\rho(w_{n,m})W_\varphi\left(\begin{array}{cc} \gamma h & \\ \left[\begin{array}{cc}x\\0\end{array}\right]&I_{n-m}\end{array}\right) dx.\]</span>
+</div>
+
+<p><em>Proof.</em> By definition of <span class="math">\(\widetilde{\mathbb{P}}^n_m\)</span>,
+<span class="math">\[\widetilde{\mathbb{P}}^n_m \varphi\left(\begin{array}{cc} h& \\ &1\end{array}\right) = |\det h|^{\frac{n-m-1}{2}}\int_{\underline{Y}}\varphi\left(y^\iota \left(\begin{array}{cc} h& \\ &I_{n-m} \end{array}\right) \right)\psi^{-1}(y)dy.\]</span>
+For <span class="math">\(y \in \underline{Y}\)</span>, we have
+<span class="math">\[y=\left(\begin{array}{cc} I_m&[0 \; x] \\ &y_1\end{array}\right),\]</span>
+where <span class="math">\(x \in {^t\underline{M}}\)</span> and <span class="math">\(y_1 \in \underline{N_{n-m}}\)</span>. Then
+<span class="math">\[y^\iota=\left(\begin{array}{cc} I_m& \\ -y_1^\iota\left[\begin{array}{cc}0\\{^tx}\end{array}\right]
+&y_1^\iota \end{array}\right).\]</span>
+If we replace the integral over <span class="math">\(\underline{Y}\)</span> by the double integrals over <span class="math">\(\underline{N_{n-m}}\)</span> and <span class="math">\(\underline{^tM}\)</span>, then with the change of variables
+<span class="math">\[x \mapsto -{y_1^\prime} \cdot {^tx}, \text{where } {^ty_1} = \left(\begin{array}{c} [1 \; 0] \\ y_1^\prime\end{array}\right),\]</span>
+one can get
+<span class="math">\[\begin{equation}
+\begin{split}
+\widetilde{\mathbb{P}}^n_m \varphi & \left(\begin{array}{cc} h& \\ &1\end{array}\right) =  |\det h|^{\frac{n-m-1}{2}} \cdot\\
+&\int_{\underline{N_{n-m}}}\int_{\underline{M}}
+\varphi\left(\left(\begin{array}{cc} I_m& \\ \left[\begin{array}{cc}0\\x\end{array}\right]&y^\iota\end{array}\right)\left(\begin{array}{cc} h& \\ &I_{n-m}\end{array}\right)\right)\psi^{-1}(y)dxdy.
+\end{split}
+\label{20150712-2}
+\end{equation}\]</span></p>
+
+<p>Since <span class="math">\(\varphi\)</span> is automorphic, the argument inside <span class="math">\(\varphi\)</span> in <span class="math">\(\eqref{20150712-2}\)</span> can be replaced by
+<span class="math">\[\begin{equation*}
+\begin{split}
+&w_{n,m}\left(\begin{array}{cc} I_m& \\ \left[\begin{array}{cc}0\\x\end{array}\right]&y^\iota\end{array}\right)\left(\begin{array}{cc} h& \\ &I_{n-m}\end{array}\right) \\
+&= \left(\begin{array}{cc} I_m& \\ \left[\begin{array}{cc}w_{n-m-1}x\\0\end{array}\right]&w_{n-m}y^\iota w_{n-m}\end{array}\right)\left(\begin{array}{cc} h& \\ &I_{n-m}\end{array}\right)w_{n,m}
+\end{split}
+\end{equation*}\]</span>
+Therefore, from <span class="math">\(\eqref{20150712-2}\)</span> together with the change of variables
+<span class="math">\[x \mapsto w_{n-m-1}x, \;\; y \mapsto w_{n-m}y^\iota w_{n-m},\]</span>
+and noticing that <span class="math">\(\psi^{-1}(w_{n-m}y^\iota w_{n-m}) = \psi(y)\)</span>, it can be deduced that
+<span class="math">\[\begin{equation*}
+\begin{split}
+\widetilde{\mathbb{P}}^n_m \varphi & \left(\begin{array}{cc} h& \\ &1\end{array}\right) =  |\det h|^{\frac{n-m-1}{2}} \cdot\\
+&\int_{\underline{N_{n-m}}}\int_{\underline{M}}
+\varphi\left(\left(\begin{array}{cc} I_m& \\ \left[\begin{array}{cc}x\\0\end{array}\right]&y\end{array}\right)\left(\begin{array}{cc} h& \\ &I_{n-m}\end{array}\right)w_{n,m}\right)\psi(y)dxdy.
+\end{split}
+\end{equation*}\]</span>
+Replacing <span class="math">\(\varphi\)</span> by its Fourier expansion
+<span class="math">\[\varphi(g) = \sum_{\alpha \in N_{n-1}(k) \backslash G_{n-1}(k)}W_{\varphi}\left(\left(\begin{array}{cc} \alpha& \\ &1\end{array}\right)g\right),\]</span>
+and switching orders, we can get
+<span class="math">\[\begin{equation*}
+\begin{split}
+\widetilde{\mathbb{P}}^n_m \varphi & \left(\begin{array}{cc} h& \\ &1\end{array}\right) =  |\det h|^{\frac{n-m-1}{2}} \int_{\underline{N_{n-m}}}\sum_{\alpha \in N_{n-1}(k) \backslash G_{n-1}(k)} \int_{\underline{M}}\\
+&W_{\varphi}\left(\left(\begin{array}{cc} \alpha& \\ &1\end{array}\right)\left(\begin{array}{cc} I_m& \\ \left[\begin{array}{cc}x\\0\end{array}\right]&y\end{array}\right)\left(\begin{array}{cc} h& \\ &I_{n-m}\end{array}\right)w_{n,m}\right)\psi(y)dxdy.
+\end{split}
+\end{equation*}\]</span>
+Now,
+<span class="math">\[\left(\begin{array}{cc} I_m& \\ \left[\begin{array}{cc}x\\0\end{array}\right]&y\end{array}\right) = \left(\begin{array}{cc} I_m& \\ &y\end{array}\right)\left(\begin{array}{cc} I_m& \\ y^{-1}\left[\begin{array}{cc}x\\0\end{array}\right]&I_{n-m}\end{array}\right),\]</span>
+so if we do the change of variables
+<span class="math">\[x \mapsto y^\prime x, \text{ where } y = \left(\begin{array}{cc} y^\prime & * \\ & 1 \end{array}\right),\]</span>
+and change orders, we can see
+<span class="math">\[\begin{equation}
+\widetilde{\mathbb{P}}^n_m \varphi \left(\begin{array}{cc} h& \\ &1\end{array}\right) =  |\det h|^{\frac{n-m-1}{2}} \int_{\underline{M}} \sum_{\alpha \in N_{n-1}(k) \backslash G_{n-1}(k)} A(\alpha; h, x)dx,
+\label{20150712-3}
+\end{equation}\]</span></p>
+
+<p>where
+<span class="math">\[\begin{equation*}
+\begin{split}
+A(\alpha; h, x) &= \int_{\underline{N_{n-m}}} W_{\varphi}\left(\left(\begin{array}{cc} \alpha& \\ &1\end{array}\right)\left(\begin{array}{cc} I_m& \\ &y\end{array}\right) \right.\cdot \\
+&\left.\left(\begin{array}{cc} I_m& \\ \left[\begin{array}{cc}x\\0\end{array}\right]&I_{n-m}\end{array}\right)\left(\begin{array}{cc} h& \\ &I_{n-m}\end{array}\right)w_{n,m}\right)\psi(y)dy.
+\end{split}
+\end{equation*}\]</span>
+For <span class="math">\(y \in \underline{N_{n-m}}\)</span>, let&#8217;s write
+<span class="math">\[y=[y_1 \, \dots \, y_{n-m}],\]</span>
+with each <span class="math">\(y_i\)</span> being column vector such that the <span class="math">\(i\)</span>-th entry is <span class="math">\(1\)</span> and <span class="math">\(j\)</span>-th entry is <span class="math">\(0\)</span> if <span class="math">\(j > i\)</span>. With this notation,
+<span class="math">\[\left(\begin{array}{cc} I_m& \\ &y\end{array}\right)=\left(\begin{array}{cc} I_m& \\ &[e_1 \, \dots \, e_{n-m-1} \, y_{n-m}]\end{array}\right) \cdots \left(\begin{array}{cc} I_m& \\ &[y_1 \, e_2 \, \dots \, e_{n-m}]\end{array}\right),\]</span>
+where entries of the column vector <span class="math">\(e_i\)</span> are all zeros except being <span class="math">\(1\)</span> at <span class="math">\(i\)</span>-th entry. Therefore, we can rewrite the integral over <span class="math">\(y\)</span> in <span class="math">\(A(h; \alpha, x)\)</span> into multiple integrals over <span class="math">\(y_{n-m}, \dots, y_2\)</span> (Note that <span class="math">\(y_1\)</span> is just constant <span class="math">\(e_1\)</span>):
+<span class="math">\[\begin{equation*}
+\begin{split}
+A(\alpha; &h, x) = \int_{\underline{N_{n-m}}} W_{\varphi}\left(\left(\begin{array}{cc} \alpha& \\ &1\end{array}\right)\left(\begin{array}{cc} I_m& \\ &[e_1 \, \dots \, e_{n-m-1} \, y_{n-m}]\end{array}\right) \cdots  \right. \\ &\left(\begin{array}{cc} I_m& \\ &[y_1 \, y_2\, e_3 \, \dots \, e_{n-m}]\end{array}\right) \left.
+\left(\begin{array}{cc} I_m& \\ \left[\begin{array}{cc}x\\0\end{array}\right]&I_{n-m}\end{array}\right)\left(\begin{array}{cc} h& \\ &I_{n-m}\end{array}\right)w_{n,m}\right)\\
+&\prod_{i=2}^{n-m}\psi(y_{i,i-1})dy_{n-m} \cdots dy_{2}.
+\end{split}
+\end{equation*}\]</span>
+If we write <span class="math">\(\alpha = (\alpha_{i, j})\)</span> and <span class="math">\(y_{n-m} = (y_{n-m, i}) = \left(\begin{array}{cc}y^\prime_{n-m} \\ 1\end{array}\right)\)</span>, then
+<span class="math">\[\begin{equation*}
+\begin{split}
+& \left(\begin{array}{cc} \alpha& \\ &1\end{array}\right)\left(\begin{array}{cc} I_m& \\ &[e_1 \, \dots \, e_{n-m-1} \, y_{n-m}]\end{array}\right) \\
+&= \left(\begin{array}{cc} I_{n-m-1}&\alpha \left[\begin{array}{cc}0\\y^\prime_{n-m}\end{array}\right] \\ &1\end{array}\right)\left(\begin{array}{cc} \alpha& \\ &1\end{array}\right).
+\end{split}
+\end{equation*}\]</span>
+For convenience, let <span class="math">\(g\)</span> be the product of matrices in the arguments of <span class="math">\(W_\varphi\)</span> not relating to <span class="math">\(\alpha\)</span> and <span class="math">\(y_{n-m}\)</span>. Then if we focus on the integral over <span class="math">\(y_{n-m}\)</span>, and use the fact that <span class="math">\(W_\varphi(ug) = \psi^{-1}(u)W_\varphi(g)\)</span> for <span class="math">\(u \in N_n(\mathbb{A})\)</span>, we can get
+<span class="math">\[\begin{equation*}
+\begin{split}
+A(\alpha; & h, x) = \int \int W_\varphi\left(\left(\begin{array}{cc} \alpha& \\ &1\end{array}\right)g\right) \\
+& \psi(-\alpha_{n-1,m+1}y_{n-m,1}-\cdots-(\alpha_{n-1, n-1}-1)y_{n-m,n-m-1}) dy_{n-m} \\
+& \prod_{i=2}^{n-m-1}\psi(y_{i, i-1}) dy_{n-m-1} \dots dy_2
+\end{split}
+\end{equation*}\]</span>
+The inner integral is zero, expect when <span class="math">\(\alpha_{n-1, m+1} = \cdots = \alpha_{n-1, n-2} = 0\)</span> and <span class="math">\(\alpha_{n-1, n-1} = 1\)</span>, in which case the inner integral equals
+<span class="math">\[W_{\varphi}\left(\left(\begin{array}{cc} \alpha& \\ &1\end{array}\right)g\right).\]</span>
+In this case, <span class="math">\(\alpha\)</span> can be written as
+<span class="math">\[\left(\begin{array}{cc} *&* \\ {[* \;0]}&1 \end{array}\right) = \left(\begin{array}{cc} I_{n-2}&* \\ &1 \end{array}\right) \left(\begin{array}{cc} *&0 \\ {[* \;0]}&1 \end{array}\right).\]</span>
+Since <span class="math">\(\alpha \in N_{n-1}(k) \backslash G_{n-1}(k)\)</span>, we can choose <span class="math">\(\alpha\)</span> to be in the form
+<span class="math">\[\left(\begin{array}{cc} *&0 \\ {[* \;0]}&1 \end{array}\right).\]</span>
+Now repeating the above process again for <span class="math">\(y_{n-m-1}, \dots, y_2\)</span> in order, we can conclude that <span class="math">\(A(\alpha; h, x) = 0\)</span> unless <span class="math">\(\alpha\)</span> has the form
+<span class="math">\[\alpha = \left(\begin{array}{cc} \gamma&0 \\ \beta&I_{n-m-1} \end{array}\right),\]</span>
+where <span class="math">\(\gamma \in N_m(k) \backslash G_m(k)\)</span> and <span class="math">\(\beta \in M(k)\)</span>. When <span class="math">\(\alpha\)</span> is in this form, <span class="math">\(A(\alpha; h, x)\)</span> equals
+<span class="math">\[W_{\varphi}\left(\left(\begin{array}{cc} \gamma& \\ \left[\begin{array}{cc}\beta\\0\end{array}\right]&I_{n-m}\end{array}\right)\left(\begin{array}{cc} I_m& \\ \left[\begin{array}{cc}x\\0\end{array}\right]&I_{n-m}\end{array}\right)\left(\begin{array}{cc} h& \\ &I_{n-m}\end{array}\right)w_{n,m}\right),\]</span>
+which is the same as
+<span class="math">\[W_\varphi\left(\left(\begin{array}{cc} \gamma h & \\ \left[\begin{array}{cc}(\beta+x)\\0\end{array}\right]h&I_{n-m}\end{array}\right)w_{n,m}\right).\]</span>
+Gathering the analysis of <span class="math">\(A(\alpha; h, x)\)</span> into <span class="math">\(\eqref{20150712-3}\)</span>,
+<span class="math">\[\begin{equation*}
+\begin{split}
+\widetilde{\mathbb{P}}^n_m \varphi & \left(\begin{array}{cc} h& \\ &1\end{array}\right) =  |\det h|^{\frac{n-m-1}{2}} \int_{\underline{M}} \sum_{\beta \in M(k)}\sum_{\gamma \in N_{m}(k) \backslash G_{m}(k)} \\
+& W_\varphi\left(\left(\begin{array}{cc} \gamma h & \\ \left[\begin{array}{cc}(\beta+x)\\0\end{array}\right]h&I_{n-m}\end{array}\right)w_{n,m}\right)dx.
+\end{split}
+\end{equation*}\]</span>
+Combining $ \int_{\underline{M}}$ and <span class="math">\(\sum_{\beta \in M(k)}\)</span> and then switching orders,
+<span class="math">\[\begin{equation*}
+\begin{split}
+\widetilde{\mathbb{P}}^n_m \varphi & \left(\begin{array}{cc} h& \\ &1\end{array}\right) =  |\det h|^{\frac{n-m-1}{2}} \sum_{\gamma \in N_{m}(k) \backslash G_{m}(k)} \int_{M(\mathbb{A})}\\
+& W_\varphi\left(\left(\begin{array}{cc} \gamma h & \\ \left[\begin{array}{cc}xh\\0\end{array}\right]&I_{n-m}\end{array}\right)w_{n,m}\right)dx.
+\end{split}
+\end{equation*}\]</span>
+Let&#8217;s now do the change of variable <span class="math">\(x \mapsto xh^{-1}\)</span> with
+<span class="math">\[d(xh^{-1}) = |\det h|^{-(n-m-1)}dx,\]</span>
+then
+<span class="math">\[\begin{equation*}
+\begin{split}
+\widetilde{\mathbb{P}}^n_m \varphi & \left(\begin{array}{cc} h& \\ &1\end{array}\right) =  |\det h|^{-\frac{n-m-1}{2}} \sum_{\gamma \in N_{m}(k) \backslash G_{m}(k)} \int_{M(\mathbb{A})}\\
+& W_\varphi\left(\left(\begin{array}{cc} \gamma h & \\ \left[\begin{array}{cc}x\\0\end{array}\right]&I_{n-m}\end{array}\right)w_{n,m}\right)dx.
+\end{split}
+\end{equation*}\]</span>
+This finishes the proof of <a href="#thm2">Theorem 2</a>.
+<span class='qed'><span class="math">\(\square\)</span></span></p>
+
+<p>With <a href="#thm2">Theorem 2</a> at hand, now it&#8217;s easy to prove <a href="#thm1">Theorem 1</a>.</p>
+
+<p><em>Proof of <a href="#thm1">Theorem 1</a>.</em>
+By <a href="#thm2">Theorem 2</a>,
+<span class="math">\[\begin{equation*}
+\begin{split}
+\widetilde{I}(s; &\varphi, \varphi^\prime) = \int_{\underline{G_m}} \widetilde{\mathbb{P}}^n_m \varphi\left(\begin{array}{cc} h& \\ &1\end{array}\right)\varphi^\prime(h)|\det h|^{s-\frac{1}{2}}dh \\
+&=\int_{\underline{G_m}}|\det h|^{s-\frac{n-m}{2}} \sum_{\gamma \in N_{m}(k) \backslash G_{m}(k)} \int_{M(\mathbb{A})} \\
+& \;\;\;\;\;\;\;\; \rho(w_{n,m})W_\varphi\left(\begin{array}{cc} \gamma h & \\ \left[\begin{array}{cc}x\\0\end{array}\right]&I_{n-m}\end{array}\right)dx\varphi^\prime(h)dh.
+\end{split}
+\end{equation*}\]</span>
+Since <span class="math">\(\varphi^\prime\)</span> is automorphic and <span class="math">\(|\det \gamma^{-1}|=1\)</span>, if we do the change of variables <span class="math">\(h \mapsto \gamma^{-1}h\)</span>, then
+<span class="math">\[\begin{equation*}
+\begin{split}
+\widetilde{I}(s; \varphi, \varphi^\prime) = \int_{N_m(k)\backslash G_m(\mathbb{A})} & |\det h|^{s-\frac{n-m}{2}} \int_{M(\mathbb{A})} \\
+& \rho(w_{n,m})W_\varphi\left(\begin{array}{cc} h & \\ \left[\begin{array}{cc}x\\0\end{array}\right]&I_{n-m}\end{array}\right)dx\varphi^\prime(h)dh.
+\end{split}
+\end{equation*}\]</span>
+Noticing that <span class="math">\(|\det u| = 1\)</span> for <span class="math">\(u \in \underline{N_m}\)</span>, we can rewrite the integral over <span class="math">\(N_m(k)\backslash G_m(\mathbb{A})\)</span> into double integrals over <span class="math">\(N_m(\mathbb{A})\backslash G_m(\mathbb{A})\)</span> and <span class="math">\(\underline{N_m}\)</span> as follow.
+<span class="math">\[\begin{equation}
+\begin{split}
+\widetilde{I}(s; \varphi, \varphi^\prime) = \int_{N_m(\mathbb{A})\backslash G_m(\mathbb{A})} & |\det h|^{s-\frac{n-m}{2}} \int_{\underline{N_m}}  \int_{M(\mathbb{A})} \\
+& \rho(w_{n,m})W_\varphi\left(\begin{array}{cc} uh & \\ \left[\begin{array}{cc}x\\0\end{array}\right]&I_{n-m}\end{array}\right)dx\varphi^\prime(uh)dh.
+\end{split}
+\label{20150712-4}
+\end{equation}\]</span></p>
+
+<p>Since
+<span class="math">\[\left(\begin{array}{cc} uh & \\ \left[\begin{array}{cc}x\\0\end{array}\right]&I_{n-m}\end{array}\right) = \left(\begin{array}{cc} u & \\ &I_{n-m}\end{array}\right)\left(\begin{array}{cc} h & \\ \left[\begin{array}{cc}x\\0\end{array}\right]&I_{n-m}\end{array}\right),\]</span>
+so
+<span class="math">\[W_\varphi\left(\begin{array}{cc} uh & \\ \left[\begin{array}{cc}x\\0\end{array}\right]&I_{n-m}\end{array}\right) = \psi^{-1}(u)W_\varphi\left(\begin{array}{cc} h & \\ \left[\begin{array}{cc}x\\0\end{array}\right]&I_{n-m}\end{array}\right).\]</span>
+Now if we separate the integral over <span class="math">\(u\)</span> in <span class="math">\(\eqref{20150712-4}\)</span>, we get
+<span class="math">\[\int_{\underline{N_m}}\varphi^\prime(uh)\psi^{-1}(u)du = W_{\varphi^\prime}(h).\]</span>
+Hence, from <span class="math">\(\eqref{20150712-4}\)</span>, we obtain
+<span class="math">\[\widetilde{I}(s; \varphi, \varphi^\prime) = \widetilde{\Psi}(s; \rho(w_{n, m})W_{\varphi}, W_{\varphi^\prime}),\]</span>
+as desired.
+<span class='qed'><span class="math">\(\square\)</span></span></p>
+
+        <div class="tags">
+        <a href="/tag/functional-equation">functional equation</a>
+        <a href="/tag/integral-representation">integral representation</a>
+        <a href="/tag/unfolding">unfolding</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20150714-unfolding-of-a-global-integral/';
+    var disqus_title = 'Unfolding of a global integral for $GL_n \times GL_m$';
+    var disqus_url = 'https://wormtooth.com/20150714-unfolding-of-a-global-integral/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

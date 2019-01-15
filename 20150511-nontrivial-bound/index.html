@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Nontrivial bound for a sum involving characters | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Nontrivial bound for a sum involving characters</h1>
+    <div class="post-meta">May 11, 2015
+    <span> | </span> <span>Mathematics</span>
+    </div>
+    <a data-disqus-identifier="20150511-nontrivial-bound/" href="/20150511-nontrivial-bound/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>To find a non-trivial bound for an expression is an essential task in analytic number theory. For example, to derive a asymptotic formula for the number of primes less than or equal to <span class="math">\(x\)</span>, i.e. <span class="math">\(\pi(x)\)</span>, we investigate into the function
+<span class="math">\[\Psi(x) = \sum_{\substack{n \le x \\ n = p^k}} \log p.\]</span>
+Along the way to the asymptotic formula for <span class="math">\(\Psi(x)\)</span>, it&#8217;s important to bound the error terms so that they won&#8217;t overweight the dominant term. Nowadays, many mathematicians are interested in finding non-trivial bounds for weighted <span class="math">\(\Psi(x)\)</span>, i.e.,
+<span class="math">\[\Psi(x) = \sum_{\substack{n \le x \\ n = p^k}} a_n \log p,\]</span>
+where <span class="math">\(a_n \in \C\)</span>. If <span class="math">\(a_n = \chi(n)\)</span> for some character <span class="math">\(\chi \text{ mod }q\)</span>, this is actually <span class="math">\(\Psi(x, \chi)\)</span>. Trivially, we can have
+<span class="math">\[\left\lvert \Psi(x) \right\rvert \le \sum_{\substack{n \le x \\ n = p^k}} |a_n| \log p.\]</span>
+Therefore, it seems that we can just work with <span class="math">\(a_n \in \R_{\ge 0}\)</span>. Truly, this will give us a bound for <span class="math">\(\Psi(x)\)</span>, but it ignores all the cancellation encoded in the signs of <span class="math">\(a_n\)</span>, thus it won&#8217;t provide any good bounds.</p>
+
+<p>Another kind of expressions that many mathematicians work with are those sums involving characters. The simplest example is <span class="math">\(\displaystyle \sum_{n=m+1}^{m+N} \chi(n)\)</span> for a character <span class="math">\(\chi \text{ mod }q\)</span>. The trivial bound for it is <span class="math">\(N\)</span>, since <span class="math">\(|\chi(n)| \le 1\)</span>, which is certainly a coarse bound. Actually, we have</p>
+
+<div class='qbox' >
+<a name='thm1'><strong>Theorem 1 (Pólga-Vinogradov inequality).</strong></a>
+Let <span class="math">\(\chi \text{ mod }q\)</span> be a primitive character and <span class="math">\(q \ge 3\)</span>. Then
+<span class="math">\[\left\lvert \sum_{n=m+1}^{m+N} \chi(n) \right\rvert < \sqrt{q}\log q.\]</span>
+</div>
+
+<p>This non-trivial bound doesn&#8217;t depend on the length <span class="math">\(N\)</span> at all, but only depends on the modulus <span class="math">\(q\)</span>. If the primitive condition is dropped, then it is bounded by <span class="math">\(2 \sqrt{q}\log q\)</span>.</p>
+
+<p>In this post, I will give a non-trivial bound for the sum <span class="math">\(\displaystyle \sum_{n=1}^{N} \chi(n)\chi(n+1)\)</span>, which was originally asked by my friend Yongxiao, as a practice for my analytic number theory course.</p>
+
+<!--more-->
+
+<p><span class="math">\(\renewcommand{\mod}[1]{\ \mathrm{mod}\ #1}\newcommand{\abs}[1]{\left\lvert#1\right\rvert}\newcommand{\e}[1]{e\left(#1\right)}\newcommand{\inner}[2]{\left\langle #1 \, , \, #2\right\rangle}\)</span></p>
+
+<div class='qbox' >
+<a name='thm2'><strong>Theorem 2.</strong></a>Let <span class="math">\(\chi \mod q\)</span> be a primitive character and <span class="math">\(q \ge 3\)</span>. Then
+<span class="math">\[\begin{equation*}
+\abs{\sum_{n=1}^{N} \chi(n)\chi(n+1)} < \frac{N}{\sqrt{q}} + q^2.
+\end{equation*}\]</span>
+</div>
+
+<p><em>Proof.</em> Since <span class="math">\(\chi \mod q\)</span> is primitive, for any <span class="math">\(n\)</span>,
+<span class="math">\[\chi(n) = \frac{1}{\tau(\overline{\chi})} \sum_{a \mod q} \overline{\chi}(a)\e{\frac{an}{q}},\]</span>
+where <span class="math">\(\e{x}=e^{2\pi ix}\)</span>. Therefore,
+<span class="math">\[\begin{equation}
+\begin{split}
+&\sum_{n=1}^{N} \chi(n)\chi(n+1) \\
+&= \sum_{n=1}^{N} \frac{1}{\tau(\overline{\chi})^2} \sum_{a \mod q}\sum_{b \mod q} \overline{\chi}(a)\overline{\chi}(b)\e{\frac{an}{q}}\e{\frac{bn+b}{q}} \\
+&= \frac{1}{\tau(\overline{\chi})^2} \sum_{a, b} \overline{\chi}(a)\overline{\chi}(b)\e{\frac{b}{q}} \sum_{n=1}^{N} \e{\frac{(a+b)n}{q}} \\
+&= \frac{N}{\tau(\overline{\chi})^2} \sum_{\substack{a, b\\q \mid a+b}} \overline{\chi}(a)\overline{\chi}(b)\e{\frac{b}{q}} \\
+&\;\;\;\;+ \frac{1}{\tau(\overline{\chi})^2} \sum_{\substack{a, b\\q \nmid a+b}} \overline{\chi}(a)\overline{\chi}(b)\e{\frac{b}{q}} \sum_{n=1}^{N} \e{\frac{(a+b)n}{q}} \\
+&= \frac{N\overline{\chi}(-1)}{\tau(\overline{\chi})^2} \sum_{b} \overline{\chi}^2(b)\e{\frac{b}{q}} \\
+&\;\;\;\;+ \frac{1}{\tau(\overline{\chi})^2} \sum_{\substack{a, b\\q \nmid a+b}} \overline{\chi}(a)\overline{\chi}(b)\e{\frac{b}{q}} \sum_{n=1}^{N} \e{\frac{(a+b)n}{q}}.
+\end{split}
+\label{20150511-1}
+\end{equation}\]</span></p>
+
+<p>Consider the Fourier transform on <span class="math">\(\Z/q\Z\)</span> under the inner product
+<span class="math">\[\inner{f}{g} = \frac{1}{q} \sum_{n \mod q}f(n)\overline{g(n)},\]</span>
+where <span class="math">\(f\)</span> and <span class="math">\(g\)</span> are in <span class="math">\(L^2\left(\Z/q\Z\right)\)</span>, the space of functions on <span class="math">\(\Z/q\Z\)</span>. Note that,
+<span class="math">\[\left\{\e{\frac{a-}{q}}: a \in \Z/q\Z \right\}\]</span>
+is a orthonormal basis of <span class="math">\(L^2\left(\Z/q\Z\right)\)</span>, so we can write
+<span class="math">\[\overline{\chi}^2(n) = \sum_{a \mod q} \inner{\overline{\chi}^2}{\e{\frac{a-}{q}}} \e{\frac{an}{q}}.\]</span>
+By Plancherel theorem,
+<span class="math">\[\begin{equation}
+\inner{\overline{\chi}^2}{\overline{\chi}^2} = \sum_{a \mod q} \abs{\inner{\overline{\chi}^2}{\e{\frac{a-}{q}}}}^2.
+\label{20150511-2}
+\end{equation}\]</span></p>
+
+<p>If <span class="math">\((a, q)=1\)</span>, then with a change of variable, we can have
+<span class="math">\[\inner{\overline{\chi}^2}{\e{\frac{a-}{q}}} = \chi^2(a)\inner{\overline{\chi}^2}{\e{\frac{-}{q}}}.\]</span>
+On the other hand,
+<span class="math">\[\inner{\overline{\chi}^2}{\overline{\chi}^2} = \frac{1}{q} \sum_{n \mod q}\overline{\chi}^2(n)\chi^2(n) = \frac{\varphi(q)}{q},\]</span>
+where <span class="math">\(\varphi\)</span> is the Euler function. Hence, from <span class="math">\(\eqref{20150511-2}\)</span>,
+<span class="math">\[\varphi(q)\abs{\inner{\overline{\chi}^2}{\e{\frac{-}{q}}}}^2 \le \frac{\varphi(q)}{q},\]</span>
+or
+<span class="math">\[\abs{\inner{\overline{\chi}^2}{\e{\frac{-}{q}}}} \le \frac{1}{\sqrt{q}}.\]</span>
+Therefore,
+<span class="math">\[\begin{equation}
+\abs{\sum_{b \mod q} \overline{\chi}^2(b)\e{\frac{b}{q}}} = q\abs{\inner{\overline{\chi}^2}{\e{\frac{-}{q}}}} \le \sqrt{q}.
+\label{20150511-3}
+\end{equation}\]</span></p>
+
+<p>Since
+<span class="math">\[\begin{equation*}
+\begin{split}
+\sum_{n=1}^{N} \e{\frac{(a+b)n}{q}} 
+&= \e{\frac{a+b}{q}}\frac{\e{\frac{(a+b)N}{q}}-1}{\e{\frac{a+b}{q}}-1} \\
+&= \e{\frac{a+b}{2q}}\e{\frac{(a+b)N}{2q}}\frac{\sin \frac{(a+b)N\pi}{q}}{\sin \frac{(a+b)\pi}{q}}
+\end{split}
+\end{equation*}\]</span>
+Therefore,
+<span class="math">\[\begin{equation}
+\begin{split}
+&\abs{\sum_{\substack{a, b\\q \nmid a+b}} \overline{\chi}(a)\overline{\chi}(b)\e{\frac{b}{q}} \sum_{n=1}^{N} \e{\frac{(a+b)n}{q}}} \\
+&= \abs{\sum_{\substack{a, b\\q \nmid a+b}} \overline{\chi}(a)\overline{\chi}(b)\e{\frac{b}{q}} \e{\frac{a+b}{2q}}\e{\frac{(a+b)N}{2q}}\frac{\sin \frac{(a+b)N\pi}{q}}{\sin \frac{(a+b)\pi}{q}}} \\
+&\le \sum_{\substack{a, b \mod q\\q \nmid a+b}} \frac{1}{\abs{\sin \frac{(a+b)\pi}{q}}}
+= \sum_{\substack{0 < \abs{a} < q/2 \\ 0 < \abs{b} < q/2 \\ 0 < a+b < q}} \frac{2}{\abs{\sin \frac{(a+b)\pi}{q}}} \\
+&= \sum_{\substack{0 < \abs{a} < q/2 \\ 0 < \abs{b} < q/2 \\ 0 < a+b \le q/2}} \frac{2}{\abs{\sin \frac{(a+b)\pi}{q}}} + \sum_{\substack{0 < \abs{a} < q/2 \\ 0 < \abs{b} < q/2 \\ q/2 < a+b < q}} \frac{2}{\abs{\sin \left(\pi - \frac{(a+b)\pi}{q}\right)}} \\
+& < \sum_{\substack{0 < \abs{a} < q/2 \\ 0 < \abs{b} < q/2 \\ 0 < a+b \le q/2}} \frac{2}{\frac{2(a+b)\pi}{\pi q}} + \sum_{\substack{0 < \abs{a} < q/2 \\ 0 < \abs{b} < q/2 \\ q/2 < a+b < q}} \frac{2}{\frac{2}{\pi}\left(\pi - \frac{(a+b)\pi}{q}\right)} \\
+&= \sum_{\substack{0 < \abs{a} < q/2 \\ 0 < \abs{b} < q/2 \\ 0 < a+b \le q/2}} \frac{q}{a+b} + \sum_{\substack{0 < \abs{a} < q/2 \\ 0 < \abs{b} < q/2 \\ q/2 < a+b < q}} \frac{q}{q-(a+b)} \\
+&= \sum_{t = 2}^{[q/2]} \frac{q(t-1)}{t} + \sum_{t=2}^{[q/2]} \frac{q(t-1)}{t} < q^2.
+\end{split}
+\label{20150511-4}
+\end{equation}\]</span></p>
+
+<p>By <span class="math">\(\eqref{20150511-1}\)</span>, <span class="math">\(\eqref{20150511-3}\)</span> and <span class="math">\(\eqref{20150511-4}\)</span>, we conclude the theorem.
+<span class='qed'><span class="math">\(\square\)</span></span></p>
+
+<p><strong>Remark.</strong> The proof above doesn&#8217;t depend on the interval of summation, so we can change the summation from <span class="math">\(\displaystyle \sum_{n = 1}^{N}\)</span> to <span class="math">\(\displaystyle \sum_{n = m+1}^{m + N}\)</span>. Also, we can substitute <span class="math">\(\chi(n+1)\)</span> by <span class="math">\(\chi(n+s)\)</span> as long as <span class="math">\((q, s) = 1\)</span>. A similar proof with only slight changes can work out this case. To sum up, we have</p>
+
+<div class='qbox' >
+
+<p><a name='thm3'><strong>Theorem 3.</strong></a>Let <span class="math">\(\chi \mod q\)</span> be a primitive character and <span class="math">\(q \ge 3\)</span>. Let <span class="math">\(s \in \N\)</span> be such that <span class="math">\((q, s)=1\)</span> and let <span class="math">\(m \in \N\)</span>. Then
+<span class="math">\[\begin{equation*}
+\abs{\sum_{n=m+1}^{m+N} \chi(n)\chi(n+s)} < \frac{N}{\sqrt{q}} + q^2.
+\end{equation*}\]</span></p>
+</div>
+
+<p>I have to admit that this bound is also not that good though it&#8217;s non-trivial. If we let <span class="math">\(\frac{N}{\sqrt{q}} = q^2\)</span>, we get the best possible bound <span class="math">\(2N^{\frac{4}{5}}\)</span>.</p>
+
+        <div class="tags">
+        <a href="/tag/analytic-number-theory">analytic number theory</a>
+        <a href="/tag/character">character</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20150511-nontrivial-bound/';
+    var disqus_title = 'Nontrivial bound for a sum involving characters';
+    var disqus_url = 'https://wormtooth.com/20150511-nontrivial-bound/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

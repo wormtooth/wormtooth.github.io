@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Induced representations and Mackey theory | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Induced representations and Mackey theory</h1>
+    <div class="post-meta">Dec 19, 2014
+    <span> | </span> <span>Mathematics</span>
+    </div>
+    <a data-disqus-identifier="20141219-induced-representations-and-Mackey-theory/" href="/20141219-induced-representations-and-Mackey-theory/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>Let <span class="math">\(G\)</span> be a group. A <em>linear representation</em> of <span class="math">\(G\)</span> is a pair <span class="math">\((\rho, V)\)</span>, where <span class="math">\(V\)</span> is a finite dimensional vector space over <span class="math">\(\mathbb{C}\)</span> and <span class="math">\(\rho: G \to GL(V)\)</span> is a group homomorphism. Without ambiguity, we will call <span class="math">\(\rho\)</span> a representation of <span class="math">\(G\)</span>. Let <span class="math">\((\rho_1, V_1)\)</span> and <span class="math">\((\rho_2, V_2)\)</span> be two representations of <span class="math">\(G\)</span>, an <em>intertwining operator</em> between them is a linear map <span class="math">\(T: V_1 \to V_2\)</span> such that for any <span class="math">\(g \in G\)</span>, the following diagram commutes:
+<span class="math">\[\begin{equation}\label{eq:diagram}
+\require{AMScd}\begin{CD}
+V_1 @>T>> V_2 \\
+@V{\rho_1(g)}VV @VV{\rho_2(g)}V \\
+V_1 @>T>> V_2
+\end{CD}
+\end{equation}\]</span>
+Let <span class="math">\(\text{Hom}_G(\rho_1, \rho_2)\)</span> be the space of all intertwining operators between <span class="math">\(\rho_1\)</span> and <span class="math">\(\rho_2\)</span>.</p>
+
+<p>Let <span class="math">\((\rho, V)\)</span> be a representation of <span class="math">\(G\)</span>. Let <span class="math">\(H\)</span> be a subgroup of <span class="math">\(G\)</span>, then we can restrict <span class="math">\(\rho\)</span> to <span class="math">\(H\)</span> to get a representation of <span class="math">\(H\)</span>. We will use <span class="math">\(\text{Res}^G_H \, \rho\)</span> to denote the restricted representation of <span class="math">\(H\)</span> from <span class="math">\(\rho\)</span>. Conversely, if <span class="math">\(\pi\)</span> is a representation of <span class="math">\(H\)</span>, then we can construct a representation of <span class="math">\(G\)</span> from <span class="math">\(\pi\)</span>, which is known as induced representation of <span class="math">\(G\)</span> from <span class="math">\(\pi\)</span>, denoted as <span class="math">\(\text{Ind}_H^G \, \pi\)</span>. In this post, I will first talk about the precise description of induced representations and the relations between <span class="math">\(\text{Res}^G_H\)</span> and <span class="math">\(\text{Ind}_H^G\)</span>. I will then discuss Mackey&#8217;s theorem, which dictates a further relation between restricted and induced representations. </p>
+
+<!--more-->
+
+<h2 id="1.inducedrepresentation">1. Induced Representation</h2>
+
+<p>Let <span class="math">\(H\)</span> be a subgroup of a finite group <span class="math">\(G\)</span> and let <span class="math">\((\pi, W)\)</span> be a representation of <span class="math">\(H\)</span>. Define
+<span class="math">\[\text{Ind}_H^G\, W =\{f:G \to W: f(hx)=\pi(h)(f(x)), \forall h \in H\}.\]</span>
+Then we construct a representation of <span class="math">\(G\)</span>
+<span class="math">\[\text{Ind}_H^G\, \pi : G \to GL(\text{Ind}_H^G \, W)\]</span>
+by <span class="math">\(((\text{Ind}_H^G\, \pi)(g)f)(x)=f(xg)\)</span>. We call <span class="math">\((\text{Ind}_H^G \, \pi, \text{Ind}_H^G \, W)\)</span> the <em>induced representation</em> of <span class="math">\(G\)</span> from <span class="math">\(\pi\)</span>.</p>
+
+<p><strong>Example.</strong> Suppose <span class="math">\(H=\{e\}\)</span> is the trivial subgroup of the finite group <span class="math">\(G\)</span>. The only irreducible representation of <span class="math">\(H\)</span> is the trivial representation <span class="math">\((\pi, \mathbb{C})\)</span>, where <span class="math">\(\pi(e)=Id_\mathbb{C}\)</span>. Then
+<span class="math">\[\text{Ind}_H^G \, \mathbb{C}=\{f:G \to \mathbb{C}\}.\]</span>
+Since <span class="math">\(G\)</span> is finite, <span class="math">\(\text{Ind}_H^G \, \mathbb{C} \cong \mathbb{C}[G]\)</span>, where <span class="math">\(\mathbb{C}[G]\)</span> is the vector space generated by <span class="math">\(\{e_g: g \in G\}\)</span>. This is because there is a unique vector <span class="math">\(\sum_{g \in G} f(g)e_g\)</span> attached to <span class="math">\(f \in \text{Ind}_H^G \, \mathbb{C}\)</span>. By definition above, G acts on <span class="math">\(\mathbb{C}[G]\)</span> by the obvious right multiplication. Let <span class="math">\(\rho=\text{Ind}_H^G\, \pi\)</span>, then <span class="math">\((\rho, \mathbb{C}[G])\)</span> is the right regular representation of <span class="math">\(G\)</span>. </p>
+
+<p>To state the relations between <span class="math">\(\text{Ind}_H^G\)</span> and <span class="math">\(\text{Res}^G_H\)</span> better, we first note that they are both functors. Let <span class="math">\(\text{Rep}(G)\)</span> be the category of all finite dimensional linear representations of <span class="math">\(G\)</span>, with intertwining operators as morphisms. <span class="math">\(\text{Res}^G_H: \text{Rep}(G) \to \text{Rep}(H)\)</span> is a functor, because the commutative diagram <span class="math">\(\eqref{eq:diagram}\)</span> still holds when restricted to <span class="math">\(H\)</span>. </p>
+
+<p><span class="math">\(\text{Ind}_H^G: \text{Rep}(H) \to \text{Rep}(G)\)</span> is also a functor. This requires some work: we need to know how <span class="math">\(\text{Ind}_H^G\)</span> transfer commutative diagrams in <span class="math">\(\text{Rep}(H)\)</span> to the ones in <span class="math">\(\text{Rep}(G)\)</span>, or to understand <span class="math">\(\text{Ind}_H^G T\)</span>, where <span class="math">\(T\)</span> is an intertwining operator of representations of <span class="math">\(H\)</span>. Let <span class="math">\(T: (\pi_1, V_1) \to (\pi_2, V_2)\)</span> is an intertwining operator of representations of <span class="math">\(H\)</span>. Define <span class="math">\(\text{Ind}_H^G\, T: \text{Ind}_H^G\, \pi_1 \to \text{Ind}_H^G\, \pi_2\)</span> by
+<span class="math">\[(\text{Ind}_H^G\,T\, f)(x)=T(f(x)), \text{for }f \in \text{Ind}_H^G\, V_1.\]</span>
+It can be checked easily that <span class="math">\(\text{Ind}_H^G\,T\, f \in \text{Ind}_H^G\,V_2\)</span> and <span class="math">\(\text{Ind}_H^G\, T\)</span> is an intertwining operator.</p>
+
+<p>With all above setting up, we can now state the relations between <span class="math">\(\text{Ind}_H^G\)</span> and <span class="math">\(\text{Res}_H^G\)</span> in a nice categorical way:</p>
+
+<div class="qbox" >
+
+<p><a name="theorem1"><strong>Theorem 1(Frobenius Reciprocity).</strong></a> Let <span class="math">\(G\)</span> be a finite group and <span class="math">\(H\)</span> is a subgroup of <span class="math">\(G\)</span>. <span class="math">\(\text{Ind}_H^G\)</span> is a left and right adjoint functor to <span class="math">\(\text{Res}^G_H\)</span>, i.e.,
+<span class="math">\[\begin{equation}\label{eq:left-adjoint}
+\text{Hom}_G(\text{Ind}_H^G \, \pi, \rho) \cong \text{Hom}_H(\pi, \text{Res}^G_H \, \rho)
+\end{equation},\]</span>
+and
+<span class="math">\[\begin{equation}\label{eq:right-adjoint}
+\text{Hom}_G(\rho, \text{Ind}_H^G \, \pi) \cong \text{Hom}_H(\text{Res}^G_H \, \rho, \pi)
+\end{equation},\]</span></p>
+
+<p>where <span class="math">\(\rho \in \text{Rep}(G)\)</span> and <span class="math">\(\pi \in \text{Rep}(H)\)</span>.</p>
+</div>
+
+<p>Instead of giving the proof here, I would rather redirect interested readers to Serre&#8217;s book <a href="http://link.springer.com/book/10.1007%2F978-1-4684-9458-7"><em>Linear Representations of Finite Groups</em></a>. He proved the Frobenius Reciprocity(Theorem 13) in Chapter 7 by means of character theory.</p>
+
+<h2 id="2.mackeytheory">2. Mackey Theory</h2>
+
+<p>Let <span class="math">\(G\)</span> be a finite group, and let <span class="math">\(H\)</span> and <span class="math">\(K\)</span> be two subgroups of <span class="math">\(G\)</span>. Let <span class="math">\((\pi, W)\)</span> be a representation of <span class="math">\(H\)</span>. Mackey theory studies how <span class="math">\(\text{Res}^G_K\,\text{Ind}_H^G\, W\)</span> decomposes into irreducible spaces as a representation of <span class="math">\(K\)</span>. Suppose <span class="math">\(\lambda\)</span> is an irreducible representation of <span class="math">\(K\)</span>, then multiplicity of <span class="math">\(\lambda\)</span> in <span class="math">\(\text{Res}^G_K\,\text{Ind}_H^G\, \pi\)</span> is the same as the dimension of <span class="math">\(\text{Hom}_K(\text{Res}^G_K\,\text{Ind}_H^G\, \pi, \lambda)\)</span> over <span class="math">\(\mathbb{C}\)</span>. But by <span class="math">\(\eqref{eq:right-adjoint}\)</span>,
+<span class="math">\[\text{Hom}_K(\text{Res}^G_K\,\text{Ind}_H^G\, \pi, \lambda) \cong \text{Hom}_G(\text{Ind}_H^G\, \pi, \text{Ind}_K^G\,\lambda).\]</span>
+Hence, the multiplicity is also the same as the dimension of <span class="math">\(\text{Hom}_G(\text{Ind}_H^G\, \pi, \text{Ind}_K^G\,\lambda)\)</span>.</p>
+
+<p>We then have two different views to work on Mackey thory:</p>
+
+<ol>
+<li>Decompose <span class="math">\(\text{Res}^G_K\,\text{Ind}_H^G\, W\)</span> directly.</li>
+<li>Study the space <span class="math">\(\text{Hom}_G(\text{Ind}_H^G\, \pi, \text{Ind}_K^G\,\lambda)\)</span>.</li>
+</ol>
+
+<h3 id="2.1decompositionoftextresg_ktextind_hgw">2.1 Decomposition of <span class="math">\(\text{Res}^G_K\,\text{Ind}_H^G\, W\)</span></h3>
+
+<p>Let <span class="math">\(S\)</span> be the set of representatives of <span class="math">\(H\backslash G / K\)</span>. For <span class="math">\(s \in S\)</span>, let <span class="math">\(H_s = s^{-1}Hs \cap K\)</span>. Note that <span class="math">\(H_s\)</span> is a subgroup of <span class="math">\(K\)</span> and <span class="math">\(sH_s s^{-1}\)</span> is a subgroup of <span class="math">\(H\)</span>, so we can &#8220;restrict&#8221; <span class="math">\(\pi\)</span> to <span class="math">\(H_s\)</span> then induce it to <span class="math">\(K\)</span>. Define <span class="math">\(\pi^s: H_s \to GL(W)\)</span> by <span class="math">\(\pi^s(x)=\pi(sxs^{-1})\)</span>. <span class="math">\(\pi^s\)</span> is then a representation of <span class="math">\(H_s\)</span>, let&#8217;s call it <span class="math">\((\pi^s, W_s)\)</span>. <span class="math">\(\text{Ind}_{H_s}^K\, \pi^s\)</span> is an induced representation of <span class="math">\(K\)</span>.</p>
+
+<div class="qbox" >
+
+<p><a name="theorem2-1"><strong>Theorem 2(Mackey&#8217;s Theorem).</strong></a> As representations of <span class="math">\(K\)</span>,
+<span class="math">\[\text{Res}^G_K\,\text{Ind}_H^G\, W \cong \bigoplus_{s \in S} \text{Ind}_{H_s}^K \, W_s\]</span></p>
+</div>
+
+<p><em>Proof.</em> Let <span class="math">\(f \in \text{Ind}_H^G \, W\)</span>. Then <span class="math">\(f=\sum_{s \in S} f_s\)</span>, where <span class="math">\(f_s\)</span> is the restriction of <span class="math">\(f\)</span> on <span class="math">\(HsK\)</span> and <span class="math">\(0\)</span> on <span class="math">\(G-HsK\)</span>. For each <span class="math">\(s\)</span>, we can define <span class="math">\(f^s: K \to W\)</span> by <span class="math">\(f^s(k)=f_s(sk)\)</span>. Then for any <span class="math">\(s^{-1}hs \in H_s\)</span>, we have
+<span class="math">\[\begin{align*}
+f^s(s^{-1}hs\cdot k) &= f_s(hsk) \\
+&= \pi(h)f_s(sk) \\
+&= \pi^s(s^{-1}hs)f^s(k)
+\end{align*}\]</span>
+Hence, <span class="math">\(f^s \in \text{Ind}_{H_s}^K\, W_s\)</span>. Thus, <span class="math">\(f \mapsto (f^s)\)</span> is a linear map from <span class="math">\(\text{Ind}_H^G\, W\)</span> to <span class="math">\(\bigoplus_{s \in S} \text{Ind}_{H_s}^K \, W_s\)</span>. It&#8217;s clear that this map is an injection, because only <span class="math">\(0\)</span> will be sent to <span class="math">\(0\)</span>. Since the action of <span class="math">\(K\)</span> is on the right, it&#8217;s also easy to see that the map is <span class="math">\(K\)</span>-intertwining. To prove the isomorphism, it then suffices to prove the map is surjective. Given <span class="math">\((f^s)\)</span>, we define <span class="math">\(f: G \to W\)</span> by <span class="math">\(f(hsk)=\pi(h)f^s(k)\)</span>. Now, an easy calculation can show that <span class="math">\(f\)</span> is well defined and <span class="math">\(f \mapsto (f^s)\)</span>.
+<span class="qed"><span class="math">\(\square\)</span></span></p>
+
+<h3 id="2.2studyoftexthom_gtextind_hgpitextind_kglambda">2.2 Study of <span class="math">\(\text{Hom}_G(\text{Ind}_H^G\, \pi, \text{Ind}_K^G\,\lambda)\)</span></h3>
+
+<p>Let <span class="math">\((\pi, W)\)</span> and <span class="math">\((\lambda, V)\)</span> be representations of <span class="math">\(H\)</span> and <span class="math">\(K\)</span> respectively. Suppose <span class="math">\(\Delta: G \to \text{Hom}_\mathbb{C}(W, V)\)</span> satisfies
+<span class="math">\[\begin{equation}\label{eq:delta-condition}
+\Delta(kgh)=\lambda(k)\Delta(g)\pi(h), \text{for }k \in K, g \in G,h \in H.
+\end{equation}\]</span>
+Denote <span class="math">\(\mathcal{D}\)</span> the vector space of all these functions satisfying <span class="math">\(\eqref{eq:delta-condition}\)</span>.</p>
+
+<p>Let <span class="math">\(f: G \to W\)</span> be a map. We can define the convolution <span class="math">\(\Delta \ast f: G \to V\)</span> by
+<span class="math">\[(\Delta \ast f)(x)= \frac{1}{|G|}\sum_{g \in G}\Delta(xg^{-1})\left(f(g)\right),\]</span>
+where <span class="math">\(|G|\)</span> is the cardinality of <span class="math">\(G\)</span>.
+Since <span class="math">\(\Delta\)</span> satisfies <span class="math">\(\eqref{eq:delta-condition}\)</span>, if <span class="math">\(f \in \text{Ind}_H^G\, W\)</span>, then for <span class="math">\(k \in K\)</span>,
+<span class="math">\[\begin{align*}
+(\Delta \ast f)(kx) &= \frac{1}{|G|} \sum_{g \in G} \Delta(kxg^{-1})\left(f(g)\right) \\
+&= \frac{\lambda(k)}{|G|} \sum_{g \in G} \Delta(xg^{-1})\left(f(g)\right) \\
+&= \lambda(k) \circ (\Delta \ast f),
+\end{align*}\]</span>
+so <span class="math">\(\Delta \ast f \in \text{Ind}_K^G\, V\)</span>. By a change of variable, we can verify that <span class="math">\(g.(\Delta \ast f)=\Delta \ast g.(f)\)</span>, where <span class="math">\(g.\)</span> is the right action of <span class="math">\(G\)</span> on the induced representations. This means <span class="math">\(\Delta \ast -\)</span> is an intertwining operator from <span class="math">\(\text{Ind}_H^G\, \pi\)</span> to <span class="math">\(\text{Ind}_K^G\,\lambda\)</span>. Let&#8217;s denote this intertwining operator <span class="math">\(L_\Delta\)</span>.</p>
+
+<div class="qbox" >
+
+<p><a name="theorem2-2"><strong>Theorem 2$^\prime$(Mackey&#8217;s Theorem).</strong></a> As vector spaces,
+<span class="math">\[\text{Hom}_G(\text{Ind}_H^G\, \pi, \text{Ind}_K^G\,\lambda) \cong \mathcal{D}.\]</span>
+Moreover, given <span class="math">\(\Delta \in \mathcal{D}\)</span>, <span class="math">\(\Delta \mapsto L_\Delta\)</span> is the corresponding intertwining operator.</p>
+</div>
+
+<p><em>Proof.</em> We have already seen the map from <span class="math">\(\mathcal{D}\)</span> to <span class="math">\(\text{Hom}_G(\text{Ind}_H^G\, \pi, \text{Ind}_K^G\,\lambda)\)</span>. It&#8217;s enough to construct the inverse mapping from <span class="math">\(\text{Hom}_G(\text{Ind}_H^G\, \pi, \text{Ind}_K^G\,\lambda)\)</span> to <span class="math">\(\mathcal{D}\)</span>.</p>
+
+<p>Let <span class="math">\(T \in \text{Hom}_G(\text{Ind}_H^G\, \pi, \text{Ind}_K^G\,\lambda)\)</span>. Suppose <span class="math">\(\Delta \in \mathcal{D}\)</span> and <span class="math">\(T=L_\Delta\)</span>. Then <span class="math">\(T\)</span> and <span class="math">\(L_\Delta\)</span> should have the same effects on the basis elements of <span class="math">\(\text{Ind}_H^G\, \pi\)</span>. By the definition of induced representation, the basis elements are indexed by cosets of <span class="math">\(H\)</span> in <span class="math">\(G\)</span> and basis of <span class="math">\(W\)</span>. Instead of a real basis element, we look at the one indexed by <span class="math">\(g \in G\)</span> and <span class="math">\(w \in W\)</span>:
+<span class="math">\[f_{g, w}(x) = \left\{\begin{array}{ll}
+\pi(h)w, & \text{if }x=hg \text{ for some }h \in H; \\
+0, & \text{otherwise}.
+\end{array}\right.\]</span>
+Then,
+<span class="math">\[\begin{equation}\begin{aligned}
+&T(f_{g,w})(x) = L_\Delta(f_{g, w})(x) \\
+&= \frac{1}{|G|} \sum_{t \in G} \Delta(xt^{-1})\left(f_{g, w}(t)\right) \\
+&= \frac{1}{|G|} \sum_{h \in H} \Delta(xg^{-1}h^{-1})\left(\pi(h)w\right) \\
+&= \frac{|H|}{|G|} \Delta(xg^{-1})(w).
+\end{aligned}\label{eq:calculation}\end{equation}\]</span>
+From <span class="math">\(\eqref{eq:calculation}\)</span>, it&#8217;s natural to define
+<span class="math">\[\Delta(g)(w)=[G:H]T(f_{g^{-1},w})(1).\]</span>
+Now, using the fact that <span class="math">\(T\)</span> is an intertwining operator, we can easily verify <span class="math">\(\Delta\)</span> satisfies <span class="math">\(\eqref{eq:delta-condition}\)</span>, i.e., <span class="math">\(\Delta \in \mathcal{D}\)</span>. Hence, we get a map from <span class="math">\(\text{Hom}_G(\text{Ind}_H^G\, \pi, \text{Ind}_K^G\,\lambda)\)</span> to <span class="math">\(\mathcal{D}\)</span>.</p>
+
+<p>It remains to prove that these two maps are inverse to each other. But this is just the repetition of calculation <span class="math">\(\eqref{eq:calculation}\)</span>.
+<span class="qed"><span class="math">\(\square\)</span></span></p>
+
+        <div class="tags">
+        <a href="/tag/induced-representation">induced representation</a>
+        <a href="/tag/mackey-theory">Mackey theory</a>
+        <a href="/tag/representation-theory">representation theory</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20141219-induced-representations-and-Mackey-theory/';
+    var disqus_title = 'Induced representations and Mackey theory';
+    var disqus_url = 'https://wormtooth.com/20141219-induced-representations-and-Mackey-theory/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

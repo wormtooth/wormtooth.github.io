@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Pytorch on RaspberryPi | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Pytorch on RaspberryPi</h1>
+    <div class="post-meta">Jun 17, 2018
+    <span> | </span> <span>Notes</span>
+    </div>
+    <a data-disqus-identifier="20180617-pytorch-on-raspberrypi/" href="/20180617-pytorch-on-raspberrypi/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>Finally, I successfully installed <a href="https://pytorch.org/">Pytorch</a> on my RaspberryPi 3B. I followed the instructions on <a href="https://gist.github.com/fgolemo/b973a3fa1aaa67ac61c480ae8440e754">How to install PyTorch v0.3.1 on RaspberryPi 3B</a> and a blog post (in Chinese) <a href="https://haoyu.love/blog509.html">在 RaspberryPi 上编译 PyTorch</a>. I am running latest raspian image <em>2018-04-18-raspbian-stretch</em> and a self-compiled <em>Python 3.6.5</em>. If you are interested in compile Python 3.6.5 or above on your own, check out <a href="https://gist.github.com/dschep/24aa61672a2092246eaca2824400d37f#installing-python-36-on-raspbian">Installing Python 3.6 on Raspbian</a>. In this post, I will write down steps to my successful installation, and share my compiled wheel file at the end.</p>
+<!--more-->
+
+<p>First of all, we need to set up SWAP. Edit file <code>/etc/dphys-swapfile</code>, find the constant <code>CONF_SWAPSIZE</code> and change its value to at least 2048, which means sparing 2G for swap file system. I set it to 4096 (4G), because I use a 32G card. To activate the swap file system, do the following commands:</p>
+<div class="highlight"><pre><span></span>sudo /etc/init.d/dphys-swapfile stop
+sudo /etc/init.d/dphys-swapfile start
+</pre></div>
+
+
+<p>Then, we need to install dependencies.</p>
+<div class="highlight"><pre><span></span>sudo apt-get install libopenblas-dev cython3 libatlas-dev <span class="se">\</span>
+    m4 libblas-dev cmake
+pip3 install --user pyyaml numpy
+</pre></div>
+
+
+<p>We shall now be ready to compile pytorch. We get pytorch from github, and choose a version (v0.4.0) to build.</p>
+<div class="highlight"><pre><span></span>git clone --recursive https://github.com/pytorch/pytorch
+<span class="nb">cd</span> pytorch
+git checkout tags/v0.4.0 -b build
+git submodule update --init --recursive
+</pre></div>
+
+
+<p>Since Pi does not have a GPU that supports CUDA, we are going disable it. We also disable distributed computing.</p>
+<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">NO_CUDA</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">export</span> <span class="nv">NO_DISTRIBUTED</span><span class="o">=</span><span class="m">1</span>
+</pre></div>
+
+
+<p>Suppose we are now in the <em>pytorch</em> folder, use the following command to build <code>pytorch</code>.</p>
+<div class="highlight"><pre><span></span>python3 setup.py build
+</pre></div>
+
+
+<p>This process will be long! On my Pi, it took at least 4 hours (I forgot to time it). I would recommend running the building process in the background:</p>
+<div class="highlight"><pre><span></span>date <span class="o">&amp;&amp;</span> python3 setup.py build <span class="o">&amp;&amp;</span> date <span class="p">&amp;</span>&gt; message-build <span class="p">&amp;</span>
+</pre></div>
+
+
+<p>The above command will run the building process in the background and output building messages to a file named <em>message-build</em>. Also, <code>date</code> command is used to time the building process. When Pi is working hard to compile <code>pytorch</code>, don't run any other complicated work on it. Indeed, I will suggest not to interrupt it at all, including not to peek the building message in <em>message-build</em> frequently. It is a good idea to run the building process before going to sleep.</p>
+<p>After a long enough time, check your <em>message-build</em> file to see if you have a successful build. We can look at the last row of the file:</p>
+<div class="highlight"><pre><span></span>tail -1 message-build
+</pre></div>
+
+
+<p>You should get a message about time from command <code>date</code>. If you do not get it, make sure to check running processes using <code>pstree</code> to see whether the building process has ended. Say we have successfully built <code>pytorch</code>. Since I wanted to get a wheel file for <code>pytorch</code> and installed it to the local user, I did not install it directly using <code>sudo python3 setup.py install</code>. Instead, I went to <em>pytorch</em> folder and did the following commands:</p>
+<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">NO_CUDA</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">export</span> <span class="nv">NO_DISTRIBUTED</span><span class="o">=</span><span class="m">1</span>
+pip3 install --user wheel
+python3 setup.py bdist_wheel
+<span class="nb">cd</span> dist
+pip3 install --user torch-0.4.0a0+3749c58-cp36-cp36m-linux_armv7l.whl
+</pre></div>
+
+
+<p>Pytorch on RaspberryPi got! I share <code>pytorch</code> wheel file so that you can avoid the compilation. It should save you a lot of time. But make sure you are running <strong>Python 3.6</strong> and have <strong>numpy</strong> installed. If so, use the following command to install <code>pytorch</code>.</p>
+<div class="highlight"><pre><span></span>pip install --user https://wormtooth.com/files/pytorch/torch-0.4.0a0+3749c58-cp36-cp36m-linux_armv7l.whl
+</pre></div>
+
+        <div class="tags">
+        <a href="/tag/torch">torch</a>
+        <a href="/tag/note">note</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20180617-pytorch-on-raspberrypi/';
+    var disqus_title = 'Pytorch on RaspberryPi';
+    var disqus_url = 'https://wormtooth.com/20180617-pytorch-on-raspberrypi/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

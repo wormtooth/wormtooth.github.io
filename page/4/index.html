@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+    叶某人的碎碎念 | Believe in Mathematics    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title"><a href="/20170902-leetcode-contest-48/">LeetCode Contest 48</a></h1>
+    <div class="post-meta">2017-09-02</div>
+    <a data-disqus-identifier="20170902-leetcode-contest-48/" href="/20170902-leetcode-contest-48/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-48">比赛</a>有点简单的样子。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-48/problems/second-minimum-node-in-a-binary-tree/">第一题</a><code>Second Minimum Node In a Binary Tree</code></p>
+<div class="qbar">给定一棵特别的二叉树，这棵二叉树的节点要么有两个子节点，要么没有节点。如果有两个子节点，那么该节点的值为子节点的最小值。求树的第二最小值。</div>
+
+<p>我当时什么都没有想，简单地将树的所有值取下来排序取出第二最小值。</p>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<span class="c1"># class TreeNode(object):</span>
+<span class="c1">#     def __init__(self, x):</span>
+<span class="c1">#         self.val = x</span>
+<span class="c1">#         self.left = None</span>
+<span class="c1">#         self.right = None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findSecondMinimumValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type root: TreeNode</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nums</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">nums</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
+            <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+        <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">2</span> <span class="k">else</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nums</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170902-leetcode-contest-48/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170827-leetcode-contest-47/">LeetCode Contest 47</a></h1>
+    <div class="post-meta">2017-08-27</div>
+    <a data-disqus-identifier="20170827-leetcode-contest-47/" href="/20170827-leetcode-contest-47/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-47/">比赛</a>做完四道题了 😊</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-47/problems/non-decreasing-array/">第一题</a><code>Non-decreasing Array</code></p>
+<div class="qbar">给定一个数组，问是否可以最多修改一个元素，使得整个数组非递降。</div>
+
+<p>我是首先找出第一个i，满足nums[i] &lt; nums[i-1]。这样我们必须要修改i或者i-1的位置，只要分别检查修改这两个位置是否可以得到一个非递降数组就行。因为两个元素相等也是非递降，所以修改一个位置可以等价于将那个位置的数字去除。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">checkPossibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type nums: List[int]</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">True</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="p">[</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">))</span> <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="n">i</span><span class="p">]</span>
+            <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">temp</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp</span><span class="p">)))</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">check</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="ow">or</span> <span class="n">check</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170827-leetcode-contest-47/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170826-willpower/">意志力</a></h1>
+    <div class="post-meta">2017-08-26</div>
+    <a data-disqus-identifier="20170826-willpower/" href="/20170826-willpower/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今天早上读完了鲍迈斯特的《<a href="https://book.douban.com/subject/10773358/">意志力</a>》。有趣的是，能看完这本书也是一种意志力的运用吧。</p>
+<blockquote>
+<p>自我损耗造成的影响是双重的：一方面意志力减弱了，另外一方面渴望变强了。</p>
+</blockquote>
+<p>“自我损耗”是作者以及书中提到的研究者在做实验的时候常用的手段。这也有警醒的意味：意志力减弱的时候，渴望还会变强！</p>
+<blockquote>
+<p>面临一个让他们产生内心冲突（一方面非常想要，一方面真不该要）的新诱惑，如果他们已经挡住了之前的诱惑，特别是如果上个诱惑过去没多久新诱惑就来了，那么他们更容易屈服。</p>
+<p>1.你的意志力是有限的，使用就会消耗。 2.你从同一账户提取意志力用于各种不同任务。</p>
+<p>我们可以把意志力的运用分为四大类，控制思维,控制情绪,控制冲动,控制表现。</p>
+</blockquote>
+
+    </div>
+    <p class="readmore"><a href="/20170826-willpower/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170813-leetcode-contest-45/">LeetCode Contest 45</a></h1>
+    <div class="post-meta">2017-08-13</div>
+    <a data-disqus-identifier="20170813-leetcode-contest-45/" href="/20170813-leetcode-contest-45/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-45/">比赛</a>也是卡在第三题上！😂<br>
+机智小伙伴是用状态机做的，非常厉害。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-45/problems/judge-route-circle/">第一题</a><code>Judge Route Circle</code></p>
+<div class="qbar">给定一个只含R（右），L（左），U（上）和D（下）的字符串表示移动方向，问是否能回到出发点。</div>
+
+<p>简单的统计。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">judgeCircle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">moves</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type moves: str</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">moves</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;R&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;U&#39;</span><span class="p">]</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170813-leetcode-contest-45/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170809-pelican-signals/">Pelican Signals</a></h1>
+    <div class="post-meta">2017-08-09</div>
+    <a data-disqus-identifier="20170809-pelican-signals/" href="/20170809-pelican-signals/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p><a href="https://blog.getpelican.com/">Pelican</a>的插件系统是使用<a href="https://pythonhosted.org/blinker/">blinker</a>的<code>signal</code>实现的。Pelican所有可以用的signals可以在<a href="https://github.com/getpelican/pelican/blob/master/pelican/signals.py">signals.py</a>找到。本文的目的是记录这些signals是在Pelican运行中什么时候发出的。</p>
+<p>(1) Pelican有一个叫做<code>Pelican</code>的类，含有程序的主体框架。当<code>Pelican</code>的一个实例<code>pelican</code>初始化完成之后（基本设置，加载插件），发出第一个signal。</p>
+<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">initialized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">pelican</span><span class="p">)</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170809-pelican-signals/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170806-leetcode-contest-44/">LeetCode Contest 44</a></h1>
+    <div class="post-meta">2017-08-06</div>
+    <a data-disqus-identifier="20170806-leetcode-contest-44/" href="/20170806-leetcode-contest-44/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-44/">比赛</a>很遗憾只能做出三题，没有做出第三题。第三题其实不难，只是比赛的时候脑袋就像面粉加水一团浆糊没有反应过来。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-44/problems/two-sum-iv-input-is-a-bst/">第一题</a><code>Two Sum IV - Input is a BST</code></p>
+<div class="qbar">题目大意：给定一颗二叉搜索树和一个目标值，问是否存在树中的两个数使得它们的和为目标值。</div>
+
+<p>好吧，我是写博客的时候才发现原来输入的是一颗搜索树。题目大概是想让我们快速判定一个数是否在给定的二叉搜索树中吧。我是首先遍历二叉树统计每个数出现的次数，然后枚举每个出现的数a，如果目标值减去a也出现过则返回True。注意要考虑a和目标值减去a是一样的情况。</p>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<span class="c1"># class TreeNode(object):</span>
+<span class="c1">#     def __init__(self, x):</span>
+<span class="c1">#         self.val = x</span>
+<span class="c1">#         self.left = None</span>
+<span class="c1">#         self.right = None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findTarget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type root: TreeNode</span>
+<span class="sd">        :type k: int</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nums</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">val</span>
+            <span class="n">nums</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+        <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nums</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="n">n</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="n">m</span> <span class="ow">and</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="n">m</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170806-leetcode-contest-44/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170730-leetcode-contest-43/">LeetCode Contest 43</a></h1>
+    <div class="post-meta">2017-07-30</div>
+    <a data-disqus-identifier="20170730-leetcode-contest-43/" href="/20170730-leetcode-contest-43/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>感觉这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-43">比赛</a>除第一题之外都是策略/DP题啊。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-43/problems/find-duplicate-subtrees/">第一题</a><code>Find Duplicate Subtrees</code></p>
+<div class="qbar">题目大意：给定一棵二叉树，找出所有重复出现的子树。</div>
+
+<p>我们要对树的结构进行统计，因此这题关键是对树进行编码。可以参考 <a href="https://leetcode.com/problems/construct-string-from-binary-tree/description/">606. Construct String from Binary Tree</a>。</p>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<span class="c1"># class TreeNode(object):</span>
+<span class="c1">#     def __init__(self, x):</span>
+<span class="c1">#         self.val = x</span>
+<span class="c1">#         self.left = None</span>
+<span class="c1">#         self.right = None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findDuplicateSubtrees</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type root: TreeNode</span>
+<span class="sd">        :rtype: List[TreeNode]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">seen</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;{}({})({})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                <span class="n">seen</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">root</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">seen</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="n">s</span>
+        <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">seen</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170730-leetcode-contest-43/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170722-leetcode-contest-42/">LeetCode Contest 42</a></h1>
+    <div class="post-meta">2017-07-22</div>
+    <a data-disqus-identifier="20170722-leetcode-contest-42/" href="/20170722-leetcode-contest-42/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今天晚上在朋友家做好饭已经过了<a href="https://leetcode.com/contest/leetcode-weekly-contest-42/">比赛</a>时间了，我们是边吃着饭边喝着酒来写代码。牛肉炖土豆是一如既往的美味，新尝试的豆腐煮白菜也很不错。这次朋友买了Habanero，辣味惊人，我是打着喷嚏做菜的😢</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-42/problems/set-mismatch/">第一题</a><code>Set Mismatch</code></p>
+<div class="qbar">题目大意：给定一个长度为n数值在1到n之间的数组。已知其中一个数字出现一个，另一个数字没有出现。找出这两个数字。</div>
+
+<p>简单的统计。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findErrorNums</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type nums: List[int]</span>
+<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+            <span class="n">cnt</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cnt</span><span class="p">):</span>
+            <span class="n">ans</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ans</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170722-leetcode-contest-42/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170720-lambda-calculus/">Lambda Calculus</a></h1>
+    <div class="post-meta">2017-07-20</div>
+    <a data-disqus-identifier="20170720-lambda-calculus/" href="/20170720-lambda-calculus/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This post is my note for <a href="https://math.osu.edu/whatis"><em>What is</em></a> seminar on Lambda Calculus.</p>
+<p><a href="https://en.wikipedia.org/wiki/Lambda_calculus">Lambda calculus</a> was created by <a href="https://en.wikipedia.org/wiki/Alonzo_Church">Alonzo Church</a> in the 1930s, and was used by him to solve <a href="https://en.wikipedia.org/wiki/Entscheidungsproblem">Entscheidungsproblem</a> in 1936, which is related to <a href="https://en.wikipedia.org/wiki/Hilbert%27s_tenth_problem">Hilbert's tenth problem</a>. In the same year, <a href="https://en.wikipedia.org/wiki/Alan_Turing">Alan Turing</a> independently solved <a href="https://en.wikipedia.org/wiki/Entscheidungsproblem">Entscheidungsproblem</a> using his invention <a href="https://en.wikipedia.org/wiki/Turing_machine"><em>Turing machine</em></a>. Shortly after, Turing realized that these two models are actually equivalent as models of computation.</p>
+<p>In this note, I will first give the formal definition of lambda expressions. Then with the help of Python, I am going to show how to do Boolean algebra and basic arithmetic using lambda calculus, which to some extend gives an illustration that Turing machine and lambda calculus are equivalent.</p>
+<h2>Definition</h2>
+<p>Lambda calculus consists of lambda expressions and operations on them. There are three basic elements in Lambda expression:</p>
+<ol>
+<li>variables: x, y, z, ...</li>
+<li>symbols in abstraction: λ and .</li>
+<li>parentheses for association: ()</li>
+</ol>
+
+    </div>
+    <p class="readmore"><a href="/20170720-lambda-calculus/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170710-maupassant-pelican/">maupassant: a Pelican theme</a></h1>
+    <div class="post-meta">2017-07-10</div>
+    <a data-disqus-identifier="20170710-maupassant-pelican/" href="/20170710-maupassant-pelican/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>我现在用的博客生成软件是<a href="https://hexo.io/">Hexo</a>。这个软件可以快速将<a href="https://daringfireball.net/projects/markdown/">Markdown</a>格式的文章转成html格式，并且包含发布到<a href="https://pages.github.com/">github page</a>的工具。Hexo是基于<a href="https://nodejs.org/en/">Nodejs</a>，所以某天我就在想有没有一个基于Python的博客生成软件。为什么我会这样想？因为</p>
+<blockquote>
+<p>人生苦短，我用Python。</p>
+</blockquote>
+<p>当然会有基于Python的博客生成软件：<a href="https://blog.getpelican.com/">Pelican</a>是最为突出的一个。事实上，我很喜欢Pelican！其中一个亮点是它的主题都是基于<a href="http://jinja.pocoo.org/">Jinja</a>，这种简单统一的模版格式让用户很容易设计自己喜欢的主题。出于练手的原因，我将我喜欢的一个Hexo主题<a href="https://github.com/tufu9441/maupassant-hexo">maupassant</a>移植到Pelican了。</p>
+
+    </div>
+    <p class="readmore"><a href="/20170710-maupassant-pelican/">Read More</a></p>
+</div>
+
+<div class="page-navigator">
+    <a class="extend prev" rel="prev" href="/page/3/">Previous</a>
+    <a class="page-number" href="/">1</a>
+    <a class="page-number" href="/page/2/">2</a>
+    <a class="page-number" href="/page/3/">3</a>
+    <span class="page-number current">4</span>
+    <a class="page-number" href="/page/5/">5</a>
+    <a class="page-number" href="/page/6/">6</a>
+    <span class="space">...</span>
+    <a class="page-number" href="/page/9/">9</a>
+    <a class="extend next" rel="next" href="/page/5/">Next</a></nav>
+</div class="page-navigator">
+
+    <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+The Mellin transform | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">The Mellin transform</h1>
+    <div class="post-meta">Aug 05, 2014
+    <span> | </span> <span>Mathematics</span>
+    </div>
+    <a data-disqus-identifier="20140805-The-Mellin-transform/" href="/20140805-The-Mellin-transform/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <h3>Definition</h3>
+
+<p>Let <span class="math">\(\mathbb{R}^{+}\)</span> be the set of positive real numbers. Given a function <span class="math">\(f\)</span> on <span class="math">\(\mathbb{R}^{+}\)</span>, define the Mellin transform of <span class="math">\(f\)</span>, whenever it makes sense, as follow:
+<a name="def"></a><span class="math">\[\mathcal{M}(f)(s)=\int_{0}^{\infty} f(t)t^{s} \frac{dt}{t}. \; (1)\]</span></p>
+
+<p>The very first example of the Mellin transform I have known is the gamma function,
+<span class="math">\[\Gamma(s) = \int_{0}^{\infty} e^{-t}t^{s} \frac{dt}{t},\]</span>
+which is the Mellin transform of the function <span class="math">\(e^{-t}\)</span>. </p>
+
+<!--more-->
+
+<h3>Relation with Fourier transform</h3>
+
+<p>The Mellin transform is indeed the Fourier transform on the locally compact group <span class="math">\((\mathbb{R}^{+}, \cdot)\)</span>. There is a general way to look into the Fourier transform of <span class="math">\((\mathbb{R}^{+}, \cdot)\)</span>, but there is an easier way to discover the connection between these two transforms. I will go through both ways here, with the easier one first.</p>
+
+<p>Let <span class="math">\(exp: (\mathbb{R}, +) \to (\mathbb{R}^{+}, \cdot)\)</span> be the obvious exponential map. It&#8217;s not hard to see that <span class="math">\(exp\)</span> is an isomorphism. For a function <span class="math">\(f\)</span> on <span class="math">\(\mathbb{R}^{+}\)</span>, we can composite it with <span class="math">\(exp\)</span> to define a function <span class="math">\(\tilde{f}=f \circ exp\)</span> on <span class="math">\(\mathbb{R}\)</span>. Applying the Fourier transform to <span class="math">\(\tilde{f}\)</span>, we get
+<span class="math">\[\begin{split}
+\mathcal{F}(\tilde{f})(y)
+&=\int_{-\infty}^{\infty} \tilde{f}(x)e^{2\pi ixy} dx \\
+&=\int_{-\infty}^{\infty} f(e^x)e^{2\pi ixy} dx \, .
+\end{split}\]</span>
+Now, we let <span class="math">\(t=e^x\)</span> and <span class="math">\(s=2\pi iy\)</span>, then
+<span class="math">\[\mathcal{F}(\tilde{f})\left(\frac{s}{2\pi i}\right)=\int_{0}^{\infty} f(t)t^{s} \frac{dt}{t}.\]</span>
+So we conclude from above that <span class="math">\(\mathcal{M}(f)(s)=\mathcal{F}(f \circ exp)\left(\frac{s}{2\pi i}\right)\)</span>.</p>
+
+<p>We should now consider the Fourier transform directly on <span class="math">\((\mathbb{R}^{+}, \cdot)\)</span>. The usual Fourier transform is considered on <span class="math">\((\mathbb{R}, +)\)</span> and can be generalized to locally compact abelian groups. For more information about the Fourier transform on locally compact abelian groups, see this wikipedia article: <a href="http://en.wikipedia.org/wiki/Pontryagin_duality"><em>Pontryagin duality</em></a>. The Fourier transform can be further generalized, to <a href="http://en.wikipedia.org/wiki/Gelfand_representation"><em>the Gelfand transform</em></a>.</p>
+
+<p>In order to do the Fourier transform on <span class="math">\((\mathbb{R}^{+}, \cdot)\)</span>, we need to figure out the dual group and the Haar measure of <span class="math">\(\mathbb{R}^{+}\)</span>.</p>
+
+<div class='qbar'><strong>Claim 1.</strong> The dual group $\widehat{\mathbb{R}^{+}}$ of $\mathbb{R}^{+}$ is isomorphic to $\mathbb{R}$ and each character is of the form $t \mapsto t^{i\theta}$ for some $\theta \in \mathbb{R}$.
+</div>
+
+<p>The proof of <strong>claim 1</strong> is not hard. One way to see it is derivation via the isomorphism <span class="math">\(exp\)</span> from <span class="math">\(\hat{\mathbb{R}}\)</span>, the dual group of <span class="math">\(\mathbb{R}\)</span>. For <span class="math">\(\theta \in \mathbb{R}\)</span>, we denote <span class="math">\(\chi_{\theta}\)</span> a character of <span class="math">\(\mathbb{R}^{+}\)</span>, defined by <span class="math">\(\chi_{\theta}(t) = t^{i\theta}\)</span>, as in <strong>claim 1</strong>. Since <span class="math">\(\widehat{\mathbb{R}^{+}} \cong \mathbb{R}\)</span>, we can identify <span class="math">\(\theta\)</span> with <span class="math">\(\chi_{\theta}\)</span>, so it makes sense if I say <span class="math">\(\theta \in \widehat{\mathbb{R}^{+}}\)</span>. Again, by using <span class="math">\(exp\)</span>, we can get the Haar measure on <span class="math">\(\mathbb{R}^{+}\)</span> easily:</p>
+
+<div class='qbar'><strong>Claim 2.</strong> The image of $dx$ under $exp$ is $\frac{dx}{x}$, and it is the Haar measure on $\mathbb{R}^{+}$.
+</div>
+
+<p>With <strong>claim 1</strong> and <strong>claim 2</strong> in hand, we can now proceed to the Fourier transform on <span class="math">\(\mathbb{R}^{+}\)</span>. Fix a function <span class="math">\(f\)</span>, for any <span class="math">\(\theta \in \widehat{\mathbb{R}^{+}}\)</span>,
+<span class="math">\[\begin{split}
+\mathcal{F}_{\mathbb{R}^{+}}(f)(\theta)
+&= \int_{\mathbb{R}^{+}} f(x)\chi_{\theta}(x) \frac{dx}{x}\\
+&= \int_{\mathbb{R}^{+}} f(x)x^{i\theta} \frac{dx}{x} \, .\end{split}\]</span>
+From this, we see that <span class="math">\(\mathcal{M}(f)(s)=\mathcal{F}_{\mathbb{R}^{+}}(f)(-is)\)</span>. </p>
+
+<p>In both cases where we relate the Mellin transform to the Fouire transform, we do the substitution <span class="math">\(s=2\pi iy\)</span> or <span class="math">\(s=i\theta\)</span>, where <span class="math">\(y, \theta \in \mathbb{R}\)</span>. So <span class="math">\(s\)</span> should be a pure imaginary on the upper plane. In the application section below, we do focus on the function defined on the positive imaginary axis. However, we should notice that the definition <a href="#def">(1)</a> of the Mellin transform does not require <span class="math">\(s\)</span> to be pure imaginary.</p>
+
+<h3>Inversion</h3>
+
+<p>Since we know from the previous section that the Mellin transform is indeed a special kind of the Fourier transform, we can use the Fourier inversion formula to obtain the inversion formula for the Mellin transform:
+<a name="inv"></a><span class="math">\[\mathcal{M}^{-1}(\varphi)(t) = \frac{1}{2\pi i} \int_{v-i\infty}^{v+i\infty} \varphi(s)t^{-s} ds, \; (2)\]</span>
+where <span class="math">\(v\)</span> is a real number.</p>
+
+<p><em>The proof of the inversion formula <a href="#inv">(2)</a></em>:</p>
+
+<p>Let <span class="math">\(f\)</span> be a function on <span class="math">\(\mathbb{R}^{+}\)</span>. Let <span class="math">\(\varphi(s) = \mathcal{M}(f)(s)\)</span> as defined in <a href="#def">(1)</a>. Let <span class="math">\(s=v+iw\)</span>, where <span class="math">\(v, w 
+\in \mathbb{R}\)</span>, and let <span class="math">\(t=e^{x}\)</span>, where <span class="math">\(x \in \mathbb{R}\)</span>. Then
+<span class="math">\[\varphi(v+iw)=\int_{-\infty}^{\infty} f(e^{x})e^{xv}e^{ixw} dx.\]</span>
+So by the Fourier inversion formula,
+<span class="math">\[f(e^x)e^{xv} = \frac{1}{2\pi i}\int_{-\infty}^{\infty} \varphi(v+iw)e^{-ixw} dw.\]</span>
+Now, multiplying both sides by <span class="math">\(e^{-xv}\)</span> and plugging <span class="math">\(t=e^x\)</span> and <span class="math">\(s=v+iw\)</span> back, we get <a href="#inv">(2)</a>.</p>
+
+<h3>Application</h3>
+
+<p>I found out that the Mellin transform is extensively used in proving functional equations and analytic continuations of automorphic forms, in Daniel Bump&#8217;s <a href="http://books.google.com/books/about/Automorphic_Forms_and_Representations.html?id=QQ1cr7B6XqQC"><em>Automorphic Forms and Representations</em></a>. I will show the idea by proving the analytic continuations and functional equations of modular forms for <span class="math">\(SL(2, \mathbb{Z})\)</span>.</p>
+
+<p>Let <span class="math">\(\mathcal{H}\)</span> be the upper complex plane. Let <span class="math">\(f\)</span> be a holomorphic function on <span class="math">\(\mathcal{H}\)</span> satisfying:</p>
+
+<ol>
+<li><span class="math">\(f(z+1)=f(z)\)</span>;</li>
+<li><span class="math">\(f(-1/z)=z^{k}f(z)\)</span>, where <span class="math">\(k \in 2\mathbb{N}\)</span>;</li>
+<li><span class="math">\(f\)</span> has a Fourier series
+<a name="fourier"></a><span class="math">\[f(z)=\sum_{n=0}^{\infty} a_ne^{2\pi inz}. \; (3)\]</span></li>
+</ol>
+
+<p>Such a function <span class="math">\(f\)</span> is called <em>a modular form of weight <span class="math">\(k\)</span></em> for <span class="math">\(SL(2, \mathbb{Z})\)</span>.</p>
+
+<p>Since <span class="math">\(f\)</span> is holomorphic on <span class="math">\(\mathcal{H}\)</span>, <span class="math">\(f\)</span> is uniquely determined by the values it takes on the upper imaginary axis, by the <a href="http://en.wikipedia.org/wiki/Identity_theorem"><em>identity theorem</em></a>. Hence, it suffices to consider how <span class="math">\(f\)</span> behaves on <span class="math">\(i\mathbb{R}^{+}\)</span>. Now let&#8217;s apply the Mellin transform to <span class="math">\(f(iy)\)</span>, where <span class="math">\(y \in \mathbb{R}^{+}\)</span>:
+<span class="math">\[\mathcal{M}(f)(s) = \int_{0}^{\infty} f(iy)y^s \frac{dy}{y}.\]</span>
+By using the Fourier series <a href="#fourier">(3)</a> of <span class="math">\(f\)</span> and exchanging the order of summation and integration, and then letting <span class="math">\(t=2\pi ny\)</span> in each integration, we get:
+<a name="continuation"></a>
+<span class="math">\[\begin{split}
+\mathcal{M}(f)(s) 
+&= \sum_{n=0}^{\infty} \int_{0}^{\infty} a_ne^{-2\pi ny}y^s \frac{dy}{y} \\
+&= (2\pi)^{-s}\Gamma(s) \sum_{n=0}^{\infty} \frac{a_n}{n^s} \\
+&= (2\pi)^{-s}\Gamma(s)L(s, f) \, ,
+\end{split} \; (4)\]</span>
+where <span class="math">\(L(s,f)=\sum_{n=0}^{\infty} \frac{a_n}{n^s}\)</span> is the <span class="math">\(L\)</span>-function of <span class="math">\(f\)</span>. Apparently, <a href="#continuation">(4)</a> indicates the analytic(meromorphic) continuation of <span class="math">\(L(s,f)\)</span>.</p>
+
+<p>Now putting <span class="math">\(z=iy\)</span> into <span class="math">\(f(-1/z)=z^{k}f(z)\)</span>, we get <span class="math">\(f(iy)=i^{k}y^{-k}f(i/y)\)</span>. So,
+<a name="functional_equation"></a>
+<span class="math">\[\begin{split}
+\mathcal{M}(f)(s) 
+&= \int_{0}^{\infty} f(iy)y^s \frac{dy}{y} \\
+&= \int_{0}^{\infty} i^{k}f(i/y)y^{s-k} \frac{dy}{y} \\
+&= i^k \int_{0}^{\infty} f(iy)y^{k-s} \frac{dy}{y} \\
+&= i^k \mathcal{M}(f)(k-s) \, .
+\end{split} \; (5)\]</span></p>
+
+<p>Define <span class="math">\(\Lambda(s,f)=(2\pi)^{-s}\Gamma(s)L(s,f)\)</span>. Then by <a href="#continuation">(4)</a> and <a href="#functional_equation">(5)</a>, we obtain the functional equation of <span class="math">\(f\)</span>:
+<span class="math">\[\Lambda(s,f)=i^{k}\Lambda(k-s,f).\]</span></p>
+
+        <div class="tags">
+        <a href="/tag/mellin-transform">Mellin transform</a>
+        <a href="/tag/fourier-transform">Fourier transform</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20140805-The-Mellin-transform/';
+    var disqus_title = 'The Mellin transform';
+    var disqus_url = 'https://wormtooth.com/20140805-The-Mellin-transform/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Raspberry Pi Zero W无屏设置 | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Raspberry Pi Zero W无屏设置</h1>
+    <div class="post-meta">Jun 19, 2017
+    <span> | </span> <span>Notes</span>
+    </div>
+    <a data-disqus-identifier="20170619-raspberrypi-zero-w-setup/" href="/20170619-raspberrypi-zero-w-setup/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>我最近入手了一个<a href="https://www.raspberrypi.org/products/pi-zero-w/">Raspberry Pi Zero W</a>，作为平时消遣的一个小玩具。因为我主要是想在它上面运行一些小程序，所以我希望将它设置为最简单的服务器，然后通过ssh来访问。这篇文章记录了我从网上搜来的设置步骤，方便下次设置。</p>
+<h3>制作SD启动盘</h3>
+<p>首先说明一下：我的系统是Mac OSX。在制作SD启动盘过程中，我们需要修改启动盘的内容，Mac OSX是不支持启动盘的格式的，所以我们需要借助其他途径。我是用VitualBox的Ubuntu来修改启动盘的内容。</p>
+<p><strong>第一步</strong>：下载<a href="https://www.raspberrypi.org/downloads/raspbian/">raspbian lite</a>，解压得到一个后缀名为img的镜像文件。我得到的是：<code>2017-04-10-raspbian-jessie-lite.img</code>。</p>
+<!--more-->
+
+<p><strong>第二步</strong>：插入一张SD卡，我用的是一张8G的SD卡。</p>
+<p>使用以下命令找出SD卡的信息。</p>
+<div class="highlight"><pre><span></span>diskutil list
+</pre></div>
+
+
+<p>其中最重要的信息是它的<code>INDENTIFIER</code>。比如我的SD卡是<code>disk2</code>。<strong>下面的命令务必保证使用正确的<code>INDENTIFIER！！</code></strong></p>
+<p>接着使用以下命令写入镜像。</p>
+<div class="highlight"><pre><span></span>diskutil unmountDisk /dev/disk2
+sudo dd <span class="nv">bs</span><span class="o">=</span>1m <span class="k">if</span><span class="o">=</span>/path/to/img <span class="nv">of</span><span class="o">=</span>/dev/rdisk2 
+</pre></div>
+
+
+<p>再次提醒：必须使用正确的<code>INDENTIFIER</code>！。<code>disk2</code>要修改成正确的<code>INDENTIFIER</code>，<code>/path/to/img</code>要修改成第一步得到的镜像路径。</p>
+<p><strong>第三步</strong>：修改SD卡的内容（目的是启动ssh以及设置wifi）。我是用VitualBox的Ubuntu挂载已经写入镜像的SD卡。</p>
+<p>在<code>/boot</code>分区的根目录下创建一个名为<code>ssh</code>的空文件。这一步是启动ssh。</p>
+<p>在<code>/</code>分区里，找到<code>/etc/wpa_supplicant/wpa_supplicant.conf</code>并在最后加入以下内容：</p>
+<div class="highlight"><pre><span></span><span class="nv">network</span><span class="o">={</span>  
+    <span class="nv">ssid</span><span class="o">=</span><span class="s2">&quot;wifi名字&quot;</span>
+    <span class="nv">psk</span><span class="o">=</span><span class="s2">&quot;wifi密码&quot;</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<h3>启动树莓派</h3>
+<p>将SD卡插入树莓派中，连接电源，等待几分钟以确保树莓派启动并连接上wifi。</p>
+<p>首先我们可以尝试</p>
+<div class="highlight"><pre><span></span>ssh pi@raspberrypi.local
+</pre></div>
+
+
+<p>如果直接连上了，就不用找树莓派的地址了，否则要按照下面步骤寻找树莓派的地址。</p>
+<p>关键的一步是我们要确认树莓派的ip地址。我使用<a href="https://nmap.org/"><code>nmap</code></a>来寻找它的ip地址（Mac OSX上需要自行安装）。</p>
+<p>运行以下命令</p>
+<div class="highlight"><pre><span></span>ifconfig <span class="p">|</span> grep inet
+</pre></div>
+
+
+<p>找到一个192开头的本地地址。假设是<code>192.168.0.100</code>。然后我们用<code>nmap</code>扫描一遍本地的子网络</p>
+<div class="highlight"><pre><span></span>nmap -sn <span class="m">192</span>.168.0.0/24
+</pre></div>
+
+
+<p>这个命令会列出这个子网络的所有设备。一般来说是比较容易看出树莓派的ip地址的。假设树莓派的地址是<code>192.168.0.101</code>。我们现在可以ssh到树莓派了：</p>
+<div class="highlight"><pre><span></span>ssh pi@192.168.0.101
+</pre></div>
+
+
+<p>连上之后，我们需要输入密码。<strong>Raspbian的初始密码是<code>raspberry</code></strong></p>
+<h3>基本设置</h3>
+<p>连接上raspberry的第一步要使用以下命令修改密码。</p>
+<div class="highlight"><pre><span></span>passwd
+</pre></div>
+
+
+<p>我们也可以使用</p>
+<div class="highlight"><pre><span></span>sudo raspi-config
+</pre></div>
+
+
+<p>进行更多的设置。</p>
+<p>至此，我们就基本设置好了。</p>
+<h3>个人设置</h3>
+<p>接下来这步是我自己的一些设置，如安装git与vim等软件。我将这些设置都写入了一个bash脚本并放在了本博客上。</p>
+<div class="highlight"><pre><span></span>wget https://wormtooth.com/files/pisetup.sh
+bash pisetup.sh
+</pre></div>
+
+        <div class="tags">
+        <a href="/tag/raspberry-pi">raspberry pi</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20170619-raspberrypi-zero-w-setup/';
+    var disqus_title = 'Raspberry Pi Zero W无屏设置';
+    var disqus_url = 'https://wormtooth.com/20170619-raspberrypi-zero-w-setup/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

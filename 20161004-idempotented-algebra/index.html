@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Idempotented algebra | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Idempotented algebra</h1>
+    <div class="post-meta">Oct 04, 2016
+    <span> | </span> <span>Mathematics</span>
+    </div>
+    <a data-disqus-identifier="20161004-idempotented-algebra/" href="/20161004-idempotented-algebra/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This post is a reading note to Bernstein&#8217;s <a href="http://www.math.tau.ac.il/~bernstei/Publication_list/publication_texts/Bern_Center.pdf">Le &#8220;centre&#8221; de Bernstein</a>, on the part of idempotented algebras (section 1.1 to 1.7, ibid.). Let <span class="math">\(R\)</span> be a ring, an element <span class="math">\(e\)</span> is called <em>an idempotent</em> if <span class="math">\(e^2=e\)</span>. Let <span class="math">\(k\)</span> be a field.</p>
+
+<div class='qbar' >
+
+<p><a name='defn1'><strong>Definition 1.</strong> </a>A <span class="math">\(k\)</span>-idempotented algebra <span class="math">\((H, I)\)</span> is a <span class="math">\(k\)</span>-algebra <span class="math">\(H\)</span> together with the set idempotents <span class="math">\(I\)</span> satisfying</p>
+(*) For any finite family <span class="math">\((x_i)\)</span>, there exists an idempotent <span class="math">\(e \in I\)</span> such that <span class="math">\(ex_ie = x_i\)</span> for all <span class="math">\(i\)</span>.
+</div>
+
+<p>The <span class="math">\(k\)</span>-structures of <span class="math">\(H\)</span> is not involved in the discussion of this post, so we will ignore it. Let <span class="math">\((H, I)\)</span> be an idempotented algebra for the rest of the post.</p>
+
+<div class='qbar' >
+
+<p><a name='lemma2'><strong>Lemma 2.</strong> </a>Let <span class="math">\(e, f \in I\)</span>. The following are equivalent.</p>
+(1) <span class="math">\(eHe \subset fHf\)</span>
+<br/>(2) <span class="math">\(e \in fHf\)</span>
+<br/>(3) <span class="math">\(e = fef\)</span>
+<br/>
+</div>
+
+<!--more-->
+
+<p><em>Pf.</em> If <span class="math">\(eHe \subset fHf\)</span>, then in particular, <span class="math">\(e = eee \in fHf\)</span>. If <span class="math">\(e \in fHf\)</span>, then <span class="math">\(e = fhf\)</span> for some <span class="math">\(h \in H\)</span>, so
+<span class="math">\[fef = f(fhf)f = fhf = e.\]</span>
+If <span class="math">\(e = fef\)</span>, then <span class="math">\(eHe = fefHfef \subset fHf\)</span>.
+<span class='qed'><span class="math">\(\vartriangleleft\)</span></span></p>
+
+<p>For <span class="math">\(e, f \in I\)</span>, we say <span class="math">\(e \le f\)</span> if the equivalent conditions in <a href="#lemma2">Lemma 2</a> hold. This gives an order on the set <span class="math">\(I\)</span>. <a href="#defn1">Definition 1</a> of idempotented algebra forces <span class="math">\(I\)</span> to be directed under this order: For any <span class="math">\(e, f \in I\)</span>, there exists by definition a <span class="math">\(g \in I\)</span> such that <span class="math">\(e = geg\)</span> and <span class="math">\(f = gfg\)</span>, i.e., <span class="math">\(e \le g\)</span> and <span class="math">\(f \le g\)</span>. Moreover, <span class="math">\(H\)</span> is the union of <span class="math">\(eHe\)</span>, for <span class="math">\(e\)</span> runs over <span class="math">\(I\)</span>: for any <span class="math">\(h \in H\)</span>, there exists an <span class="math">\(e \in I\)</span> such that <span class="math">\(h = ehe \in eHe\)</span>. </p>
+
+<div class='qbar' >
+<a name='defn3'><strong>Definition 3.</strong> </a>An <span class="math">\(H\)</span>-module <span class="math">\(M\)</span> is <em>non-degenerate</em> if <span class="math">\(HM=M\)</span>.
+</div>
+
+<p>Below is a very useful characterization of non-degenerate modules we shall use later:</p>
+
+<div class='qbar' >
+<a name='prop4'><strong>Proposition 4.</strong> </a>An <span class="math">\(H\)</span>-module <span class="math">\(M\)</span> is non-degenerate if and only if for any <span class="math">\(m \in M\)</span>, there exists an <span class="math">\(e \in I\)</span> such that <span class="math">\(em = m\)</span>.
+</div>
+
+<p><em>Proof.</em> &#8220;if&#8221; part is obvious.</p>
+
+<p>&#8220;only if&#8221; part: For any <span class="math">\(h \in H\)</span>, there exists an <span class="math">\(e \in I\)</span> such that <span class="math">\(h = ehe\)</span>. Therefore, <span class="math">\(eh = e(ehe) = ehe = h\)</span>. Now for any <span class="math">\(m \in M\)</span>, there exist <span class="math">\(h \in H\)</span> and <span class="math">\(n \in M\)</span> such that <span class="math">\(hn = m\)</span>, since <span class="math">\(HM=M\)</span>. We can find an <span class="math">\(e \in I\)</span> with <span class="math">\(eh = h\)</span>, then <span class="math">\(em = ehn = hn = m\)</span>.
+<span class='qed'><span class="math">\(\square\)</span></span></p>
+
+<p>In particular, we can see from the proof that <span class="math">\(H\)</span> itself is non-degenerate as an <span class="math">\(H\)</span>-module. We denote <span class="math">\(\mathcal{M}\)</span> the category of all non-degenerate <span class="math">\(H\)</span>-modules.</p>
+
+<p>The next thing we would like to do is to put a topology on <span class="math">\(H\)</span>, then consider the completion <span class="math">\(\hat{H}\)</span> of <span class="math">\(H\)</span> under this topology. It turns out that <span class="math">\(\hat{H}\)</span> is the endomorphism ring of the forgetful functor <span class="math">\(\omega: \mathcal{M} \to \mathcal{A}\)</span>, where <span class="math">\(\mathcal{A}\)</span> is the category of abelian groups. We shall see the details of these in the following.</p>
+
+<div class='qbar' >
+<a name='defn5'><strong>Definition 5 (Topology on <span class="math">\(H\)</span>).</strong> </a>
+The topology <span class="math">\(\tau\)</span> on <span class="math">\(H\)</span> is given by a fundamental system of neighborhoods <span class="math">\(\{H(1-e): e \in I\}\)</span> at <span class="math">\(0 \in H\)</span>, where
+<span class="math">\[H(1-e) = \{h-he: h \in H\},\]</span>
+is the set of left annihilators of <span class="math">\(e\)</span>.
+</div>
+
+<p>Since <span class="math">\(H\)</span> has a group structure, the topology <span class="math">\(\tau\)</span> above is well-defined. More specifically, for any <span class="math">\(h \in H\)</span>, there associates to it a fundamental system of neighborhoods <span class="math">\(\{h+H(1-e): e \in I\}\)</span>. A <em>Cauchy sequence</em> in <span class="math">\(H\)</span> is a sequence <span class="math">\(\{x_n\}_{n \in \N} \subset H\)</span> that, for any <span class="math">\(e \in I\)</span>, there exits an <span class="math">\(N_e > 0\)</span> such that for any <span class="math">\(n, m \ge N_e\)</span>, <span class="math">\(x_n - x_m \in H(1-e)\)</span>. Given two Cauchy sequences <span class="math">\(\{x_n\}\)</span> and <span class="math">\(\{y_n\}\)</span>, we say that <span class="math">\(\{x_n\} \sim \{y_n\}\)</span> if for any <span class="math">\(e \in I\)</span>, there exists an <span class="math">\(N_e > 0\)</span> such that for any <span class="math">\(n \ge N_e\)</span>, <span class="math">\(x_n - y_n \in H(1-e)\)</span>. One can easily check that <span class="math">\(\sim\)</span> is an equivalent relation for these Cauchy sequences. We define the <em>completion</em> of <span class="math">\(H\)</span> under <span class="math">\(\tau\)</span> to be
+<span class="math">\[\hat{H} = \{\text{Cauchy sequences in }H\}/\sim.\]</span></p>
+
+<div class='qbox' >
+<a name='thm6'><strong>Theorem 6.</strong> </a><span class="math">\(\displaystyle \hat{H} = \varprojlim_{e \in I} He\)</span>, where <span class="math">\(\varprojlim\)</span> is the inverse limit, taking over the inverse system <span class="math">\(x \mapsto xe: Hf \to He\)</span> for <span class="math">\(e \le f\)</span>, of all the <span class="math">\(He\)</span> with discrete topology.
+</div>
+
+<p><em>Proof.</em> Let <span class="math">\(\tilde{H} = \varprojlim_{e \in I} He\)</span>. <span class="math">\(\tilde{H}\)</span> is a topological space, with initial topology induced from the projections <span class="math">\(\{\pi_e: \tilde{H} \to He, e \in I\}\)</span>. <span class="math">\(H\)</span> is embedded into <span class="math">\(\tilde{H}\)</span> via diagonal embedding, i.e., <span class="math">\(h \mapsto (he)_{e \in I}\)</span>. We view <span class="math">\(H\)</span> is a subgroup in <span class="math">\(\tilde{H}\)</span> under this embedding. The proof contains two steps: (i) the subspace topology of <span class="math">\(H\)</span> in <span class="math">\(\tilde{H}\)</span> is the same of the one define in <a href="#defn5">Definition 5</a>; (ii) <span class="math">\(H\)</span> is dense in <span class="math">\(\tilde{H}\)</span>.</p>
+
+<p>Since <span class="math">\(\tilde{H}\)</span> is also a group, we just need to study the topology at <span class="math">\(0\)</span>. The initial topology of <span class="math">\(\tilde{H}\)</span> at <span class="math">\(0\)</span> is generated by <span class="math">\(\{\pi_e^{-1}(0)\}\)</span>. Since <span class="math">\(I\)</span> is directed, <span class="math">\(\{\pi_e^{-1}(0)\}\)</span> is actually a fundamental system of neighborhoods. But <span class="math">\(\pi_e^{-1}(0) \cap H = H(1-e)\)</span>, so (i) is done.</p>
+
+<p>Let <span class="math">\((h_e)_{e \in I} \in \tilde{H}\)</span>. We need to show that <span class="math">\(((h_e)+\pi_f^{-1}(0)) \cap H\)</span> is not empty, for any <span class="math">\(f \in I\)</span>. We take <span class="math">\(x = h_f \in H\)</span>, then
+<span class="math">\[\pi_f((h_e) - (xe)) = h_f - xf = h_f - h_f f=0.\]</span>
+Therefore, <span class="math">\(x \in ((h_e)+\pi_f^{-1}(0)) \cap H\)</span>. This proves (ii).
+<span class='qed'><span class="math">\(\square\)</span></span></p>
+
+<p>Let <span class="math">\(M \in \mathcal{M}\)</span> be a non-degenerate <span class="math">\(H\)</span>-module. If we endow <span class="math">\(M\)</span> with discrete topology, the action <span class="math">\(H \times M \to M\)</span> is continuous: for any <span class="math">\(x \in M\)</span>, let <span class="math">\(U = \{(h, m): hm = x\}\)</span>, we need to show <span class="math">\(U\)</span> is open in <span class="math">\(H \times M\)</span>. For any <span class="math">\((h, m) \in U\)</span>, since <span class="math">\(M\)</span> is non-degenerate, there exists an <span class="math">\(e \in I\)</span> such that <span class="math">\(em = m\)</span>. Consider <span class="math">\(V = (h + H(1-e)) \times \{m\}\)</span>. Then <span class="math">\(V\)</span> is open in <span class="math">\(H \times M\)</span>, and a simple calculation shows <span class="math">\(V \subset U\)</span>. Thus, <span class="math">\(U\)</span> is indeed open. By continuity, we can extend the action of <span class="math">\(H\)</span> on <span class="math">\(M\)</span> to that of <span class="math">\(\hat{H}\)</span>. By <a href="#thm6">Theorem 6</a>, we can write elements in <span class="math">\(\hat{H}\)</span> as <span class="math">\((h_e)_{e \in I}\)</span>. For any <span class="math">\(m \in M\)</span>, there exists <span class="math">\(e \in I\)</span> such that <span class="math">\(em = m\)</span>. Then <span class="math">\((h_e) \cdot m\)</span> is defined to be <span class="math">\(h_e \cdot m\)</span>. It&#8217;s easy to check that the action of <span class="math">\(\hat{H}\)</span> on <span class="math">\(M\)</span> is well-defined.</p>
+
+<p>Recall that <span class="math">\(\omega: \mathcal{M} \to \mathcal{A}\)</span> is the forgetful functor, from the category of non-degenerate <span class="math">\(H\)</span>-modules to the category of abelian groups. Here is another characterization of <span class="math">\(\hat{H}\)</span>.</p>
+
+<div class='qbox' >
+<a name='thm7'><strong>Theorem 7.</strong> </a><span class="math">\(\displaystyle \hat{H} \cong \mathrm{End}(\omega)\)</span>.
+</div>
+
+<p>Before the proof, let&#8217;s recall the notion of endomorphisms of a functor. Let <span class="math">\(F: \mathcal{C} \to \mathcal{D}\)</span> be a functor. Then an <em>endomorphism</em> <span class="math">\(\varphi\)</span> of <span class="math">\(F\)</span> is a collection of morphisms <span class="math">\(\{\varphi_C \in \mathrm{Hom}_\mathcal{D}(FC, FC): C \in \mathcal{C}\}\)</span>, such that, for any morphism <span class="math">\(f: C_1 \to C_2\)</span> in <span class="math">\(\mathcal{C}\)</span>, we have the following commutative diagram:
+<span class="math">\[\begin{equation*}
+\require{AMScd}
+\begin{CD}
+FC_1 @>{\varphi_{C_1}}>> FC_1 \\
+@V{Ff}VV @VV{Ff}V \\
+FC_2 @>>{\varphi_{C_2}}> FC_2
+\end{CD}
+\end{equation*}\]</span></p>
+
+<p><em>Proof.</em> [Proof of <a href="#thm7">Theorem 7</a>]
+Since every non-degenerate <span class="math">\(H\)</span>-module <span class="math">\(M\)</span> is a quotient of <span class="math">\(H^{\oplus S}\)</span> for some <span class="math">\(S\)</span>, it&#8217;s enough to show that <span class="math">\(\hat{H}\)</span> is exactly those morphisms in <span class="math">\(\mathrm{End}_{\Z}(H)\)</span> that commute with <span class="math">\(\mathrm{End}_H(H)\)</span>. Let&#8217;s set
+<span class="math">\[A = \{\varphi \in \mathrm{End}_{\Z}(H): \varphi(f(x)) = f(\varphi(x)), f \in \mathrm{End}_H(H), x \in H\}.\]</span></p>
+
+<p>Let&#8217;s show <span class="math">\(\hat{H} \subseteq A\)</span> first. Let <span class="math">\(\hat{h} = (h_e)_{e \in I} \in \hat{H}\)</span>. <span class="math">\(H\)</span> is itself a non-degenerate <span class="math">\(H\)</span>-module, so for any <span class="math">\(x \in H\)</span>, there exists <span class="math">\(e \in I\)</span> such that <span class="math">\(ex = x\)</span>. Then <span class="math">\(\hat{h} \cdot x := h_e x\)</span>. It&#8217;s easy to check that this action is well-defined and respects abelian structures, so <span class="math">\(\hat{h} \in \mathrm{End}_{\Z}(H)\)</span>. Moreover, if <span class="math">\(\hat{h_1} \ne \hat{h_2}\)</span>, then they maps differently into <span class="math">\(\mathrm{End}_{\Z}(H)\)</span>: there must be an <span class="math">\(e \in I\)</span> so that <span class="math">\(h_{1, e} \ne h_{2, e}\)</span>, so <span class="math">\(\hat{h_1} \cdot e \ne \hat{h_2} \cdot e\)</span>.</p>
+
+<p>Take any <span class="math">\(f \in \mathrm{End}_H(H)\)</span>, and any <span class="math">\(x \in H\)</span>. Then there exists by <a href="#defn1">Definition 1</a> an <span class="math">\(e \in I\)</span> such that <span class="math">\(ex = x\)</span> and <span class="math">\(ef(x) = f(x)\)</span>. Hence,
+<span class="math">\[f(\hat{h} \cdot x) = f(h_e x) = h_ef(x) = \hat{h} \cdot f(x).\]</span>
+This proves <span class="math">\(\hat{h} \in A\)</span>, so <span class="math">\(\hat{H} \subseteq A\)</span>.</p>
+
+<p>Next we would like to show <span class="math">\(A \subseteq \hat{H}\)</span>. Let <span class="math">\(\varphi \in A\)</span>. Define <span class="math">\(\hat{h} = (h_e)\)</span> by setting <span class="math">\(h_e = \varphi(e)\)</span>. The claim is that <span class="math">\(\varphi(x) = \hat{h} \cdot x\)</span> for <span class="math">\(x \in H\)</span>. For any element <span class="math">\(y \in H\)</span>, right multiplication by <span class="math">\(y\)</span> is an element in <span class="math">\(\mathrm{End}_H(H)\)</span>, so <span class="math">\(\varphi\)</span> commutes with right multiplication in <span class="math">\(H\)</span>. For any <span class="math">\(x \in H\)</span>, let <span class="math">\(e \in I\)</span> be such that <span class="math">\(ex = x\)</span>. Then,
+<span class="math">\[\varphi(x) = \varphi(ex) = \varphi(e)x = h_e x = \hat{h} \cdot x.\]</span>
+Thus, <span class="math">\(A \subseteq \hat{H}\)</span>.
+<span class='qed'><span class="math">\(\square\)</span></span></p>
+
+<p><strong>Remark.</strong> In the original proof, Bernstein actually considered also the topology on <span class="math">\(H\)</span> and <span class="math">\(\hat{H}\)</span>. The topology of <span class="math">\(H\)</span> (see <a href="#defn5">Definition 5</a>) induces a topology of pointwise convergence on <span class="math">\(\mathrm{End}_{\Z}(H)\)</span>. Under these topologies, <span class="math">\(\hat{H}\)</span> is embedded in <span class="math">\(\mathrm{End}_{\Z}(H)\)</span> as a closure of <span class="math">\(H\)</span>, where <span class="math">\(H\)</span> is viewed a subset in <span class="math">\(\mathrm{End}_{\Z}(H)\)</span> via left multiplication.
+Lastly, we would like to discuss the center of <span class="math">\(\mathcal{M}\)</span>. Let <span class="math">\(\mathcal{C}\)</span> be an abelian category, and <span class="math">\(\mathrm{Id}_{\mathcal{C}}: \mathcal{C} \to \mathcal{C}\)</span> be the identity functor. The <em>center</em> of <span class="math">\(\mathcal{C}\)</span> is defined to be the endomorphism ring <span class="math">\(\mathrm{End}(\mathrm{Id}_{\mathcal{C}})\)</span>. </p>
+
+<div class='qbox' >
+<a name='thm8'><strong>Theorem 8.</strong> </a><span class="math">\(\displaystyle Z(\hat{H}) = \mathrm{End}(\mathrm{Id}_{\mathcal{M}}) = \varprojlim_{e \in I} Z(eHe)\)</span>, where <span class="math">\(Z(R)\)</span> is the center of a ring <span class="math">\(R\)</span>.
+</div>
+
+<p><em>Proof.</em> By <a href="#thm7">Theorem 7</a>, we know already that <span class="math">\(\hat{H} = \mathrm{End}(\omega)\)</span>. For <span class="math">\(\hat{h} \in \hat{H}\)</span>, <span class="math">\(\hat{h} \in \mathrm{End}(\mathrm{Id}_{\mathcal{M}})\)</span> if and only if <span class="math">\(\hat{h}\)</span> also commutes with left multiplication by elements in <span class="math">\(H\)</span>. <span class="math">\(\hat{h}\)</span> commutes with left multiplication by elements in <span class="math">\(H\)</span>, is exactly the same as <span class="math">\(\hat{h} \in Z(\hat{H})\)</span>. Therefore, we have <span class="math">\(Z(\hat{H}) = \mathrm{End}(\mathrm{Id}_{\mathcal{M}})\)</span>.</p>
+
+<p>Let <span class="math">\(C = \varprojlim_{e \in I} Z(eHe)\)</span>. Let&#8217;s see that <span class="math">\(C\)</span> is actually well-defined, i.e., <span class="math">\(\{Z(eHe): e \in I\}\)</span> forms an inverse system. For <span class="math">\(f \ge e\)</span>, let <span class="math">\(fzf \in Z(fHf)\)</span>, we need to show <span class="math">\(eze \in Z(eHe)\)</span>. Let <span class="math">\(exe \in eHe\)</span>, we note that <span class="math">\(ef = fe = e\)</span> and <span class="math">\(ez = ze = eze\)</span>, then
+<span class="math">\[exe \cdot eze = efxfze = ezfxfe = eze \cdot exe.\]</span>
+Therefore, <span class="math">\(eze \in Z(eHe)\)</span>, so <span class="math">\(C\)</span> is well-defined.</p>
+
+<p>Let <span class="math">\(\hat{c} = (c_e) \in C\)</span>, then <span class="math">\(\hat{c} \in \hat{H}\)</span>. Let <span class="math">\(x \in H\)</span>, for any <span class="math">\(y \in H\)</span>, then there exists an <span class="math">\(e \in I\)</span> such that <span class="math">\(exe = x\)</span> and <span class="math">\(eye = y\)</span>. Thus, <span class="math">\(exye = xy\)</span> and
+<span class="math">\[x\hat{c}(y) = xc_ey = c_e xy = \hat{c}(xy).\]</span>
+This proves that <span class="math">\(\hat{c}\)</span> commutes with left multiplication in <span class="math">\(H\)</span>, so <span class="math">\(\hat{c} \in Z(\hat{H})\)</span>.</p>
+
+<p>Now let <span class="math">\(\hat{h} = (h_e) \in Z(\hat{H})\)</span>. Then <span class="math">\(\hat{h}\)</span> commutes with left multiplication in <span class="math">\(H\)</span>. In particular, <span class="math">\(e\hat{h}(e) = \hat{h}(e)\)</span>, i.e., <span class="math">\(eh_ee = h_ee = h_e \in eHe\)</span> (last equality uses the fact that <span class="math">\(h_e \in He\)</span>). Let <span class="math">\(exe \in eHe\)</span>, we use again the fact that <span class="math">\(\hat{h}\)</span> commutes with left multiplication:
+<span class="math">\[exeh_e = exe \hat{h}(e) = \hat{exe} = h_e exe.\]</span>
+This shows that <span class="math">\(h_e \in Z(eHe)\)</span>, so <span class="math">\(\hat{h} \in C\)</span>.
+<span class='qed'><span class="math">\(\square\)</span></span></p>
+
+<h3>An example of idempotented algebras</h3>
+
+<p>Let <span class="math">\(G\)</span> be a locally compact, totally disconnected group. Let <span class="math">\(H(G)\)</span> be the set of locally constant functions from <span class="math">\(G\)</span> to <span class="math">\(\C\)</span> with compact open support. The addition in <span class="math">\(H(G)\)</span> is just pointwise addition: for <span class="math">\(f, g\in H(G)\)</span>, <span class="math">\((f+g)(s) = f(s) + g(s)\)</span>, for <span class="math">\(s \in G\)</span>. The multiplication in <span class="math">\(H(G)\)</span> is given by convolution: for <span class="math">\(f, g \in H(G)\)</span>,
+<span class="math">\[f \ast g(t) = \int_G f(s)g(s^{-1}t)d\mu(s),\]</span>
+where <span class="math">\(\mu\)</span> is a left Haar measure on <span class="math">\(G\)</span>. The above addition and multiplication give a ring structure on <span class="math">\(H(G)\)</span>. There are natural idempotents in <span class="math">\(H(G)\)</span>. Let <span class="math">\(K\)</span> be an open compact subgroup in <span class="math">\(G\)</span>, and let <span class="math">\(e_k\)</span> be the normalized characteristic function on <span class="math">\(K\)</span>, i.e.,
+<span class="math">\[\begin{equation*}
+e_K(s) = \left\{
+\begin{array}{ll}
+\frac{1}{\mu(K)}, & s \in K; \\
+0, & s \not\in K.
+\end{array}
+\right.
+\end{equation*}\]</span>
+Here, <span class="math">\(\mu(K) = \int_Kd\mu(s)\)</span> is the measure of <span class="math">\(K\)</span>. In a simpler form, we can write <span class="math">\(e_K = \frac{1}{\mu(K)} \mathbf{1}_K\)</span>, where <span class="math">\(\mathbf{1}_K\)</span> is the indicator function on <span class="math">\(K\)</span>. A direct computation shows <span class="math">\(e_K \ast e_K = e_K\)</span>, so <span class="math">\(e_K\)</span> is an idempotent. Let <span class="math">\(I\)</span> be a set of idempotents in <span class="math">\(H(G)\)</span>. We will check that <span class="math">\((H(G), I)\)</span> is an idempotented algebra. </p>
+
+<p>Let <span class="math">\(K \subset H\)</span> be two open compact supgroups in <span class="math">\(G\)</span>, then
+<span class="math">\[\begin{equation*}
+\begin{split}
+e_K \ast e_H(t) &= \int_G e_K(s)e_H(s^{-1}t) d\mu(s) \\
+&= \frac{1}{\mu(K)}\int_K e_H(s^{-1}t)d\mu(s) \\
+&= \frac{1}{\mu(K)\mu(H)} \mathbf{1}_H(t) \int_K d\mu(s) \\
+&= \frac{1}{\mu(H)} \mathbf{1}_H(t) = e_H.
+\end{split}
+\end{equation*}\]</span>
+Similarly, <span class="math">\(e_H \ast e_K = e_H\)</span>. Therefore, <span class="math">\(e_K \ast e_H \ast e_K = e_H\)</span>, i.e., <span class="math">\(e_K \ge e_H\)</span>. Now consider <span class="math">\(\varphi = \mathbf{1}_C\)</span> for some compact open set <span class="math">\(C\)</span> in <span class="math">\(G\)</span>. We can then cover <span class="math">\(C\)</span> with open sets
+<span class="math">\[\{gK \subset C: g \in G, K \subset G \text{ is a compact open subgroup}\}.\]</span>
+This can be done because <span class="math">\(\{K \subset G \text{ is a compact open subgroup}\}\)</span> is a basis for the topology at the identity of <span class="math">\(G\)</span> and <span class="math">\(C\)</span> is open. Since <span class="math">\(C\)</span> is compact, we can then select finite many <span class="math">\(g_iK_i\)</span> that cover <span class="math">\(C\)</span>. Since <span class="math">\(K_i\)</span> are also open, we can further make <span class="math">\(g_iK_i\)</span> disjoint, so we can rewrite <span class="math">\(\varphi\)</span> as
+<span class="math">\[\varphi = \sum_i \mathbf{1}_{g_iK_i}.\]</span>
+For simplicity, let&#8217;s consider for now <span class="math">\(\psi = \mathbf{1}_{gK}\)</span>, for some <span class="math">\(g \in G\)</span> and <span class="math">\(K \subset G\)</span> some compact open subgroup. Let <span class="math">\(H = K \cap gKg^{-1}\)</span>. It&#8217;s easy to see that <span class="math">\(\psi\)</span> is right invariant under multiplication by elements in <span class="math">\(H\)</span>. In fact, <span class="math">\(\psi(xk) = \psi(x)\)</span> for any <span class="math">\(x \in G\)</span> and <span class="math">\(k \in K\)</span>. Moreover, <span class="math">\(\psi\)</span> is left invariant under multiplication by elements in <span class="math">\(H\)</span>, i.e., <span class="math">\(\psi(hx) = \psi(x)\)</span>, for any <span class="math">\(x \in G\)</span> and <span class="math">\(h \in H\)</span>: write <span class="math">\(h = gkg^{-1}\)</span> for some <span class="math">\(k \in K\)</span>, then
+<span class="math">\[\begin{equation*}
+\begin{split}
+\psi(hx) &= \mathbf{1}_{gK} = (gkg^{-1}x) = \mathbf{1}_{K}(kg^{-1}x) \\
+&= \mathbf{1}_{K}(g^{-1}x) = \mathbf{1}_{gK}(x) = \psi(x).
+\end{split}
+\end{equation*}\]</span></p>
+
+<div class='qbar' >
+<a name='lemma9'><strong>Lemma 9.</strong> </a>Under the above notations, we have <span class="math">\(e_H \ast \psi = \psi \ast e_H = \psi\)</span>. In particular, <span class="math">\(e_H \ast \psi \ast e_H = \psi\)</span>.
+</div>
+
+<p><em>Pf.</em> We need to use the fact that <span class="math">\(\psi\)</span> is left and right invariant under multiplication by elements of <span class="math">\(H\)</span>. Here, only calculation for <span class="math">\(e_H \ast \psi = \psi\)</span> is given. <span class="math">\(\psi \ast e_H = \psi\)</span> can be shown using a similar calculation.</p>
+
+<p><span class="math">\[\begin{equation*}
+\begin{split}
+e_H \ast \psi(t) &= \int_G e_H(s)\psi(s^{-1}t) d\mu(s) \\
+&= \frac{1}{\mu(H)} \int_H \psi(s^{-1}t) d\mu(s) \\
+&= \frac{\psi(t)}{\mu(H)}\int_H d\mu(s) = \psi(t).
+\end{split}
+\end{equation*}\]</span>
+Note that we need the fact that <span class="math">\(\psi\)</span> is left invariant under multiplication by elements of <span class="math">\(H\)</span> in the above calculation.
+<span class='qed'><span class="math">\(\vartriangleleft\)</span></span></p>
+
+<p>Come back to our <span class="math">\(\varphi = \sum_i \mathbf{1}_{g_iK_i}\)</span>. Then for each <span class="math">\(\mathbf{1}_{g_iK_i}\)</span>, we can find by <a href="#lemma9">Lemma 9</a> a compact open subgroup <span class="math">\(H_i\)</span> such that
+<span class="math">\[\begin{equation}
+e_{H_i} \ast \mathbf{1}_{g_iK_i} \ast e_{H_i} = \mathbf{1}_{g_iK_i}.
+\label{20161004-1}
+\end{equation}\]</span></p>
+
+<p>Let <span class="math">\(H = \cap_i H_i\)</span>, then <span class="math">\(H\)</span> is also a compact open subgroup. <span class="math">\(H_i \subset H\)</span>, so <span class="math">\(e_H \ge e_{H_i}\)</span>, so
+<span class="math">\[\begin{equation}
+e_{H} \ast e_{H_i} \ast e_{H} = e_{H_i},
+\label{20161004-2}
+\end{equation}\]</span></p>
+
+<p>for each <span class="math">\(i\)</span>. Combining <span class="math">\(\eqref{20161004-1}\)</span> and <span class="math">\(\eqref{20161004-2}\)</span>, we have
+<span class="math">\[e_{H} \ast \mathbf{1}_{g_iK_i} \ast e_{H} = \mathbf{1}_{g_iK_i},\]</span>
+for all <span class="math">\(i\)</span>. This implies that <span class="math">\(e_H \ast \varphi \ast e_H = \varphi\)</span>. To summarize, we have the following theorem:</p>
+
+<div class='qbox' >
+<a name='thm10'><strong>Theorem 10.</strong> </a>Let <span class="math">\(C\)</span> be a compact open subset in <span class="math">\(G\)</span> and let <span class="math">\(\varphi = \mathbf{1}_C\)</span>, then there exist a compact open subgroup <span class="math">\(K\)</span> such that
+<span class="math">\[e_K \ast \varphi \ast e_K = \varphi.\]</span>
+</div>
+
+<p>Basically, we have already shown that <span class="math">\((H(G), I)\)</span> is an idempotented algebra by <a href="#thm10">Theorem 10</a>. Given a finite set of elements <span class="math">\(\{\varphi_i\}\)</span> in <span class="math">\(H(G)\)</span>, we can assume <span class="math">\(\varphi_i = \mathbf{1}_{C_i}\)</span> for some compact open subset. The assumption is harmless, since elements in <span class="math">\(H(G)\)</span> are of form
+<span class="math">\[\sum_i \alpha_i \mathbf{1}_{C_i},\]</span>
+where <span class="math">\(\alpha_i\)</span> are constants in <span class="math">\(\C\)</span> and <span class="math">\(C_i\)</span> are compact open subsets in <span class="math">\(G\)</span>. Then by <a href="#thm10">Theorem 10</a>, there exists a compact open <span class="math">\(K_i\)</span> so that
+<span class="math">\[e_{K_i} \ast \varphi_i \ast e_{K_i} = \varphi_i,\]</span>
+for each <span class="math">\(i\)</span>. Now take <span class="math">\(K = \cap_i K_i\)</span>, then <span class="math">\(e_K \ast \varphi_i \ast e_K = \varphi_i\)</span>, for all <span class="math">\(i\)</span>. Therefore, we conclude that <span class="math">\((H(G), I)\)</span> is an idempotent algebra.</p>
+
+<p><strong>Remark.</strong> Let <span class="math">\(I_C = \{e_K: K \text{ is a compact open subgroup in }G\} \subset I\)</span>. Then the above argument actually shows that we can find for each finite set <span class="math">\(\{\varphi_i\} \subset H(G)\)</span> an idempotent <span class="math">\(e \in I_C\)</span> such that <span class="math">\(e \ast \varphi_i \ast e = \varphi_i\)</span>. Therefore, <span class="math">\(I_C\)</span> is <a href="https://en.wikipedia.org/wiki/Cofinal_(mathematics)">cofinal</a> in <span class="math">\(I\)</span>. Instead of taking inverse limit over <span class="math">\(I\)</span>, we can take it over <span class="math">\(I_C\)</span>:
+<span class="math">\[\widehat{H(G)} = \varprojlim_{e \in I} H(G) \ast e = \varprojlim_{e \in I_C} H(G) \ast e.\]</span></p>
+
+        <div class="tags">
+        <a href="/tag/algebra">algebra</a>
+        <a href="/tag/hecke-algebra">Hecke algebra</a>
+        <a href="/tag/note">note</a>
+        <a href="/tag/representation-theory">representation theory</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20161004-idempotented-algebra/';
+    var disqus_title = 'Idempotented algebra';
+    var disqus_url = 'https://wormtooth.com/20161004-idempotented-algebra/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

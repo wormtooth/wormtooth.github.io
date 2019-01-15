@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+一个“朴素”的推荐系统 | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">一个“朴素”的推荐系统</h1>
+    <div class="post-meta">Apr 30, 2018
+    <span> | </span> <span>Machine Learning</span>
+    </div>
+    <a data-disqus-identifier="20180430-a-naive-recommender-system/" href="/20180430-a-naive-recommender-system/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <h2>Introduction</h2>
+<p>在这篇文章中，我将使用<a href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier">朴素贝叶斯分类器(Naive Bayes Classifier)</a>打造一个简单的个人推荐系统：给定一篇中文文章(article)，返回我喜欢(like)这篇文章的概率。用数学的语言来描述的话，我们要计算的是<br>
+</p>
+<div class="math">$$P(like|aritcle)$$</div>
+<p><br>
+根据贝叶斯公式，<br>
+</p>
+<div class="math">$$P(like|aritcle) = \frac{P(article|like)P(like)}{P(article|like)P(like)+P(article|dislike)P(dislike)}$$</div>
+<!--more-->
+
+<p>这样我们的问题就转化成计算<span class="math">\(P(like), P(dislike), P(article|like)\)</span>和<span class="math">\(P(article|dislike)\)</span>了。当然，在计算<span class="math">\(P(article|like)\)</span>或者<span class="math">\(P(article|dislike)\)</span>的时候，我们要将文章(article)量化成可以计算的特征。假设给定一篇文章，我们可以提取特征：<br>
+</p>
+<div class="math">$$x = (x_1, \dots, x_n)$$</div>
+<p><br>
+那么，<br>
+</p>
+<div class="math">$$P(article|like) = P(x|like) = P(x_1, \dots, x_n|like)$$</div>
+<p><br>
+<strong>朴素贝叶斯分类器假设在确定喜欢或者不喜欢一篇文章的前提下，文章的特征<span class="math">\(x_1, \dots x_n\)</span>是互相独立的。</strong></p>
+<p>在这个很强的假设下，<br>
+</p>
+<div class="math">$$P(x_1, \dots, x_n|like) = P(x_1|like)P(x_2|like) \cdots P(x_n|like)$$</div>
+<p>本文将使用<a href="https://www.solidot.org/">Solidot</a>的文章作为例子。</p>
+<h2>Features</h2>
+<p>我们首先要解决的问题是如何确定一篇文章的特征。让我们以Solidot的这篇文章为例：</p>
+<blockquote>
+<p>硬件: 显卡价格开始下降了</p>
+<p>过去一年的挖矿热导致显卡短缺，价格居高不下。但随着数字货币市场热度下降（或叫矿难），显卡开始不短缺了，价格也降下来了。今年 1 月，去百思买购买显卡的话，你会发现货架上几乎找不到几张，即使有价格也高得惊人， 8GB 的 Radeon 580  显卡售价 529.99 美元，店员还会告诉你错过了就买不到了；今天相同的显卡只需 419.99 美元，供应充足。除了 AMD 显卡价格下跌外，Nvidia 的显卡也存在类似现象。一名以太币矿工称，以太币的价格下跌导致了利润大幅减少，显卡短缺结束了。</p>
+</blockquote>
+<p>最简单的想法是将文章的每个字作为一个特征，<span class="math">\(x_i\)</span>表示某个字是否出现在文章中。本来在朴素贝叶斯中我们就假设特征之间没有关系，如果现在还将文章每个字单独拿出来作为特征就有点太过扭曲原文的意思啦。比如“过去”和“去过”这两个意思完全不一样的词语都含有“过”和“去”两个字，使用每个字作为特征的模型就无法区分这两个词语了。</p>
+<p>为了使我们的模型不至于太过简单，我使用了文章中出现的<strong>词语</strong>作为特征。并且，我还将<strong>只有一个字的词语、标点符号和数字等</strong>去掉。</p>
+<p>首先我们使用<a href="https://github.com/fxsjy/jieba">结巴分词</a>对文章进行<strong>精确模式</strong>分词：</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jieba</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;过去一年...短缺结束了。&quot;</span>
+<span class="n">words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">jieba</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">cut_all</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">))</span>
+</pre></div>
+
+
+<div class="qbar">过去/一年/的/挖矿/热/导致/显卡/短缺/，/价格/居高不下/。/但/随着/数字/货币/市场/热度/下降/（/或/叫/矿难/）/，/显卡/开始/不/短缺/了/，/价格/也/降下来/了/。/今年/ /1/ /月/，/去/百思买/购买/显卡/的话/，/你/会/发现/货架/上/几乎/找/不到/几张/，/即使/有/价格/也/高得/惊人/，/ /8GB/ /的/ /Radeon/ /580/ /显卡/售价/ /529.99/ /美元/，/店员/还会/告诉/你/错过/了/就/买不到/了/；/今天/相同/的/显卡/只/需/ /419.99/ /美元/，/供应/充足/。/除了/ /AMD/ /显卡/价格/下跌/外/，/Nvidia/ /的/显卡/也/存在/类似/现象/。/一名/以太/币/矿工/称/，/以太/币/的/价格/下跌/导致/了/利润/大幅/减少/，/显卡/短缺/结束/了/。</div>
+
+<p>然后我们提取长度大于1的非数字词语。</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">float</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
+<span class="n">words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">check</span><span class="p">,</span> <span class="n">words</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="qbar">{'类似', '百思买', '大幅', '下降', '导致', 'AMD', '今年', '利润', '美元', '显卡', '售价', '供应', '开始', '今天', '居高不下', '一年', '发现', '市场', '一名', '除了', '随着', '几乎', '短缺', '货币', '的话', '还会', '存在', '错过', '结束', '高得', '8GB', '店员', '以太', '过去', '购买', '矿工', '充足', '下跌', '矿难', 'Radeon', '不到', '相同', '价格', '减少', '即使', '降下来', 'Nvidia', '数字', '惊人', '告诉', '货架', '买不到', '热度', '几张', '挖矿', '现象'}</div>
+
+<p>上面这个这个集合中的词语就是文章的特征(features)了。</p>
+<h2>Model and Data</h2>
+<p>朴素贝叶斯分类器我在之前的一篇笔记<a href="https://wormtooth.com/20171002-generative-model/">Generative Model</a>就讲过了。我们的模型需要训练以下参数：<span class="math">\(P(like), P(dislike), P(word|like)\)</span>和<span class="math">\(P(word|dislike)\)</span>。其中<code>word</code>要遍历所有在数据中出现的词语。如果我们已经有数据了，这些参数都很容易计算出来，因为这些参数都是能通过统计得出来。比如<span class="math">\(P(word|like)\)</span>，我们只要统计喜欢的文章总数<span class="math">\(n\)</span>，以及在喜欢文章中包含<code>word</code>这个词的文章数量<span class="math">\(w\)</span>，那么<br>
+</p>
+<div class="math">$$P(word|like) = \frac{w}{n}$$</div>
+<p><br>
+其他参数都如此类似通过简单统计得到，这里就不一一赘述了。详情请看我的笔记<a href="https://wormtooth.com/20171002-generative-model/">Generative Model</a>。</p>
+<p><a href="https://www.solidot.org">Solidot</a>将文章分成了很多个子类别，比如“Linux”，“科学”，“科技”等等。我简单地将“科学”、“科技”、“移动”和“安全”这四个子类别下的文章标记成我喜欢，而将“苹果”、“硬件”、“软件”和“游戏”下的文章标记成我不喜欢的。然后我利用爬虫将<a href="https://www.solidot.org">Solidot</a>上这8个类别从2013到2017年的文章全部抓取下来。</p>
+<p>在Raspberry Pi3上使用10个线程耗时1个半小时，我一共抓取了<code>11373</code>篇文章（有重复，某些文章会在多个类别出现），其中标记成喜欢的文章有<code>8373</code>篇，标记成不喜欢的有<code>3000</code>篇。经过6分钟的训练，我一共得到<code>62167</code>个不重复的词语。</p>
+<p>使用这个模型和训练数据集，我计算出我喜欢看上述样例文章“<strong>硬件: 显卡价格开始下降了</strong>”的概率：<code>1.9263403800846358e-11</code>。这个结果跟我的训练集相符合：我将“硬件”类别的文章标记成不喜欢了。此时此刻，我对<a href="https://www.solidot.org">Solidot</a>首页文章的喜欢概率如下。</p>
+<div class="qbar">
+<p>Mon 30 Apr 21:49:35 EDT 2018</p>
+<p>中国正在大规模测试大脑情绪监测技术: 1.0000<br>
+硬件:显卡价格开始下降了: 0.0000<br>
+男子起诉法国扣押了他的 France.com 域名: 0.0000<br>
+游戏:中国逮捕 15 名《绝地求生》外挂开发者: 0.0000<br>
+盖茨称改善美国教育比降低婴儿死亡率还难: 1.0000<br>
+金正恩否认停止核试验是因为测试地点塌陷: 1.0000<br>
+俄罗斯为封杀 Telegram 屏蔽了 1800 万 IP，包括本国网站的 IP: 0.9999<br>
+安全:如何恢复被删除的微信聊天记录: 1.0000<br>
+为什么日本要抓捕汉化组: 0.0000<br>
+idle:研究称久坐可能让人变蠢: 1.0000<br>
+审查让调查性报道逐渐消失: 0.8247<br>
+科学:受精卵如何创造出整个身体: 1.0000<br>
+科学:银河系可能有许多流浪的超大质量黑洞: 1.0000<br>
+安全:朝鲜黑客在和平声中四处出击: 1.0000<br>
+安全:安全专家公布能崩溃所有 Windows 的 PoC 代码: 0.7551<br>
+多个国家利用加拿大公司的设备审查内容: 1.0000<br>
+Linux:GIMP 2.10.0 释出: 0.0000<br>
+三星镁光海力士被控合谋操纵 DRAM 价格: 0.0000<br>
+知乎更新隐私条款，用户没法“不同意”: 0.0058<br>
+Windows 10 April 2018 Update 新特性: 0.0000</p>
+</div>
+<h2>Discussions</h2>
+<p>其实我对<a href="https://www.solidot.org">Solidot</a>上面的文章都挺感兴趣的，上面只是为了简单获得数据而将一些文章标记成喜欢，另一些标记成不喜欢。所以以上计算出的概率并不能真实反映我的喜好。从另一个角度去思考，上面计算出来的概率其实是属于子类别“科学”、“科技”、“移动”或者“安全”的概率。</p>
+
+        <div class="tags">
+        <a href="/tag/naive-bayes">naive bayes</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20180430-a-naive-recommender-system/';
+    var disqus_title = '一个“朴素”的推荐系统';
+    var disqus_url = 'https://wormtooth.com/20180430-a-naive-recommender-system/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

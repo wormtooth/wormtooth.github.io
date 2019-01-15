@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+    叶某人的碎碎念 | Believe in Mathematics    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title"><a href="/20170506-leetcode-contest31/">Leetcode Contest 31</a></h1>
+    <div class="post-meta">2017-05-06</div>
+    <a data-disqus-identifier="20170506-leetcode-contest31/" href="/20170506-leetcode-contest31/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-31/">比赛</a>简单。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-31/problems/distribute-candies/">第一题</a><code>Distribute Candies</code></p>
+<div class="qbar">给定一个长度为偶数的数组，将所有数分成长度一样的两堆，求其中一堆不一样数字最多的数目。</div>
+
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">distributeCandies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">candies</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type candies: List[int]</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kind</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">candies</span><span class="p">:</span>
+            <span class="n">kind</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">candies</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">&lt;=</span><span class="nb">len</span><span class="p">(</span><span class="n">kind</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">n</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170506-leetcode-contest31/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170429-leetcode-contest30/">Leetcode Contest 30</a></h1>
+    <div class="post-meta">2017-04-29</div>
+    <a data-disqus-identifier="20170429-leetcode-contest30/" href="/20170429-leetcode-contest30/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今晚参加了一个朋友的婚前庆祝party。看着朋友幸福也是一种幸福的享受。希望我的幸福来得更早一些 😆</p>
+<p>今晚的<a href="https://leetcode.com/contest/leetcode-weekly-contest-30">比赛</a>也一次没WA地过了。前面三题是用 C++ 写的，最后一题实在觉得 C++ 麻烦，还是换了用python写。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-30/problems/reshape-the-matrix/">第一题</a><code>Reshape the Matrix</code></p>
+<div class='qbar'>题目大意：给定一个矩阵，将其变成r行c列的矩阵。如果不能转换，则返回原矩阵。</div>
+
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">matrixReshape</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">nums</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">m</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">nums</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">m</span> <span class="o">!=</span> <span class="n">r</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="k">return</span> <span class="n">nums</span><span class="p">;</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">ans</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+        <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">row</span><span class="p">:</span> <span class="n">nums</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">n</span><span class="p">:</span> <span class="n">row</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">ans</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+                <span class="n">b</span> <span class="o">++</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">b</span> <span class="o">==</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                    <span class="n">a</span> <span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170429-leetcode-contest30/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170422-leetcode-contest29/">Leetcode Contest 29</a></h1>
+    <div class="post-meta">2017-04-22</div>
+    <a data-disqus-identifier="20170422-leetcode-contest29/" href="/20170422-leetcode-contest29/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今晚有鱼、豆腐和西芹。</p>
+<p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-29">比赛</a>是久违的全一次就AC了，开心😎</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-29/problems/binary-tree-tilt/">第一题</a><code>Binary Tree Tilt</code></p>
+<div class='qbar'>题目大意：对于一个二叉树节点，定义它的tilt为左子树之和与右子树之和差的绝对值。给定一棵二叉树，求出所有节点tilt值之和。</div>
+
+<p>感觉是简单的dfs套路。对于每个节点，递归算左右子树之和，那么它的tilt值就很容易求出来加到一个全局的变量里，然后返回当前子树之和：左子树+右子树+根节点</p>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<span class="c1"># class TreeNode(object):</span>
+<span class="c1">#     def __init__(self, x):</span>
+<span class="c1">#         self.val = x</span>
+<span class="c1">#         self.left = None</span>
+<span class="c1">#         self.right = None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findTilt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type root: TreeNode</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+            <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">left</span><span class="o">-</span><span class="n">right</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">left</span><span class="o">+</span><span class="n">right</span><span class="o">+</span><span class="n">root</span><span class="o">.</span><span class="n">val</span>
+
+        <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170422-leetcode-contest29/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170415-leetcode-contest28/">Leetcode Contest 28</a></h1>
+    <div class="post-meta">2017-04-15</div>
+    <a data-disqus-identifier="20170415-leetcode-contest28/" href="/20170415-leetcode-contest28/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今晚吃的是烤鱼以及手撕鸡。</p>
+<p>这次的<a href="https://leetcode.com/contest/leetcode-weekly-contest-28/">比赛</a>让我开始怀疑自己的智商了。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-28/problems/student-attendance-record-i/">第一题</a><code>Student Attendance Record I</code></p>
+<div class='qbar'>题目大意：给定一个表示只含A、L和P的字符串，问字符串是否满足以下条件：不含多于1个的A或者不含有长度大于2的连续L子字符串。</div>
+
+<p>简单的字符串处理。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">checkRecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type s: str</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span>
+                <span class="n">a</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;LLL&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="bp">True</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170415-leetcode-contest28/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170408-leetcode-contest27/">Leetcode Contest 27</a></h1>
+    <div class="post-meta">2017-04-08</div>
+    <a data-disqus-identifier="20170408-leetcode-contest27/" href="/20170408-leetcode-contest27/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今晚肉特别多：红烧羊肉，焖排骨，手撕鸡和罗非鱼。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-27/problems/reverse-words-in-a-string-iii/">第一题</a><code>Reverse Words in a String III</code></p>
+<div class='qbar'>题目大意：给定一个句子，将其中所有单词逆序。</div>
+
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">reverseWords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type s: str</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170408-leetcode-contest27/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170402-cabaret/">Cabaret</a></h1>
+    <div class="post-meta">2017-04-02</div>
+    <a data-disqus-identifier="20170402-cabaret/" href="/20170402-cabaret/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>昨天晚上并没有参加每周一次的Leetcode比赛，而是跟朋友去看<a href="https://en.wikipedia.org/wiki/Cabaret_(musical)">Cabaret</a>了。按照惯例要说一下吃了什么好吃的：我们去了Columbus Fish Market吃海鲜去了。前菜有fresh oysters与crab &amp; shrimp dumplings，主菜有rainbow trout, lobster &amp; shrimp stuffed cod和sea scallops。饭后甜点是key lime pie！这家的海鲜做法有点像广东那边，味道很清淡，试图突显海鲜的味道。我感觉最好吃的是前菜中的fresh oysters。上桌的时候，生蚝是平放在一大碗冰之上的，其纹理很清晰，也正是这种黑白分明显示出了生蚝的新鲜。可惜的是他们家的酱料相对之下粗糙简单，只有一碟类似番茄酱的酱料和一碟油，并没有蒜蓉之类可以提鲜的调料。还好的是生蚝本身已经够新鲜了，猛地一吸，生蚝的鲜甜立马在舌尖绽放，让人十分快意。</p>
+<p>Cabaret是一部音乐剧，一部充满黄段子的音乐剧。Cabaret一开幕我就明白朋友路上说的少儿不宜是什么意思了。虽然我并不能完全明白剧中的对话（估计错过了好多黄段子 😛 ），但是剧中的大致剧情还是明白的。这里我就不剧透了，有兴趣的朋友也很容易在网上找到简介。一开始根据剧中反映的性泛滥以及对金钱的崇拜，我还以为是说战后经济大低谷时期的事情。后来剧中出现了纳粹红袖章我才意识到自己搞错了。原来剧中的人们正活着1928～1930期间，正是纳粹主义开始猖獗的时候。</p>
+
+    </div>
+    <p class="readmore"><a href="/20170402-cabaret/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170326-leetcode-contest25/">Leetcode Contest 25</a></h1>
+    <div class="post-meta">2017-03-26</div>
+    <a data-disqus-identifier="20170326-leetcode-contest25/" href="/20170326-leetcode-contest25/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>昨天晚上有红烧牛排骨，白灼罗非鱼，烤翅和我喜欢的草莓蛋糕。</p>
+<p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-25/">比赛</a>我表现比较弱，只做出了前三道，而且第三道还WA了5次。最后一题是很有趣的DP，可惜比赛的时候做不出来。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-25/problems/perfect-number/">第一题</a><code>Perfect Number</code></p>
+<div class='qbar'>题目大意：给定一个整数num，判断是否为完美数。如果num是一个正整数，并且其所有正因子（除num本身之外）之和等于本身，那么num是一个完美数。</div>
+
+<p>思路：关键的观察是正因子是成对出现的，例如d是num的一个因子，那么num/d也是num的一个因子，所以我们只要搜索到<span class="math">\(\sqrt{num}\)</span>就行。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">checkPerfectNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type num: int</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">num</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="o">**</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">num</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="n">i</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">num</span><span class="o">/</span><span class="n">i</span><span class="p">:</span>
+                    <span class="n">s</span> <span class="o">+=</span> <span class="n">num</span><span class="o">/</span><span class="n">i</span>
+        <span class="k">return</span> <span class="n">s</span> <span class="o">==</span> <span class="n">num</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170326-leetcode-contest25/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170318-leetcode-contest24/">Leetcode Contest 24</a></h1>
+    <div class="post-meta">2017-03-18</div>
+    <a data-disqus-identifier="20170318-leetcode-contest24/" href="/20170318-leetcode-contest24/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今晚吃的是韩式烧烤：羊肉和豆腐。</p>
+<p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-24/">比赛</a>有四题，题目都比较基础，可惜打错了一个变量名字WA了一次。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-24/problems/diameter-of-binary-tree/">第一题</a><code>Diameter of Binary Tree</code></p>
+<div class='qbar'>题目大意：一棵树的直径定义为树中最长路径的长度。给定一棵二叉树，求树的直径。</div>
+
+<p>递归想法：对于每个树节点，计算经过该树节点最长路径的长度。只要修改求每个节点高度的程序就行。先算当前左子树的高度l和右子树的高度r，那么以该经过该节点最长路径的长度就是l+r+1，然后返回该节点的高度max(l, r)+1</p>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<span class="c1"># class TreeNode(object):</span>
+<span class="c1">#     def __init__(self, x):</span>
+<span class="c1">#         self.val = x</span>
+<span class="c1">#         self.left = None</span>
+<span class="c1">#         self.right = None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">diameterOfBinaryTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type root: TreeNode</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">ans</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">height</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">ans</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">height</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">ans</span><span class="p">)</span>
+            <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">height</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">ans</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170318-leetcode-contest24/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170311-leetcode-contest23/">Leetcode Contest 23</a></h1>
+    <div class="post-meta">2017-03-11</div>
+    <a data-disqus-identifier="20170311-leetcode-contest23/" href="/20170311-leetcode-contest23/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今晚有手撕鸡，玉米鸡汤，红烧牛排骨和金鲳鱼。本来还准备了要做个豆豉炒苦瓜的，但是那手撕鸡实在太大了，所以就苦瓜没有必要做了。这手撕鸡很好吃：先是用鸡熬两个小时做鸡汤，然后将鸡过冷水去骨撕条，在鸡肉上放上辣椒面与白芝麻并浇以热油，最后加上些许醋拌匀即可。</p>
+<p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-23">比赛</a>比较简单，但是还是WA了两次了，顺带吐槽一下自己写代码的速度。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-23/problems/reverse-string-ii/">第一题</a><code>Reverse String II</code><br>
+<div class='qbar'>题目大意：给定一个字符串和一个数k，对于字符串的每2k长度的子字符串，逆序前k个字符串。</div></p>
+<p>没什么好说的，就直接干就好：首先将字符串按长度为2k分块，然后处理每一个分块。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">reverseStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type s: str</span>
+<span class="sd">        :type k: int</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">):</span>
+            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
+            <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="n">k</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">s</span><span class="p">[</span><span class="n">k</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170311-leetcode-contest23/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170304-leetcode-contest22/">Leetcode Contest 22</a></h1>
+    <div class="post-meta">2017-03-04</div>
+    <a data-disqus-identifier="20170304-leetcode-contest22/" href="/20170304-leetcode-contest22/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今晚吃得有点撑：排骨汤，花池鱼，红烧羊肉和炒青菜。</p>
+<p>除了第一题WA了一次之外，其他三题都一次过了！</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-22/problems/k-diff-pairs-in-an-array/">第一题</a><code>K-diff Pairs in an Array</code>。</p>
+<div class='qbar'>题目大意：给定一个数组和一个数k，求数组中所有不同的差值绝对值为k的二元对的数目。
+</div>
+
+<p>思路比较简单：首先用哈希表统计所有数出现的频率。对于k＝0的情况，我们返回所有出现次数大于1的数的数目，对于k&gt;0的情况，我们只要统计所有n+k也出现的数n的数目。对于k&lt;0的情况，直接返回0。我第一次提交忘记考虑k&lt;0的情况了。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findPairs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type nums: List[int]</span>
+<span class="sd">        :type k: int</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">ans</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">a</span><span class="o">+</span><span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+                    <span class="n">ans</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170304-leetcode-contest22/">Read More</a></p>
+</div>
+
+<div class="page-navigator">
+    <a class="extend prev" rel="prev" href="/page/5/">Previous</a>
+    <a class="page-number" href="/">1</a>
+    <span class="space">...</span>
+    <a class="page-number" href="/page/4/">4</a>
+    <a class="page-number" href="/page/5/">5</a>
+    <span class="page-number current">6</span>
+    <a class="page-number" href="/page/7/">7</a>
+    <a class="page-number" href="/page/8/">8</a>
+    <a class="page-number" href="/page/9/">9</a>
+    <a class="extend next" rel="next" href="/page/7/">Next</a></nav>
+</div class="page-navigator">
+
+    <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

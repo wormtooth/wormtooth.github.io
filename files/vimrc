@@ -1,0 +1,68 @@
+""""""""""""""""""""""""""""""""""""""
+"           Vundle settings          "
+""""""""""""""""""""""""""""""""""""""
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" NERD Tree
+Plugin 'scrooloose/nerdtree'
+
+" Color Schemes
+Plugin 'flazz/vim-colorschemes'
+
+Plugin 'vim-scripts/c.vim'
+
+Plugin 'tell-k/vim-autopep8'
+
+call vundle#end()
+filetype plugin indent on
+
+
+
+""""""""""""""""""""""""""""""""""""""
+"          General settings          "
+""""""""""""""""""""""""""""""""""""""
+syntax on
+set ruler
+set visualbell
+set cursorcolumn
+set cursorline
+set number
+set tabstop=4
+set expandtab
+set shiftwidth=4
+set cindent
+set colorcolumn=80
+color seoul256
+
+" enable mouse
+if has('mouse')
+    set mouse=a
+endif
+
+" backup
+set backup
+set backupdir=~/.vim/backup
+set directory=~/.vim/tmp
+
+" search: highlight and instant
+set hlsearch
+set incsearch
+
+" mappings
+map <leader>t :NERDTreeToggle<CR>
+imap jj <Esc>
+map j gj
+map k gk
+autocmd FileType python noremap <buffer> <leader>8 :call Autopep8()<CR>
+autocmd FileType python noremap <buffer> <leader>rr :exec '!python' shellescape(@%, 1)<CR>
+
+let g:autopep8_disable_show_diff=1
+
+" c.vim
+let g:C_CFlags = "-Wall -g -O0 -c -std=c++14"

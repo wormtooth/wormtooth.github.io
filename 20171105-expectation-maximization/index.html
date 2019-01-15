@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Expectation-Maximization algorithm | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Expectation-Maximization algorithm</h1>
+    <div class="post-meta">Nov 05, 2017
+    <span> | </span> <span>Machine Learning</span>
+    </div>
+    <a data-disqus-identifier="20171105-expectation-maximization/" href="/20171105-expectation-maximization/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>In this article, I will collect my notes on Expectation-Maximization algorithm (EM) based on lecture 12 and 13 of Andrew Ng's <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">online course</a>. Given a set of unlabeled data points EM tries iteratively to determine the distribution of data, assuming that all data points are implicitly labeled (unobserved latent variables). For simplicity, we shall limit ourselves to the case where there are only finitely many implicit labels.</p>
+<h2>Description of the problem</h2>
+<p>Given a set of unlabeled data <span class="math">\(\{x^{(1)}, \dots, x^{(m)}\}\)</span>, our goal is to determine <span class="math">\(P(x)\)</span>, the distribution of <span class="math">\(x\)</span>, with the following assumptions.</p>
+<div class="qbar">
+<p><a name="assumptions"><strong>Assumptions.</strong></a></p>
+<ol>
+<li>
+<p>There are finitely many unobserved latent variables <span class="math">\(z \in \{1, \dots, k\}\)</span> and they obey some multinomial distribution, i.e., <span class="math">\(P(z=j) = \phi_j\)</span> with <span class="math">\(\sum \phi_j = 1\)</span>.</p>
+</li>
+<li>
+<p><span class="math">\(\{P(x|z=j; a_j): j=1, \dots, k\}\)</span> are a family of uniformly parametrized distribution.</p>
+</li>
+</ol>
+</div>
+<p>Assumptions 1 and 2 will gives us a set of parameters <span class="math">\(\theta = (\phi_1, \dots, \phi_j, a_1,\dots, a_j)\)</span> and<br>
+</p>
+<div class="math">$$\begin{equation}
+P(x; \theta) = \sum_{j=1}^k P(x|z=j; \theta)P(z=j; \theta).
+\label{px}
+\end{equation}$$</div>
+<p><br>
+We want to find this set of parameters so that the likelihood function<br>
+</p>
+<div class="math">$$L(\theta) = \prod_{i=1}^m P(x^{(i)}) = \prod_{i=1}^m \sum_{j=1}^k P(x^{(i)}|z=j; \theta)P(z=j; \theta).$$</div>
+<p><br>
+is maximized. Or equivalently, the log likelihood function below is maximized:<br>
+</p>
+<div class="math">$$\begin{equation}
+l(\theta) = \sum_{i=1}^m \log\left(\sum_{j=1}^k P(x^{(i)}, z=j; \theta)\right),
+\label{log-likelihood}
+\end{equation}$$</div>
+<p><br>
+where <br>
+</p>
+<div class="math">$$P(x^{(i)}, z=j; \theta) = P(x^{(i)}|z=j; \theta)P(z=j; \theta).$$</div>
+<!--more-->
+
+<h2>EM algorithm</h2>
+<p>For any <span class="math">\(x^{(i)}\)</span>, using <a href="https://en.wikipedia.org/wiki/Jensen%27s_inequality">Jensen's inequality</a>, we have for any multinomial distribution <span class="math">\(Q_i\)</span> on <span class="math">\(\{1, \dots, k\}\)</span>,<br>
+</p>
+<div class="math">$$\begin{split}
+\log \left(\sum_{j=1}^k P(x^{(i)}, z=j; \theta)\right)
+&amp;= \log \left(\sum_j Q_i(z=j) \frac{P(x^{(i)}, z=j; \theta)}{Q_i(z=j)}\right) \\
+&amp;\ge \sum_j Q_i(z=j) \log \left(\frac{P(x^{(i)}, z=j; \theta)}{Q_i(z=j)}\right).
+\end{split}$$</div>
+<p><br>
+Inequality holds if and only if <span class="math">\(\frac{P(x^{(i)}, z=j; \theta)}{Q_i(z=j)}\)</span> are the same for all <span class="math">\(j\)</span>. That is to say, inequality holds if and only if<br>
+</p>
+<div class="math">$$\begin{equation}
+Q_i(z=j) = \frac{P(x^{(i)}, z=j; \theta)}{P(x^{(i)}; \theta)},
+\label{qij}
+\end{equation}$$</div>
+<p><br>
+where <span class="math">\(P(x^{(i)})\)</span> is calculated by<br>
+</p>
+<div class="math">$$P(x^{(i)}) = \sum_j P(x^{(i)}, z=j; \theta).$$</div>
+<p><br>
+Therefore,<br>
+</p>
+<div class="math">$$\begin{equation}\begin{split}
+l(\theta) &amp;= \sum_{i=1}^m \log\left(\sum_{j=1}^k P(x^{(i)}, z=j; \theta)\right)\\
+&amp;\ge \sum_i \sum_j Q_i(z=j) \log \left(\frac{P(x^{(i)}, z=j; \theta)}{Q_i(z=j)}\right).
+\label{inequality}
+\end{split}\end{equation}$$</div>
+<p>Based on Equations (<span class="math">\(\ref{inequality}\)</span>) and (<span class="math">\(\ref{qij}\)</span>), EM algorithm uses the following steps to update <span class="math">\(\theta\)</span>.</p>
+<div class="qbar">
+<p><a name="emalgorithm"><strong>EM algorithm.</strong></a></p>
+<p>E-Step) Calculate <span class="math">\(Q_i(z=j)\)</span> using Equation (<span class="math">\(\ref{qij}\)</span>) from current <span class="math">\(\theta\)</span>.</p>
+<p>M-Step) Put all resulted <span class="math">\(Q_i(z=j)\)</span> in Equation (<span class="math">\(\ref{inequality}\)</span>), and update <span class="math">\(\theta\)</span> to maximize<br>
+<div class="math">$$
+\begin{equation}
+f(\theta) = \sum_{i=1}^m \sum_{j=1}^k Q_i(z=j) \log \left(\frac{P(x^{(i)}, z=j; \theta)}{Q_i(z=j)}\right),
+\label{mstep}
+\end{equation}$$</div>
+<br>
+subject to <span class="math">\(\sum_j \phi_j = 1\)</span>.</p>
+</div>
+<h2>Mixture of Gaussians</h2>
+<p>Suppose <span class="math">\(x \in \mathbb{R}^n\)</span> are column vectors, i.e, there are <span class="math">\(n\)</span> features. In <a href="#assumptions">Assumptions</a>, we now require <span class="math">\(P(x|z=j)\)</span> is a Gaussian distribution for any <span class="math">\(j\)</span>. Thus, the above <a href="#assumptions">Assumptions</a> are now specified as follow.</p>
+<ol>
+<li>
+<p><span class="math">\(P(z=j) = \phi_j\)</span>, for <span class="math">\(j = 1, \dots, k\)</span> and <span class="math">\(\sum_j \phi_j = 1\)</span>.</p>
+</li>
+<li>
+<p><span class="math">\(\displaystyle P(x|z=j) = \frac{1}{\sqrt{(2\pi)^n \det \Sigma_j}} \exp\left(-\frac{1}{2} (x-\mu_j)^T \Sigma_j^{-1} (x-\mu_j)\right)\)</span>, for <span class="math">\(j = 1, \dots, k\)</span>.</p>
+</li>
+</ol>
+<p>With these assumptions, our set of parameters are<br>
+</p>
+<div class="math">$$\theta = (\phi_1, \dots, \phi_k, \mu_1, \dots, \mu_k, \Sigma_1, \dots, \Sigma_k).$$</div>
+<p><br>
+Once we determine <span class="math">\(\theta\)</span> via EM algorithm, we then can use Equation (<span class="math">\(\ref{px}\)</span>) to find <span class="math">\(P(x; \theta)\)</span>.</p>
+<p>The E-step is always relatively easy. For the current <span class="math">\(\theta\)</span>, we set<br>
+</p>
+<div class="math">$$w_{ij} = Q_i(z=j) = \frac{P(x^{(i)}, z=j; \theta)}{P(x^{(i)}; \theta)}$$</div>
+<p><br>
+from Equation (<span class="math">\(\ref{qij}\)</span>). Quantities <span class="math">\(P(x^{(i)}, z=j; \theta)\)</span> and <span class="math">\(P(x^{(i)}; \theta)\)</span> can be both deduced from <span class="math">\(P(z)\)</span> and <span class="math">\(P(x|z)\)</span>. </p>
+<p>The M-step needs some work. Under the above assumptions and using <span class="math">\(w_{ij}\)</span> in place of <span class="math">\(Q_i(z=j)\)</span>, Equation (<span class="math">\(\ref{mstep}\)</span>) becomes<br>
+</p>
+<div class="math">$$
+f(\theta) = \sum_{i=1}^m \sum_{j=1}^k w_{ij} \log \phi_j - \frac{1}{2}w_{ij}(x^{(i)}-\mu_j)^T \Sigma_j^{-1} (x^{(i)}-\mu_j) - \frac{1}{2}w_{ij}\log \det \Sigma_j - \frac{nw_{ij}}{2}\log(2\pi).
+$$</div>
+<p><br>
+For <span class="math">\(\phi_j\)</span>, we recall that we have the restriction that <span class="math">\(\sum_j \phi_j = 1\)</span>. Moreover, when concern only about <span class="math">\(\phi_j\)</span>, we can change our objective function to<br>
+</p>
+<div class="math">$$f_1(\theta) = \sum_{i=1}^m \sum_{j=1}^k w_{ij} \log \phi_j = \sum_j \left(\sum_i w_{ij}\right) \log \phi_j.$$</div>
+<p><br>
+Apply the Lagrange multiplier to <span class="math">\(f_1\)</span> with restriction <span class="math">\(\sum_j \phi_j = 1\)</span>, there is a <span class="math">\(\lambda\)</span> so that<br>
+</p>
+<div class="math">$$\frac{\sum_i w_{ij}}{\phi_j} = \lambda.$$</div>
+<p><br>
+Recall that <span class="math">\(w_{ij} = Q_i(z=j)\)</span> is some multinomial distribution on <span class="math">\(\{1, \dots, k\}\)</span>, so <span class="math">\(\sum_j w_{ij} = 1\)</span>. Thus, from above equations, we conclude that<br>
+</p>
+<div class="math">$$\lambda = \sum_{i=1}^m \sum_{j=1}^k w_{ij} = m.$$</div>
+<p><br>
+Therefore, we have the following formula to update <span class="math">\(\phi_j\)</span> for <span class="math">\(j = 1, \dots, k\)</span>:<br>
+</p>
+<div class="math">$$\begin{equation}
+\phi_j = \frac{\sum_i w_{ij}}{m}.
+\label{g-phi}
+\end{equation}$$</div>
+<p><br>
+Now, let's work on parameter <span class="math">\(\mu_j\)</span> for some fixed <span class="math">\(j\)</span>. The gradient of <span class="math">\(f\)</span> with respect to <span class="math">\(\mu_j\)</span> is<br>
+</p>
+<div class="math">$$\sum_{i=1}^m w_{ij} \Sigma_j^{-1} (x^{(i)} - \mu_j).$$</div>
+<p><br>
+Since <span class="math">\(\Sigma_j\)</span> is invertible, if we set the gradient above to zero, then we can get for <span class="math">\(\mu_j\)</span> a updating formula:<br>
+</p>
+<div class="math">$$\begin{equation}
+\mu_j = \frac{\sum_{i=1}^m w_{ij}x^{(i)}}{\sum_{i=1}^m w_{ij}}.
+\label{g-mu}
+\end{equation}$$</div>
+<p><br>
+Finally, we should focus on <span class="math">\(\Sigma_j\)</span>. To calculate the gradient of <span class="math">\(f\)</span> with respect to <span class="math">\(\Sigma_j\)</span> is not immediate. Indeed, we need some lemmas from linear algebra.</p>
+<p>Given some invertible matrix <span class="math">\(X\)</span>, we will denote <span class="math">\(\mathrm{adj}(X)\)</span> the <a href="https://en.wikipedia.org/wiki/Adjugate_matrix">adjugate matrix</a> of <span class="math">\(X\)</span>. Then<br>
+</p>
+<div class="math">$$X^{-1} = (\det X)^{-1} \mathrm{adj}(X).$$</div>
+<div class="qbar">
+<p><a name="matder"><strong>Lemma.</strong></a> Let $X = (X_{ij})$ be an invertible $n \times n$ matrix, viewed as a function in terms of $X_{ij}$. Then</p>
+<p>(1) <span class="math">\(\displaystyle \frac{\partial \det X}{\partial X_{ij}} = \mathrm{adj}(X)_{ji} = (\det X)(X^{-1})_{ji}\)</span>.</p>
+<p>(2) <span class="math">\(\displaystyle \frac{\partial X^{-1}}{\partial X_{ij}} = -X^{-1} \frac{\partial X}{\partial X_{ij}} X^{-1}\)</span>.</p>
+</div>
+<p><em>Proof.</em> For (1), note that <span class="math">\(\det X = \sum_{k=1}^n X_{ik} \mathrm{adj}(X)_{ki}\)</span>. Thus,<br>
+</p>
+<div class="math">$$\begin{split}
+\frac{\partial \det X}{\partial X_{ij}}
+&amp;= \sum_k \mathrm{adj}(X)_{ki} \frac{\partial X_{ik}}{\partial X_{ij}} + X_{ik} \frac{\partial \,\mathrm{adj}(X)_{ki}}{\partial X_{ij}} \\
+&amp;= \mathrm{adj}(X)_{ji}.
+\end{split}$$</div>
+<p><br>
+The last equality holds because <span class="math">\(\mathrm{adj}(X)_{ki}\)</span> is independent of <span class="math">\(X_{ij}\)</span> for any <span class="math">\(k\)</span>. Since <span class="math">\(\mathrm{adj}(X) = (\det X) X^{-1}\)</span>, <span class="math">\(\mathrm{adj}(X)_{ji} = (\det X)(X^{-1})_{ji}\)</span> is obvious.</p>
+<p>For (2), we simply use the identity <span class="math">\(XX^{-1}=I\)</span> and product rule.<span class="qed"><span class="math">\(\square\)</span></span></p>
+<p>The above lemma allows us to calculate the gradient of <span class="math">\(f\)</span> with respect to <span class="math">\(\Sigma_j\)</span> for some fixed <span class="math">\(j\)</span>, taking into the consideration that <span class="math">\(\Sigma_j\)</span> is symmetric. In fact, the corresponding gradient is<br>
+</p>
+<div class="math">$$\sum_{i=1}^m -\frac{1}{2}w_{ij} \Sigma_j^{-1}(x^{(i)}-\mu_j)(x^{(i)}-\mu_j)^T\Sigma_j^{-1}+\frac{1}{2}w_{ij}\Sigma_j^{-1}.$$</div>
+<p><br>
+Setting the gradient to zero, we solve for <span class="math">\(\Sigma_j\)</span><br>
+</p>
+<div class="math">$$\begin{equation}
+\Sigma_j = \frac{\sum_{i=1}^m w_{ij} (x^{(i)}-\mu_j)(x^{(i)}-\mu_j)^T}{\sum_{i=1}^m w_{ij}}.
+\label{g-sigma}
+\end{equation}$$</div>
+<p>Equations (<span class="math">\(\ref{g-phi}\)</span>), (<span class="math">\(\ref{g-mu}\)</span>) and (<span class="math">\(\ref{g-sigma}\)</span>) together update the current <span class="math">\(\theta\)</span>, which is the M-step.</p>
+
+        <div class="tags">
+        <a href="/tag/note">note</a>
+        <a href="/tag/em">EM</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20171105-expectation-maximization/';
+    var disqus_title = 'Expectation-Maximization algorithm';
+    var disqus_url = 'https://wormtooth.com/20171105-expectation-maximization/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+分割双页扫描电子书 | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">分割双页扫描电子书</h1>
+    <div class="post-meta">Mar 25, 2013
+    <span> | </span> <span>Programming</span>
+    </div>
+    <a data-disqus-identifier="20130325-split-scanned-pages/" href="/20130325-split-scanned-pages/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>在平板上阅读双页扫描的电子书是一件很麻烦的事情，但是偏偏很多书都是双页扫描的，大概双页扫描比较方便吧。例如很多书籍的扫描出来的效果是这样的：</p>
+<p><img alt="扫描页" src="/images/2013scan-page-example.bmp"></p>
+<!--more-->
+
+<p>我希望能将双页的扫描版转成单页的，但是在网上搜了一圈也没有找到合适的软件，只好自己寻找解决方案了。这问题的复杂性在于，我们不能简单地从中间剪开，因为由于扫描时候的操作，两页并不是正好各占一半的。但是我们可以注意到两页之间有一条细长的黑线，这条黑线可以很自然地成为分割两页的标准线。所以我们可以通过找这条黑线的位置来达到自动分割的功能。其实有很多书扫描的时候由于操作失误，扫出来的书是斜的，对于这种情况，问题就变得很复杂了。</p>
+<p>结合自己的情况，我对要处理的扫描图像做出了以下假设：</p>
+<div class="qbox">
+<p>假设1）扫描图像都是“正”的，也就是说图像没有倾斜或者只是有稍微的倾斜；<br>
+假设2）扫描图像都有一条作为分割标准的黑线，并处在图像中间附近；<br>
+假设3）扫描图像是黑白的。</p>
+</div>
+<p>黑色的RGB值为（0，0，0），而白色的RGB的值为（255，255，255），所以如果我们将图像每一列的所有像素点的颜色值求一个平均，在黑线附近会达到比较小的值。所以我们可以扫描所有列的平均值挑出最小的列，我们可以期待这一列就是黑线所在的位置。由假设2），我们可以大大提高算法的效率：只要扫描图像中心所在的一个小范围[width/2-range, width/2+range)就可以确定黑线的所在位置，其中width是图像的宽，而range是用来控制范围大小的值，单位是像素。我是用的range值为200。程序如下（使用<a href="https://sourceforge.net/projects/cimg/">CImg</a>库）:</p>
+<div class="highlight"><pre><span></span><span class="cm">/* 使用CImg库，以及其命名空间 */</span>
+<span class="cp">#include</span> <span class="cpf">&quot;CImg.h&quot;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">cimg_library</span><span class="p">;</span>
+
+<span class="cm">/* 处理扫描图片的核心程序，接受一个文件路径参数 */</span>
+<span class="kt">int</span> <span class="nf">process</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">filename</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="cm">/* 命令行接受处理的文件路径参数</span>
+<span class="cm">     * 如果没有参数，则直接结束程序</span>
+<span class="cm">     */</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">argc</span><span class="o">&lt;</span><span class="mi">2</span> <span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="cm">/* 处理图片 */</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* 核心程序 */</span>
+<span class="kt">int</span> <span class="nf">process</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">filename</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="cm">/* 打开图像 */</span>
+    <span class="n">CImg</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">&gt;</span> <span class="n">img</span><span class="p">(</span><span class="n">filename</span><span class="p">);</span>
+    <span class="cm">/* 获得图像的宽、高参数 */</span>
+    <span class="kt">int</span> <span class="n">width</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="n">width</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="n">height</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="n">height</span><span class="p">();</span>
+    <span class="cm">/* 设置range值，控制扫描的范围 */</span>
+    <span class="kt">int</span> <span class="n">range</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+    <span class="cm">/* 记录扫描范围内的最小平均值 */</span>
+    <span class="kt">double</span> <span class="n">min_mean</span> <span class="o">=</span> <span class="mi">255</span><span class="p">;</span>
+    <span class="cm">/* 记录最小平均值的列 */</span>
+    <span class="kt">int</span> <span class="n">column</span> <span class="o">=</span> <span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+
+    <span class="cm">/* 在规定范围内逐列扫描 */</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="n">range</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">width</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">range</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">double</span> <span class="n">mean</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="n">get_column</span><span class="p">(</span><span class="n">i</span><span class="p">).</span><span class="n">mean</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">min_mean</span><span class="o">&gt;</span><span class="n">mean</span> <span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">min_mean</span> <span class="o">=</span> <span class="n">mean</span><span class="p">;</span>
+            <span class="n">column</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="cm">/* 在平均值最小的列画出红线 */</span>
+    <span class="kt">int</span> <span class="n">line_size</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>    <span class="c1">// 控制线条的粗细</span>
+    <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">red</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">};</span>   <span class="c1">// 红色</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">column</span><span class="o">-</span><span class="n">line_size</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">column</span><span class="o">+</span><span class="n">line_size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">img</span><span class="p">.</span><span class="n">draw_line</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">red</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cm">/* 显示结果 */</span>
+    <span class="n">img</span><span class="p">.</span><span class="n">display</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>下面是上面那个图像的处理结果：</p>
+<p><img alt="处理结果" src="/images/2013processed-image.png"></p>
+<p>但是这个算法也并不是百分百成功的，下图就是一个反例：</p>
+<p><img alt="反例" src="/images/2013counterexample_after_process.png"></p>
+<p>估计导致不准确的原因是中间那条黑线不明显。但是根据我对这本书的统计，170多个图像大概只有10多个图像是没有准确找出黑线的。不是100%的算法就无法做到自动地将所有扫描图像分割。</p>
+<p>对于算法的改进，我有两个思路：</p>
+<div class="qbox">
+<p>思路1）不只是将平均值最小的列拿出来，而是将平均值最小的若干列拿出来，再根据离中间的远近选择一列；<br>
+思路2）由于黑线都比较细，我们可以通过平均值两个突变之间的大小来推断黑线的位置。</p>
+</div>
+<p>等什么时候有时间了再回过头看看吧。</p>
+
+        <div class="tags">
+        <a href="/tag/tu-xiang-chu-li">图像处理</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20130325-split-scanned-pages/';
+    var disqus_title = '分割双页扫描电子书';
+    var disqus_url = 'https://wormtooth.com/20130325-split-scanned-pages/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

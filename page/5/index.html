@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+    叶某人的碎碎念 | Believe in Mathematics    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title"><a href="/20170629-cassini-ovals/">Cassini Ovals</a></h1>
+    <div class="post-meta">2017-06-29</div>
+    <a data-disqus-identifier="20170629-cassini-ovals/" href="/20170629-cassini-ovals/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This post is my note for <a href="https://math.osu.edu/whatis"><em>What is</em></a> seminar on Cassini Ovals.</p>
+<h3>Definition</h3>
+<p>An ellipse is a geometric object formed by locus of points which have fixed sum of distances to two fixes foci.</p>
+<p><img alt="Ellipse" src="/images/ellipse-20170629.png"></p>
+<p>In the above figure, we can express the definition of ellipses in one simple equation:<br>
+</p>
+<div class="math">$$|PF_1|+|PF_2|=c,$$</div>
+<p><br>
+for some <span class="math">\(c&gt;0\)</span>. What if we change the addition in the above equation to multiplication? This comes the definition of <em>Cassini ovals</em>.</p>
+
+    </div>
+    <p class="readmore"><a href="/20170629-cassini-ovals/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170625-leetcode-contest-38/">Leetcode Contest 38</a></h1>
+    <div class="post-meta">2017-06-25</div>
+    <a data-disqus-identifier="20170625-leetcode-contest-38/" href="/20170625-leetcode-contest-38/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-38/">比赛</a>我表现得比较差，只能做出第一题和第三题。第四题比赛结束之后很快也写出来了，而第二题确实花了我一个多小时才能想出来。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-38/problems/maximum-product-of-three-numbers/">第一题</a><code>Maximum Product of Three Numbers</code></p>
+<div class="qbar">给定一个长度不小于3的数组，问任选三个数得到的最大乘积是多少。</div>
+
+<p>先将数组排序，那么最大值必然在下面四种情况中：</p>
+<ol>
+<li>第一个数 X 第二个数 X 第三个数</li>
+<li>倒数第一个数 X 倒数第二个数 X 倒数第三个数</li>
+<li>第一个数 X 倒数第一个数 X 倒数第二个数</li>
+<li>第一个数 X 第二个数 X 倒数第一个数</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">maximumProduct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type nums: List[int]</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nums</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span>
+                    <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170625-leetcode-contest-38/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170622-rademacher-functions/">Rademacher functions</a></h1>
+    <div class="post-meta">2017-06-22</div>
+    <a data-disqus-identifier="20170622-rademacher-functions/" href="/20170622-rademacher-functions/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This post is my note for <a href="https://math.osu.edu/whatis"><em>What is&#8230;?</em></a> seminar on Rademacher function.</p>
+
+<p>For a real number <span class="math">\(x\)</span> in <span class="math">\([0, 1]\)</span>, let <span class="math">\((a_1(x), a_2(x), \cdots, a_n(x), \cdots)\)</span> be its binary representation. That is to say,
+<span class="math">\[\begin{equation}
+x = \sum_{n=1}^\infty \frac{a_n(x)}{2^n}.
+\label{20170623-1}
+\end{equation}\]</span></p>
+
+<p>For some <span class="math">\(x\)</span>, there might be two possible binary representation. Take <span class="math">\(\frac{1}{2}\)</span> for example, it can be represented as <span class="math">\((1, 0, 0, \cdots)\)</span> or <span class="math">\((0, 1, 1, \cdots)\)</span>. In this situation, we always prefer the former representation, in which all terms become <span class="math">\(0\)</span> eventually.</p>
+
+<div class='qbar' >
+<a name='defn1'><strong>Definition 1.</strong></a> Let <span class="math">\(n \ge 1\)</span> be an integer. The <span class="math">\(n\)</span>-th <em>Rademacher function</em> <span class="math">\(r_n: [0, 1] \to \{-1,1\}\)</span> is defined to be
+<span class="math">\[r_n(x) = 1 - 2a_n(x).\]</span>
+</div>
+
+
+    </div>
+    <p class="readmore"><a href="/20170622-rademacher-functions/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170620-luroth-expansion/">Lüroth expansion</a></h1>
+    <div class="post-meta">2017-06-20</div>
+    <a data-disqus-identifier="20170620-luroth-expansion/" href="/20170620-luroth-expansion/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This post is my note for <a href="https://math.osu.edu/whatis"><em>What is&#8230;?</em></a> seminar on Lüroth expansion.</p>
+
+<div class='qbar' >
+
+<p><a name='defn1'><strong>Definition 1.</strong></a> A <em>Lüroth expansion</em> of a real number <span class="math">\(x \in (0, 1]\)</span> is a (possibly) infinite sequence <span class="math">\((a_1, a_2, \cdots, a_n, \cdots)\)</span> with <span class="math">\(a_n \in \N\)</span> and <span class="math">\(a_n \ge 2\)</span> for all <span class="math">\(n \ge 1\)</span> such that
+<span class="math">\[\begin{equation}
+x = \frac{1}{a_1} + \frac{1}{a_1(a_1-1)a_2} + \cdots + \frac{1}{a_1(a_1-1)\cdots a_{n-1}(a_{n-1}-1)a_n} + \cdots
+\end{equation}\]</span></p>
+By abuse of notation, we will something write the right hand side of <a href="#defn1">Definition 1</a> as <span class="math">\((a_1, a_2, \cdots, a_n, \cdots)\)</span>.
+</div>
+
+<p>Given a system of representation of real numbers in <span class="math">\((0, 1]\)</span>, we need to determine whether these representations are 1 to 1 corresponding the numbers in <span class="math">\((0, 1]\)</span>. Aslo we should study the (Lüroth) shift map:
+<span class="math">\[\begin{equation}
+T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
+\label{20170620-2}
+\end{equation}\]</span></p>
+
+
+    </div>
+    <p class="readmore"><a href="/20170620-luroth-expansion/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170619-raspberrypi-zero-w-setup/">Raspberry Pi Zero W无屏设置</a></h1>
+    <div class="post-meta">2017-06-19</div>
+    <a data-disqus-identifier="20170619-raspberrypi-zero-w-setup/" href="/20170619-raspberrypi-zero-w-setup/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>我最近入手了一个<a href="https://www.raspberrypi.org/products/pi-zero-w/">Raspberry Pi Zero W</a>，作为平时消遣的一个小玩具。因为我主要是想在它上面运行一些小程序，所以我希望将它设置为最简单的服务器，然后通过ssh来访问。这篇文章记录了我从网上搜来的设置步骤，方便下次设置。</p>
+<h3>制作SD启动盘</h3>
+<p>首先说明一下：我的系统是Mac OSX。在制作SD启动盘过程中，我们需要修改启动盘的内容，Mac OSX是不支持启动盘的格式的，所以我们需要借助其他途径。我是用VitualBox的Ubuntu来修改启动盘的内容。</p>
+<p><strong>第一步</strong>：下载<a href="https://www.raspberrypi.org/downloads/raspbian/">raspbian lite</a>，解压得到一个后缀名为img的镜像文件。我得到的是：<code>2017-04-10-raspbian-jessie-lite.img</code>。</p>
+
+    </div>
+    <p class="readmore"><a href="/20170619-raspberrypi-zero-w-setup/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170617-leetcode-contest-37/">Leetcode Contest 37</a></h1>
+    <div class="post-meta">2017-06-18</div>
+    <a data-disqus-identifier="20170617-leetcode-contest-37/" href="/20170617-leetcode-contest-37/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-37/problems/maximum-distance-in-arrays/">第一题</a><code>Maximum Distance in Arrays</code></p>
+<div class="qbar">给定一个包含数组的数组，每个数组都已经递增排序。我们要做的是从两个数组中各选一个数，使得这两个数的差的绝对值最大。问这个最大的值是多少？</div>
+
+<p>对于第i数组中，取出最大值a，最小值b，然后将(a, i)和(b, i)放进一个数组m里。将数组m按照第一个分量排序，那么对我们有用的只是数组m前面两个元素和后面两个元素。如果第一个元素和最后一个元素来自不一样的数组（第二个分量不一样），那么答案就是这两个元素的第一个分量的差。否则，我们要比较两种情况：第一个元素与倒数第二个元素，第二个元素与最后一个元素。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">maxDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arrays</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type arrays: List[List[int]]</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">arrays</span><span class="p">):</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">))</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">i</span><span class="p">))</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">!=</span><span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170617-leetcode-contest-37/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170603-leetcode-contest-35/">Leetcode Contest 35</a></h1>
+    <div class="post-meta">2017-06-03</div>
+    <a data-disqus-identifier="20170603-leetcode-contest-35/" href="/20170603-leetcode-contest-35/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-35/problems/can-place-flowers/">第一题</a><code>Can Place Flowers</code></p>
+<div class="qbar">给定一个01数组代表一排花盆，0代表是可以种花，1代表不可以。种花的时候我们要确保左右两边的花盆是空的。问能不能种n株花。</div>
+
+<p>简单的贪心。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">canPlaceFlowers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flowerbed</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type flowerbed: List[int]</span>
+<span class="sd">        :type n: int</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">flowerbed</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">flowerbed</span><span class="p">)</span> <span class="ow">and</span> <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">cnt</span><span class="o">&gt;=</span><span class="n">n</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170603-leetcode-contest-35/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170520-leetcode-contest-33/">Leetcode Contest 33</a></h1>
+    <div class="post-meta">2017-05-20</div>
+    <a data-disqus-identifier="20170520-leetcode-contest-33/" href="/20170520-leetcode-contest-33/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>就着Gin的酒劲，我还能一次不WA的过了这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-33">比赛</a>哈哈。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-33/problems/longest-harmonious-subsequence/">第一题</a><code>Longest Harmonious Subsequence</code></p>
+<div class="qbar">给定一个数组，找出长度最长的子数组，使得其最大值与最小值恰好相差1，返回最大长度。</div>
+
+<p>既然最大值与最小值恰好相差1，那么此子数组必定恰好有两个不一样的元素。我们只要统计每个元素出现的次数，然后枚举找出相邻两个元素出现次数之和的最大值就好。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findLHS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type nums: List[int]</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+            <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">cnt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cnt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">cnt</span><span class="p">:</span>
+                <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">v</span><span class="o">+</span><span class="n">cnt</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">cnt</span><span class="p">:</span>
+                <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">v</span><span class="o">+</span><span class="n">cnt</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170520-leetcode-contest-33/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170513-leetcode-contest32/">Leetcode Contest 32</a></h1>
+    <div class="post-meta">2017-05-13</div>
+    <a data-disqus-identifier="20170513-leetcode-contest32/" href="/20170513-leetcode-contest32/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-32/">比赛链接</a></p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-32/problems/shortest-unsorted-continuous-subarray/">第一题</a><code>Shortest Unsorted Continuous Subarray</code></p>
+<div class="qbar">给定一个数组，求其中最短的连续子数组长度，使得对该子数组排序就能完成对整个数组的排序。</div>
+
+<p>首先将数组排好序，然后看排好的数组与原来的数组之间的差异。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findUnsortedSubarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type nums: List[int]</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sn</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">sn</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">sn</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">j</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170513-leetcode-contest32/">Read More</a></p>
+</div>
+<div class="post">
+    <h1 class="post-title"><a href="/20170511-hexo-plugins/">编写Hexo插件让主页显示特定的文章</a></h1>
+    <div class="post-meta">2017-05-11</div>
+    <a data-disqus-identifier="20170511-hexo-plugins/" href="/20170511-hexo-plugins/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今年三月份我在hostgator买的虚拟主机到期了，衡量几番二月就从<a href="https://wordpress.org/">wordpress</a>迁到了<a href="https://hexo.io/">Hexo</a>。从这三个月左右的使用来看，Hexo让我挺满意的。一方面，它简洁且容易使用；另一方面它又给予用户很大的修改空间。奇怪的是，网上几乎没有编写Hexo插件的教程，以至于最近我折腾了好久才能写出可用的插件来让Hexo生成我预期的网页效果。这篇文章记录我编写Hexo插件的方法，希望对后来者有帮助。</p>
+<p>首先描述一下我想要做的事情。最近一直参加<a href="https://leetcode.com/">Leetcode</a>上面的比赛，而且每次参加之后都会写篇文章记录自己的做法，所以主页就被这些文章占领了。我希望主页只显示最新一篇关于Leetcode的文章。同时，我希望能有一个类似主页的页面，该页面是要列出所有关于Leetcode比赛的文章。总结说一下，我要做的事情是：<br>
+<div class='qbar'></p>
+<p>(I) 让主页只显示特定文章（或者说过滤掉特定文章）。</p>
+<p>(II) 建立一个页面只显示特定文章。</div></p>
+
+    </div>
+    <p class="readmore"><a href="/20170511-hexo-plugins/">Read More</a></p>
+</div>
+
+<div class="page-navigator">
+    <a class="extend prev" rel="prev" href="/page/4/">Previous</a>
+    <a class="page-number" href="/">1</a>
+    <span class="space">...</span>
+    <a class="page-number" href="/page/3/">3</a>
+    <a class="page-number" href="/page/4/">4</a>
+    <span class="page-number current">5</span>
+    <a class="page-number" href="/page/6/">6</a>
+    <a class="page-number" href="/page/7/">7</a>
+    <span class="space">...</span>
+    <a class="page-number" href="/page/9/">9</a>
+    <a class="extend next" rel="next" href="/page/6/">Next</a></nav>
+</div class="page-navigator">
+
+    <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

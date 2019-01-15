@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Tensor product of two linear maps | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Tensor product of two linear maps</h1>
+    <div class="post-meta">Nov 30, 2014
+    <span> | </span> <span>Mathematics</span>
+    </div>
+    <a data-disqus-identifier="20141130-tensor-product-of-two-linear-maps/" href="/20141130-tensor-product-of-two-linear-maps/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>Let <span class="math">\(A \in End(V)\)</span> and <span class="math">\(B \in End(W)\)</span> be two linear maps. We can define naturally the tensor product <span class="math">\(A \otimes B\)</span> of <span class="math">\(A\)</span> and <span class="math">\(B\)</span>, from <span class="math">\(V \otimes W\)</span> to <span class="math">\(V \otimes W\)</span>, sending <span class="math">\(v \otimes w\)</span> to <span class="math">\(Av \otimes Bw\)</span>. In this post, I am going to realize <span class="math">\(A \otimes B\)</span> as a matrix and relate the determinant and trace of <span class="math">\(A \otimes B\)</span> to the ones of <span class="math">\(A\)</span> and <span class="math">\(B\)</span>.</p>
+
+<p>Let <span class="math">\(V\)</span> and <span class="math">\(W\)</span> be two vector spaces over a field <span class="math">\(K\)</span> with <span class="math">\(\dim V=n\)</span> and <span class="math">\(\dim W=m\)</span>. Let <span class="math">\(e_1, \dots, e_n\)</span> be a basis of <span class="math">\(V\)</span> and let <span class="math">\(f_1, \dots, f_m\)</span> a basis of <span class="math">\(W\)</span>. Under the basis, a linear map <span class="math">\(A: V \to V\)</span> can be realized as an <span class="math">\(n \times n\)</span> matrix <span class="math">\((a_{ij})_{1 \le i,j \le n}\)</span>, where <span class="math">\(a_{ij} \in K\)</span>. Similarly, a linear map <span class="math">\(B: W \to W\)</span> can be realized as a <span class="math">\(m \times m\)</span> matrix <span class="math">\((b_{kl})_{1 \le k, l \le m}\)</span>. Now, <span class="math">\(V \otimes W\)</span>, as a vector space, has basis <span class="math">\(\{e_i \otimes f_j: 1 \le i \le n, 1 \le j \le m\}\)</span>. And,
+<span class="math">\[\begin{align*}
+A \otimes B (e_i \otimes f_j)
+&= A(e_i) \otimes B(f_j) \\
+&= \sum_{k}a_{ki}e_k \otimes \sum_{l}b_{lj}f_l \\
+&= \sum_{k,l}a_{ki}b_{lj} e_k \otimes f_l.
+\end{align*}\]</span></p>
+
+<!--more-->
+
+<p>From above calculation, we know that the <span class="math">\((k,l)\)</span>-th row, <span class="math">\((i,j)\)</span>-th column coefficient of the matrix of <span class="math">\(A \otimes B\)</span> is <span class="math">\(a_{ki}b_{lj}\)</span>. To write down the matrix explicitly, we need to give an order to <span class="math">\(\{(i,j):1 \le i \le n, 1 \le j \le m\}\)</span>. For instance, we can sort the indexes in an ascending order by using the first coordinate as primary key and the second coordinate as the second key. Let&#8217;s look at the simplest example. Let
+<span class="math">\(A=\left(\begin{array}{cc} a & b \\ c & d \end{array}\right)\)</span> and <span class="math">\(B=\left(\begin{array}{cc} x & y \\ z & w \end{array}\right)\)</span>. Then
+<span class="math">\[A \otimes B = \left(\begin{array}{cccc}
+ax & ay & bx & by\\
+az & aw & bz & bw\\
+cx & cy & dx & dy\\
+cz & cw & dz & dw
+\end{array}\right).\]</span></p>
+
+<div class="qbox" >
+<p><a name="proposition"><strong>Proposition.</strong></a> Let <span class="math">\(\alpha\)</span> be the eigenvalue of <span class="math">\(A\)</span> with eigenvector <span class="math">\(v\)</span> and let <span class="math">\(\beta\)</span> be the eigenvalue of <span class="math">\(B\)</span> with eigenvector <span class="math">\(w\)</span>. Then <span class="math">\(A \otimes B\)</span> has eigenvalue <span class="math">\(\alpha\beta\)</span> with eigenvector <span class="math">\(v \otimes w\)</span>.</p>
+</div>
+
+<p><em>Proof.</em> This is an easy calculation:
+<span class="math">\[\begin{align*}
+A \otimes B (v \otimes w)
+&= Av \otimes Bw \\ 
+&= \alpha v \otimes \beta w \\
+&= \alpha\beta \, v \otimes w.
+\end{align*}\]</span>
+This completes the proof.
+<span class="qed"><span class="math">\(\square\)</span></span></p>
+
+<p>Since we can express determinants and traces in terms of eigenvalues, the above proposition relates the determinants and traces of <span class="math">\(A \otimes B\)</span>, <span class="math">\(A\)</span> and <span class="math">\(B\)</span> together.</p>
+
+<div class="qbox" >
+
+<p><a name="corollary"><strong>Corollary.</strong></a> <span class="math">\((i) \; \det(A \otimes B) = (\det A)^m (\det B)^n\)</span>.<br/>
+<span class="math">\((ii) \; \text{tr}(A \otimes B) = \text{tr}\, A \cdot \text{tr}\, B\)</span>.</p>
+</div>
+
+<p><em>Proof.</em> Without loss of generality, we can assume is <span class="math">\(K\)</span> is algebraic closed, since we can replace <span class="math">\(K\)</span> with its algebraic closure without changing the determinants and traces.</p>
+
+<p>Let <span class="math">\(\alpha_1, \dots, \alpha_n\)</span> be all eigenvalues(with multiplicities) of <span class="math">\(A\)</span> and let <span class="math">\(\beta_1, \dots, \beta_m\)</span> be all eigenvalues(with multiplicities) of <span class="math">\(B\)</span>. Then by the <a href="#proposition"><strong>Proposition</strong></a>, <span class="math">\(\alpha_i\beta_j\)</span> are all the eigenvalues of <span class="math">\(A \otimes B\)</span>, for <span class="math">\(1 \le i \le n\)</span> and <span class="math">\(1 \le j \le m\)</span>. Hence,
+<span class="math">\[\begin{align*}
+\det(A \otimes B)
+&= \prod_{i,j} \alpha_i\beta_j \\
+&= \left(\prod_i \alpha_i\right)^m \left(\prod_j \beta_j\right)^n \\
+&= (\det A)^m(\det B)^n,
+\end{align*}\]</span>
+And
+<span class="math">\[\begin{align*}
+\text{tr}(A \otimes B)
+&= \sum_{ij} \alpha_i\beta_j \\
+&= \left(\sum_i \alpha_i\right)\left(\sum_j \beta_j\right) \\
+&= \text{tr} \, A \cdot \text{tr} \, B.
+\end{align*}\]</span>
+<span class="qed"><span class="math">\(\square\)</span></span></p>
+
+        <div class="tags">
+        <a href="/tag/determinant">determinant</a>
+        <a href="/tag/linear-algebra">linear algebra</a>
+        <a href="/tag/tensor-product">tensor product</a>
+        <a href="/tag/trace">trace</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20141130-tensor-product-of-two-linear-maps/';
+    var disqus_title = 'Tensor product of two linear maps';
+    var disqus_url = 'https://wormtooth.com/20141130-tensor-product-of-two-linear-maps/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+div.qbox{
+  padding-top: 0px;
+  padding-bottom: 5px;
+  padding-right: 16px;
+  padding-left: 16px;
+  border: 0.15em solid #009BCD;
+  border-radius: 10px;
+  margin: 5px;
+  margin-bottom: 1em;
+
+  -moz-box-shadow: 2px 2px 15px #ccc;
+  -webkit-box-shadow: 2px 2px 15px #ccc;
+  box-shadow: 2px 2px 15px #ccc;
+}
+
+div.code {
+  font-family: monospace;
+  white-space: pre;
+  line-height: 70%;
+}
+
+div.qbar{
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-right: 16px;
+  padding-left: 16px;
+  border-left: 0.5em solid #009BCD;
+  margin: 5px;
+  margin-bottom: 1em;
+
+  -moz-box-shadow: 2px 2px 15px #ccc;
+  -webkit-box-shadow: 2px 2px 15px #ccc;
+  box-shadow: 2px 2px 15px #ccc;
+}
+
+div.qbox a {
+  color: #01579f;
+  padding-bottom: 2px;
+  word-break: break-all;
+}
+
+div.qbox a:hover {
+  text-decoration: underline;
+}
+
+div.qbar a {
+  color: #01579f;
+  padding-bottom: 2px;
+  word-break: break-all;
+}
+
+div.qbar a:hover {
+  text-decoration: underline;
+}
+
+span.qed{
+  float: right;
+}
+
+code {
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #C7254E;
+    background-color: #F9F2F4;
+    border-radius: 4px;
+}
+
+/* movie card */
+
+.card {
+  line-height: normal;
+  box-shadow: 2px 2px 15px #ccc;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.card .grey {
+  color: #6b6b6b;
+  font-size: 10px;
+}
+
+.card .ghost {
+  margin: 0 .5em;
+}
+
+.card .cheader {
+  margin-left: 10px;
+  padding-top: 10px;
+}
+
+.card .cheader .rating {
+  float: right;
+  position: relative;
+  margin-left: 5px;
+  width: 130px;
+  z-index: 2;
+}
+
+.card .cheader .rating .star {
+  float: left;
+}
+
+.card .cheader .rating div.ratingValue {
+  padding-top: 10px;
+}
+
+.card .cheader .rating span.ratingValue {
+  font-size: 24px;
+  font-weight: normal;
+  font-family: Arial;
+  line-height: 24px;
+}
+
+.card .cheader .rating .ratingCount {
+  font-size: 10px;
+  color: #888888;
+}
+
+.card .cheader .title {
+  min-height: 58px;
+}
+
+.card .cheader .title h1.name {
+  font: 36px Arial,sans-serif;
+  font-weight: normal;
+  line-height: 110%;
+  margin: 0px;
+  padding-bottom: 3px;
+}
+
+.card .cheader .title .subtext {
+  font-size: 11px;
+  color: #888888;
+}
+
+.card .cbody {
+  min-height: 290px;
+  padding-left: 10px;
+}
+
+.card .cbody .poster {
+  float: left;
+  display: inline-block;
+}
+
+.card .cbody .content {
+  overflow: hidden;
+  padding: 18px 20px;
+  min-height: 201px;
+}
+
+.card .cbody .content .meta {
+  padding-bottom: 16px;
+  line-height: 18px;
+}
+
+.card .cbody .content .meta .key {
+  color: #888888;
+  display: inline;
+  padding: 0 0.5em 0 0;
+}
+
+.card .cfooter {
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  color: #888888;
+}

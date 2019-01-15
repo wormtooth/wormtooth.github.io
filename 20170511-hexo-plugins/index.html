@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+编写Hexo插件让主页显示特定的文章 | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">编写Hexo插件让主页显示特定的文章</h1>
+    <div class="post-meta">May 11, 2017
+    <span> | </span> <span>Programming</span>
+    </div>
+    <a data-disqus-identifier="20170511-hexo-plugins/" href="/20170511-hexo-plugins/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今年三月份我在hostgator买的虚拟主机到期了，衡量几番二月就从<a href="https://wordpress.org/">wordpress</a>迁到了<a href="https://hexo.io/">Hexo</a>。从这三个月左右的使用来看，Hexo让我挺满意的。一方面，它简洁且容易使用；另一方面它又给予用户很大的修改空间。奇怪的是，网上几乎没有编写Hexo插件的教程，以至于最近我折腾了好久才能写出可用的插件来让Hexo生成我预期的网页效果。这篇文章记录我编写Hexo插件的方法，希望对后来者有帮助。</p>
+<p>首先描述一下我想要做的事情。最近一直参加<a href="https://leetcode.com/">Leetcode</a>上面的比赛，而且每次参加之后都会写篇文章记录自己的做法，所以主页就被这些文章占领了。我希望主页只显示最新一篇关于Leetcode的文章。同时，我希望能有一个类似主页的页面，该页面是要列出所有关于Leetcode比赛的文章。总结说一下，我要做的事情是：<br>
+<div class='qbar'></p>
+<p>(I) 让主页只显示特定文章（或者说过滤掉特定文章）。</p>
+<p>(II) 建立一个页面只显示特定文章。</div></p>
+<!--more-->
+
+<p>下面我分成若干小节来描述自定义插件的方法。</p>
+<h3>插件放哪里</h3>
+<p>至少有两个地方可以放。第一个地方是博客主目录下的<code>scripts</code>文件夹，第二个地方是当前使用主题目录下的<code>scripts</code>文件夹。如果<code>scripts</code>文件夹不存在的话，那么手动创建该文件夹即可。</p>
+<h3>用什么语言</h3>
+<p>要用Javascript，毕竟Hexo是基于<a href="https://nodejs.org/en/">nodejs</a>的。因为我写的插件比较简单，所以每个插件只含一个js文件。这些js文件将放在<code>scripts</code>文件夹中。</p>
+<h3>思路是什么</h3>
+<p>Hexo提供<a href="https://hexo.io/api/">API</a>让我们能很方便地写插件修改Hexo的行为。因为我们现在需要的是修改Hexo生成主页的行为，所以我们需要用到<a href="https://hexo.io/api/generator.html">Generator</a>。</p>
+<p>按照我的理解，生成器（Generator）能让我们指定Hexo生成某路径的页面时所用的方法。比如事情(I)，我们需要在生成根路径页面（对应于主页）是能过滤某些关于Leetcode的文章。对于事情(II)，我们希望生成一个新的路径页面（比如<code>leetcode/</code>），来展示Leetcode的文章。</p>
+<h3>怎么写插件</h3>
+<p>根据上述的思路，我们现在可以很简单地写出两个插件解决事情(I)和(II)了。因为我们需要分页功能，所以我们需要<a href="https://github.com/hexojs/hexo-pagination">hexo-pagination</a>这个插件。</p>
+<p>第一个插件是<code>index.js</code>，解决事情(I)。需要注意的是，这个插件跟<a href="https://github.com/hexojs/hexo-generator-index">hexo-generator-index</a>冲突。因为这个插件也是在修改主页的生成行为。因此，如果我们要自定义插件来修改主页，那么就要把hexo-generator-index删除。</p>
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;hexo-pagination&#39;</span><span class="p">);</span>
+
+<span class="nx">hexo</span><span class="p">.</span><span class="nx">extend</span><span class="p">.</span><span class="nx">generator</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">locals</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">posts</span> <span class="o">=</span> <span class="nx">locals</span><span class="p">.</span><span class="nx">posts</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nx">toArray</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">filtered_posts</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">var</span> <span class="nx">leetcode</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">posts</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">post</span> <span class="o">=</span> <span class="nx">posts</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">post</span><span class="p">.</span><span class="nx">title</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&quot;Leetcode Contest&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">leetcode</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">leetcode</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+            <span class="nx">filtered_posts</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">post</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">post</span><span class="p">.</span><span class="nx">title</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&quot;Leetcode Contest&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="nx">filtered_posts</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">post</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">pagination</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">filtered_posts</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">perPage</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="nx">layout</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">],</span>
+        <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">__index</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>第二个插件是<code>leetcode.js</code>，解决事情(II)。这个插件会生成<code>leetcode/</code>页面来陈列所有关于Leetcode的文章。可以点击<a href="/leetcode/">这里</a>查看效果。</p>
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;hexo-pagination&#39;</span><span class="p">);</span>
+
+<span class="nx">hexo</span><span class="p">.</span><span class="nx">extend</span><span class="p">.</span><span class="nx">generator</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s1">&#39;leetcode&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">locals</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">posts</span> <span class="o">=</span> <span class="nx">locals</span><span class="p">.</span><span class="nx">posts</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nx">toArray</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">filtered_posts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">posts</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">post</span> <span class="o">=</span> <span class="nx">posts</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">post</span><span class="p">.</span><span class="nx">title</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&quot;Leetcode Contest&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="nx">filtered_posts</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">post</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">pagination</span><span class="p">(</span><span class="s1">&#39;leetcode&#39;</span><span class="p">,</span> <span class="nx">filtered_posts</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">perPage</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="nx">layout</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">],</span>
+        <span class="nx">data</span><span class="o">:</span> <span class="p">{}</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<h3>最后说几句</h3>
+<p>看完这篇文章，我们知道怎么写插件修改Hexo生成页面的行为了。我想另一种常见需求是要操作文章的内容了。这里用两个有用的API：<a href="https://hexo.io/api/filter.html">Filter</a>和<a href="https://hexo.io/api/tag.html">Tag</a>。举个例子，代码高亮是用Tag插件实现的。</p>
+
+        <div class="tags">
+        <a href="/tag/hexo">Hexo</a>
+        <a href="/tag/plugin">plugin</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20170511-hexo-plugins/';
+    var disqus_title = '编写Hexo插件让主页显示特定的文章';
+    var disqus_url = 'https://wormtooth.com/20170511-hexo-plugins/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

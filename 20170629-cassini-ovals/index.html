@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Cassini Ovals | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Cassini Ovals</h1>
+    <div class="post-meta">Jun 29, 2017
+    <span> | </span> <span>Mathematics</span>
+    </div>
+    <a data-disqus-identifier="20170629-cassini-ovals/" href="/20170629-cassini-ovals/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This post is my note for <a href="https://math.osu.edu/whatis"><em>What is</em></a> seminar on Cassini Ovals.</p>
+<h3>Definition</h3>
+<p>An ellipse is a geometric object formed by locus of points which have fixed sum of distances to two fixes foci.</p>
+<p><img alt="Ellipse" src="/images/ellipse-20170629.png"></p>
+<p>In the above figure, we can express the definition of ellipses in one simple equation:<br>
+</p>
+<div class="math">$$|PF_1|+|PF_2|=c,$$</div>
+<p><br>
+for some <span class="math">\(c&gt;0\)</span>. What if we change the addition in the above equation to multiplication? This comes the definition of <em>Cassini ovals</em>.</p>
+<!--more-->
+
+<div class="qbar">
+<a name='defn1'><strong>Definition.</strong></a> A <em>Cassini oval</em> is a locus of points $P$ which satisfying
+
+$$|PF_1| \cdot |PF_2| = c^2,$$
+
+for two fixed foci $F_1$ and $F_2$, and some $c > 0$.</div>
+
+<p><img alt="Cassini Oval" src="/images/cassini-20170629-1.png"></p>
+<h3>Parametrization</h3>
+<p>If we assume that <span class="math">\(F_1\)</span> has coordinate <span class="math">\((-d, 0)\)</span> and <span class="math">\(F_2\)</span> has coordinate <span class="math">\((d, 0)\)</span>, then points <span class="math">\(P(x, y)\)</span> on Cassini oval satisfy the following equation:</p>
+<div class="math">$$\begin{equation}
+\left((x-d)^2+y^2\right)\left((x+d)^2+y^2\right) = c^4.
+\label{20170629-1}
+\end{equation}$$</div>
+<p>Equation <span class="math">\(\eqref{20170629-1}\)</span> is an implicit description of a Cassini oval. To get a parametric description, we will use polar system:</p>
+<div class="math">$$\begin{equation*}
+\left\{\begin{array}{l}
+x = r \cos \theta \\
+y = r \sin \theta
+\end{array}\right..
+\end{equation*}$$</div>
+<p>Substituting it in <span class="math">\(\eqref{20170629-1}\)</span>, we get</p>
+<div class="math">$$\begin{equation}
+r^4 - 2d^2 \cos(2\theta) r^2 + d^4 - c^4 = 0.
+\label{20170629-2}
+\end{equation}$$</div>
+<p>Solving <span class="math">\(\eqref{20170629-2}\)</span>,</p>
+<div class="math">$$\begin{equation*}
+r^2 = d^2\left(\cos(2\theta) \pm \sqrt{\left(\frac{c}{d}\right)^4-\sin^2(2\theta)}\right).
+\end{equation*}$$</div>
+<p>Therefore, without specifying the range of <span class="math">\(\theta\)</span>, we have</p>
+<div class="math">$$\begin{equation}
+r(\theta) = \pm d\sqrt{\cos(2\theta) \pm \sqrt{\left(\frac{c}{d}\right)^4-\sin^2(2\theta)}}.
+\label{20170629-3}
+\end{equation}$$</div>
+<p>Let</p>
+<div class="math">$$\begin{equation*}
+r_+(\theta) = d\sqrt{\cos(2\theta) + \sqrt{\left(\frac{c}{d}\right)^4-\sin^2(2\theta)}},
+\end{equation*}$$</div>
+<p>and</p>
+<div class="math">$$\begin{equation*}
+r_-(\theta) = d\sqrt{\cos(2\theta) - \sqrt{\left(\frac{c}{d}\right)^4-\sin^2(2\theta)}}.
+\end{equation*}$$</div>
+<p>The claim is that <span class="math">\(r_+(\theta)\)</span> and <span class="math">\(r_-(\theta)\)</span> are enough to cover all solutions in <span class="math">\(\eqref{20170629-3}\)</span>. This is an easy consequence of the fact that <span class="math">\((r, \theta)\)</span> and <span class="math">\((-r, \theta+\pi)\)</span> represent a same point. The range of <span class="math">\(\theta\)</span> depends on the relative sizes of <span class="math">\(c\)</span> and <span class="math">\(d\)</span>. And indeed, their relative sizes control the shapes of Cassini ovals.</p>
+<h3>Shape</h3>
+<p>According to <span class="math">\(\eqref{20170629-1}\)</span>, if <span class="math">\((x, y)\)</span> is on a Cassini oval, then <span class="math">\((x, -y), (-x, y)\)</span> and <span class="math">\((-x, -y)\)</span> are all on the Cassini oval. This is amount to say, Cassini ovals are symmetry with respect to <span class="math">\(x\)</span>-axis and <span class="math">\(y\)</span>-axis. To calculate <span class="math">\(y\)</span>-intercepts of a Cassini oval, we set <span class="math">\(x=0\)</span> in <span class="math">\(\eqref{20170629-1}\)</span>:</p>
+<div class="math">$$d^2+y^2=c^2,$$</div>
+<p>or</p>
+<div class="math">$$y = \pm \sqrt{c^2-d^2}.$$</div>
+<p>Case A: <span class="math">\(c &lt; d\)</span>. In this case, there is no <span class="math">\(y\)</span>-intercepts. Such a Cassini oval consists of two cycles symmetric with respect to <span class="math">\(y\)</span>-axis. See the <font color="#FF0000">red</font> Cassini oval in the below figure.</p>
+<p>Case B: <span class="math">\(c = d\)</span>. There is exactly one <span class="math">\(y\)</span>-intercept at the origin. See the <font color="#FF7F00">orange</font> Cassini oval below.</p>
+<p>Case C: <span class="math">\(d &lt; c &lt; \sqrt{2}d\)</span>. There are two <span class="math">\(y\)</span>-intercepts. See the <font color="#6600CC">purple</font> Cassini oval below. </p>
+<p>Case D: <span class="math">\(c \ge \sqrt{2}d\)</span>. There are two <span class="math">\(y\)</span>-intercepts. See the <font color="#00FF00">green</font> Cassini oval below.</p>
+<p><img alt="Cassini Ovals" src="/images/cassini-20170629-2.png"></p>
+<p>To understand the difference of the shapes between Case C and Case D, we are going to do a bit of analysis around positive <span class="math">\(y\)</span>-intercept. Apply implicit differentiation to <span class="math">\(\eqref{20170629-1}\)</span>, we get at <span class="math">\((0, y=\sqrt{c^2 - d^2})\)</span></p>
+<div class="math">$$\frac{dy}{dx} = -\frac{x(x^2+c^2-2d^2)}{y(x^2+y^2+d^2)}.$$</div>
+<p>If as in Case C, <span class="math">\(d &lt; c &lt; \sqrt{2}d\)</span>, <span class="math">\(y^\prime(x)\)</span> is positive for small <span class="math">\(x &gt; 0\)</span> and negative for small <span class="math">\(x &lt; 0\)</span>. Therefore, Cassini ovals in Case C have local minimums at the positive <span class="math">\(y\)</span>-intercepts. On the contrary, Cassini ovals in Case D have local maximums at the positive <span class="math">\(y\)</span>-intercepts.</p>
+
+        <div class="tags">
+        <a href="/tag/what-is">what is</a>
+        <a href="/tag/note">note</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20170629-cassini-ovals/';
+    var disqus_title = 'Cassini Ovals';
+    var disqus_url = 'https://wormtooth.com/20170629-cassini-ovals/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

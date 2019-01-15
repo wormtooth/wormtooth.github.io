@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Generalized Linear Model | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Generalized Linear Model</h1>
+    <div class="post-meta">Sep 20, 2017
+    <span> | </span> <span>Machine Learning</span>
+    </div>
+    <a data-disqus-identifier="20170920-generalized-linear-model/" href="/20170920-generalized-linear-model/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This article on <em>Generalized Linear Model (GLM)</em> is based on the first four lectures of <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">Machine Learning</a> by Andrew Ng. But the structure of the article is quite different from the lecture. I will talk about exponential family of distributions first. Then I will discuss the general idea of GLM. Finally, I will try to derive some well known learning algorithms from GLM.</p>
+<h2>Exponential Family</h2>
+<div class="qbar">
+A family of distributions is an exponential family if it can be parametrized by vector $\eta$ in the form
+
+$$P(y; \eta) = b(y)\exp(\eta^{T} T(y)-a(\eta)),$$
+
+where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\eta)$ is a function in terms of $\eta$.
+</div>
+
+<p><span class="math">\(\eta\)</span> is called the natural parameter and <span class="math">\(T(y)\)</span> is called the sufficient statistic.</p>
+<!--more-->
+
+<p><strong><a name="example1">Example 1.</a></strong> Consider a family of <a href="https://en.wikipedia.org/wiki/Normal_distribution">normal distributions</a> <span class="math">\(P(y; \mu)\)</span> with unknown mean <span class="math">\(\mu\)</span> and known variance <span class="math">\(\sigma^2\)</span>. Then<br>
+</p>
+<div class="math">$$P(y; \mu) = \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(y-\mu)^2}{2\sigma^2}}.$$</div>
+<p><br>
+We can rewrite <span class="math">\(P(y; \mu)\)</span> in the following form:<br>
+</p>
+<div class="math">$$P(y; \mu) = \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{y^2}{2\sigma^2}} \cdot \exp(\frac{\mu}{\sigma} \cdot \frac{y}{\sigma}-\frac{\mu^2}{2\sigma^2}).$$</div>
+<p><br>
+Therefore, we can set</p>
+<div class="math">$$\begin{align*}
+\eta &amp; = \frac{\mu}{\sigma} \\
+T(y) &amp; = \frac{y}{\sigma} \\
+a(\eta) &amp; = \frac{1}{2}\eta^2 \\
+b(y) &amp;= \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{y^2}{2\sigma^2}}
+\end{align*}$$</div>
+<p><strong><a name="example2">Example 2.</a></strong> Consider a family of <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">Bernoulli distributions</a> parametrized by <span class="math">\(\phi\)</span>. Then<br>
+</p>
+<div class="math">$$P(y; \phi) = \phi^{y}(1-\phi)^{1-y}.$$</div>
+<p><br>
+Let's rewrite it in the exponential form:</p>
+<div class="math">$$\begin{equation*}
+\begin{split}
+P(y; \phi) &amp;= \exp(\log(\phi^y(1-\phi)^{1-y})) \\
+&amp;= \exp(y\log(\phi)+(1-y)\log(1-\phi)) \\
+&amp;= \exp(y[\log(\phi)-\log(1-\phi)] + \log(1-\phi)) \\
+&amp;= \exp\left(\log\left(\frac{\phi}{1-\phi}\right) \cdot y + \log(1-\phi)\right)
+\end{split}
+\end{equation*}$$</div>
+<p><br>
+Compare the above result with the definition of exponential family, we get</p>
+<div class="math">$$\begin{align*}
+\eta &amp; = \log\left(\frac{\phi}{1-\phi}\right) \\
+T(y) &amp; = y \\
+a(\eta) &amp; = -\log(1-\phi) \\
+b(y) &amp;= 1
+\end{align*}$$</div>
+<p><br>
+We notice that <span class="math">\(a(\eta)\)</span> is not in terms of <span class="math">\(\eta\)</span>. We need to express <span class="math">\(\phi\)</span> in terms of <span class="math">\(\eta\)</span>. From <span class="math">\(\eta = \log\left(\frac{\phi}{1-\phi}\right)\)</span>, we solve<br>
+</p>
+<div class="math">$$\phi = \frac{1}{1+e^{-\eta}}.$$</div>
+<p><br>
+So,<br>
+</p>
+<div class="math">$$\begin{split}
+a(\eta) &amp;= -\log(1-\phi) = -\log\left(1-\frac{1}{1+e^{-\eta}}\right) \\
+&amp;= -\log\left(\frac{e^{-\eta}}{1+e^{-\eta}}\right) = -\log\left(\frac{1}{1+e^{\eta}}\right) \\
+&amp;= \log\left(1+e^\eta\right).
+\end{split}$$</div>
+<h2>Generalized Linear Model</h2>
+<p>In machine learning, we are often given a large samples set <span class="math">\(S = \{(x^{(i)}, y^{(i)}): i = 1, \dots, m\}\)</span> and our task is to come up with some learning algorithm <span class="math">\(h_\theta(x)\)</span> depending on <span class="math">\(\theta\)</span> such that <span class="math">\(h_\theta(x)\)</span> models <span class="math">\(S\)</span> well in certain sense. GLM is one powerful machinery which gives us a way to find reasonably good <span class="math">\(h_\theta(x)\)</span>.</p>
+<div class="qbox">
+<p>GLM has three assumptions:</p>
+<p>(1) Given input <span class="math">\(x\)</span> and learning parameter <span class="math">\(\theta\)</span>, the output <span class="math">\(y|x, \theta\)</span> is distributed in an exponential family <span class="math">\(P(y; \eta)\)</span> for some natural parameter <span class="math">\(\eta\)</span>.</p>
+<p>(2) <span class="math">\(h_\theta(x) = E(T(y)|x; \theta)\)</span>, the expected value of <span class="math">\(T(y)\)</span> given <span class="math">\(x\)</span>.</p>
+<p>(3) <span class="math">\(\eta = \theta^T x\)</span>. (In case <span class="math">\(\eta\)</span> is a vector, assume <span class="math">\(\eta_i = \theta_i^T x\)</span>.)</p>
+</div>
+<p><strong>Remark.</strong> The exponential family varies as learning problem varies. For example, if we want to model the number of people visiting a certain website according to time, we should use <a href="https://en.wikipedia.org/wiki/Poisson_distribution">Poisson distribution</a>. The nature of the problem usually determine the exponential family we should use. The second assumption is the one that give us the learning algorithm, which is <span class="math">\(h_\theta(x)\)</span>. However, one thing to keep in mind is that, the algorithm predicts <span class="math">\(T(y)\)</span> but not <span class="math">\(y\)</span>. The third and the last assumption is the design choice in GLM. I guess this is the reason why this model is called generalized <em>linear</em> model.</p>
+<p>Once we decide what kind of exponential family we should use, we can derive the learning algorithm <span class="math">\(h_\theta(x)\)</span> from GLM. But how to determine <span class="math">\(\theta\)</span>? One of the answers is to use <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation">maximum likelihood estimation</a>. Let's dive into the idea of maximum likelihood estimation.</p>
+<p>The chosen exponential family <span class="math">\(P(y; \eta)\)</span> or <span class="math">\(P(y; x, \theta)\)</span> is a probability density function of <span class="math">\(y\)</span> in terms of <span class="math">\(x\)</span> and <span class="math">\(\theta\)</span>. Let's fix <span class="math">\(\theta\)</span> for now. Then <span class="math">\(P(y; x, \theta)\)</span> is a probability density function of <span class="math">\(y\)</span> in terms of <span class="math">\(x\)</span>. Given a sample point <span class="math">\((x^{(i)}, y^{(i)})\)</span>, <span class="math">\(P(y^{(i)}; x^{(i)}, \theta)\)</span> is the <em>relative</em> likelihood of <span class="math">\(h_\theta(x^{(i)})\)</span> being <span class="math">\(y^{(i)}\)</span>, measuring how good our learning algorithm <span class="math">\(h_\theta\)</span> at the <span class="math">\(i\)</span>-th sample point. We must be aware that <span class="math">\(P(y^{(i)}; x^{(i)}, \theta)\)</span> is the <em>relative</em> likelihood, and the <em>absolute</em> likelihood of <span class="math">\(h_\theta(x^{(i)})\)</span> being <span class="math">\(y^{(i)}\)</span> is <em>always</em> 0. Using the <em>relative</em> likelihood, we can define a <em>likelihood function</em> of <span class="math">\(\theta\)</span>:</p>
+<div class="math">$$L(\theta) = \prod_{i=1}^m P(y^{(i)}; x^{(i)}, \theta).$$</div>
+<p>Therefore, the larger <span class="math">\(L(\theta)\)</span> is, the better our learning algorithm <span class="math">\(h_\theta(x)\)</span> is. Hence, to find the best learning parameter <span class="math">\(\theta\)</span>, we need to maximize <span class="math">\(L(\theta)\)</span>. Equivalently, we need to maximize the <em>log-likelihood</em> function<br>
+</p>
+<div class="math">$$l(\theta) = \log L(\theta) = \sum_{i = 1}^m \log P(y^{(i)}; x^{(i)}, \theta).$$</div>
+<h2>Linear regression</h2>
+<p>Suppose the chosen exponential family <span class="math">\(P(y; \mu)\)</span> for GLM is a family of normal distributions parametrized by mean <span class="math">\(\mu\)</span> with fix variant <span class="math">\(\sigma^2\)</span>:</p>
+<div class="math">$$P(y; \mu) = \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(y-\mu)^2}{2\sigma^2}}.$$</div>
+<p>From <a href="#example1">Example 1</a> above,</p>
+<div class="math">$$\begin{align*}
+\eta &amp; = \frac{\mu}{\sigma} \\
+T(y) &amp; = \frac{y}{\sigma} \\
+a(\eta) &amp; = \frac{1}{2}\eta^2 \\
+b(y) &amp;= \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{y^2}{2\sigma^2}}
+\end{align*}$$</div>
+<p>By GLM, we have<br>
+</p>
+<div class="math">$$\begin{equation}
+\begin{split}
+h_\theta(x) &amp;= E(T(y)|x; \theta) = \int_{-\infty}^{\infty} T(y)P(y; \mu) \, dy \\
+&amp;= \int_{-\infty}^{\infty} \frac{y}{\sigma} \cdot \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(y-\mu)^2}{2\sigma^2}} \, dy \\
+&amp;= \frac{\mu}{\sigma} = \eta = \theta^T x.
+\end{split}
+\label{eqn:linear}
+\end{equation}$$</div>
+<p><br>
+By the remark of GLM above, <span class="math">\(h_\theta(x)\)</span> predicts <span class="math">\(T(y)=\sigma y\)</span>, so the model predicting <span class="math">\(y\)</span> is the following, which I denote it also <span class="math">\(h_\theta(x)\)</span>, since <span class="math">\(\sigma\)</span> can be absorbed in <span class="math">\(\theta\)</span>.<br>
+</p>
+<div class="math">$$h_\theta(x) = \sigma \theta^T x.$$</div>
+<p><br>
+From Equation (\ref{eqn:linear}), we aslo know that <span class="math">\(\mu = \sigma \theta^T x\)</span>. At each sample point <span class="math">\((x^{(i)}, y^{(i)})\)</span>, <br>
+</p>
+<div class="math">$$\begin{split}
+P(y^{(i)}; x^{(i)}, \theta) &amp;= P(y^{(i)}; \mu=\sigma \theta x^{(i)}) \\
+&amp;= \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(y^{(i)}-\sigma \theta x^{(i)})^2}{2\sigma^2}} \\
+&amp;= \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{(y^{(i)}-h_\theta(x^{(i)}))^2}{2\sigma^2}}.
+\end{split}$$</div>
+<p><br>
+Hence,<br>
+</p>
+<div class="math">$$l(\theta) = -m\log(2\sqrt{\pi}\sigma)-\frac{1}{2\sigma^2}\sum_{i=1}^{m}\left(y^{(i)}-h_\theta(x^{(i)})\right)^2.$$</div>
+<p><br>
+To maximize <span class="math">\(l(\theta)\)</span> is then the same as minmimize<br>
+</p>
+<div class="math">$$J(\theta) = \sum_{i=1}^{m}\left(y^{(i)}-h_\theta(x^{(i)})\right)^2.$$</div>
+<p>Since <span class="math">\(\sigma\)</span> is fixed, we can absorb <span class="math">\(\sigma\)</span> into <span class="math">\(\theta\)</span> so that our learning algorithm is in the standard form<br>
+</p>
+<div class="math">$$h_\theta(x) = \theta^T x,$$</div>
+<p><br>
+where <span class="math">\(\theta\)</span> minimize <span class="math">\(J(\theta)\)</span>. We rediscover linear regression from normal distributions. This discovery also hints that we should use linear regression where <span class="math">\(y\)</span> is normally distributed according to <span class="math">\(x\)</span> with fixed variant.</p>
+<h2>Logistic regression</h2>
+<p>The core of logistic problems is to group data into two category. For example, to determine whether a tumor is benign or malignant according to a set of medical features is a logistic problems. In the actual world, instead of being 100% certain, a doctor might tell a patient that there is, say 99% chances, that a tumor is benign. So a logistic regression is to consume an input and output the probability of being positive. (In the tumor example above, being positive means the tumor is benign.) The probability of being positive or not simply obeys Bernoulli distribution. Therefore, to obtain the learning algorithm for logistic regression, we start off the exponential family of Bernoulli distributions parametrized by <span class="math">\(\phi\)</span>:</p>
+<div class="math">$$P(y; \phi) = \phi^{y}(1-\phi)^{1-y}.$$</div>
+<p><strong><a href="#example2">Example 2</a></strong> gives us</p>
+<div class="math">$$\begin{align*}
+\eta &amp; = \log\left(\frac{\phi}{1-\phi}\right) \\
+T(y) &amp; = y \\
+a(\eta) &amp; = -\log(1-\phi) \\
+b(y) &amp;= 1
+\end{align*}$$</div>
+<p>and</p>
+<div class="math">$$\phi = \frac{1}{1+e^{-\eta}}.$$</div>
+<p>So, </p>
+<div class="math">$$\begin{split}
+h_{\theta}(x) &amp;= E(T(y)|x; \theta) = \phi \cdot 1 + (1-\phi) \cdot 0 \\
+&amp;= \phi = \frac{1}{1+e^{-\eta}} = \frac{1}{1+e^{-\theta^T x}}.
+\end{split}$$</div>
+<p>Thus, the learning algorithm for logistic regression is<br>
+</p>
+<div class="math">$$h_\theta(x) = \frac{1}{1+e^{-\theta^T x}}.$$</div>
+<p>At each sample point <span class="math">\((x^{(i)}, y^{(i)})\)</span>, the relative likelihood is given by<br>
+</p>
+<div class="math">$$\begin{split}
+P(y^{(i)}; x^{(i)}, \theta) &amp;= P(y^{(i)}; \phi = h_\theta(x^{(i)})) \\
+&amp;= h_\theta(x^{(i)})^{y^{(i)}}(1-h_\theta(x^{(i)})^{1-y^{(i)}}.
+\end{split}$$</div>
+<p>Thus, to determine the best <span class="math">\(\theta\)</span>, we need to maximize<br>
+</p>
+<div class="math">$$l(\theta) = \sum_{i=1}^m y^{(i)} \log h_\theta(x^{(i)}) + (1-y^{(i)}) \log(1-h_\theta(x^{(i)})).$$</div>
+<h2>Poisson regression</h2>
+<p>Suppose needed to design a learning algorithm to model some counting problems, Poisson distribution might be a good choice. In this section, we assume that sample points are distributed according to Poisson distribution parametried by mean <span class="math">\(\mu\)</span>:</p>
+<div class="math">$$P(y; \mu) = \frac{e^{-\mu} \mu^y}{y!},$$</div>
+<p>where <span class="math">\(y = 0, 1, 2, \dots\)</span>. We need to rewrite <span class="math">\(P(y; \mu)\)</span> into an exponential family.</p>
+<div class="math">$$P(y; \mu) = \frac{e^{-\mu} \mu^y}{y!} = \frac{e^{-\mu}}{y!} \exp(y \log \mu).$$</div>
+<p>Therefore, <span class="math">\(P(y; \mu)\)</span> is indeed an exponential family and</p>
+<div class="math">$$\begin{align*}
+\eta &amp; = \log \mu \\
+T(y) &amp; = y \\
+a(\eta) &amp; = 0 \\
+b(y) &amp;= \frac{e^{-\mu}}{y!}
+\end{align*}$$</div>
+<p>Since <span class="math">\(T(y)=y\)</span>,</p>
+<div class="math">$$\begin{split}
+h_\theta(x) &amp;= E(T(y)|x; \theta) \\
+&amp;= \sum_{y=0}^{\infty} y \cdot \frac{e^{-\mu} \mu^y}{y!} \\
+&amp;= \mu e^{-\mu} \sum_{y=1}^{\infty} \frac{\mu^{y-1}}{(y-1)!} \\
+&amp;= \mu e^{-\mu} e^{\mu} = \mu \\
+&amp;= e^\eta = e^{\theta^T x}.
+\end{split}$$</div>
+<p>We obtain our learning algorithm: <span class="math">\(h_\theta(x) = e^{\theta^T x}\)</span>. Again, we use maximum likelihood estimation to determine the best <span class="math">\(\theta\)</span>. At each sample point <span class="math">\((x^{(i)}, y^{(i)})\)</span>, the relative likelihood is<br>
+</p>
+<div class="math">$$\begin{split}
+P(y^{(i)}; x^{(i)}, \theta) &amp;= P(y^{(i)}; \mu = h_\theta(x^{(i)})) \\
+&amp;= \frac{e^{-h_\theta(x^{(i)})} h_\theta(x^{(i)})^{y^{(i)}}}{y^{(i)}!}.
+\end{split}$$</div>
+<p>Therefore,</p>
+<div class="math">$$l(\theta) = \sum_{i=0}^m -e^{\theta^T x^{(i)}} + y^{(i)} \cdot \theta^T x^{(i)} - \log\left(y^{(i)}!\right).$$</div>
+<p>The desired <span class="math">\(\theta\)</span> is the one maximizing <span class="math">\(l(\theta)\)</span>, or equivalently, the one maximizing</p>
+<div class="math">$$l^\prime(\theta) = \sum_{i=0}^m -e^{\theta^T x^{(i)}} + y^{(i)} \cdot \theta^T x^{(i)}.$$</div>
+
+        <div class="tags">
+        <a href="/tag/exponential-family">exponential family</a>
+        <a href="/tag/learning-algorithm">learning algorithm</a>
+        <a href="/tag/note">note</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20170920-generalized-linear-model/';
+    var disqus_title = 'Generalized Linear Model';
+    var disqus_url = 'https://wormtooth.com/20170920-generalized-linear-model/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

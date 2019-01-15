@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Lüroth expansion | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Lüroth expansion</h1>
+    <div class="post-meta">Jun 20, 2017
+    <span> | </span> <span>Mathematics</span>
+    </div>
+    <a data-disqus-identifier="20170620-luroth-expansion/" href="/20170620-luroth-expansion/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This post is my note for <a href="https://math.osu.edu/whatis"><em>What is&#8230;?</em></a> seminar on Lüroth expansion.</p>
+
+<div class='qbar' >
+
+<p><a name='defn1'><strong>Definition 1.</strong></a> A <em>Lüroth expansion</em> of a real number <span class="math">\(x \in (0, 1]\)</span> is a (possibly) infinite sequence <span class="math">\((a_1, a_2, \cdots, a_n, \cdots)\)</span> with <span class="math">\(a_n \in \N\)</span> and <span class="math">\(a_n \ge 2\)</span> for all <span class="math">\(n \ge 1\)</span> such that
+<span class="math">\[\begin{equation}
+x = \frac{1}{a_1} + \frac{1}{a_1(a_1-1)a_2} + \cdots + \frac{1}{a_1(a_1-1)\cdots a_{n-1}(a_{n-1}-1)a_n} + \cdots
+\end{equation}\]</span></p>
+By abuse of notation, we will something write the right hand side of <a href="#defn1">Definition 1</a> as <span class="math">\((a_1, a_2, \cdots, a_n, \cdots)\)</span>.
+</div>
+
+<p>Given a system of representation of real numbers in <span class="math">\((0, 1]\)</span>, we need to determine whether these representations are 1 to 1 corresponding the numbers in <span class="math">\((0, 1]\)</span>. Aslo we should study the (Lüroth) shift map:
+<span class="math">\[\begin{equation}
+T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
+\label{20170620-2}
+\end{equation}\]</span></p>
+
+<!--more-->
+
+<p>Let us define <span class="math">\(T: (0, 1] \to (0, 1]\)</span>. For each <span class="math">\(x \in (0, 1]\)</span>, define
+<span class="math">\[\begin{equation}
+T(x) = \left\lfloor\frac{1}{x}\right\rfloor \left(\left\lfloor\frac{1}{x}\right\rfloor+1\right)x - \left\lfloor\frac{1}{x}\right\rfloor,
+\label{20170620-3}
+\end{equation}\]</span></p>
+
+<p>where <span class="math">\(\left\lfloor\alpha\right\rfloor\)</span> is the largest integer that is no more than <span class="math">\(\alpha\)</span>.</p>
+
+<div class='qbar' >
+<a name='lemma2'><strong>Lemma 2.</strong></a> <span class="math">\(T\)</span> is a well-defined map.
+</div>
+
+<p><em>Pf.</em> To check this, we need to show that for each <span class="math">\(x \in (0, 1]\)</span>, <span class="math">\(T(x) \in (0, 1]\)</span>. For such an <span class="math">\(x\)</span>, there exists an integer <span class="math">\(n \ge 1\)</span> such that
+<span class="math">\[\frac{1}{n+1} < x \le \frac{1}{n}.\]</span>
+Then <span class="math">\(\left\lfloor\frac{1}{x}\right\rfloor = n\)</span>. So,
+<span class="math">\[\begin{equation*}
+0 < T(x) = n[(n+1)x-1] = n(n+1)\left(x - \frac{1}{n+1}\right) \le 1.
+\end{equation*}\]</span>
+This finishes the proof of the lemma.
+<span class='qed'><span class="math">\(\vartriangleleft\)</span></span></p>
+
+<p><strong>Remark.</strong>
+(1) There is more to say from the proof of the lemma: for each integer <span class="math">\(n \ge 1\)</span>, <span class="math">\(T\)</span> defines a bijective map between <span class="math">\((\frac{1}{n+1}, \frac{1}{n}]\)</span> and <span class="math">\((0, 1]\)</span>.</p>
+
+<p>(2) Suppose <span class="math">\(x \in (0, 1]\)</span> and <span class="math">\((a_1, \cdots, a_n, \cdots)\)</span> is such that <a href="#defn1">Definition 1</a> holds. Then <span class="math">\(\left\lfloor\frac{1}{x}\right\rfloor = a_1-1\)</span>. Hence by definition, we have
+<span class="math">\[\begin{equation*}
+T(x) = (a_1-1)a_1 \cdot x-(a_1-1) = (a_2, \cdots, a_n, \cdots)
+\end{equation*}\]</span>
+This shows that the definition of <span class="math">\(T\)</span> in <span class="math">\(\eqref{20170620-3}\)</span> make it exactly a shift map in the sense of <span class="math">\(\eqref{20170620-2}\)</span>.</p>
+
+<div class='qbox' >
+<a name='thm3'><strong>Theorem 3.</strong></a> There is one and exactly one Lüroth expansion for each <span class="math">\(x \in (0, 1]\)</span>.
+</div>
+
+<p><em>Proof.</em> Let&#8217;s prove the uniqueness first. Suppose <span class="math">\((a_1, \cdots, a_n, \cdots)\)</span> is a Lüroth expansion for <span class="math">\(x\)</span>. Then <a href="#defn1">Definition 1</a> holds. In the remark above, we see that
+<span class="math">\[x = \frac{1}{a_1}+\frac{1}{a_1(a_1-1)}T(x).\]</span>
+Therefore, we have
+<span class="math">\[\frac{1}{a_1} < x \le \frac{1}{a_1}+\frac{1}{a_1(a_1-1)} = \frac{1}{a_1-1}.\]</span>
+Since <span class="math">\(a_1\)</span> is an integer, we must have <span class="math">\(a_1 = \left\lfloor\frac{1}{x}\right\rfloor+1\)</span>. Recursively, we can determine <span class="math">\(a_2\)</span> using <span class="math">\(T(x)\)</span>. In general, we have
+<span class="math">\[\begin{equation}
+a_n = \left\lfloor\frac{1}{T^{n-1}(x)}\right\rfloor+1 \ge 2.
+\label{20170620-4}
+\end{equation}\]</span></p>
+
+<p>This proves the uniqueness.</p>
+
+<p>For the existence of such Lüroth expansion for <span class="math">\(x\)</span>, we set <span class="math">\(a_n\)</span> by <span class="math">\(\eqref{20170620-4}\)</span>. We need to verify <a href="#defn1">Definition 1</a>. But by the definition of <span class="math">\(T\)</span> as in <span class="math">\(\eqref{20170620-3}\)</span>,
+<span class="math">\[x = \frac{1}{\left\lfloor\frac{1}{x}\right\rfloor+1} + \frac{1}{\left(\left\lfloor\frac{1}{x}\right\rfloor+1\right)\left\lfloor\frac{1}{x}\right\rfloor}T(x) = \frac{1}{a_1}+\frac{1}{a_1(a_1-1)}T(x).\]</span>
+Recursively, we get
+<span class="math">\[\begin{equation*}
+x = \frac{1}{a_1} + \frac{1}{a_1(a_1-1)a_2} + \cdots + \frac{1}{a_1(a_1-1)\cdots a_{n-1}(a_{n-1}-1)a_n}T^n(x)
+\end{equation*}\]</span>
+Using the facts that <span class="math">\(0 < T^n(x) \le 1\)</span> and <span class="math">\(a_n \ge 2\)</span> for all n,
+<span class="math">\[\begin{equation*}
+\lim_{n \to \infty} \left|x - \left(\frac{1}{a_1} + \frac{1}{a_1(a_1-1)a_2} + \cdots + \frac{1}{a_1(a_1-1)\cdots a_{n-1}}\right)\right| = 0.
+\end{equation*}\]</span>
+This verifies <a href="#defn1">Definition 1</a>.
+<span class='qed'><span class="math">\(\square\)</span></span></p>
+
+<p>Next, we are going into an important property of the Lüroth shift <span class="math">\(T\)</span>: <span class="math">\(T\)</span> is <a href="https://en.wikipedia.org/wiki/Ergodicity">ergodic</a> with respect to the usual Haar measure <span class="math">\(\mu\)</span> on <span class="math">\((0, 1]\)</span>. Instead of proving it, we are going to explore some interesting properties from this fact together with Birkhoff&#8217;s Ergodic Theorem.</p>
+
+<div class='qbox' >
+
+<p><a name='thm4'><strong>Theorem 4 (Birkhoff&#8217;s Ergodic Theorem).</strong></a>
+Let <span class="math">\(f: (0, 1] \to \R\)</span> be a measurable function. Then for almost every <span class="math">\(x \in (0, 1]\)</span>,
+<span class="math">\[\begin{equation}
+\lim_{n \to \infty} \frac{1}{n}\sum_{i=0}^{n-1} f \circ T^i(x) = \int f \, d\mu.
+\label{20170620-5}
+\end{equation}\]</span></p>
+</div>
+
+<p><strong>Example 1.</strong> Let <span class="math">\(A\)</span> be some measurable set in <span class="math">\((0, 1]\)</span>, and define
+<span class="math">\[\begin{equation*}
+f(x) = \left\{\begin{array}{ll}
+1, & x \in A \\
+0, & x \not\in A
+\end{array}\right..
+\end{equation*}\]</span>
+Then <a href="#thm4">Theorem 4</a> is amount to say that &#8220;time-averages&#8221; is the same as &#8220;space-averages&#8221; almost everywhere for the Lüroth shift <span class="math">\(T\)</span>. Indeed, this is a general property for all ergodic maps.</p>
+
+<p><strong>Example 2.</strong> Let <span class="math">\(k\)</span> be an integer such that <span class="math">\(k \ge 2\)</span>. Define
+<span class="math">\[\begin{equation*}
+f(x) = \left\{\begin{array}{ll}
+1, & a_1(x) = k \\
+0, & \text{otherwise}
+\end{array}\right.,
+\end{equation*}\]</span>
+where <span class="math">\(a_1(x)\)</span> is the first term of the Lüroth expansion of <span class="math">\(x\)</span>. The left hand side of <span class="math">\(\eqref{20170620-5}\)</span> calculate the average appearance of <span class="math">\(k\)</span>, and the right hand side is equal to <span class="math">\(\frac{1}{k(k-1)}\)</span> since <span class="math">\(f(x)=1\)</span> if and only if <span class="math">\(x \in (\frac{1}{k-1}, \frac{1}{k}]\)</span>. Therefore, the average appearance of <span class="math">\(k\)</span> is <span class="math">\(\frac{1}{k(k-1)}\)</span>, for <span class="math">\(k \ge 2\)</span>.</p>
+
+<p><strong>Example 3.</strong> Define
+<span class="math">\[f(x) = \ln\left(\left\lfloor\frac{1}{x}\right\rfloor+1\right).\]</span>
+Suppose <span class="math">\(x = (a_1, \cdots, a_n, \cdots)\)</span> is a nice point in <span class="math">\((0, 1]\)</span>. By <span class="math">\(\eqref{20170620-4}\)</span>, the left hand side of <span class="math">\(\eqref{20170620-5}\)</span> becomes
+<span class="math">\[\lim_{n \to \infty} \frac{1}{n}\sum_{i=1}^{n} \ln a_i.\]</span>
+For the right hand side,
+<span class="math">\[\begin{equation*}
+\begin{split}
+\int_0^1 f(x) \, dx &= \sum_{n=1}^{\infty} \int_{\frac{1}{n+1}}^{\frac{1}{n}} \ln(n+1) \, dx \\
+&= \sum_{n=1}^\infty \frac{\ln(n+1)}{n(n+1)} \approx 1.22638
+\end{split}
+\end{equation*}\]</span>
+Therefore,
+<span class="math">\[\lim_{n \to \infty} \sqrt[n]{\prod_{i=1}^n a_i} \approx e^{1.22638}.\]</span></p>
+
+        <div class="tags">
+        <a href="/tag/what-is">what is</a>
+        <a href="/tag/ergodicity">ergodicity</a>
+        <a href="/tag/note">note</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20170620-luroth-expansion/';
+    var disqus_title = 'Lüroth expansion';
+    var disqus_url = 'https://wormtooth.com/20170620-luroth-expansion/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

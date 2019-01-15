@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Markov Decision Process: Finite horizon | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Markov Decision Process: Finite horizon</h1>
+    <div class="post-meta">Mar 25, 2018
+    <span> | </span> <span>Machine Learning</span>
+    </div>
+    <a data-disqus-identifier="20180325-markov-decision-process-finite-horizon/" href="/20180325-markov-decision-process-finite-horizon/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This post is considered to the notes on finite horizon Markov decision process for lecture 18 in Andrew Ng's <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">lecture series</a>. In my previous two notes (<a href="https://wormtooth.com/20180207-markov-decision-process/">[1]</a>, <a href="https://wormtooth.com/20180306-markov-decision-process-continuous-states/">[2]</a>) about Markov decision process (MDP), only state rewards are considered. We can easily generalize MDP to state-action reward.</p>
+<h2>State-Action Reward</h2>
+<p>Our reward function now is a function in terms of both states and actions. More precisely, the reward function is a function<br>
+</p>
+<div class="math">$$R: S \times A \to \R.$$</div>
+<p><br>
+All other requirements in definition of MDP will remain intact. For completeness, we include the definition here. We shall pay attention to the fifth components.</p>
+<!--more-->
+
+<div class="qbar">
+<p>Markov Decision Process (MDP) consists of fives components:</p>
+<ol>
+<li>a set of states <span class="math">\(S\)</span>;</li>
+<li>a set of actions <span class="math">\(A\)</span>;</li>
+<li>state transition distributions <span class="math">\(P_{sa}\)</span> for each <span class="math">\(s \in S\)</span> and <span class="math">\(a \in A\)</span>, where <span class="math">\(P_{sa}(s^\prime)\)</span> is the probability of changing from state <span class="math">\(s\)</span> to state <span class="math">\(s^\prime\)</span> when taking action <span class="math">\(a\)</span>;</li>
+<li>discount factor <span class="math">\(\gamma \in [0, 1)\)</span>;</li>
+<li>reward function <span class="math">\(R: S \times A \to \R\)</span>.</li>
+</ol>
+</div>
+<p>For each policy <span class="math">\(\pi: S \to A\)</span>, the corresponding <em>Bellman equation</em> is<br>
+</p>
+<div class="math">$$V^\pi(s) = R(s, \pi(s)) + \gamma\sum_{s^\prime \in S}P_{s, \pi(s)}(s^\prime)V^\pi(s^\prime),$$</div>
+<p><br>
+where <span class="math">\(V^\pi: S \to \R\)</span> is the value function for <span class="math">\(\pi\)</span>. To find the optimal policy, we might find the optimal value function <span class="math">\(V^\ast\)</span> using the following <em>Bellman equation</em> first.<br>
+</p>
+<div class="math">$$V^\ast = \max_{a \in A} R(s, a) + \gamma \sum_{s^\prime \in S} P_{sa}(s^\prime)V^\ast(s^\prime).$$</div>
+<p><br>
+With <span class="math">\(V^\ast\)</span> determined, the optimal policy <span class="math">\(\pi^\ast\)</span> is given by<br>
+</p>
+<div class="math">$$\pi^\ast(s) = \mathrm{argmax}_{a \in A} R(s, a) + \gamma \sum_{s^\prime \in S} P_{sa}(s^\prime)V^\ast(s^\prime).$$</div>
+<h2>Finite Horizon MDP</h2>
+<p>We will now consider a variant of MDP, finite horizon MDP. The main difference of MDP and finite horizon MDP is that time is limited in finite horizon MDP. </p>
+<div class="qbar">
+<p>Finite horizon consists of fives components:</p>
+<ol>
+<li>a set of states <span class="math">\(S\)</span>;</li>
+<li>a set of actions <span class="math">\(A\)</span>;</li>
+<li>state transition distributions <span class="math">\(P^{(t)}_{sa}\)</span> for each <span class="math">\(s \in S\)</span> and <span class="math">\(a \in A\)</span>, where <span class="math">\(P^{(t)}_{sa}(s^\prime)\)</span> is the probability of changing from state <span class="math">\(s\)</span> to state <span class="math">\(s^\prime\)</span> when taking action <span class="math">\(a\)</span> at time <span class="math">\(t\)</span>;</li>
+<li>horizon time <span class="math">\(T\)</span>, meaning that the process will start at time <span class="math">\(0\)</span> and stop at time <span class="math">\(T\)</span>;</li>
+<li>reward function <span class="math">\(R^{(t)}: S \times A \to \R\)</span> at time <span class="math">\(t\)</span>.</li>
+</ol>
+</div>
+<p>Given a series of actions with initial state <span class="math">\(s_0\)</span>, i.e.,<br>
+</p>
+<div class="math">$$s_0 \xrightarrow{a_0} s_1 \xrightarrow{a_1} s_2 \cdots \xrightarrow{a_{T-1}} s_T \xrightarrow{a_T} s_{T+1},$$</div>
+<p><br>
+the total payoff is calculated by<br>
+</p>
+<div class="math">$$R^{(0)}(s_0, a_0) + \cdots + R^{(T)}(s_T, a_T).$$</div>
+<p>By the nature of its definition, the optimal policy or optimal value function is not stationary in a finite horizon MDP, in the sense that, the optimal policy <span class="math">\(\pi^\ast\)</span> (resp. the optimal value <span class="math">\(V^\ast\)</span>) is a family <span class="math">\(\{\pi^\ast_t: t = 0, \dots, T\}\)</span> (resp. <span class="math">\(\{V^\ast_t: t=0, \dots, T\}\)</span>). Here,<br>
+</p>
+<div class="math">$$V^\ast_t(s) = E\left[R^{(t)}(s_t, a_t) + \cdots + R^{(T)}(s_T, a_T): \pi^\ast, s_t=s\right].$$</div>
+<p>Finite horizon MDP can be solve using dynamic programming. Its transition equation from time <span class="math">\(t+1\)</span> to <span class="math">\(t\)</span> is<br>
+</p>
+<div class="math">$$V^\ast_t(s) = \max_{a \in A} R^{(t)}(s, a)+\sum_{s^\prime \in S}P^{(t)}_{sa}(s^\prime)V^\ast_{t+1}(s^\prime),$$</div>
+<p><br>
+for <span class="math">\(t = 0, \dots, T\)</span>, with boundary condition<br>
+</p>
+<div class="math">$$V_{T+1}(s) = 0.$$</div>
+<p><br>
+As usual, the optimal policy <span class="math">\(\pi^\ast\)</span> can be recovered from <span class="math">\(V^\ast\)</span>. For <span class="math">\(t=0, \dots, T\)</span>,<br>
+</p>
+<div class="math">$$\pi^\ast_t(s) = \mathrm{argmax}_{a \in A} R^{(t)}(s, a)+\sum_{s^\prime \in S}P^{(t)}_{sa}(s^\prime)V^\ast_{t+1}(s^\prime).$$</div>
+<h2>Linear Quadratic Regulation</h2>
+<p>Linear quadratic regulation (LQR) is a special case of finite horizon MDP. In LQR, we make strong assumptions to make it possible to calculate the closed forms of <span class="math">\(\pi^\ast\)</span> and <span class="math">\(V^\ast\)</span>. We suppose <span class="math">\(S = \R^n\)</span> and <span class="math">\(A = \R^d\)</span> are both continuous. Then for each <span class="math">\(t\)</span>, we assume<br>
+</p>
+<div class="math">$$s^\prime \sim_{P^{(t)}_{sa}} A_ts+B_ta+w_t,$$</div>
+<p><br>
+where <span class="math">\(A_t\)</span> is a known <span class="math">\(n \times n\)</span> matrix, <span class="math">\(B_n\)</span> is a known <span class="math">\(n \times d\)</span> matrix, and<br>
+</p>
+<div class="math">$$w_t \sim \mathcal{N}(0, \Sigma_t),$$</div>
+<p><br>
+for some known covariance matrix <span class="math">\(\Sigma_t\)</span>. We also assume the reward function at each time <span class="math">\(t\)</span> is of the form<br>
+</p>
+<div class="math">$$R^{(t)}(s, a) = -(s^T U_t s + a^T V_t a)$$</div>
+<p><br>
+for some known semi-positive definite matrices <span class="math">\(U_t\)</span> and <span class="math">\(V_t\)</span>. </p>
+<p>Following the dynamic programming algorithm in finite horizon MDP, we will get</p>
+<div class="qbox">
+<a name='theorem'><strong>Theorem.</strong></a> In LQR as above, we have for each $t$,
+$$V^\ast_t(s) = s \Phi_t s + \Psi_t,$$
+and
+$$\pi^\ast(s) = L_t s,$$
+where
+$$L_t = (B_t^T \Phi_{t+1} B_t - V_t)^{-1}B_t^T\Phi_{t+1}A_t.$$
+Here $\Phi_t$ and $\Psi_t$ are determined by
+$$\begin{equation}
+\begin{split}
+\Phi_t & = A^T_t(\Phi_{t+1}-\Phi_{t+1}B_t(B_t^T\Phi_{t+1}B_t-V_t)^{-1}B_t\Phi_{t+1})A_t-U_t \\
+\Psi_t & = -\mathrm{tr} \Sigma_t\Phi_{t+1} + \Psi_{t+1}
+\end{split},
+\label{riccati}
+\end{equation}$$
+with boundaries $\Phi_{T+1} = 0$ and $\Psi_{T+1} = 0$.
+</div>
+
+<p><strong>Remark 1.</strong> The equation for <span class="math">\(\Phi_t\)</span> in Equation <span class="math">\(\eqref{riccati}\)</span> is called the discrete time Riccati equation. </p>
+<p><strong>Remark 2.</strong> If we only need <span class="math">\(\pi^\ast\)</span>, <span class="math">\(\Sigma_t\)</span> and <span class="math">\(\Psi_t\)</span> are of no use. In this case, we might just assume the model <span class="math">\(\{P^{(t)}_{sa}\}\)</span> is deterministic.</p>
+
+        <div class="tags">
+        <a href="/tag/mdp">MDP</a>
+        <a href="/tag/note">note</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20180325-markov-decision-process-finite-horizon/';
+    var disqus_title = 'Markov Decision Process: Finite horizon';
+    var disqus_url = 'https://wormtooth.com/20180325-markov-decision-process-finite-horizon/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

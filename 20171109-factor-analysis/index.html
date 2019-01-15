@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Factor Analysis | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+            <a href="/about"><i class="fa fa-user"> About</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Factor Analysis</h1>
+    <div class="post-meta">Nov 09, 2017
+    <span> | </span> <span>Machine Learning</span>
+    </div>
+    <a data-disqus-identifier="20171109-factor-analysis/" href="/20171109-factor-analysis/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This article is my notes on the topic of factor analysis. These notes come out of lecture 13 and 14 of Andrew Ng's <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">online course</a>. Roughly speaking, factor analysis models some <span class="math">\(n\)</span> dimensional observed data with the assumption that these data are actually from some <span class="math">\(d\)</span> dimensional plane in <span class="math">\(\R\)</span>, up to some Gaussian distributed errors. Let's make it more precise.</p>
+<p>Suppose we have a set of observed data <span class="math">\(\{x^{(1)}, \dots, x^{(m)}\}\)</span> implicitly labeled by some latent random variable <span class="math">\(z \in \R^d\)</span> where<br>
+</p>
+<div class="math">$$z \sim \mathcal{N}(0, I).$$</div>
+<p> <br>
+Factor analysis model tries to model <span class="math">\(P(x)\)</span> using the assumption that<br>
+</p>
+<div class="math">$$\begin{equation}
+x|z \sim \mathcal{N}(\mu+\Lambda z, \Psi),
+\label{cond-xz}
+\end{equation}$$</div>
+<p><br>
+for some <span class="math">\(\mu \in \R^n, \Lambda \in \R^{n \times d}\)</span> and <strong>diagonal matrix</strong> <span class="math">\(\Psi \in \R^{n \times n}\)</span>. These <span class="math">\(\mu, \Lambda\)</span> and <span class="math">\(\Psi\)</span> are parameters of the model.</p>
+<!--more-->
+
+<p>An equivalent form of the model is that <span class="math">\(x = \mu + \Lambda z + \epsilon\)</span>, where<br>
+</p>
+<div class="math">$$\begin{split}
+z &amp; \sim \mathcal{N}(0, I) \\
+\epsilon &amp; \sim \mathcal{N}(0, \Psi)
+\end{split}$$</div>
+<p><br>
+and <span class="math">\(z\)</span> and <span class="math">\(\epsilon \in \R^n\)</span> are independent. This is because<br>
+</p>
+<div class="math">$$\mathbb{E}_\epsilon x = \mu + \Lambda z,$$</div>
+<p><br>
+and<br>
+</p>
+<div class="math">$$\begin{split}
+\mathrm{Cov}_\epsilon(x)
+&amp;= \mathbb{E}_\epsilon[(x-\mathbb{E}_\epsilon x) (x-\mathbb{E}_\epsilon x)^T] \\
+&amp;= \mathbb{E}_\epsilon [\epsilon\epsilon^T] = \Psi.
+\end{split}$$</div>
+<h2>Distribution <span class="math">\(P(x)\)</span></h2>
+<p>In this section, we try to compute <span class="math">\(P(x)\)</span> from the factor analysis model. A trivial idea is to compute<br>
+</p>
+<div class="math">$$P(x) = \int_{\R^d} P(x|z)P(z) \, dz.$$</div>
+<p><br>
+While we know <span class="math">\(P(x|z)\)</span> and <span class="math">\(P(z)\)</span>, this integral turns out to be very hard to handle. Therefore, we need other better method to figure out <span class="math">\(P(x)\)</span>. Note that the joint distribution of <span class="math">\(x\)</span> and <span class="math">\(z\)</span> is<br>
+</p>
+<div class="math">$$\begin{equation}
+P(x, z) = P(x|z)P(z).
+\label{joint-xz-bayes}
+\end{equation}$$</div>
+<p><br>
+Since <span class="math">\(P(x|z)\)</span> and <span class="math">\(P(z)\)</span> are Guassian, <span class="math">\(P(x, z)\)</span> will be Gaussian also. Thus, <span class="math">\(P(x)\)</span> is Gaussian. The expected value of <span class="math">\(x = \mu + \Lambda z + \epsilon\)</span> is<br>
+</p>
+<div class="math">$$\begin{split}
+\mathbb{E}_{z, \epsilon}[x] &amp;= \mu + \Lambda \mathbb{E}_z [z]+\mathbb{E}_\epsilon [\epsilon] \\
+&amp;= \mu.
+\end{split}$$</div>
+<p><br>
+Now the covariance matrix of <span class="math">\(x\)</span> is<br>
+</p>
+<div class="math">$$\begin{split}
+\mathrm{Cov}_{z, \epsilon}(x) &amp;= \mathbb{E}_{z, \epsilon}[(x-\mathbb{E}_{z, \epsilon}[x]) (x-\mathbb{E}_{z, \epsilon}[x])^T]\\
+&amp;= \Lambda \mathbb{E}_{z}[zz^T] \Lambda^T + \mathbb{E}_{\epsilon}[\epsilon\epsilon^T] \\
+&amp;= \Lambda \Lambda^T + \Psi.
+\end{split}$$</div>
+<p><br>
+Therefore, we get<br>
+</p>
+<div class="math">$$\begin{equation}
+x \sim \mathcal{N}(\mu, \Lambda\Lambda^T+\Psi).
+\label{px}
+\end{equation}$$</div>
+<h2>Joint Distribution <span class="math">\(P(x, z)\)</span></h2>
+<p>We have already know <span class="math">\(z \sim \mathcal{N}(0, I)\)</span> and <span class="math">\(x \sim \mathcal{N}(\mu, \Lambda\Lambda^T+\Psi)\)</span>, to compute <span class="math">\(P(x, z)\)</span>, we need only to calculate <span class="math">\(\mathrm{Cov}_{z, \epsilon}(x, z)\)</span>.</p>
+<div class="math">$$\begin{split}
+\mathrm{Cov}_{z, \epsilon}(x, z) 
+&amp;= \mathbb{E}_{z, \epsilon}[(x-\mathbb{E}_{z, \epsilon}[x])(z-\mathbb{E}_z[z])^T] \\
+&amp;= \mathbb{E}_{z, \epsilon}[\Lambda zz^T+\epsilon z^T] \\
+&amp;= \Lambda.
+\end{split}$$</div>
+<p>Thus, the joint distribution for <span class="math">\(x\)</span> and <span class="math">\(z\)</span> is<br>
+</p>
+<div class="math">$$\begin{equation}
+\left(\begin{array}{c}x \\ z\end{array}\right) \sim
+\mathcal{N}\left(
+\left(\begin{array}{c}\mu \\ 0\end{array}\right),
+\left(\begin{array}{cc} \Lambda\Lambda^T+\Psi &amp; \Lambda \\ \Lambda^T &amp; I\end{array}\right)
+\right).
+\label{joint-xz}
+\end{equation}$$</div>
+<h2>Conditional Distribution <span class="math">\(P(z|x)\)</span></h2>
+<p>Let's work on a more general case. Suppose<br>
+</p>
+<div class="math">$$\begin{equation}
+x = \left(\begin{array}{c}x_1 \\ x_2 \end{array}\right) \sim
+\mathcal{N}\left(
+\mu = \left(\begin{array}{c}\mu_1 \\ \mu_2\end{array}\right),
+\Sigma = \left(\begin{array}{cc} \Sigma_{11} &amp; \Sigma_{12} \\ \Sigma_{21} &amp; \Sigma_{22}\end{array}\right)
+\right),
+\end{equation}$$</div>
+<p><br>
+where <span class="math">\(x_1 \in \R^{n_1}\)</span> and <span class="math">\(x_2 \in \R^{n_2}\)</span>. Then we know that<br>
+</p>
+<div class="math">$$x_1 \sim \mathcal{N}(\mu_1, \Sigma_{11}) \text{ and } x_2 \sim \mathcal{N}(\mu_2, \Sigma_{22}).$$</div>
+<p><br>
+The question is: What is <span class="math">\(P(x_1|x_2)\)</span>? We will go through a cumbersome calculation to get the result. Before we go into any calculation, we note that in Gaussian distribution, <span class="math">\(\Sigma^{T}=\Sigma\)</span>, so <br>
+</p>
+<div class="math">$$\Sigma_{11}^T = \Sigma_{11}, \Sigma_{22}^T = \Sigma_{22} \text{ and } \Sigma_{21}^T = \Sigma_{12}.$$</div>
+<p><br>
+Let<br>
+</p>
+<div class="math">$$\Gamma = \left(\begin{array}{cc} \Gamma_{11} &amp; \Gamma_{12} \\ \Gamma_{21} &amp; \Gamma_{22}\end{array}\right)$$</div>
+<p><br>
+be the inverse of <span class="math">\(\Sigma\)</span>. Then from <span class="math">\(\Sigma\Gamma=I\)</span>, we get<br>
+</p>
+<div class="math">$$\begin{align}
+\Sigma_{11}\Gamma_{11} + \Sigma_{12}\Gamma_{21} = I \label{a}\\
+\Sigma_{11}\Gamma_{12} + \Sigma_{12}\Gamma_{22} = 0 \label{b}\\
+\Sigma_{21}\Gamma_{11} + \Sigma_{22}\Gamma_{21} = 0 \label{c}\\
+\Sigma_{21}\Gamma_{12} + \Sigma_{22}\Gamma_{22} = I \label{d}
+\end{align}$$</div>
+<p><br>
+From Equation <span class="math">\(\eqref{c}\)</span>, one has <span class="math">\(\Gamma_{21} = -\Sigma_{22}^{-1}\Sigma_{21}\Gamma_{11}\)</span>. Putting this into Equation <span class="math">\(\eqref{a}\)</span>, one gets<br>
+</p>
+<div class="math">$$\begin{equation}
+\Gamma_{11} = (\Sigma_{11}-\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21})^{-1}.
+\label{gamma11}
+\end{equation}$$</div>
+<p><br>
+Since <span class="math">\(\Sigma\)</span> is symmetric, its inverse <span class="math">\(\Gamma\)</span> is also symmetric, so<br>
+</p>
+<div class="math">$$\begin{equation}
+\Gamma_{12} = \Gamma_{21}^T = - \Gamma_{11} \Sigma_{12}\Sigma_{22}^{-1}.
+\label{gamma12}
+\end{equation}$$</div>
+<p><br>
+Putting <span class="math">\(\Gamma_{12}\)</span> into Equation <span class="math">\(\eqref{d}\)</span>, we get<br>
+</p>
+<div class="math">$$\begin{equation}
+\Gamma_{22} - \Sigma_{22}^{-1} = \Sigma_{22}^{-1}\Sigma_{21}\Gamma_{11}\Sigma_{12}\Sigma_{22}^{-1}.
+\label{gamma22}
+\end{equation}$$</div>
+<p><br>
+By assumption,<br>
+</p>
+<div class="math">$$P(x) = P(x_1, x_2) = \frac{1}{\sqrt{(2\pi)^{n_1+n_2}\det\Sigma}}\exp\left(-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)\right)$$</div>
+<p><br>
+and<br>
+</p>
+<div class="math">$$P(x_2) = \frac{1}{\sqrt{(2\pi)^{n_2}\det\Sigma_{22}}}\exp\left(-\frac{1}{2}(x_2-\mu_2)^T\Sigma_{22}^{-1}(x_2-\mu_2)\right).$$</div>
+<p><br>
+By Bayes' rule, <span class="math">\(P(x_1|x_2)=P(x_1, x_2)/P(x_2)\)</span>. We separate the calculation <span class="math">\(P(x_1, x_2)/P(x_2)\)</span> into several parts. First of all, let's work on <span class="math">\(\det \Sigma\)</span>. By an easy matrix calculation, <br>
+</p>
+<div class="math">$$\begin{split}
+\Sigma &amp;= \left(\begin{array}{cc} \Sigma_{11} &amp; \Sigma_{12} \\ \Sigma_{21} &amp; \Sigma_{22}\end{array}\right) \\
+&amp;= \left(\begin{array}{cc} \Sigma_{11}-\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21} &amp; \Sigma_{12}\Sigma_{22}^{-1} \\ 0 &amp; I\end{array}\right)
+\left(\begin{array}{cc} I &amp;  \\ \Sigma_{21} &amp; I\end{array}\right)
+\left(\begin{array}{cc} I &amp;   \\   &amp; \Sigma_{22}\end{array}\right).
+\end{split}$$</div>
+<p><br>
+Thus,<br>
+</p>
+<div class="math">$$\begin{equation}
+\det \Sigma = \det (\Sigma_{11}-\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21}) \cdot \det \Sigma_{22}.
+\label{det}
+\end{equation}$$</div>
+<p><br>
+Next, we need to take care of the arguments inside <span class="math">\(\exp\)</span>. Replacing <span class="math">\(\Sigma^{-1}\)</span> by <span class="math">\(\Gamma\)</span> and using symmetric block matrices <span class="math">\(\Gamma_{ij}\)</span> and <span class="math">\(\Sigma_{ij}\)</span> with Equations <span class="math">\(\eqref{gamma12}\)</span> and <span class="math">\(\eqref{gamma22}\)</span>, we have<br>
+</p>
+<div class="math">$$\begin{split}
+&amp; (x-\mu)^T\Sigma^{-1}(x-\mu) - (x_2-\mu_2)^T\Sigma_{22}^{-1}(x_2-\mu_2)\\
+= &amp; (x_1-\mu_1)^T \Gamma_{11} (x-\mu_1) + (x_2-\mu_2)^T\Gamma_{21}(x_1-\mu_1) \\
+&amp; \;\; + (x_1-\mu_1)^T \Gamma_{12}(x_2-\mu_2) + (x_2-\mu_2)(\Gamma_{22}-\Sigma_{22}^{-1})(x_2-\mu_2) \\
+= &amp; (x_1-\mu_1)^T \Gamma_{11} (x-\mu_1) - (x_2-\mu_2)^T (\Sigma_{22}^{-1})^T\Sigma_{12}^T \Gamma_{11}(x_1-\mu_1) \\
+&amp; \;\; -(x_1-\mu_1)^T \Gamma_{11}\Sigma_{12}\Sigma_{22}^{-1}(x_2-\mu_2) \\
+&amp; \;\; + (x_2-\mu_2)^T(\Sigma_{22}^{-1})^T\Sigma_{12}^T\Gamma_{11}\Sigma_{12}\Sigma_{22}^{-1}(x_2-\mu_2) \\
+=&amp; [x_1-\mu_1-\Sigma_{12}\Sigma_{22}^{-1}(x_2-\mu_2)]^T\Gamma_{11}[x_1-\mu_1-\Sigma_{12}\Sigma_{22}^{-1}(x_2-\mu_2)].
+\end{split}$$</div>
+<p><br>
+Now using Equation <span class="math">\(\eqref{gamma11}\)</span>, and <span class="math">\(\eqref{det}\)</span>, we have<br>
+</p>
+<div class="math">$$\begin{split}
+&amp; P(x_1|x_2) = \frac{1}{\sqrt{(2\pi)^{n_1} \det(\Sigma_{11}-\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21})}} \\
+&amp; \cdot \exp\left([x_1-\mu_1-\Sigma_{12}\Sigma_{22}^{-1}(x_2-\mu_2)]^T(\Sigma_{11}-\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21})^{-1}[x_1-\mu_1-\Sigma_{12}\Sigma_{22}^{-1}(x_2-\mu_2)]\right).
+\end{split}$$</div>
+<p><br>
+In other word,<br>
+</p>
+<div class="math">$$\begin{equation}
+x_1|x_2 \sim \mathcal{N}(\mu_1+\Sigma_{12}\Sigma_{22}^{-1}(x_2-\mu_2), \Sigma_{11}-\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21}).
+\label{cond-x12}
+\end{equation}$$</div>
+<p><br>
+Applying Equation <span class="math">\(\eqref{cond-x12}\)</span> to our factor analysis model, we finally get<br>
+</p>
+<div class="math">$$\begin{equation}
+z|x \sim \mathcal{N}(\Lambda^T(\Lambda\Lambda^T+\Psi)^{-1}(x-\mu), I-\Lambda^{T}(\Lambda\Lambda^T+\Psi)^{-1}\Lambda).
+\label{cond-zx}
+\end{equation}$$</div>
+<h2>EM for factor analysis</h2>
+<p>We now recall that we have observed data <span class="math">\(\{x_1, \dots, x_m\}\)</span>, and the latent variable <span class="math">\(z \in \R^d\)</span>. Factor analysis model assumes <span class="math">\(x = \mu + \Lambda z + \epsilon\)</span> with<br>
+</p>
+<div class="math">$$\begin{split}
+z &amp; \sim \mathcal{N}(0, I) \\
+\epsilon &amp; \sim \mathcal{N}(0, \Psi)
+\end{split}$$</div>
+<p><br>
+The parameters <span class="math">\(\mu, \Lambda\)</span> and <span class="math">\(\Psi\)</span> will be determined via maximizing the log-likelihood function<br>
+</p>
+<div class="math">$$\begin{split}
+&amp; l(\mu, \Lambda, \Psi) = \sum_{i=0}^m \log P(x^{(i)}) \\
+&amp; = -\frac{mn}{2}\log(2\pi)-\frac{m}{2}\log\det(\Lambda\Lambda^T+\Psi)-\frac{1}{2}\sum_{i=1}^m(x^{(i)}-\mu)^T(\Lambda\Lambda^T+\Psi)^{-1}(x^{(i)}-\mu).
+\end{split}$$</div>
+<p>We are going to use EM algorithm to find the parameters, but before that, we can find <span class="math">\(\mu\)</span> already from <span class="math">\(l\)</span>. <br>
+</p>
+<div class="math">$$\nabla_\mu l(\mu, \Lambda, \Psi) = (\Lambda\Lambda^T+\Psi)^{-1}\left(\sum_{i=1}^m x^{(i)}-m\mu\right).$$</div>
+<p><br>
+Setting <span class="math">\(\nabla_\mu l = 0\)</span>, we get<br>
+</p>
+<div class="math">$$\begin{equation}
+\mu = \frac{1}{m} \sum_{i=1}^m x^{(i)}.
+\label{mu}
+\end{equation}$$</div>
+<p>I have written up some notes on <a href="https://wormtooth.com/20171105-expectation-maximization/">EM algorithm</a> with the assumption that the latent variable <span class="math">\(z\)</span> obeys multinomial distribution. Here in factor analysis, <span class="math">\(z\)</span> is continuous and it obeys Gaussian distribution. Fortunately, EM algorithm can be adopted to continuous latent variable without much effort: we just need to change proper summations to integrals.</p>
+<p>The E-step is to calculate for each <span class="math">\(x^{(i)}\)</span> a conditional distribution<br>
+</p>
+<div class="math">$$Q_i(z^{(i)}) = \frac{P(x^{(i)}, z^{(i)})}{P(x^{(i)})} = P(z^{(i)}|x^{(i)}).$$</div>
+<p><br>
+Using Equation <span class="math">\(\eqref{cond-zx}\)</span>, we get <span class="math">\(Q_i\)</span> for current <span class="math">\(\mu, \Lambda\)</span> and <span class="math">\(\Psi\)</span><br>
+</p>
+<div class="math">$$\begin{equation}
+z^{(i)} \sim_{Q_i} \mathcal{N}(\mu^{(i)}, \Sigma^{(i)}),
+\label{estep}
+\end{equation}$$</div>
+<p><br>
+where<br>
+</p>
+<div class="math">$$\begin{equation}
+\begin{split}
+\mu^{(i)} &amp;= \Lambda^T(\Lambda\Lambda^T+\Psi)^{-1}(x^{(i)}-\mu) \\
+\Sigma^{(i)} &amp;= I-\Lambda^{T}(\Lambda\Lambda^T+\Psi)^{-1}\Lambda)
+\label{zi}
+\end{split}
+\end{equation}$$</div>
+<p><br>
+Note that, we use concrete value of parameters to calculate <span class="math">\(Q_i\)</span>, so <span class="math">\(Q_i(z)\)</span> is actually independent of parameters. The M-step is to maximize<br>
+</p>
+<div class="math">$$\begin{split}
+f(\mu, \Lambda, \Psi) &amp;= \sum_{i=1}^m \mathbb{E}_{Q_i} \log \frac{P(x^{(i)}, z^{(i)})}{Q_i(z^{(i)})} \\
+&amp;= \sum_{i} \mathbb{E}_{Q_i} \log P(x^{(i)}|z^{(i)}) + \mathbb{E}_{Q_i} \log P(z^{(i)}) - \mathbb{E}_{Q_i} \log Q_i(z^{(i)}).
+\end{split}$$</div>
+<p><br>
+Since <span class="math">\(P(z)\)</span> and <span class="math">\(Q_i(z)\)</span> are independent of <span class="math">\(\mu, \Lambda\)</span> and <span class="math">\(\Psi\)</span>, we just need to update the parameters with respect to the following function<br>
+</p>
+<div class="math">$$\begin{equation}
+\begin{split}
+F(\mu, \Lambda, \Psi) &amp;= \sum_{i=1}^m \mathbb{E}_{Q_i} \log P(x^{(i)}|z^{(i)}) \\
+&amp;= \sum_{i=1}^m \mathbb{E}_{Q_i}\left[-\frac{n}{2}\log(2\pi)-\frac{1}{2}\log\det\Psi - \frac{1}{2}(x^{(i)}-\mu-\Lambda z^{(i)})^T \Psi^{-1} (x^{(i)}-\mu-\Lambda z^{(i)})\right].
+\end{split}
+\label{F}
+\end{equation}$$</div>
+<p><br>
+Let's find the update formula for <span class="math">\(\Psi\)</span> first. <span class="math">\(\Psi\)</span> is symmetric, so using a Lemma in this <a href="https://wormtooth.com/20171105-expectation-maximization/">post</a> on matrix derivatives, we have<br>
+</p>
+<div class="math">$$
+\nabla_\Psi F = \frac{m}{2} \Psi^{-1} - \frac{1}{2} \Psi^{-1} \left(\sum_{i=1}^m \mathbb{E}_{Q_i}\left[(x^{(i)}-\mu-\Lambda z^{(i)})(x^{(i)}-\mu-\Lambda z^{(i)})^T \right]\right)\Psi^{-1}.
+$$</div>
+<p><br>
+Setting <span class="math">\(\nabla_\Psi F = 0\)</span>, we get<br>
+</p>
+<div class="math">$$\Psi^\prime = \frac{1}{m}\left(\sum_{i=1}^m \mathbb{E}_{Q_i}\left[(x^{(i)}-\mu-\Lambda z^{(i)})(x^{(i)}-\mu-\Lambda z^{(i)})^T \right]\right).$$</div>
+<p><br>
+Using Equations <span class="math">\(\eqref{mu}\)</span>, <span class="math">\(\eqref{estep}\)</span> and <span class="math">\(\eqref{zi}\)</span>, we can simply the above equation to<br>
+</p>
+<div class="math">$$\begin{equation}
+\Psi^\prime = \frac{1}{m}\sum_{i=1}^m x^{(i)}(x^{(i)})^T+\Lambda(\Sigma^{(i)}+\mu^{(i)}(\mu^{(i)})^T)\Lambda^T-x^{(i)}(\mu^{(i)})^T\Lambda^T-\Lambda\mu^{(i)}(x^{(i)})^T-\mu\mu^T.
+\label{psi}
+\end{equation}$$</div>
+<p><br>
+Since <span class="math">\(\Psi\)</span> is diagonal, so <span class="math">\(\Psi\)</span> should be updated according to the diagonal part of <span class="math">\(\Psi^\prime\)</span>. Finally, we shall find the formula for <span class="math">\(\Lambda\)</span>. It turns out that we need to do matrix derivatives on traces, so we will prove the following lemma first.</p>
+<div class="qbar">
+<p><a name="matder"><strong>Lemma.</strong></a> Let $A, B$ and $C$ be matrices, and $f(A)$ is a differentiable function on matrices. Then</p>
+<p>(1) <span class="math">\(\displaystyle \nabla_A \mathrm{tr}\, AB = B^{T}\)</span>.</p>
+<p>(2) <span class="math">\(\displaystyle \nabla_{A^T} f(A) = (\nabla_A f(A))^T\)</span>.</p>
+<p>(3) <span class="math">\(\displaystyle \nabla_A \mathrm{tr}\, ABA^TC = CAB+C^TAB^T\)</span>.</p>
+</div>
+<p><em>Proof.</em> (1) From the definition of traces, we write<br>
+</p>
+<div class="math">$$\mathrm{tr}\, AB = \sum_{i}\sum_{j} A_{ij}B_{ji}.$$</div>
+<p><br>
+Thus,<br>
+</p>
+<div class="math">$$\frac{\partial \mathrm{tr}\, AB}{\partial A_{ij}} = B_{ji}.$$</div>
+<p><br>
+This finishes (1). And for (2), it is simply because<br>
+</p>
+<div class="math">$$\frac{\partial f(A)}{\partial (A^T)_{ij}} = \frac{\partial f(A)}{\partial A_{ji}}.$$</div>
+<p><br>
+Finally for (3), using product rule and (1)(2),<br>
+</p>
+<div class="math">$$\begin{split}
+\nabla_A \mathrm{tr}\, ABA^TC
+&amp;= \nabla_A \mathrm{tr}\, (AB)(A^TC) \\
+&amp;= C^TA \nabla_A \mathrm{tr}\, AB + (B^TA^T\nabla_A \mathrm{tr}\, AC)^T \\
+&amp;= C^TAB^T + CAB.
+\end{split}$$</div>
+<p><br>
+This finishes the proof of the lemma. <span class="qed"><span class="math">\(\square\)</span></span></p>
+<p>From Equation <span class="math">\(\eqref{F}\)</span>, we can extract the <span class="math">\(\Lambda\)</span> terms:<br>
+</p>
+<div class="math">$$F(\Lambda) = \sum_{i=1}^m \mathbb{E}_{Q_i}\left[-\frac{1}{2}(z^{(i)})^T \Lambda^T \Psi^{-1}\Lambda z^{(i)} + (x^{(i)}-\mu)^T\Psi^{-1}\Lambda z^{(i)}\right].$$</div>
+<p><br>
+The above <span class="math">\(\Lambda\)</span> terms can be expressed in terms of traces:<br>
+</p>
+<div class="math">$$F(\Lambda) = \sum_{i=1}^m \mathbb{E}_{Q_i} \mathrm{tr}\, \left[-\frac{1}{2}\Lambda^T\Psi^{-1}\Lambda z^{(i)}(z^{(i)})^T + \Psi^{-1}\Lambda z^{(i)}(x^{(i)}-\mu)^T\right].$$</div>
+<p><br>
+Now using the above <a href="#matder">Lemma</a>, we get<br>
+</p>
+<div class="math">$$\nabla_\Lambda F(\Lambda) = \sum_{i=1}^m \mathbb{E}_{Q_i} [-\Psi^{-1}\Lambda z^{(i)}(z^{(i)})^T+\Psi^{-1}(x^{(i)}-\mu)(z^{(i)})^T].$$</div>
+<p><br>
+We then set <span class="math">\(\nabla_\Lambda F(\Lambda)=0\)</span> to get<br>
+</p>
+<div class="math">$$\Lambda = \left(\sum_{i=1}^m (x^{(i)}-\mu)(\mathbb{E}_{Q_i}[z^{(i)}])^T\right)\left(\sum_{i=1}^m \mathbb{E}_{Q_i} z^{(i)}(z^{(i)})^T\right)^{-1}.$$</div>
+<p><br>
+If we use Equations <span class="math">\(\eqref{estep}\)</span> and <span class="math">\(\eqref{zi}\)</span> again, we have<br>
+</p>
+<div class="math">$$\begin{equation}
+\Lambda = \left(\sum_{i=1}^m (x^{(i)}-\mu)(\mu^{(i)})^T\right)\left(\sum_{i=1}^m \Sigma^{(i)}+\mu^{(i)}(\mu^{(i)})^T\right)^{-1}.
+\label{lambda}
+\end{equation}$$</div>
+<p><br>
+Therefore, M-step is given by Equations <span class="math">\(\eqref{psi}\)</span> and <span class="math">\(\eqref{lambda}\)</span>.</p>
+
+        <div class="tags">
+        <a href="/tag/note">note</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20171109-factor-analysis/';
+    var disqus_title = 'Factor Analysis';
+    var disqus_url = 'https://wormtooth.com/20171109-factor-analysis/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>
