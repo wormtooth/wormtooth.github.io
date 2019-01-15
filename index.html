@@ -37,6 +37,14 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/test/">TEST</a></h1>
+    <div class="post-meta">2019-01-15</div>
+    <div class="post-content">
+        <p>This is a test.</p>
+    </div>
+    <p class="readmore"><a href="/test/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20180814-simple-grid-dection-for-sudoku/">Simple Grid Detection for Sudoku</a></h1>
     <div class="post-meta">2018-08-14</div>
     <a data-disqus-identifier="20180814-simple-grid-dection-for-sudoku/" href="/20180814-simple-grid-dection-for-sudoku/#disqus_thread" class="disqus-comment-count"></a>
@@ -185,17 +193,6 @@ All other requirements in definition of MDP will remain intact. For completeness
     </div>
     <p class="readmore"><a href="/20180325-markov-decision-process-finite-horizon/">Read More</a></p>
 </div>
-<div class="post">
-    <h1 class="post-title"><a href="/20180306-markov-decision-process-continuous-states/">Markov Decision Process: Continuous states</a></h1>
-    <div class="post-meta">2018-03-06</div>
-    <a data-disqus-identifier="20180306-markov-decision-process-continuous-states/" href="/20180306-markov-decision-process-continuous-states/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>I wrote this post for lecture 17 in Andrew Ng's lecture collections on <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">Machine Learning</a>. In my <a href="https://wormtooth.com/20180207-markov-decision-process/">previous post</a>, we discussed Markov Decision Process (MDP) in its simplest form, where the set of states and the set of actions are both finite. But in real world application, states and actions can be infinite and even continuous. For example, if we want to model states of a self-driving car in a 2D plane, we must at least have the position <span class="math">\((x, y)\)</span>, the direction <span class="math">\(\theta\)</span> of the car pointing to, its velocity <span class="math">\((v_x, v_y)\)</span> and the rate <span class="math">\(r\)</span> of change in <span class="math">\(\theta\)</span>. So the states of a car is at least a 6 dimensional space. For actions of a car, we can control how fast it goes in direction <span class="math">\(\theta\)</span> and we can also control <span class="math">\(r\)</span>. Thus the actions have dimension 2.</p>
-<p>In this post, we consider only continuous states with finite actions. Indeed, actions space usually has much lower dimension than states space, so in case of continuous actions, we might just discretize the actions spaces to get a finite set of representatives of actions. One may argue that we can also discretize the states space. Yes, we can do it, but only when the dimension <span class="math">\(n\)</span> of state space is small enough: if we discretize each dimension into <span class="math">\(k\)</span> parts, then there would be <span class="math">\(k^n\)</span> many states. If <span class="math">\(n\)</span> is large, then <span class="math">\(k^n\)</span> is not feasible. This is so called the curse of dimensionality. Moreover, discretizing states space usually results in lack of smoothness.</p>
-
-    </div>
-    <p class="readmore"><a href="/20180306-markov-decision-process-continuous-states/">Read More</a></p>
-</div>
 
 <div class="page-navigator">
     <span class="page-number current">1</span>
@@ -244,7 +241,7 @@ All other requirements in definition of MDP will remain intact. For completeness
 </div>
         </div></div>
         <div class="pure-u-1 pure-u-lg-3-4">
-<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+<div id="footer">Copyright © 2019 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
     </div>
 </div>
 <a id="rocket" href="#top" class="show"></a>
