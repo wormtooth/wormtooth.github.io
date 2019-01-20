@@ -37,6 +37,25 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20141130-tensor-product-of-two-linear-maps/">Tensor product of two linear maps</a></h1>
+    <div class="post-meta">2014-11-30</div>
+    <a data-disqus-identifier="20141130-tensor-product-of-two-linear-maps/" href="/20141130-tensor-product-of-two-linear-maps/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>Let <span class="math">\(A \in End(V)\)</span> and <span class="math">\(B \in End(W)\)</span> be two linear maps. We can define naturally the tensor product <span class="math">\(A \otimes B\)</span> of <span class="math">\(A\)</span> and <span class="math">\(B\)</span>, from <span class="math">\(V \otimes W\)</span> to <span class="math">\(V \otimes W\)</span>, sending <span class="math">\(v \otimes w\)</span> to <span class="math">\(Av \otimes Bw\)</span>. In this post, I am going to realize <span class="math">\(A \otimes B\)</span> as a matrix and relate the determinant and trace of <span class="math">\(A \otimes B\)</span> to the ones of <span class="math">\(A\)</span> and <span class="math">\(B\)</span>.</p>
+
+<p>Let <span class="math">\(V\)</span> and <span class="math">\(W\)</span> be two vector spaces over a field <span class="math">\(K\)</span> with <span class="math">\(\dim V=n\)</span> and <span class="math">\(\dim W=m\)</span>. Let <span class="math">\(e_1, \dots, e_n\)</span> be a basis of <span class="math">\(V\)</span> and let <span class="math">\(f_1, \dots, f_m\)</span> a basis of <span class="math">\(W\)</span>. Under the basis, a linear map <span class="math">\(A: V \to V\)</span> can be realized as an <span class="math">\(n \times n\)</span> matrix <span class="math">\((a_{ij})_{1 \le i,j \le n}\)</span>, where <span class="math">\(a_{ij} \in K\)</span>. Similarly, a linear map <span class="math">\(B: W \to W\)</span> can be realized as a <span class="math">\(m \times m\)</span> matrix <span class="math">\((b_{kl})_{1 \le k, l \le m}\)</span>. Now, <span class="math">\(V \otimes W\)</span>, as a vector space, has basis <span class="math">\(\{e_i \otimes f_j: 1 \le i \le n, 1 \le j \le m\}\)</span>. And,
+<span class="math">\[\begin{align*}
+A \otimes B (e_i \otimes f_j)
+&= A(e_i) \otimes B(f_j) \\
+&= \sum_{k}a_{ki}e_k \otimes \sum_{l}b_{lj}f_l \\
+&= \sum_{k,l}a_{ki}b_{lj} e_k \otimes f_l.
+\end{align*}\]</span></p>
+
+
+    </div>
+    <p class="readmore"><a href="/20141130-tensor-product-of-two-linear-maps/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20141023-locally-closed-subgroups/">Locally closed subgroups are closed</a></h1>
     <div class="post-meta">2014-10-23</div>
     <a data-disqus-identifier="20141023-locally-closed-subgroups/" href="/20141023-locally-closed-subgroups/#disqus_thread" class="disqus-comment-count"></a>
@@ -180,17 +199,6 @@ g_k(q) &= \sum_{n \in \mathbb{N}} w_k(n)q^n \\
     </div>
     <p class="readmore"><a href="/20130325-split-scanned-pages/">Read More</a></p>
 </div>
-<div class="post">
-    <h1 class="post-title"><a href="/20130324-train/">坐火车</a></h1>
-    <div class="post-meta">2013-03-24</div>
-    <a data-disqus-identifier="20130324-train/" href="/20130324-train/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>上个星期为了办护照匆忙回家了几天，我算了算，大概是火车上“呆”了2天，在家呆了2天。坐火车是耗时间的方式，如果有急事或者有能力图个舒服的，大抵会选坐飞机。即使是坐火车，很多人还是乐意选硬卧，而我估摸三月份坐火车的人会少了，买了往返的硬座票。当我到了杭州火车站时，三月份的火车站依然人头攒动。看着拥挤乱窜的人潮，心里有点烦躁。</p>
-<p>每次坐火车我都会有个疑问：为什么检票还没有开始但即将开始的时候大家都会挤在检票口那里？他们或是老早就挤在检票口那里等待，或是从侧道、跨过座椅挤到前面。我自己也有个答案：他们要么买的是无座票想占据有利位置度过漫长的旅途，要么是行李多想早点上去将行李放在行李架上。但后来发现那些手拿硬卧票而且行李也没多少的人挤在了里面，觉得很不能理解。他们早点迟点上火车，对他们都没有影响，又不至于赶不上火车。是不是因为看到大家都在拥挤着，心里都不自觉地变得着急烦躁起来？进了检票口还得挤，挤在上火车的车门前。没有多少人愿意去排队，堵在那里的人们自然地形成了以车门为中心的半圆形的“队伍”。想着自己也是这半圆的一点，有点搞笑。</p>
-
-    </div>
-    <p class="readmore"><a href="/20130324-train/">Read More</a></p>
-</div>
 
 <div class="page-navigator">
     <a class="extend prev" rel="prev" href="/page/7/">Previous</a>
@@ -241,7 +249,7 @@ g_k(q) &= \sum_{n \in \mathbb{N}} w_k(n)q^n \\
 </div>
         </div></div>
         <div class="pure-u-1 pure-u-lg-3-4">
-<div id="footer">Copyright © 2018 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+<div id="footer">Copyright © 2019 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
     </div>
 </div>
 <a id="rocket" href="#top" class="show"></a>
