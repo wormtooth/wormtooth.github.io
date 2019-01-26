@@ -40,6 +40,7 @@
     <div class="post-meta">Jan 20, 2019
     <span> | </span> <span>Life</span>
     </div>
+    <a data-disqus-identifier="20190120-2018/" href="/20190120-2018/#disqus_thread" class="disqus-comment-count"></a>
     <div class="post-content">
         <p>2018年，一直在路上，特别是在I-71。<a href="https://en.wikipedia.org/wiki/Interstate_71">I-71</a>是一条跨州的高速公路，从南端肯塔基州的路易斯维尔(Louisville, Kentucky)东北延向俄亥俄州的克里夫兰(Cleveland, Ohio)，全长约345迈。之前每逢夏天，便约上几个好友沿着I-71开车到克里夫兰，或是参观艺术博物馆，或是听音乐会，又或是去那个不甚似国家公园的国家公园骑自行车。到了今年，那些个好友也已经有好几个毕业离开了。虽然少了好友一起在I-71路上寻找悠闲，但是I-71对我来说有了它新的意义：它变成了<a href="https://zh.wikipedia.org/wiki/李之仪">李之仪</a>的长江。</p>
 <blockquote>
@@ -74,6 +75,47 @@
         </div>
 
 
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20190120-2018/';
+    var disqus_title = '2018， 在路上';
+    var disqus_url = 'https://wormtooth.com/20190120-2018/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
     </div>
 </div>
         </div></div>
