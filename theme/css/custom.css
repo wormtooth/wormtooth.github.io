@@ -166,3 +166,35 @@ code {
   right: 15px;
   color: #888888;
 }
+
+.movies-year {
+  text-align: left;
+}
+
+.movies-year ul {
+  margin: 0px;
+  padding: 0px;
+}
+
+.movies-year ul li {
+  display: inline;
+  text-align: center;
+  color: #ccc;
+  margin: 0px;
+  padding: 0px 10px 0px 10px;
+  border-right: 1px solid #aaa;
+}
+
+.post .post-content .movies-year ul a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.movies-year ul li:last-child {
+  border-right: none;
+}
+
+.movies-year ul li.current {
+  color: #666;
+  font-weight: bold;
+}
