@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+编辑 Raspbian 镜像 | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">编辑 Raspbian 镜像</h1>
+    <div class="post-meta">Aug 12, 2019
+    <span> | </span> <span>Notess</span>
+    </div>
+    <a data-disqus-identifier="20190812-edit-raspbian-image/" href="/20190812-edit-raspbian-image/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这个笔记记录如何在 Raspbian 上编辑 Raspbian 镜像。为什么会有这个需要呢？第一是因为经常在 Raspberry Pi 上尝试各种各样的东西，会把系统弄得乱七八糟，所以经常要重新刷 Raspbian ，因此就有了编辑 Raspbian 镜像的需求。第二是我现在用的是 Mac OS ，编辑镜像文件并不那么方便，所以就干脆在 Raspbian 系统中编辑 Raspbian 镜像了。</p>
+<!--more-->
+
+<p>首先我们要在 Raspberry Pi 的<a href="https://www.raspberrypi.org/downloads/raspbian/">官网</a>上下载最新的 Raspbian lite 镜像。我们也可以通过以下命令行下载：</p>
+<div class="highlight"><pre><span></span>wget https://downloads.raspberrypi.org/raspbian_lite_latest
+</pre></div>
+
+
+<p>这样我们会得到一个名字叫做 <code>raspbian_lite_latest</code> 的文件。我们将其改名并解压缩：</p>
+<div class="highlight"><pre><span></span>mv raspbian_lite_latest raspbian.zip
+unzip raspbian.zip
+</pre></div>
+
+
+<p>解压出来的是一个后缀为 <code>.img</code> 的镜像文件，使用 <code>mv</code> 命令将其改名为 <code>raspbian.img</code>。我们的目的就是编辑这个镜像文件的内容。为了达到这个目的，我们需要把这个镜像加载到系统中。这需要镜像的基本信息。</p>
+<div class="highlight"><pre><span></span>fdisk -lu raspbian.img
+</pre></div>
+
+
+<p>结果大概是这样的：</p>
+<div class="highlight"><pre><span></span><span class="nv">Disk</span> <span class="nv">raspbian</span>.<span class="nv">img</span>: <span class="o">***</span> <span class="nv">MB</span>, <span class="o">***</span> <span class="nv">bytes</span>
+<span class="mi">255</span> <span class="nv">heads</span>, <span class="mi">63</span> <span class="nv">sectors</span><span class="o">/</span><span class="nv">track</span>, <span class="mi">0</span> <span class="nv">cylinders</span>, <span class="nv">total</span> <span class="mi">0</span> <span class="nv">sectors</span>
+<span class="nv">Units</span> <span class="o">=</span> <span class="nv">sectors</span> <span class="nv">of</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">512</span> <span class="o">=</span> <span class="mi">512</span> <span class="nv">bytes</span>
+<span class="nv">Sector</span> <span class="nv">size</span> <span class="ss">(</span><span class="nv">logical</span><span class="o">/</span><span class="nv">physical</span><span class="ss">)</span>: <span class="mi">512</span> <span class="nv">bytes</span> <span class="o">/</span> <span class="mi">512</span> <span class="nv">bytes</span>
+<span class="nv">I</span><span class="o">/</span><span class="nv">O</span> <span class="nv">size</span> <span class="ss">(</span><span class="nv">minimum</span><span class="o">/</span><span class="nv">optimal</span><span class="ss">)</span>: <span class="mi">512</span> <span class="nv">bytes</span> <span class="o">/</span> <span class="mi">512</span> <span class="nv">bytes</span>
+<span class="nv">Disk</span> <span class="nv">identifier</span>: <span class="mi">0</span><span class="nv">x00017b69</span>
+
+       <span class="nv">Device</span> <span class="nv">Boot</span>      <span class="nv">Start</span>         <span class="k">End</span>      <span class="nv">Blocks</span>   <span class="nv">Id</span>  <span class="nv">System</span>
+<span class="nv">raspbian</span>.<span class="nv">img1</span>            <span class="mi">8192</span>      <span class="mi">122879</span>       <span class="mi">57344</span>    <span class="nv">c</span>  <span class="nv">W95</span> <span class="nv">FAT32</span> <span class="ss">(</span><span class="nv">LBA</span><span class="ss">)</span>
+<span class="nv">raspbian</span>.<span class="nv">img2</span>          <span class="mi">122880</span>     <span class="mi">3788799</span>     <span class="mi">1832960</span>   <span class="mi">83</span>  <span class="nv">Linux</span>
+</pre></div>
+
+
+<p>这个镜像有两个分区，第一个分区对应的是 <code>/boot</code> ，而第二个分区对应的是 <code>/</code> 。如果我们需要开启 ssh 功能，我们需要在第一个分区生成一个名字为 <code>ssh</code> 的空文件。如果我们要让系统连上无线，我们则需要修改第二个分区的 <code>/etc/wpa_supplicant/wpa_supplicant.conf</code> 文件。</p>
+<p>在加载这两个分区之前我们需要利用之前的信息（主要是 Start 那一列的信息）计算各分区的起始偏移（offset）：<br>
+第一个分区：8192<em>512=4194304<br>
+第二个分区：122880</em>512=62914560</p>
+<p>有了这些准备，我们就可以加载这两个分区了。</p>
+<div class="highlight"><pre><span></span>sudo mkdir /mnt/img1
+sudo mount -t vfat -o loop,offset<span class="o">=</span><span class="m">4194304</span> raspbian.img /mnt/img1/
+sudo mkdir /mnt/img2
+sudo mount -t ext4 -o loop,offset<span class="o">=</span><span class="m">62914560</span> raspbian.img /mnt/img2/
+</pre></div>
+
+
+<p>如果在加载第二个分区的时候出错了，那么我们可以先加载第一个分区，然后再完成对第一个分区的修改后卸载第一个分区：</p>
+<div class="highlight"><pre><span></span>umount /mnt/img1
+</pre></div>
+
+
+<p>这样我们就可以继续使用之前的命令加载第二个分区并对其进行修改。最后修改完了不要忘记卸载第二分区：</p>
+<div class="highlight"><pre><span></span>umount /mnt/img2
+</pre></div>
+
+        <div class="tags">
+        <a href="/tag/image">image</a>
+        <a href="/tag/raspbian">raspbian</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20190812-edit-raspbian-image/';
+    var disqus_title = '编辑 Raspbian 镜像';
+    var disqus_url = 'https://wormtooth.com/20190812-edit-raspbian-image/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notess/">Notess</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2019 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

@@ -36,6 +36,47 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20171105-leetcode-contest-57/">LeetCode Contest 57</a></h1>
+    <div class="post-meta">2017-11-05</div>
+    <a data-disqus-identifier="20171105-leetcode-contest-57/" href="/20171105-leetcode-contest-57/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-57">比赛</a>考细节／模拟。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-57/problems/longest-word-in-dictionary/">第一题</a><code>Longest Word in Dictionary</code></p>
+<div class="qbar">
+<p>给定一个单词列表，找出最长的一个单词<code>x</code>，使得<br>
+<center>x[0:1], x[0:2], ..., x[0:len(x)]</center><br>
+都在该列表中。如果有长度一样的多个答案，返回最小的单词。</p>
+</div>
+<p>我是用<a href="https://en.wikipedia.org/wiki/Trie">trie</a>做的。首先将单词按照长度排序，然后将单词一一放进一个trie中。用trie是因为将单词放入trie中的同时也可以判断单词的前面部分是否在trie里（这也是按长度排序的原因）。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">longestWord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type words: List[str]</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">words</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;#&#39;</span><span class="p">:</span> <span class="p">{}}</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">tree</span>
+            <span class="n">ok</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+                    <span class="n">p</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">ok</span> <span class="o">=</span> <span class="n">ok</span> <span class="ow">and</span> <span class="s1">&#39;#&#39;</span> <span class="ow">in</span> <span class="n">p</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+            <span class="n">p</span><span class="p">[</span><span class="s1">&#39;#&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="n">ok</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span> <span class="ow">or</span> <span class="n">word</span> <span class="o">&lt;</span> <span class="n">ans</span><span class="p">):</span>
+                    <span class="n">ans</span> <span class="o">=</span> <span class="n">word</span>
+        <span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20171105-leetcode-contest-57/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20171017-digit-recognition-softmax/">Digit recognition, Softmax</a></h1>
     <div class="post-meta">2017-10-17</div>
     <a data-disqus-identifier="20171017-digit-recognition-softmax/" href="/20171017-digit-recognition-softmax/#disqus_thread" class="disqus-comment-count"></a>
@@ -410,17 +451,6 @@ where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\e
     </div>
     <p class="readmore"><a href="/20170920-generalized-linear-model/">Read More</a></p>
 </div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170912-simple-python-crawler/">简单的python爬虫</a></h1>
-    <div class="post-meta">2017-09-12</div>
-    <a data-disqus-identifier="20170912-simple-python-crawler/" href="/20170912-simple-python-crawler/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>一个网络爬虫大致可以分成三个部分：获取网页，提取信息以及保存信息。Python有很多爬虫框架，其中最出名要数<a href="https://scrapy.org/">Scrapy</a>了。这也是我唯一用过的Python爬虫框架，用起来很省心。让我苦恼的是，<a href="https://scrapy.org/">Scrapy</a>在我的Raspberry Pi Zero W安装起来很麻烦，而且我觉得我爬取的网页比较容易处理，没有必要用这么重量级的框架。抱着学习的心态，我开始自己造轮子了。</p>
-<p>在造轮子之前我找到些轻量级的框架，<a href="https://github.com/iogf/sukhoi">Sukhoi</a>是我比较喜欢的一个。该库作者<a href="https://github.com/iogf">iogf</a>使用了自己的异步库、网络库来写这个框架。这让我很佩服他。我写的框架受到了<a href="https://github.com/iogf/sukhoi">Sukhoi</a>很大的启发与影响。</p>
-
-    </div>
-    <p class="readmore"><a href="/20170912-simple-python-crawler/">Read More</a></p>
-</div>
 
 <div class="page-navigator">
     <a class="extend prev" rel="prev" href="/page/2/">Previous</a>
@@ -459,6 +489,7 @@ where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\e
         <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
         <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
         <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notess/">Notess</a></li>
         <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
     </ul>
 </div><div class="widget">
