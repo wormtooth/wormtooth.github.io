@@ -77,8 +77,8 @@ unzip raspbian.zip
 
 <p>这个镜像有两个分区，第一个分区对应的是 <code>/boot</code> ，而第二个分区对应的是 <code>/</code> 。如果我们需要开启 ssh 功能，我们需要在第一个分区生成一个名字为 <code>ssh</code> 的空文件。如果我们要让系统连上无线，我们则需要修改第二个分区的 <code>/etc/wpa_supplicant/wpa_supplicant.conf</code> 文件。</p>
 <p>在加载这两个分区之前我们需要利用之前的信息（主要是 Start 那一列的信息）计算各分区的起始偏移（offset）：<br>
-第一个分区：8192<em>512=4194304<br>
-第二个分区：122880</em>512=62914560</p>
+第一个分区：8192*512=4194304<br>
+第二个分区：122880*512=62914560</p>
 <p>有了这些准备，我们就可以加载这两个分区了。</p>
 <div class="highlight"><pre><span></span>sudo mkdir /mnt/img1
 sudo mount -t vfat -o loop,offset<span class="o">=</span><span class="m">4194304</span> raspbian.img /mnt/img1/
