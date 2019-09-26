@@ -36,6 +36,41 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20180401-leetcode-contest-78/">LeetCode Contest 78</a></h1>
+    <div class="post-meta">2018-04-01</div>
+    <a data-disqus-identifier="20180401-leetcode-contest-78/" href="/20180401-leetcode-contest-78/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>好久没有比赛了，上次比赛还是去年11月了。这次<a href="https://leetcode.com/contest/weekly-contest-78">比赛</a>表现比较差，只做出了前两道。后来发现，第三道我跟小伙伴都有正确的想法了，只是没有意识到答案允许有10<sup>-6</sup>的误差。</p>
+<p><a href="https://leetcode.com/contest/weekly-contest-78/problems/subdomain-visit-count/">第一题</a><code>Subdomain Visit Count</code></p>
+<div class="qbar">
+<p>给定一个列表，其中的元素形如<br>
+<center>"9001 discuss.leetcode.com"</center><br>
+这里的数字表示后面域名（各级域名）的访问量。统计各级域名的访问量。</p>
+</div>
+<p>比较简单的统计。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">subdomainVisits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpdomains</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type cpdomains: List[str]</span>
+<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">cp</span> <span class="ow">in</span> <span class="n">cpdomains</span><span class="p">:</span>
+            <span class="n">n</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="n">n</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="s1">&#39;.&#39;</span><span class="o">+</span><span class="n">addr</span><span class="p">,</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="n">p</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">addr</span> <span class="o">=</span> <span class="n">addr</span><span class="p">[</span><span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="n">cnt</span><span class="p">[</span><span class="n">addr</span><span class="p">]</span> <span class="o">+=</span> <span class="n">n</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;{} {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cnt</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20180401-leetcode-contest-78/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20180325-markov-decision-process-finite-horizon/">Markov Decision Process: Finite horizon</a></h1>
     <div class="post-meta">2018-03-25</div>
     <a data-disqus-identifier="20180325-markov-decision-process-finite-horizon/" href="/20180325-markov-decision-process-finite-horizon/#disqus_thread" class="disqus-comment-count"></a>
@@ -293,50 +328,6 @@ for some <span class="math">\(\mu \in \R^n, \Lambda \in \R^{n \times d}\)</span>
 
     </div>
     <p class="readmore"><a href="/20171109-factor-analysis/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20171105-expectation-maximization/">Expectation-Maximization algorithm</a></h1>
-    <div class="post-meta">2017-11-05</div>
-    <a data-disqus-identifier="20171105-expectation-maximization/" href="/20171105-expectation-maximization/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>In this article, I will collect my notes on Expectation-Maximization algorithm (EM) based on lecture 12 and 13 of Andrew Ng's <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">online course</a>. Given a set of unlabeled data points EM tries iteratively to determine the distribution of data, assuming that all data points are implicitly labeled (unobserved latent variables). For simplicity, we shall limit ourselves to the case where there are only finitely many implicit labels.</p>
-<h2>Description of the problem</h2>
-<p>Given a set of unlabeled data <span class="math">\(\{x^{(1)}, \dots, x^{(m)}\}\)</span>, our goal is to determine <span class="math">\(P(x)\)</span>, the distribution of <span class="math">\(x\)</span>, with the following assumptions.</p>
-<div class="qbar">
-<p><a name="assumptions"><strong>Assumptions.</strong></a></p>
-<ol>
-<li>
-<p>There are finitely many unobserved latent variables <span class="math">\(z \in \{1, \dots, k\}\)</span> and they obey some multinomial distribution, i.e., <span class="math">\(P(z=j) = \phi_j\)</span> with <span class="math">\(\sum \phi_j = 1\)</span>.</p>
-</li>
-<li>
-<p><span class="math">\(\{P(x|z=j; a_j): j=1, \dots, k\}\)</span> are a family of uniformly parametrized distribution.</p>
-</li>
-</ol>
-</div>
-<p>Assumptions 1 and 2 will gives us a set of parameters <span class="math">\(\theta = (\phi_1, \dots, \phi_j, a_1,\dots, a_j)\)</span> and<br>
-</p>
-<div class="math">$$\begin{equation}
-P(x; \theta) = \sum_{j=1}^k P(x|z=j; \theta)P(z=j; \theta).
-\label{px}
-\end{equation}$$</div>
-<p><br>
-We want to find this set of parameters so that the likelihood function<br>
-</p>
-<div class="math">$$L(\theta) = \prod_{i=1}^m P(x^{(i)}) = \prod_{i=1}^m \sum_{j=1}^k P(x^{(i)}|z=j; \theta)P(z=j; \theta).$$</div>
-<p><br>
-is maximized. Or equivalently, the log likelihood function below is maximized:<br>
-</p>
-<div class="math">$$\begin{equation}
-l(\theta) = \sum_{i=1}^m \log\left(\sum_{j=1}^k P(x^{(i)}, z=j; \theta)\right),
-\label{log-likelihood}
-\end{equation}$$</div>
-<p><br>
-where <br>
-</p>
-<div class="math">$$P(x^{(i)}, z=j; \theta) = P(x^{(i)}|z=j; \theta)P(z=j; \theta).$$</div>
-
-    </div>
-    <p class="readmore"><a href="/20171105-expectation-maximization/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

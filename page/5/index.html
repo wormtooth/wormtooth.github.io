@@ -36,6 +36,36 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170722-leetcode-contest-42/">LeetCode Contest 42</a></h1>
+    <div class="post-meta">2017-07-22</div>
+    <a data-disqus-identifier="20170722-leetcode-contest-42/" href="/20170722-leetcode-contest-42/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今天晚上在朋友家做好饭已经过了<a href="https://leetcode.com/contest/leetcode-weekly-contest-42/">比赛</a>时间了，我们是边吃着饭边喝着酒来写代码。牛肉炖土豆是一如既往的美味，新尝试的豆腐煮白菜也很不错。这次朋友买了Habanero，辣味惊人，我是打着喷嚏做菜的😢</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-42/problems/set-mismatch/">第一题</a><code>Set Mismatch</code></p>
+<div class="qbar">题目大意：给定一个长度为n数值在1到n之间的数组。已知其中一个数字出现一个，另一个数字没有出现。找出这两个数字。</div>
+
+<p>简单的统计。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findErrorNums</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type nums: List[int]</span>
+<span class="sd">        :rtype: List[int]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+            <span class="n">cnt</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cnt</span><span class="p">):</span>
+            <span class="n">ans</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ans</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170722-leetcode-contest-42/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170720-lambda-calculus/">Lambda Calculus</a></h1>
     <div class="post-meta">2017-07-20</div>
     <a data-disqus-identifier="20170720-lambda-calculus/" href="/20170720-lambda-calculus/#disqus_thread" class="disqus-comment-count"></a>
@@ -246,39 +276,6 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 
     </div>
     <p class="readmore"><a href="/20170603-leetcode-contest-35/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170520-leetcode-contest-33/">Leetcode Contest 33</a></h1>
-    <div class="post-meta">2017-05-20</div>
-    <a data-disqus-identifier="20170520-leetcode-contest-33/" href="/20170520-leetcode-contest-33/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>就着Gin的酒劲，我还能一次不WA的过了这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-33">比赛</a>哈哈。</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-33/problems/longest-harmonious-subsequence/">第一题</a><code>Longest Harmonious Subsequence</code></p>
-<div class="qbar">给定一个数组，找出长度最长的子数组，使得其最大值与最小值恰好相差1，返回最大长度。</div>
-
-<p>既然最大值与最小值恰好相差1，那么此子数组必定恰好有两个不一样的元素。我们只要统计每个元素出现的次数，然后枚举找出相邻两个元素出现次数之和的最大值就好。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">findLHS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type nums: List[int]</span>
-<span class="sd">        :rtype: int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cnt</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
-            <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">cnt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cnt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">cnt</span><span class="p">:</span>
-                <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">v</span><span class="o">+</span><span class="n">cnt</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">cnt</span><span class="p">:</span>
-                <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">v</span><span class="o">+</span><span class="n">cnt</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170520-leetcode-contest-33/">Read More</a></p>
 </div>
 
 <div class="page-navigator">
