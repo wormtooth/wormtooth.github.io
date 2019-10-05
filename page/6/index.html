@@ -36,6 +36,40 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170603-leetcode-contest-35/">Leetcode Contest 35</a></h1>
+    <div class="post-meta">2017-06-03</div>
+    <a data-disqus-identifier="20170603-leetcode-contest-35/" href="/20170603-leetcode-contest-35/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-35/problems/can-place-flowers/">第一题</a><code>Can Place Flowers</code></p>
+<div class="qbar">给定一个01数组代表一排花盆，0代表是可以种花，1代表不可以。种花的时候我们要确保左右两边的花盆是空的。问能不能种n株花。</div>
+
+<p>简单的贪心。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">canPlaceFlowers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flowerbed</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type flowerbed: List[int]</span>
+<span class="sd">        :type n: int</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">flowerbed</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">flowerbed</span><span class="p">)</span> <span class="ow">and</span> <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">cnt</span><span class="o">&gt;=</span><span class="n">n</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170603-leetcode-contest-35/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170520-leetcode-contest-33/">Leetcode Contest 33</a></h1>
     <div class="post-meta">2017-05-20</div>
     <a data-disqus-identifier="20170520-leetcode-contest-33/" href="/20170520-leetcode-contest-33/#disqus_thread" class="disqus-comment-count"></a>
@@ -298,40 +332,6 @@
 
     </div>
     <p class="readmore"><a href="/20170402-cabaret/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170326-leetcode-contest25/">Leetcode Contest 25</a></h1>
-    <div class="post-meta">2017-03-26</div>
-    <a data-disqus-identifier="20170326-leetcode-contest25/" href="/20170326-leetcode-contest25/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>昨天晚上有红烧牛排骨，白灼罗非鱼，烤翅和我喜欢的草莓蛋糕。</p>
-<p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-25/">比赛</a>我表现比较弱，只做出了前三道，而且第三道还WA了5次。最后一题是很有趣的DP，可惜比赛的时候做不出来。</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-25/problems/perfect-number/">第一题</a><code>Perfect Number</code></p>
-<div class='qbar'>题目大意：给定一个整数num，判断是否为完美数。如果num是一个正整数，并且其所有正因子（除num本身之外）之和等于本身，那么num是一个完美数。</div>
-
-<p>思路：关键的观察是正因子是成对出现的，例如d是num的一个因子，那么num/d也是num的一个因子，所以我们只要搜索到<span class="math">\(\sqrt{num}\)</span>就行。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">checkPerfectNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type num: int</span>
-<span class="sd">        :rtype: bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">num</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
-
-        <span class="n">s</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="o">**</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">num</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">s</span> <span class="o">+=</span> <span class="n">i</span>
-                <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">num</span><span class="o">/</span><span class="n">i</span><span class="p">:</span>
-                    <span class="n">s</span> <span class="o">+=</span> <span class="n">num</span><span class="o">/</span><span class="n">i</span>
-        <span class="k">return</span> <span class="n">s</span> <span class="o">==</span> <span class="n">num</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170326-leetcode-contest25/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

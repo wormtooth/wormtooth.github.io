@@ -36,6 +36,28 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20171109-factor-analysis/">Factor Analysis</a></h1>
+    <div class="post-meta">2017-11-09</div>
+    <a data-disqus-identifier="20171109-factor-analysis/" href="/20171109-factor-analysis/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This article is my notes on the topic of factor analysis. These notes come out of lecture 13 and 14 of Andrew Ng's <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">online course</a>. Roughly speaking, factor analysis models some <span class="math">\(n\)</span> dimensional observed data with the assumption that these data are actually from some <span class="math">\(d\)</span> dimensional plane in <span class="math">\(\R\)</span>, up to some Gaussian distributed errors. Let's make it more precise.</p>
+<p>Suppose we have a set of observed data <span class="math">\(\{x^{(1)}, \dots, x^{(m)}\}\)</span> implicitly labeled by some latent random variable <span class="math">\(z \in \R^d\)</span> where<br>
+</p>
+<div class="math">$$z \sim \mathcal{N}(0, I).$$</div>
+<p> <br>
+Factor analysis model tries to model <span class="math">\(P(x)\)</span> using the assumption that<br>
+</p>
+<div class="math">$$\begin{equation}
+x|z \sim \mathcal{N}(\mu+\Lambda z, \Psi),
+\label{cond-xz}
+\end{equation}$$</div>
+<p><br>
+for some <span class="math">\(\mu \in \R^n, \Lambda \in \R^{n \times d}\)</span> and <strong>diagonal matrix</strong> <span class="math">\(\Psi \in \R^{n \times n}\)</span>. These <span class="math">\(\mu, \Lambda\)</span> and <span class="math">\(\Psi\)</span> are parameters of the model.</p>
+
+    </div>
+    <p class="readmore"><a href="/20171109-factor-analysis/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20171105-expectation-maximization/">Expectation-Maximization algorithm</a></h1>
     <div class="post-meta">2017-11-05</div>
     <a data-disqus-identifier="20171105-expectation-maximization/" href="/20171105-expectation-maximization/#disqus_thread" class="disqus-comment-count"></a>
@@ -433,47 +455,6 @@ where <span class="math">\(P(x) = P(x|y=0)P(y=0) + P(x|y=1)P(y=1)\)</span>.</p>
 
     </div>
     <p class="readmore"><a href="/20170923-generalized-linear-model-examples/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170923-leetcode-contest-51/">LeetCode Contest 51</a></h1>
-    <div class="post-meta">2017-09-23</div>
-    <a data-disqus-identifier="20170923-leetcode-contest-51/" href="/20170923-leetcode-contest-51/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-51">比赛</a>做得还算可以，只是最后一题看错题目WA了3次😭</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-51/problems/baseball-game/">第一题</a><code>Baseball Game</code></p>
-<div class="qbar">
-<p>给定一串字符串，每个字符串有四种可能：</p>
-<ol>
-<li>整数：代表本轮得分</li>
-<li>"+"：本轮得分为上两轮得分之和</li>
-<li>"D"：本轮得分为上轮得分的两倍</li>
-<li>"C"：上轮得分无效。</li>
-</ol>
-<p>问最终得分之和。</p>
-</div>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">calPoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ops</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type ops: List[str]</span>
-<span class="sd">        :rtype: int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">ops</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span>
-                <span class="n">points</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-            <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span>
-                <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span><span class="p">:</span>
-                <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">op</span><span class="p">))</span>
-        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170923-leetcode-contest-51/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

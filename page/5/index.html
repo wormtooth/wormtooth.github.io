@@ -36,6 +36,54 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170730-leetcode-contest-43/">LeetCode Contest 43</a></h1>
+    <div class="post-meta">2017-07-30</div>
+    <a data-disqus-identifier="20170730-leetcode-contest-43/" href="/20170730-leetcode-contest-43/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>感觉这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-43">比赛</a>除第一题之外都是策略/DP题啊。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-43/problems/find-duplicate-subtrees/">第一题</a><code>Find Duplicate Subtrees</code></p>
+<div class="qbar">题目大意：给定一棵二叉树，找出所有重复出现的子树。</div>
+
+<p>我们要对树的结构进行统计，因此这题关键是对树进行编码。可以参考 <a href="https://leetcode.com/problems/construct-string-from-binary-tree/description/">606. Construct String from Binary Tree</a>。</p>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<span class="c1"># class TreeNode(object):</span>
+<span class="c1">#     def __init__(self, x):</span>
+<span class="c1">#         self.val = x</span>
+<span class="c1">#         self.left = None</span>
+<span class="c1">#         self.right = None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findDuplicateSubtrees</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type root: TreeNode</span>
+<span class="sd">        :rtype: List[TreeNode]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">seen</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;{}({})({})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                <span class="n">seen</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">root</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">seen</span><span class="p">[</span><span class="n">s</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="n">s</span>
+        <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">seen</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170730-leetcode-contest-43/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170722-leetcode-contest-42/">LeetCode Contest 42</a></h1>
     <div class="post-meta">2017-07-22</div>
     <a data-disqus-identifier="20170722-leetcode-contest-42/" href="/20170722-leetcode-contest-42/#disqus_thread" class="disqus-comment-count"></a>
@@ -242,40 +290,6 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 
     </div>
     <p class="readmore"><a href="/20170617-leetcode-contest-37/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170603-leetcode-contest-35/">Leetcode Contest 35</a></h1>
-    <div class="post-meta">2017-06-03</div>
-    <a data-disqus-identifier="20170603-leetcode-contest-35/" href="/20170603-leetcode-contest-35/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-35/problems/can-place-flowers/">第一题</a><code>Can Place Flowers</code></p>
-<div class="qbar">给定一个01数组代表一排花盆，0代表是可以种花，1代表不可以。种花的时候我们要确保左右两边的花盆是空的。问能不能种n株花。</div>
-
-<p>简单的贪心。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">canPlaceFlowers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flowerbed</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type flowerbed: List[int]</span>
-<span class="sd">        :type n: int</span>
-<span class="sd">        :rtype: bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">flowerbed</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">flowerbed</span><span class="p">)</span> <span class="ow">and</span> <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="n">cnt</span><span class="o">&gt;=</span><span class="n">n</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170603-leetcode-contest-35/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

@@ -36,6 +36,17 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20180405-digit-recognition-cnn/">Digit recognition, CNN</a></h1>
+    <div class="post-meta">2018-04-05</div>
+    <a data-disqus-identifier="20180405-digit-recognition-cnn/" href="/20180405-digit-recognition-cnn/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>最近看了一些关于卷积网络（<a href="https://en.wikipedia.org/wiki/Convolutional_neural_network">Convolution Neural Network</a>）的内容，我想用<a href="http://yann.lecun.com/exdb/mnist/">mnist数据集</a>重复一下网上的教程，好让自己能更好地理解并使用卷积网络。比较了一下<a href="https://www.tensorflow.org/">Tensorflow</a>和<a href="http://pytorch.org/">Pytorch</a>，个人比较喜欢Pytorch，所以以后基本就用它了。Pytorch里是包含获取mnist数据集的api的，使用这api我们可以很简单就能准备好数据。但是出于学习Pytorch的目的，我决定自己准备数据。</p>
+<p>之前我在另一篇<a href="https://wormtooth.com/20171017-digit-recognition-softmax/">博文</a>用了广义线性模型Softmax来识别这些手写数字，错误率最低达到了7.77%。使用图像识别领域上常用有效的卷积网络，我们会得到更低的错误率。这点会在本文后面看到。这篇博文不会用太多的文字解释，基本上都是代码。</p>
+
+    </div>
+    <p class="readmore"><a href="/20180405-digit-recognition-cnn/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20180401-leetcode-contest-78/">LeetCode Contest 78</a></h1>
     <div class="post-meta">2018-04-01</div>
     <a data-disqus-identifier="20180401-leetcode-contest-78/" href="/20180401-leetcode-contest-78/#disqus_thread" class="disqus-comment-count"></a>
@@ -306,28 +317,6 @@ ZBERj1Agi4h4hAJZRMQjFMgiIh7xf/Yg0txQBmZaAAAAAElFTkSuQmCC
 
     </div>
     <p class="readmore"><a href="/20171112-egg-noodle/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20171109-factor-analysis/">Factor Analysis</a></h1>
-    <div class="post-meta">2017-11-09</div>
-    <a data-disqus-identifier="20171109-factor-analysis/" href="/20171109-factor-analysis/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>This article is my notes on the topic of factor analysis. These notes come out of lecture 13 and 14 of Andrew Ng's <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">online course</a>. Roughly speaking, factor analysis models some <span class="math">\(n\)</span> dimensional observed data with the assumption that these data are actually from some <span class="math">\(d\)</span> dimensional plane in <span class="math">\(\R\)</span>, up to some Gaussian distributed errors. Let's make it more precise.</p>
-<p>Suppose we have a set of observed data <span class="math">\(\{x^{(1)}, \dots, x^{(m)}\}\)</span> implicitly labeled by some latent random variable <span class="math">\(z \in \R^d\)</span> where<br>
-</p>
-<div class="math">$$z \sim \mathcal{N}(0, I).$$</div>
-<p> <br>
-Factor analysis model tries to model <span class="math">\(P(x)\)</span> using the assumption that<br>
-</p>
-<div class="math">$$\begin{equation}
-x|z \sim \mathcal{N}(\mu+\Lambda z, \Psi),
-\label{cond-xz}
-\end{equation}$$</div>
-<p><br>
-for some <span class="math">\(\mu \in \R^n, \Lambda \in \R^{n \times d}\)</span> and <strong>diagonal matrix</strong> <span class="math">\(\Psi \in \R^{n \times n}\)</span>. These <span class="math">\(\mu, \Lambda\)</span> and <span class="math">\(\Psi\)</span> are parameters of the model.</p>
-
-    </div>
-    <p class="readmore"><a href="/20171109-factor-analysis/">Read More</a></p>
 </div>
 
 <div class="page-navigator">
