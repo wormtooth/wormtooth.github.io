@@ -88,7 +88,7 @@ Numpy version: 1.17.2
 <div class="math">$$L_1(a, b) = \frac{1}{n} \sum_{i = 1}^n |\tilde{y}_i - y_i| = \frac{1}{n} \sum_{i = 1}^n |ax_i +b - y_i|.$$</div>
 <p><br>
 <span class="math">\(L_1(a, b)\)</span> 的值越小表示 <span class="math">\(a\)</span> 和 <span class="math">\(b\)</span> 越好。我们希望找到 <span class="math">\(a\)</span> 和 <span class="math">\(b\)</span> 使得 <span class="math">\(L_1(a, b)\)</span> 的值达到最小。</p>
-<p>正像参数 <span class="math">\(a\)</span> 和 <span class="math">\(b\)</span> 有优劣之分，标准也有好坏之分。在微积分里我们学过使用导数去求函数的最值。<span class="math">\(L_1(a, b)\)</span> 是一个判断的标准，但是其中包含的绝对值函数 (<span class="math">\(y = |x|\)</span>) 在 <span class="math">\(x = 0\)</span> 处并不可导，所以我们不能简单地使用微积分的知识去找它的最小值。这种情况下，我们不认为 <span class="math">\(L_1\)</span> 并不是一个好的标准。我们知道 <span class="math">\(|\tilde{y}_i - y_i|\)</span>小 等价于 <span class="math">\(\frac{1}{2}(\tilde{y}_i - y_i)^2\)</span>小，而 <span class="math">\(y = \frac{1}{2}x^2\)</span> 是一个处处可导的函数，因此我们找到一个更好的标准：<br>
+<p>正像参数 <span class="math">\(a\)</span> 和 <span class="math">\(b\)</span> 有优劣之分，标准也有好坏之分。在微积分里我们学过使用导数去求函数的最值。<span class="math">\(L_1(a, b)\)</span> 是一个判断的标准，但是其中包含的绝对值函数 (<span class="math">\(y = |x|\)</span>) 在 <span class="math">\(x = 0\)</span> 处并不可导，所以我们不能简单地使用微积分的知识去找它的最小值。这种情况下，我们不认为 <span class="math">\(L_1\)</span> 是一个好的标准。我们知道 <span class="math">\(|\tilde{y}_i - y_i|\)</span>小 等价于 <span class="math">\(\frac{1}{2}(\tilde{y}_i - y_i)^2\)</span>小，而 <span class="math">\(y = \frac{1}{2}x^2\)</span> 是一个处处可导的函数，因此我们有一个更好的标准：<br>
 </p>
 <div class="math">$$L_2(a, b) = \frac{1}{2n} \sum_{i = 1}^n (\tilde{y}_i - y_i)^2 = \frac{1}{2n} \sum_{i = 1}^n (ax_i +b - y_i)^2.$$</div>
 <p><br>
