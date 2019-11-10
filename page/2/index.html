@@ -36,6 +36,16 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20180417-decrypt-wechat-database/">解密安卓微信聊天记录数据库</a></h1>
+    <div class="post-meta">2018-04-17</div>
+    <a data-disqus-identifier="20180417-decrypt-wechat-database/" href="/20180417-decrypt-wechat-database/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>我一直想把自己的微信聊天记录导出来，用来做一些奇奇怪怪的东西。可以用来分析一下过去一年里跟谁聊天了，聊的都是啥，或者做一个带有自己特点的聊天机器人。问题是，微信现在并没有简单导出聊天记录的方法。从我网上搜到的资料，安卓机器上的微信会将聊天记录（还有很多其他数据，比如联系人）保存在一个叫做<code>EnMicroMsg.db</code>的数据库中。这个数据库是使用<a href="https://www.zetetic.net/sqlcipher/">SQLCipher</a>生成的，没有密码是无法正常打开的。这个密码其实可以很容易通过自己手机的信息以及微信的信息计算出来，我也根据网上的教程计算出属于我的密码了。但是我一直没有成功解密我的聊天记录数据库。直到今天我再次搜寻了关于微信数据库的资料，才发现我不仅仅需要密码，还需要其他一下数据库的设置才能正确打开。这篇博文主要的目的是记录我该怎么做才能导出微信聊天记录，以方便以后使用。</p>
+
+    </div>
+    <p class="readmore"><a href="/20180417-decrypt-wechat-database/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20180416-les-miserables/">Les misérables</a></h1>
     <div class="post-meta">2018-04-16</div>
     <a data-disqus-identifier="20180416-les-miserables/" href="/20180416-les-miserables/#disqus_thread" class="disqus-comment-count"></a>
@@ -272,51 +282,6 @@ ZBERj1Agi4h4hAJZRMQjFMgiIh7xf/Yg0txQBmZaAAAAAElFTkSuQmCC
 
     </div>
     <p class="readmore"><a href="/20180106-pork-chop/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20171125-leetcode-contest-60/">LeetCode Contest 60</a></h1>
-    <div class="post-meta">2017-11-25</div>
-    <a data-disqus-identifier="20171125-leetcode-contest-60/" href="/20171125-leetcode-contest-60/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>这次<a href="https://leetcode.com/contest/weekly-contest-60">比赛</a>不难，但是我在最简单的两题各错了一次。</p>
-<p><a href="https://leetcode.com/contest/weekly-contest-60/problems/flood-fill/">第一题</a><code>Flood Fill</code></p>
-<div class="qbar">
-<p>给定一个二维数组表示一张图片，以及一个坐标<code>(r, c)</code>。我们需要包含这个坐标且数字一样的连通分支整体变成另一个数。</p>
-</div>
-<p>我记得高中的时候学到Flood Fill这个词的时候有种莫名开心，可能是因为这个名字很形象地描述了DFS的过程吧。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">floodFill</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">newColor</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type image: List[List[int]]</span>
-<span class="sd">        :type sr: int</span>
-<span class="sd">        :type sc: int</span>
-<span class="sd">        :type newColor: int</span>
-<span class="sd">        :rtype: List[List[int]]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-        <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">color</span> <span class="o">=</span> <span class="n">image</span><span class="p">[</span><span class="n">sr</span><span class="p">][</span><span class="n">sc</span><span class="p">]</span>
-
-        <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-            <span class="n">image</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">newColor</span>
-            <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
-            <span class="k">for</span> <span class="n">dr</span><span class="p">,</span> <span class="n">dc</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]:</span>
-                <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">r</span><span class="o">+</span><span class="n">dr</span><span class="p">,</span> <span class="n">c</span><span class="o">+</span><span class="n">dc</span>
-                <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">n</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="n">m</span> <span class="ow">or</span> <span class="n">image</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">!=</span> <span class="n">color</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="n">dfs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-
-        <span class="n">dfs</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">image</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20171125-leetcode-contest-60/">Read More</a></p>
 </div>
 
 <div class="page-navigator">
