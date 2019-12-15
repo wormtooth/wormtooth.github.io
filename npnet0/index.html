@@ -49,11 +49,11 @@
 <p>此系列的算法实现环境是 Python 3.7.3，numpy 的版本是 1.17.2。</p>
 <div class="highlight"><pre><span></span><span class="c1"># import</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">py</span> <span class="o">=</span> <span class="s1">&#39;Python &#39;</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">3</span><span class="p">]))</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Jupyter notebook with kernel: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">py</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Numpy version: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">__version__</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Jupyter notebook with kernel: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">py</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Numpy version: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">__version__</span><span class="p">))</span>
 </pre></div>
 
 
@@ -116,7 +116,7 @@ Numpy version: 1.17.2
 <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">sx</span> <span class="o">*</span> <span class="n">sy</span> <span class="o">-</span> <span class="n">n</span> <span class="o">*</span> <span class="n">sxy</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sx</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">n</span> <span class="o">*</span> <span class="n">sx2</span><span class="p">)</span>
 <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">sx</span> <span class="o">*</span> <span class="n">sxy</span> <span class="o">-</span> <span class="n">sy</span> <span class="o">*</span> <span class="n">sx2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sx</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">n</span> <span class="o">*</span> <span class="n">sx2</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;a: {a:.5f}, b: {b:.5f}&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;a: </span><span class="si">{a:.5f}</span><span class="s1">, b: </span><span class="si">{b:.5f}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -162,8 +162,8 @@ Numpy version: 1.17.2
     <span class="n">gb</span> <span class="o">=</span> <span class="p">(</span><span class="n">sx</span> <span class="o">*</span> <span class="n">a0</span> <span class="o">-</span> <span class="n">sy</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span> <span class="o">+</span> <span class="n">b0</span>
     <span class="n">a0</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">ga</span>
     <span class="n">b0</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">gb</span>
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;a0: {a0:.5f}, b0: {b0:.5f}&#39;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;a: {a:.5f}, b: {b:.5f}&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;a0: </span><span class="si">{a0:.5f}</span><span class="s1">, b0: </span><span class="si">{b0:.5f}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;a: </span><span class="si">{a:.5f}</span><span class="s1">, b: </span><span class="si">{b:.5f}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -215,7 +215,7 @@ a: 2.90060, b: -1.38144
     <span class="k">try</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">IPythonIO</span><span class="o">.</span><span class="n">capture_output</span><span class="p">()</span> <span class="k">as</span> <span class="n">captured</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-                <span class="n">nb_path</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;npnet{i}.ipynb&#39;</span>
+                <span class="n">nb_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;npnet</span><span class="si">{i}</span><span class="s1">.ipynb&#39;</span>
                 <span class="n">nb</span> <span class="o">=</span> <span class="n">nbformat</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">nb_path</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">nb</span><span class="o">.</span><span class="n">cells</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">cell_type</span> <span class="o">==</span> <span class="s1">&#39;code&#39;</span><span class="p">:</span>
@@ -226,7 +226,7 @@ a: 2.90060, b: -1.38144
                         <span class="c1"># those marked with &#39;# import&#39; in the 1st line</span>
                         <span class="n">line</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">code</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
                         <span class="k">if</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;#&#39;</span> <span class="ow">and</span> <span class="s1">&#39;import&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
-                            <span class="k">exec</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+                            <span class="n">exec</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
     <span class="k">finally</span><span class="p">:</span>
         <span class="n">shell</span><span class="o">.</span><span class="n">user_ns</span> <span class="o">=</span> <span class="n">save_user_ns</span>
 
@@ -240,8 +240,8 @@ a: 2.90060, b: -1.38144
 <p>这个文件中只有一个函数 <code>import_npnet</code>，它接受一个整数 <code>n</code> 作为输入，代表要导入这个系列之前 <code>n</code> 篇笔记的代码。每一篇笔记都是一个 Jupyter Notebook ，名字格式是 <code>npnet{i}.ipynb</code>，其中 <code>{i}</code> 是笔记的编号。比如本笔记保存在 <code>npnet0.ipynb</code> 。对于一篇笔记，如果某个代码 Cell 的第一行是 Python 注释，而且包含 import 这个词，那么这个代码 Cell 将会被导入。这种设定是非常有必要的：以后我们要测试我们的算法，而机器学习的算法一般运行的时间都挺长的，我们希望 <code>import_npnet</code> 能跳过这些耗时测试代码。 这个函数会返回由这些代码生成的一个模块。一般来说，<code>n</code> 的值为当前笔记的编号。比如说当前是编号为0的笔记，我可以使用一下代码达到 <code>import</code> 的效果。</p>
 <div class="highlight"><pre><span></span><span class="o">%</span><span class="n">run</span> <span class="n">import_npnet</span><span class="o">.</span><span class="n">py</span>
 <span class="n">npnet</span> <span class="o">=</span> <span class="n">import_npnet</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">npnet</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">npnet</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">npnet</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">npnet</span><span class="p">))</span>
 </pre></div>
 
 

@@ -49,7 +49,7 @@
 <p>下面的代码可以在<a href="https://ipython.org/">IPython</a>中依次执行。Python版本2和3都应该没有问题。这些代码也可以在<a href="https://github.com/wormtooth/miner">github</a>找到。</p>
 <h3>基本框架</h3>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">lxml.html</span> <span class="kn">as</span> <span class="nn">xhtml</span>
+<span class="kn">import</span> <span class="nn">lxml.html</span> <span class="k">as</span> <span class="nn">xhtml</span>
 </pre></div>
 
 
@@ -129,7 +129,7 @@
 
 <h3>多线程</h3>
 <p><a href="http://docs.python-requests.org/en/master/">requests</a>是一个阻塞式的网络库，所以在处理很多网页的时候速度会很慢。影响速度的最大因素是获取网页时的等待。这种io密集型的任务，最适合的就是使用多线程了。还是<a href="http://quotes.toscrape.com/">Quotes</a>这个网站为例，但是这次我们要抓取所有的名言：</p>
-<div class="highlight"><pre><span></span><span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;http://quotes.toscrape.com/page/{}/&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)]</span>
+<div class="highlight"><pre><span></span><span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;http://quotes.toscrape.com/page/</span><span class="si">{}</span><span class="s1">/&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)]</span>
 </pre></div>
 
 
@@ -145,7 +145,7 @@
     <span class="k">return</span> <span class="n">end</span><span class="o">-</span><span class="n">start</span>
 
 <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;{} thread(s): {}s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">get_quotes</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> thread(s): </span><span class="si">{}</span><span class="s1">s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">get_quotes</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
 </pre></div>
 
 
@@ -205,14 +205,14 @@
 <p>常用的数据库关系库有<a href="https://www.sqlalchemy.org/">SQLAlchemy</a>与<a href="http://docs.peewee-orm.com/en/latest/">peewee</a>，但对于小的项目我更喜欢<a href="https://ponyorm.com/">Pony</a>。我以<a href="https://ponyorm.com/">Pony</a>为例子，展示如何将获取的信息存到一个数据库里。</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pony.orm</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span><span class="s2">&quot;sqlite&quot;</span><span class="p">,</span> <span class="s2">&quot;:memory:&quot;</span><span class="p">,</span> <span class="n">create_db</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">(</span><span class="s2">&quot;sqlite&quot;</span><span class="p">,</span> <span class="s2">&quot;:memory:&quot;</span><span class="p">,</span> <span class="n">create_db</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">Quote</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Entity</span><span class="p">):</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="n">PrimaryKey</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">auto</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">PrimaryKey</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">auto</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">author</span> <span class="o">=</span> <span class="n">Required</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
     <span class="n">text</span> <span class="o">=</span> <span class="n">Required</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
 
-<span class="n">db</span><span class="o">.</span><span class="n">generate_mapping</span><span class="p">(</span><span class="n">create_tables</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">db</span><span class="o">.</span><span class="n">generate_mapping</span><span class="p">(</span><span class="n">create_tables</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="nd">@db_session</span>
 <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>

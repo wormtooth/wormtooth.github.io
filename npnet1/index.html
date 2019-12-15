@@ -45,8 +45,8 @@
         <p>我们现在已经知道机器学习三个重要的模块是<strong>模型 (model)</strong>、<strong>标准 (criterion)</strong> 以及 <strong>优化 (optimization)</strong>。在这篇笔记中我们讨论各个模块必要的基本功能，然后用 Python 给出模块的基类 (base class)。 最后我们继承这些基类实现上一篇笔记的线性模型 (linear model) 以及均方误差 (mean square error)。</p>
 <!--more-->
 
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="o">%</span><span class="n">run</span> <span class="n">import_npnet</span><span class="o">.</span><span class="n">py</span>
 <span class="n">npnet</span> <span class="o">=</span> <span class="n">import_npnet</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -90,7 +90,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&lt;{self.__class__.__name__}&gt;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{self.__class__.__name__}</span><span class="s2">&gt;&quot;</span>
 </pre></div>
 
 
@@ -137,13 +137,13 @@
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
         <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="nb">input</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="nb">input</span> <span class="err">@</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">input</span> <span class="o">@</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">output</span>
 
     <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">T</span> <span class="err">@</span> <span class="n">grad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">grad</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">grad</span> <span class="err">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">return</span> <span class="n">grad</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
 </pre></div>
 
 
@@ -164,7 +164,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&lt;{self.__class__.__name__}&gt;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{self.__class__.__name__}</span><span class="s2">&gt;&quot;</span>
 </pre></div>
 
 
@@ -218,7 +218,7 @@
                 <span class="n">g</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&lt;{self.__class__.__name__}&gt;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{self.__class__.__name__}</span><span class="s2">&gt;&quot;</span>
 </pre></div>
 
 
@@ -245,11 +245,11 @@
 <div class="highlight"><pre><span></span><span class="c1"># import</span>
 <span class="k">class</span> <span class="nc">GradientCheck</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">sample</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">allowed_error</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="nb">input</span>
-        <span class="k">if</span> <span class="nb">input</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">input</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">input_shape</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="n">sample</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="n">h</span>
@@ -265,14 +265,14 @@
     <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">check_gradient</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_gradient</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">check_gradient</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
         <span class="n">parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_parameters</span>
         <span class="n">gradients</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_gradients</span>
         <span class="k">for</span> <span class="n">params</span><span class="p">,</span> <span class="n">grads</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">gradients</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">check_gradient</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">grads</span><span class="p">[</span><span class="n">name</span><span class="p">]):</span>
-                    <span class="k">return</span> <span class="bp">False</span>
-        <span class="k">return</span> <span class="bp">True</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">check_gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">grad</span><span class="p">):</span>
         <span class="n">shape</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">shape</span>
@@ -291,8 +291,8 @@
             <span class="n">analytic_grad_at_point</span> <span class="o">=</span> <span class="n">grad</span><span class="p">[</span><span class="n">point</span><span class="p">]</span>
             <span class="n">error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">numerical_grad_at_point</span> <span class="o">-</span> <span class="n">analytic_grad_at_point</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">error</span> <span class="o">&gt;</span> <span class="n">allowed_error</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">False</span>
-        <span class="k">return</span> <span class="bp">True</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -363,8 +363,8 @@
     <span class="n">a</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">ga</span>
     <span class="n">b</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">gb</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;a: {a:.8f}, b: {b:.8f}&#39;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;a: </span><span class="si">{a:.8f}</span><span class="s1">, b: </span><span class="si">{b:.8f}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
 </pre></div>
 
 

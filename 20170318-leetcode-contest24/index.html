@@ -97,7 +97,7 @@ Leetcode Contest 24 | 叶某人的碎碎念    </title>
 <span class="sd">        :rtype: TreeNode</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">None</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
         <span class="k">def</span> <span class="nf">inorder</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">lst</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
@@ -108,7 +108,7 @@ Leetcode Contest 24 | 叶某人的碎碎念    </title>
 
         <span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">nodes</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
             <span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">val</span> <span class="o">+=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">val</span>
         <span class="k">return</span> <span class="n">root</span>
 </pre></div>
@@ -125,12 +125,12 @@ Leetcode Contest 24 | 叶某人的碎碎念    </title>
 <span class="sd">        :rtype: List[List[int]]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">ans</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
         <span class="n">cur</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">cur</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
                     <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
@@ -172,11 +172,11 @@ Output: (((1,8),(4,5)),((2,7),(3,6)))
 <span class="sd">        :type n: int</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cur</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
         <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">cur</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="nb">next</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cur</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span>
-                <span class="nb">next</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;({},{})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cur</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cur</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cur</span><span class="p">)</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cur</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span>
+                <span class="nb">next</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;(</span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cur</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cur</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cur</span><span class="p">)</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
             <span class="n">cur</span> <span class="o">=</span> <span class="nb">next</span>
         <span class="k">return</span> <span class="n">cur</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>

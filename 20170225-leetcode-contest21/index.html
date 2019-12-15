@@ -68,7 +68,7 @@ Leetcode Contest 21 | 叶某人的碎碎念    </title>
             <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
             <span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
         <span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 
 
@@ -86,9 +86,9 @@ Leetcode Contest 21 | 叶某人的碎碎念    </title>
 <span class="sd">        :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="bp">True</span>
+                    <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
@@ -98,10 +98,10 @@ Leetcode Contest 21 | 叶某人的碎碎念    </title>
                 <span class="n">j</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="n">i</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">i</span> <span class="o">-</span> <span class="n">j</span>  <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
-                        <span class="k">return</span> <span class="bp">True</span>
+                        <span class="k">return</span> <span class="kc">True</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">d</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
-        <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 
 
@@ -121,9 +121,9 @@ Leetcode Contest 21 | 叶某人的碎碎念    </title>
                 <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
                     <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
                     <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
-                        <span class="k">return</span> <span class="bp">True</span>
+                        <span class="k">return</span> <span class="kc">True</span>
                 <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
 
         <span class="n">t</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="n">check</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
         <span class="n">ans</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>

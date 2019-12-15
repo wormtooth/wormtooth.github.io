@@ -45,8 +45,8 @@
         <p>这篇笔记尝试着实现几种简单的机遇梯度下降的优化器 (Optimizer)。主要的参考资料是 <a href="http://cs231n.github.io/neural-networks-3/">Neural Networks Part 3: Learning and Evaluation</a>。另外我还参考了 <a href="http://ruder.io/optimizing-gradient-descent/index.html">An overview of gradient descent optimization algorithms</a>。这篇博文不仅有篇对应的论文：<a href="https://arxiv.org/abs/1609.04747">An overview of gradient descent optimization algorithms</a>，还已经被翻译成中文了：<a href="http://blog.csdn.net/google19890102/article/details/69942970">梯度下降优化算法综述</a>。</p>
 <!--more-->
 
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="o">%</span><span class="n">run</span> <span class="n">import_npnet</span><span class="o">.</span><span class="n">py</span>
 <span class="n">npnet</span> <span class="o">=</span> <span class="n">import_npnet</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -121,7 +121,7 @@
                 <span class="n">g</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;&lt;{self.__class__.__name__}&gt;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{self.__class__.__name__}</span><span class="s2">&gt;&quot;</span>
 </pre></div>
 
 
@@ -179,15 +179,15 @@
 <span class="k">class</span> <span class="nc">SGD</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-                 <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">nesterov</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                 <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">nesterov</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="n">momentum</span><span class="p">,</span>
                          <span class="n">weight_decay</span><span class="o">=</span><span class="n">weight_decay</span><span class="p">,</span> <span class="n">nesterov</span><span class="o">=</span><span class="n">nesterov</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">momentum</span> <span class="o">=</span> <span class="n">momentum</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nesterov</span> <span class="o">=</span> <span class="n">nesterov</span>
 
         <span class="k">if</span> <span class="n">momentum</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">nesterov</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Nesterov momentum is ignored.&#39;</span><span class="p">)</span>
-            <span class="n">nesterov</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Nesterov momentum is ignored.&#39;</span><span class="p">)</span>
+            <span class="n">nesterov</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="c1"># 动量缓存</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">caches</span> <span class="o">=</span> <span class="p">[</span>
@@ -367,7 +367,7 @@
 <span class="n">args</span> <span class="o">=</span> <span class="p">[</span>
     <span class="nb">dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="n">SGD</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SGD&#39;</span><span class="p">),</span>
     <span class="nb">dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="n">SGD</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Momentum&#39;</span><span class="p">),</span>
-    <span class="nb">dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="n">SGD</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">nesterov</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Nesterov&#39;</span><span class="p">),</span>
+    <span class="nb">dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="n">SGD</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">nesterov</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Nesterov&#39;</span><span class="p">),</span>
     <span class="nb">dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="n">Adagrad</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Adagrad&#39;</span><span class="p">),</span>
     <span class="nb">dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="n">RMSprop</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;RMSprop&#39;</span><span class="p">),</span>
     <span class="nb">dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="n">Adam</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Adam&#39;</span><span class="p">)</span>
@@ -392,7 +392,7 @@
     <span class="n">loss</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">npnet</span><span class="o">.</span><span class="n">train_fashion_mnist</span><span class="p">(</span>
         <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="n">criterion</span><span class="p">,</span> <span class="n">optim</span><span class="o">=</span><span class="n">optim</span><span class="p">,</span>
         <span class="n">train_images</span><span class="o">=</span><span class="n">images</span><span class="p">,</span> <span class="n">train_labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-        <span class="n">profile</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="n">epoch</span>
+        <span class="n">profile</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="n">epoch</span>
     <span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">loss</span><span class="p">)),</span> <span class="n">loss</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">arg</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
 

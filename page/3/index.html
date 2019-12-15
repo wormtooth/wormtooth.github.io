@@ -36,6 +36,17 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20180106-pork-chop/">烤猪排</a></h1>
+    <div class="post-meta">2018-01-06</div>
+    <a data-disqus-identifier="20180106-pork-chop/" href="/20180106-pork-chop/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>来到路村的第一件事是长胖。某人的厨艺实在了得，此次记录的是她的代表作之一——烤猪排。</p>
+<p><img alt="烤猪排" src="/images/20180106-pork-chop-finish.jpeg" style="width: 350px;" /></p>
+
+    </div>
+    <p class="readmore"><a href="/20180106-pork-chop/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20171125-leetcode-contest-60/">LeetCode Contest 60</a></h1>
     <div class="post-meta">2017-11-25</div>
     <a data-disqus-identifier="20171125-leetcode-contest-60/" href="/20171125-leetcode-contest-60/#disqus_thread" class="disqus-comment-count"></a>
@@ -181,7 +192,7 @@ where <br>
         <span class="n">ans</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
             <span class="n">p</span> <span class="o">=</span> <span class="n">tree</span>
-            <span class="n">ok</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">ok</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
                     <span class="n">p</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -438,24 +449,6 @@ iEQQXWmLiEQQhbaISARRaIuIRBCFtohIBFFoi4hEkP8Hka0XtE7AFPYAAAAASUVORK5CYII=
 
     </div>
     <p class="readmore"><a href="/20171008-support-vector-machine/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20171002-generative-model/">Generative Model</a></h1>
-    <div class="post-meta">2017-10-02</div>
-    <a data-disqus-identifier="20171002-generative-model/" href="/20171002-generative-model/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>This article is my notes on generative model for Lecture 5 and 6 of <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">Machine Learning</a> by Andrew Ng. What we do in logistic regression using generalized linear model is that, we approximate <span class="math">\(P(y|x)\)</span> using given data. This kind of learning algorithms is <em>discriminative</em>, in which we predict <span class="math">\(y\)</span> based on the input features <span class="math">\(x\)</span>. On the contrary, <em>generative</em> model is to model <span class="math">\(P(x|y)\)</span>, the probability of the features <span class="math">\(x\)</span> given class <span class="math">\(y\)</span>. In other words, we want to study how the features structure looks like given a class <span class="math">\(y\)</span>. If we also learn what <span class="math">\(P(y)\)</span> is, we can easily recover <span class="math">\(P(y|x)\)</span>, for example, in the binary classification problem,<br>
-</p>
-<div class="math">$$\begin{equation}
-P(y=1|x) = \frac{P(x|y=1)P(y=1)}{P(x)},
-\label{eqn:bayes}
-\end{equation}$$</div>
-<p><br>
-where <span class="math">\(P(x) = P(x|y=0)P(y=0) + P(x|y=1)P(y=1)\)</span>.</p>
-<p>In this article, we are going to see a simple example of generative model on Gaussian discriminant analysis and Naive Bayes.</p>
-
-    </div>
-    <p class="readmore"><a href="/20171002-generative-model/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

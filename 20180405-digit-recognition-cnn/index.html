@@ -49,18 +49,18 @@ Digit recognition, CNN | 叶某人的碎碎念    </title>
 <h2>准备数据</h2>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">py</span> <span class="o">=</span> <span class="s1">&#39;Python &#39;</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">3</span><span class="p">]))</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Jupyter notebook with kernel: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">py</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Jupyter notebook with kernel: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">py</span><span class="p">))</span>
 
 <span class="kn">import</span> <span class="nn">gzip</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="kn">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 <span class="kn">from</span> <span class="nn">torch.autograd</span> <span class="kn">import</span> <span class="n">Variable</span>
 <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Using Pytorch {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">__version__</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Using Pytorch </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">__version__</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="n">images_url</span><span class="p">,</span> <span class="n">labels_url</span><span class="p">):</span>
     <span class="n">images</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">urlopen</span><span class="p">(</span><span class="n">images_url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
@@ -112,8 +112,8 @@ Using Pytorch 0.3.1
 <span class="n">train_data</span> <span class="o">=</span> <span class="n">MnistData</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
 <span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">train_data</span><span class="p">,</span>
                          <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
-                         <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;There are {} training samples&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)))</span>
+                         <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There are </span><span class="si">{}</span><span class="s2"> training samples&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)))</span>
 
 <span class="c1"># test data</span>
 <span class="n">images_url</span> <span class="o">=</span> <span class="s2">&quot;http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz&quot;</span>
@@ -122,8 +122,8 @@ Using Pytorch 0.3.1
 <span class="n">test_data</span> <span class="o">=</span> <span class="n">MnistData</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
 <span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">test_data</span><span class="p">,</span>
                          <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
-                         <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;There are {} testing samples&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)))</span>
+                         <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There are </span><span class="si">{}</span><span class="s2"> testing samples&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)))</span>
 </pre></div>
 
 
@@ -180,7 +180,7 @@ There are 10000 testing samples
         <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">200</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;epoch {}/{}, batch {}/{}, loss: {:.4f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;epoch </span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">, batch </span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">, loss: </span><span class="si">{:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_epochs</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="p">),</span> <span class="n">loss</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 </pre></div>
 
@@ -213,7 +213,7 @@ epoch 5/5, batch 600/600, loss: 0.0381
     <span class="n">total</span> <span class="o">+=</span> <span class="n">labels</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">wrong</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">!=</span> <span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Error rate: {:.2f}%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">wrong</span> <span class="o">/</span> <span class="n">total</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error rate: </span><span class="si">{:.2f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">wrong</span> <span class="o">/</span> <span class="n">total</span><span class="p">))</span>
 </pre></div>
 
 
@@ -248,7 +248,7 @@ epoch 5/5, batch 600/600, loss: 0.0381
 "/></p>
 <div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">Variable</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)))</span>
 <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Prediction of the above handwriting is: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Prediction of the above handwriting is: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pred</span><span class="p">))</span>
 </pre></div>
 
 
@@ -266,7 +266,7 @@ epoch 5/5, batch 600/600, loss: 0.0381
 <span class="c1"># use the model as before</span>
 <span class="n">output</span> <span class="o">=</span> <span class="n">cnn2</span><span class="p">(</span><span class="n">Variable</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)))</span>
 <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Prediction of the above handwriting is: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Prediction of the above handwriting is: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pred</span><span class="p">))</span>
 </pre></div>
 
 

@@ -186,12 +186,12 @@ subject to the condition that <span class="math">\(u^T u = 1\)</span>. An easy c
 <p>As an example, I am going to use <a href="http://yann.lecun.com/exdb/mnist/">the mnist dataset</a> and calculate the principal eigenvector of the dataset.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">py</span> <span class="o">=</span> <span class="s1">&#39;Python &#39;</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">3</span><span class="p">]))</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Jupyter notebook with kernel: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">py</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Jupyter notebook with kernel: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">py</span><span class="p">))</span>
 
 <span class="kn">import</span> <span class="nn">gzip</span>
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 
 

@@ -115,7 +115,7 @@ brew install sqlcipher
 <h3>聊天词云</h3>
 <p>有了这个聊天记录<code>MicroMsg.db</code>，我们可以做很多事情。比如做个聊天词云什么的。</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">wordcloud</span> <span class="kn">import</span> <span class="n">WordCloud</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">jieba</span>
 <span class="kn">import</span> <span class="nn">sqlite3</span>
 
@@ -124,17 +124,17 @@ brew install sqlcipher
     <span class="n">font_path</span> <span class="o">=</span> <span class="s2">&quot;DroidSansFallbackFull.ttf&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">wechat_record</span><span class="p">(</span><span class="n">talker</span><span class="p">)</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">WordCloud</span><span class="p">(</span><span class="n">font_path</span><span class="o">=</span><span class="n">font_path</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1400</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1400</span><span class="p">,</span>
-                    <span class="n">margin</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">collocations</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                    <span class="n">margin</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">collocations</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="n">img</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">&quot;{}.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">talker</span><span class="p">))</span>
+    <span class="n">img</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">talker</span><span class="p">))</span>
 
 
 <span class="k">def</span> <span class="nf">wechat_record</span><span class="p">(</span><span class="n">talker</span><span class="p">):</span>
     <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;MicroMsg.db&quot;</span><span class="p">)</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-    <span class="n">stmt</span> <span class="o">=</span> <span class="s2">&quot;SELECT content FROM message WHERE talker=&#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">talker</span><span class="p">)</span>
+    <span class="n">stmt</span> <span class="o">=</span> <span class="s2">&quot;SELECT content FROM message WHERE talker=&#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">talker</span><span class="p">)</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">row</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;xml&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
@@ -144,7 +144,7 @@ brew install sqlcipher
     <span class="n">wordfilter</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s2">&quot;abcdefghijklmnopqrstquvwxyz0123456789&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">wf</span> <span class="ow">in</span> <span class="n">wordfilter</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">wf</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">jieba</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">cut_all</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">jieba</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">cut_all</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
     <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">data</span>
 

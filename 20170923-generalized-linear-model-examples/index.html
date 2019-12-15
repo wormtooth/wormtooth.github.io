@@ -55,9 +55,9 @@ Generalized Linear Model (Examples) | 叶某人的碎碎念    </title>
 <p>The first example is to predict monthly production cost according to production output for a hosiery<br>
 mill. The data set is <a href="http://www.stat.ufl.edu/~winner/data/millcost.dat">here</a>, with description <a href="http://www.stat.ufl.edu/~winner/data/millcost.txt">here</a>. The first 3 rows of the data look like:</p>
 <blockquote>
-<div class="highlight"><pre><span></span>  <span class="mi">1</span>   <span class="mi">46</span><span class="p">.</span><span class="mi">75</span>   <span class="mi">92</span><span class="p">.</span><span class="mi">64</span>
-  <span class="mi">2</span>   <span class="mi">42</span><span class="p">.</span><span class="mi">18</span>   <span class="mi">88</span><span class="p">.</span><span class="mi">81</span>
-  <span class="mi">3</span>   <span class="mi">41</span><span class="p">.</span><span class="mi">86</span>   <span class="mi">86</span><span class="p">.</span><span class="mi">44</span>
+<div class="highlight"><pre><span></span><span class="err">  1   46.75   92.64</span>
+<span class="err">  2   42.18   88.81</span>
+<span class="err">  3   41.86   86.44</span>
 </pre></div>
 
 
@@ -65,8 +65,8 @@ mill. The data set is <a href="http://www.stat.ufl.edu/~winner/data/millcost.dat
 <p>The first column represents month, the second column represents production output and the last column represents production cost. </p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="c1"># obtain sample data</span>
 <span class="n">millcost_url</span> <span class="o">=</span> <span class="s1">&#39;http://www.stat.ufl.edu/~winner/data/millcost.dat&#39;</span>
@@ -75,9 +75,9 @@ mill. The data set is <a href="http://www.stat.ufl.edu/~winner/data/millcost.dat
 <span class="n">data</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">data_pat</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
 <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
 <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Number of sample points: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;The first three sample points:&#39;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)[:</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of sample points: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The first three sample points:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)[:</span><span class="mi">3</span><span class="p">])</span>
 </pre></div>
 
 
@@ -269,7 +269,7 @@ where <span class="math">\(\theta^{(n)}\)</span> is the <span class="math">\(n\)
     <span class="n">gradient</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="n">B</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">gradient</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
 </pre></div>
 
 
@@ -468,7 +468,7 @@ So setting <span class="math">\(\nabla J = 0\)</span>, one easily gets<br>
 </p>
 <div class="math">$$\theta = A^{-1}B.$$</div>
 <div class="highlight"><pre><span></span><span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">),</span> <span class="n">B</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
 </pre></div>
 
 
@@ -484,10 +484,10 @@ So setting <span class="math">\(\nabla J = 0\)</span>, one easily gets<br>
 <span class="n">x</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">4</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">::</span><span class="mi">4</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">::</span><span class="mi">4</span><span class="p">])</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[::</span><span class="mi">4</span><span class="p">]</span>
 <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Number of sample points: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;The first three sample points:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of sample points: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The first three sample points:&#39;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 </pre></div>
 
 
@@ -498,7 +498,7 @@ The first three sample points:
 (10.31, (20.3, 78.2, 8.5))
 </pre>
 
-<div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">4</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;English&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Wage&#39;</span><span class="p">)</span>
@@ -736,7 +736,7 @@ By setting <span class="math">\(\nabla J = 0\)</span>,<br>
 
 <span class="c1"># theta = A^{-1} * B</span>
 <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">),</span> <span class="n">B</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
 </pre></div>
 
 
@@ -864,7 +864,7 @@ SFLhDAJJKtz/BxDx4QwX136hAAAAAElFTkSuQmCC
 <span class="n">abs_error</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="o">-</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">predict_y</span><span class="p">))</span>
 <span class="c1"># percentage error</span>
 <span class="n">per_error</span> <span class="o">=</span> <span class="n">abs_error</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">test_y</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;The percentage error is {0:.2f}%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">per_error</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The percentage error is </span><span class="si">{0:.2f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">per_error</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span>
 </pre></div>
 
 
@@ -1032,7 +1032,7 @@ We observe that the range of <span class="math">\(x^{(i)}\)</span> is <span clas
 <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iteration_count</span><span class="p">):</span>
     <span class="n">da</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
     <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="n">da</span><span class="p">,</span> <span class="n">b</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="n">db</span>
-<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
 
 
@@ -1231,7 +1231,7 @@ Ep8bsuhaxDLcRURyXSyrZUREcp3CXUQkhhTuIiIxpHAXEYkhhbuISAwp3EVEYkjhLiISQwp3EZEY
 <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
     <span class="n">da</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
     <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="n">da</span><span class="p">,</span> <span class="n">b</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="n">db</span>
-<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
 
 

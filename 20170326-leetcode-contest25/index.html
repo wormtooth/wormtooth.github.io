@@ -55,10 +55,10 @@ Leetcode Contest 25 | 叶某人的碎碎念    </title>
 <span class="sd">        :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">num</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
 
         <span class="n">s</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="o">**</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="o">**</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">num</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">s</span> <span class="o">+=</span> <span class="n">i</span>
                 <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">num</span><span class="o">/</span><span class="n">i</span><span class="p">:</span>
@@ -91,7 +91,7 @@ Leetcode Contest 25 | 叶某人的碎碎念    </title>
         <span class="n">r</span> <span class="o">=</span> <span class="n">ra</span><span class="o">*</span><span class="n">rb</span> <span class="o">-</span> <span class="n">ia</span><span class="o">*</span><span class="n">ib</span>
         <span class="n">i</span> <span class="o">=</span> <span class="n">ra</span><span class="o">*</span><span class="n">ib</span> <span class="o">+</span> <span class="n">ia</span><span class="o">*</span><span class="n">rb</span>
 
-        <span class="k">return</span> <span class="s1">&#39;{}+{}i&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">+</span><span class="si">{}</span><span class="s1">i&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
 </pre></div>
 
 
@@ -188,7 +188,7 @@ Leetcode Contest 25 | 叶某人的碎碎念    </title>
 
             <span class="n">k</span> <span class="o">=</span> <span class="n">boxes</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
             <span class="n">lp</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">boxes</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
                     <span class="n">lp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lp</span><span class="p">)</span>
@@ -197,10 +197,10 @@ Leetcode Contest 25 | 叶某人的碎碎念    </title>
                 <span class="k">return</span> <span class="n">ans</span>
 
             <span class="n">ans</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">dp</span><span class="p">(</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
-            <span class="n">tmp</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">n</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">n</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
                         <span class="k">if</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">j</span> <span class="ow">and</span> <span class="n">lp</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span> <span class="o">==</span> <span class="n">lp</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]:</span>
                             <span class="k">continue</span>
                         <span class="n">tmp</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">dp</span><span class="p">(</span><span class="n">lp</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">lp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>

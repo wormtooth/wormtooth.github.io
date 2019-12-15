@@ -106,13 +106,13 @@ Leetcode Contest 33 | 叶某人的碎碎念    </title>
         <span class="k">if</span> <span class="n">expression</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
             <span class="n">expression</span> <span class="o">=</span> <span class="s1">&#39;0/1&#39;</span><span class="o">+</span><span class="n">expression</span>
         <span class="n">fs</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;(\+|-)&#39;</span><span class="p">,</span> <span class="n">expression</span><span class="p">)</span>
-        <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">fs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">fs</span><span class="p">),</span> <span class="mi">2</span><span class="p">)]</span>
-        <span class="n">ds</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">fs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">fs</span><span class="p">),</span> <span class="mi">2</span><span class="p">)]</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">fs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">fs</span><span class="p">),</span> <span class="mi">2</span><span class="p">)]</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">fs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">fs</span><span class="p">),</span> <span class="mi">2</span><span class="p">)]</span>
         <span class="n">cd</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span>
             <span class="n">cd</span> <span class="o">*=</span> <span class="n">d</span>
         <span class="n">cn</span> <span class="o">=</span> <span class="n">ns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">cd</span> <span class="o">/</span> <span class="n">ds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ns</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ns</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">fs</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;+&#39;</span><span class="p">:</span>
                 <span class="n">cn</span> <span class="o">+=</span> <span class="n">ns</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">cd</span> <span class="o">/</span> <span class="n">ds</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
@@ -123,7 +123,7 @@ Leetcode Contest 33 | 叶某人的碎碎念    </title>
             <span class="k">while</span> <span class="n">cn</span> <span class="o">%</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">cd</span> <span class="o">%</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">cn</span> <span class="o">/=</span> <span class="n">d</span>
                 <span class="n">cd</span> <span class="o">/=</span> <span class="n">d</span>
-        <span class="k">return</span> <span class="s2">&quot;{}/{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span> <span class="n">cd</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span> <span class="n">cd</span><span class="p">)</span>
 </pre></div>
 
 
@@ -132,7 +132,7 @@ Leetcode Contest 33 | 叶某人的碎碎念    </title>
 
 <p>不难，就是有点麻烦。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">file</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">is_dir</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">is_dir</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_dir</span> <span class="o">=</span> <span class="n">is_dir</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -144,7 +144,7 @@ Leetcode Contest 33 | 叶某人的碎碎念    </title>
 <span class="k">class</span> <span class="nc">FileSystem</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="nb">file</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">file</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">go_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">path</span><span class="o">==</span><span class="s2">&quot;/&quot;</span><span class="p">:</span>
@@ -153,7 +153,7 @@ Leetcode Contest 33 | 叶某人的碎碎念    </title>
         <span class="n">ans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ans</span><span class="o">.</span><span class="n">subf</span><span class="p">:</span>
-                <span class="n">ans</span><span class="o">.</span><span class="n">subf</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">file</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">ans</span><span class="o">.</span><span class="n">subf</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">file</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
             <span class="n">ans</span> <span class="o">=</span> <span class="n">ans</span><span class="o">.</span><span class="n">subf</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">ans</span>
 
@@ -185,7 +185,7 @@ Leetcode Contest 33 | 叶某人的碎碎念    </title>
 <span class="sd">        :rtype: void</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">go_to</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
-        <span class="n">cur</span><span class="o">.</span><span class="n">is_dir</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">is_dir</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">cur</span><span class="o">.</span><span class="n">addContent</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
 
 

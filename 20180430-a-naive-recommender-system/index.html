@@ -76,8 +76,8 @@
 <p>首先我们使用<a href="https://github.com/fxsjy/jieba">结巴分词</a>对文章进行<strong>精确模式</strong>分词：</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jieba</span>
 <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;过去一年...短缺结束了。&quot;</span>
-<span class="n">words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">jieba</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">cut_all</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">))</span>
+<span class="n">words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">jieba</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">cut_all</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">))</span>
 </pre></div>
 
 
@@ -88,12 +88,12 @@
     <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="nb">float</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="kc">False</span>
     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">pass</span>
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
 <span class="n">words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">check</span><span class="p">,</span> <span class="n">words</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
 </pre></div>
 
 
