@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+LeetCode Contest 169 | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">LeetCode Contest 169</h1>
+    <div class="post-meta">Dec 29, 2019
+    <span> | </span> <span>Programming</span>
+    </div>
+    <a data-disqus-identifier="20191229-leetcode-contest-169/" href="/20191229-leetcode-contest-169/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次只做出了前三题。最后一题我算了一下枚举复杂度也大概是 10!=3628800 左右，但是就老是 TLE。今天早上用 C 重新写了一下就过了。有点郁闷。</p>
+<p><a href="https://leetcode.com/contest/weekly-contest-169/problems/find-n-unique-integers-sum-up-to-zero/">第一题</a><code>Find N Unique Integers Sum up to Zero</code></p>
+<div class="qbar">
+<p>找 n 个和为 0 且各不相同的数。</p>
+</div>
+<p>每次加入 i 和 -i 就能保证和为0。如果 n 是奇数，那么我们要添加 0。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">sumZero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">//</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+
+
+<!--more-->
+
+<p><a href="https://leetcode.com/contest/weekly-contest-169/problems/all-elements-in-two-binary-search-trees/">第二题</a><code>All Elements in Two Binary Search Trees</code></p>
+<div class="qbar">
+<p>按升序排列两二叉搜索树中的所有树。</p>
+</div>
+<p>二叉搜索树中序遍历能给出升序的数列，我们可以按照这个性质合并这两二叉搜索树：得到两个排好序的数列，然后合并这两个数列。但是为了快速写出这道题，我就将所有数收集到一个数组，调用函数排个序。</p>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<span class="c1"># class TreeNode:</span>
+<span class="c1">#     def __init__(self, x):</span>
+<span class="c1">#         self.val = x</span>
+<span class="c1">#         self.left = None</span>
+<span class="c1">#         self.right = None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">getAllElements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root1</span><span class="p">:</span> <span class="n">TreeNode</span><span class="p">,</span> <span class="n">root2</span><span class="p">:</span> <span class="n">TreeNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
+            <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+
+        <span class="n">dfs</span><span class="p">(</span><span class="n">root1</span><span class="p">)</span>
+        <span class="n">dfs</span><span class="p">(</span><span class="n">root2</span><span class="p">)</span>
+
+        <span class="n">ans</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+
+
+<p><a href="https://leetcode.com/contest/weekly-contest-169/problems/jump-game-iii/">第三题</a><code>Jump Game III</code></p>
+<div class="qbar">
+<p>给定一个数组 <code>arr</code>。在 <code>i</code> 位置时，我们可以跳到 <code>i + arr[i]</code> 或者 <code>i - arr[i]</code>。 问：从 <code>start</code> 出发，是否可以跳到一个值为 0 的位置。</p>
+</div>
+<p>宽度优先搜索：每次跳到下一个可以跳到而且没有跳到过的点，一直到值为 0 的位置或者没有办法继续跳为止。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">canReach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+        <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="p">[</span><span class="n">start</span><span class="p">]</span>
+        <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="n">stack</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">x</span> <span class="o">-</span> <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="p">]]:</span>
+                <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="ow">and</span> <span class="n">y</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="kc">True</span>
+                    <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+                    <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+
+<p><a href="https://leetcode.com/contest/weekly-contest-169/problems/verbal-arithmetic-puzzle/">第四题</a><code>Verbal Arithmetic Puzzle</code></p>
+<div class="qbar">
+<p>给定一个以单词组成的等式，问是否存在字母与数字的一一对应，使得等式成立。</p>
+</div>
+<p>首先做一个预处理，由这个单词组成等式变成字母的等式。比如<br>
+<div align="center">SEND + MORE = MONEY</div><br>
+可以变成<br>
+<div align="center">1000S + 100E + 10N + D + 1000M + 100O + 10R + E - 10000M - 1000O - 100N - 10E - Y = 0，</div><br>
+进一步化简为<br>
+<div align="center">1000S + 91E - 90N + D - 9000M - 900O + 10R - Y = 0.</div><br>
+现在我们可以枚举字母可能对应的数字即可。这里要注意一个限制，单词中第一个字母不能为 0。我们可以给出每个字母对应的数字范围。一般的字母的数字范围是从 0 到 9，而出现在单词首端的字母则从 1 到 9。我们还可以利用等式缩小某些字母的数字范围。</p>
+<p>我用 Python 实现上述算法总是 TLE，连利用等式缩小数字范围这种优化也没有逃过 TLE。然后今天早上用 C 实现一下就过了。。。不用优化也能过的那种。</p>
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">get_multiplier</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">mult</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">nonzero</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">word</span><span class="p">,</span> <span class="kt">int</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">word</span><span class="p">);</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="n">word</span> <span class="o">+</span> <span class="n">n</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">str</span> <span class="o">!=</span> <span class="n">word</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">str</span> <span class="o">--</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">idx</span> <span class="o">=</span> <span class="o">*</span><span class="n">str</span> <span class="o">-</span> <span class="sc">&#39;A&#39;</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">str</span> <span class="o">==</span> <span class="n">word</span><span class="p">)</span>
+            <span class="n">nonzero</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">mult</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">p</span><span class="p">;</span>
+        <span class="n">p</span> <span class="o">*=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">dfs</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">low</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">high</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">vals</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cur</span><span class="p">,</span> <span class="kt">int</span> <span class="n">used</span><span class="p">,</span> <span class="kt">bool</span> <span class="o">*</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">cur</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="o">*</span><span class="n">ret</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">d</span> <span class="o">=</span> <span class="n">low</span><span class="p">[</span><span class="n">i</span><span class="p">];</span> <span class="n">d</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="p">[</span><span class="n">i</span><span class="p">];</span> <span class="n">d</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">used</span> <span class="o">&gt;&gt;</span> <span class="n">d</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="n">dfs</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">cur</span><span class="o">+</span><span class="n">d</span><span class="o">*</span><span class="n">vals</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">used</span><span class="o">|</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">d</span><span class="p">),</span> <span class="n">ret</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">isSolvable</span><span class="p">(</span><span class="kt">char</span> <span class="o">**</span> <span class="n">words</span><span class="p">,</span> <span class="kt">int</span> <span class="n">wordsSize</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">result</span><span class="p">){</span>
+    <span class="kt">int</span> <span class="n">mult</span><span class="p">[</span><span class="mi">26</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+    <span class="kt">int</span> <span class="n">nonzero</span><span class="p">[</span><span class="mi">26</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">vals</span><span class="p">[</span><span class="mi">26</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">low</span><span class="p">[</span><span class="mi">26</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">high</span><span class="p">[</span><span class="mi">26</span><span class="p">];</span>
+    <span class="kt">bool</span> <span class="n">ret</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">wordsSize</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span>
+        <span class="n">get_multiplier</span><span class="p">(</span><span class="n">mult</span><span class="p">,</span> <span class="n">nonzero</span><span class="p">,</span> <span class="n">words</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">get_multiplier</span><span class="p">(</span><span class="n">mult</span><span class="p">,</span> <span class="n">nonzero</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">26</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">mult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">vals</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">mult</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="n">low</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="n">high</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nonzero</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">low</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="n">n</span> <span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+
+    <span class="c1">// 以下这段是优化，使用之后能使运行时间从 ～550ms 减到 ～250ms</span>
+    <span class="cm">/*</span>
+<span class="cm">    int m = 0;</span>
+<span class="cm">    for (int i = 0; i &lt; n; i ++)</span>
+<span class="cm">        if (vals[i] &gt; vals[m])</span>
+<span class="cm">            m = i;</span>
+<span class="cm">    if (vals[m] &lt; 0)</span>
+<span class="cm">        return false;</span>
+<span class="cm">    int s = 0;</span>
+<span class="cm">    for (int i = 0; i &lt; n; i ++)</span>
+<span class="cm">        if (vals[i] &lt; 0)</span>
+<span class="cm">            s -= vals[i];</span>
+<span class="cm">    int t = 0;</span>
+<span class="cm">    for (int i = 0; i &lt; n; i ++)</span>
+<span class="cm">        if (i != m &amp;&amp; vals[i] &gt; 0)</span>
+<span class="cm">            t += vals[i];</span>
+<span class="cm">    if (1 + (9 * s - t) / vals[m] &lt; high[m])</span>
+<span class="cm">        high[m] = 1 + (9 * s - t) / vals[m];</span>
+<span class="cm">    if ((s - 9 * t) / vals[m] &gt; low[m])</span>
+<span class="cm">        low[m] = (s - 9*t) / vals[m];</span>
+
+<span class="cm">    for (int i = 0; i &lt; n; i ++)</span>
+<span class="cm">        if (vals[i] &lt; vals[m])</span>
+<span class="cm">            m = i;</span>
+<span class="cm">    if (vals[m] &gt; 0)</span>
+<span class="cm">        return false;</span>
+<span class="cm">    s = 0;</span>
+<span class="cm">    for (int i = 0; i &lt; n; i ++)</span>
+<span class="cm">        if (vals[i] &gt; 0)</span>
+<span class="cm">            s += vals[i];</span>
+<span class="cm">    t = 0;</span>
+<span class="cm">    for (int i = 0; i &lt; n; i ++)</span>
+<span class="cm">        if (i != m &amp;&amp; vals[i] &lt; 0)</span>
+<span class="cm">            t -= vals[i];</span>
+<span class="cm">    if (1 + (9 * s - t) / (-vals[m]) &lt; high[m])</span>
+<span class="cm">        high[m] = 1 + (9 * s - t) / (-vals[m]);</span>
+<span class="cm">    if ((s - 9 * t) / (-vals[m]) &gt; low[m])</span>
+<span class="cm">        low[m] = (s - 9*t) / (-vals[m]);</span>
+<span class="cm">    */</span>
+
+    <span class="n">dfs</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ret</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+        <div class="tags">
+        <a href="/tag/leetcode">leetcode</a>
+        <a href="/tag/contest">contest</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20191229-leetcode-contest-169/';
+    var disqus_title = 'LeetCode Contest 169';
+    var disqus_url = 'https://wormtooth.com/20191229-leetcode-contest-169/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2019 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>
