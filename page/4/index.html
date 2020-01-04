@@ -36,6 +36,31 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20171008-leetcode-contest-53/">LeetCode Contest 53</a></h1>
+    <div class="post-meta">2017-10-08</div>
+    <a data-disqus-identifier="20171008-leetcode-contest-53/" href="/20171008-leetcode-contest-53/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-53">比赛</a>又是对Python不友好。最后一题同样的实现Python会TLE，但是C++就AC。不过也有可能我的算法不是太好。值得一提的是，我发现比赛时我第三题的算法是错误的，但是还是过了。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-53/problems/binary-number-with-alternating-bits/">第一题</a><code>Binary Number with Alternating Bits</code></p>
+<div class="qbar">给定一个正整数，问它的二进制表示是否01交错。</div>
+
+<p>比较直接，代码如下。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">hasAlternatingBits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type n: int</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">n</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20171008-leetcode-contest-53/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20171008-support-vector-machine/">Support Vector Machine</a></h1>
     <div class="post-meta">2017-10-08</div>
     <a data-disqus-identifier="20171008-support-vector-machine/" href="/20171008-support-vector-machine/#disqus_thread" class="disqus-comment-count"></a>
@@ -422,38 +447,6 @@ where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\e
     </div>
     <p class="readmore"><a href="/20170902-leetcode-contest-48/">Read More</a></p>
 </div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170827-leetcode-contest-47/">LeetCode Contest 47</a></h1>
-    <div class="post-meta">2017-08-27</div>
-    <a data-disqus-identifier="20170827-leetcode-contest-47/" href="/20170827-leetcode-contest-47/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-47/">比赛</a>做完四道题了 😊</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-47/problems/non-decreasing-array/">第一题</a><code>Non-decreasing Array</code></p>
-<div class="qbar">给定一个数组，问是否可以最多修改一个元素，使得整个数组非递降。</div>
-
-<p>我是首先找出第一个i，满足nums[i] &lt; nums[i-1]。这样我们必须要修改i或者i-1的位置，只要分别检查修改这两个位置是否可以得到一个非递降数组就行。因为两个元素相等也是非递降，所以修改一个位置可以等价于将那个位置的数字去除。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">checkPossibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type nums: List[int]</span>
-<span class="sd">        :rtype: bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
-                <span class="k">return</span> <span class="kc">True</span>
-            <span class="n">temp</span> <span class="o">=</span> <span class="p">[</span><span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">))</span> <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="n">i</span><span class="p">]</span>
-            <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">temp</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp</span><span class="p">)))</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="n">check</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="ow">or</span> <span class="n">check</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170827-leetcode-contest-47/">Read More</a></p>
-</div>
 
 <div class="page-navigator">
     <a class="extend prev" rel="prev" href="/page/3/">Previous</a>
@@ -464,7 +457,7 @@ where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\e
     <a class="page-number" href="/page/5/">5</a>
     <a class="page-number" href="/page/6/">6</a>
     <span class="space">...</span>
-    <a class="page-number" href="/page/9/">9</a>
+    <a class="page-number" href="/page/10/">10</a>
     <a class="extend next" rel="next" href="/page/5/">Next</a></nav>
 </div class="page-navigator">
 
@@ -506,7 +499,7 @@ where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\e
 </div>
         </div></div>
         <div class="pure-u-1 pure-u-lg-3-4">
-<div id="footer">Copyright © 2019 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+<div id="footer">Copyright © 2020 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
     </div>
 </div>
 <a id="rocket" href="#top" class="show"></a>

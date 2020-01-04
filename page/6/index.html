@@ -36,6 +36,40 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170625-leetcode-contest-38/">Leetcode Contest 38</a></h1>
+    <div class="post-meta">2017-06-25</div>
+    <a data-disqus-identifier="20170625-leetcode-contest-38/" href="/20170625-leetcode-contest-38/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-38/">比赛</a>我表现得比较差，只能做出第一题和第三题。第四题比赛结束之后很快也写出来了，而第二题确实花了我一个多小时才能想出来。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-38/problems/maximum-product-of-three-numbers/">第一题</a><code>Maximum Product of Three Numbers</code></p>
+<div class="qbar">给定一个长度不小于3的数组，问任选三个数得到的最大乘积是多少。</div>
+
+<p>先将数组排序，那么最大值必然在下面四种情况中：</p>
+<ol>
+<li>第一个数 X 第二个数 X 第三个数</li>
+<li>倒数第一个数 X 倒数第二个数 X 倒数第三个数</li>
+<li>第一个数 X 倒数第一个数 X 倒数第二个数</li>
+<li>第一个数 X 第二个数 X 倒数第一个数</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">maximumProduct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type nums: List[int]</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nums</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span>
+                    <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170625-leetcode-contest-38/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170622-rademacher-functions/">Rademacher functions</a></h1>
     <div class="post-meta">2017-06-22</div>
     <a data-disqus-identifier="20170622-rademacher-functions/" href="/20170622-rademacher-functions/#disqus_thread" class="disqus-comment-count"></a>
@@ -272,45 +306,6 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
     </div>
     <p class="readmore"><a href="/20170506-leetcode-contest31/">Read More</a></p>
 </div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170429-leetcode-contest30/">Leetcode Contest 30</a></h1>
-    <div class="post-meta">2017-04-29</div>
-    <a data-disqus-identifier="20170429-leetcode-contest30/" href="/20170429-leetcode-contest30/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>今晚参加了一个朋友的婚前庆祝party。看着朋友幸福也是一种幸福的享受。希望我的幸福来得更早一些 😆</p>
-<p>今晚的<a href="https://leetcode.com/contest/leetcode-weekly-contest-30">比赛</a>也一次没WA地过了。前面三题是用 C++ 写的，最后一题实在觉得 C++ 麻烦，还是换了用python写。</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-30/problems/reshape-the-matrix/">第一题</a><code>Reshape the Matrix</code></p>
-<div class='qbar'>题目大意：给定一个矩阵，将其变成r行c列的矩阵。如果不能转换，则返回原矩阵。</div>
-
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="k">public</span><span class="o">:</span>
-    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">matrixReshape</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">nums</span><span class="p">;</span>
-        <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">size</span><span class="p">();</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">m</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">nums</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">m</span> <span class="o">!=</span> <span class="n">r</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="k">return</span> <span class="n">nums</span><span class="p">;</span>
-        <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">ans</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
-        <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">row</span><span class="p">:</span> <span class="n">nums</span><span class="p">)</span>
-            <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">n</span><span class="p">:</span> <span class="n">row</span><span class="p">)</span> <span class="p">{</span>
-                <span class="n">ans</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
-                <span class="n">b</span> <span class="o">++</span><span class="p">;</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">b</span> <span class="o">==</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-                    <span class="n">a</span> <span class="o">++</span><span class="p">;</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">};</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170429-leetcode-contest30/">Read More</a></p>
-</div>
 
 <div class="page-navigator">
     <a class="extend prev" rel="prev" href="/page/5/">Previous</a>
@@ -321,7 +316,8 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
     <span class="page-number current">6</span>
     <a class="page-number" href="/page/7/">7</a>
     <a class="page-number" href="/page/8/">8</a>
-    <a class="page-number" href="/page/9/">9</a>
+    <span class="space">...</span>
+    <a class="page-number" href="/page/10/">10</a>
     <a class="extend next" rel="next" href="/page/7/">Next</a></nav>
 </div class="page-navigator">
 
@@ -363,7 +359,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 </div>
         </div></div>
         <div class="pure-u-1 pure-u-lg-3-4">
-<div id="footer">Copyright © 2019 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+<div id="footer">Copyright © 2020 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
     </div>
 </div>
 <a id="rocket" href="#top" class="show"></a>
