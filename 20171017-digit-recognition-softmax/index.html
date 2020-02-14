@@ -134,7 +134,7 @@ l(W, b) &amp;= \frac{1}{m}\sum_{i=1}^m \log P(y^{(i)}; x^{(i)}, W, b) \\
 \end{equation}$$</div>
 <h2>模型实现</h2>
 <p>我们将用上面推导出来的softmax模型识别手写数字。这些数据从<a href="http://yann.lecun.com/exdb/mnist/">LeCun Yann</a>的网页得到。说明一下的是我用jupyter notebook使用python3运行下面代码的。使用到的第三方库有 numpy, matplotlib 和 tensorflow。</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">py</span> <span class="o">=</span> <span class="s1">&#39;Python &#39;</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">3</span><span class="p">]))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Jupyter notebook with kernel: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">py</span><span class="p">))</span>
 
@@ -144,14 +144,14 @@ l(W, b) &amp;= \frac{1}{m}\sum_{i=1}^m \log P(y^{(i)}; x^{(i)}, W, b) \\
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre>Jupyter notebook with kernel: Python 3.6.3
 </pre>
 
 <p>首先要获取训练集。因为文件是gz格式的，所以要使用gzip来解压。解压后的文件格式在<a href="http://yann.lecun.com/exdb/mnist/">网页</a>上有说明，我根据说明写出了下面的函数<code>get_samples</code>。</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_samples</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_samples</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
     <span class="n">img_num</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">],</span> <span class="n">byteorder</span><span class="o">=</span><span class="s1">&#39;big&#39;</span><span class="p">)</span>
     <span class="n">lbl_num</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">],</span> <span class="n">byteorder</span><span class="o">=</span><span class="s1">&#39;big&#39;</span><span class="p">)</span>
     <span class="k">assert</span><span class="p">(</span><span class="n">img_num</span> <span class="o">==</span> <span class="n">lbl_num</span><span class="p">)</span>
@@ -169,22 +169,22 @@ l(W, b) &amp;= \frac{1}{m}\sum_{i=1}^m \log P(y^{(i)}; x^{(i)}, W, b) \\
         <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
         <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lbl</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><code>get_samples</code>的输入是解压后图像文件和对应的标记文件的字节串，输出为<code>(x, y)</code>，其中<code>x</code>是包含表示图像的列表，每个元素是一个28x28=784维的向量。<code>y</code>是对应<code>x</code>的数字标记。下面是获取所有训练集并且展示其中前25个数据点的代码。</p>
-<div class="highlight"><pre><span></span><span class="n">images_url</span> <span class="o">=</span> <span class="s1">&#39;http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="n">images_url</span> <span class="o">=</span> <span class="s1">&#39;http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz&#39;</span>
 <span class="n">labels_url</span> <span class="o">=</span> <span class="s1">&#39;http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz&#39;</span>
 <span class="n">images</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">urlopen</span><span class="p">(</span><span class="n">images_url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 <span class="n">labels</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">urlopen</span><span class="p">(</span><span class="n">labels_url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 <span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span> <span class="o">=</span> <span class="n">get_samples</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre>There are 60000 samples.
 </pre>
 
-<div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">5</span>
+<div class="highlight"><pre><span></span><code><span class="n">r</span> <span class="o">=</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
@@ -198,7 +198,7 @@ l(W, b) &amp;= \frac{1}{m}\sum_{i=1}^m \log P(y^{(i)}; x^{(i)}, W, b) \\
         <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre><matplotlib.figure.Figure at 0x115d35b38></pre>
@@ -501,7 +501,7 @@ jA6sGo1GYzI6sGo0Go3J6MCq0Wg0JqMDq0aj0ZiMDqwajUZjMjqwajQajcnowKrRaDQmowOrRqPR
 mMz/ARYh0EN6n/FSAAAAAElFTkSuQmCC
 "/></p>
 <p>接着我们使用tensorflow训练得到参数<span class="math">\(W\)</span>和<span class="math">\(b\)</span>。我们是要最大化等式<span class="math">\((\ref{loglike})\)</span>中的<span class="math">\(l(W, b)\)</span>，这等价于最小化<span class="math">\(-l(W, b)\)</span>。</p>
-<div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">784</span><span class="p">])</span>
+<div class="highlight"><pre><span></span><code><span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">784</span><span class="p">])</span>
 <span class="n">W</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">784</span><span class="p">,</span> <span class="mi">10</span><span class="p">]))</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">10</span><span class="p">]))</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
@@ -517,38 +517,38 @@ mMz/ARYh0EN6n/FSAAAAAElFTkSuQmCC
     <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">train_step</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">y_</span><span class="p">:</span> <span class="n">train_y</span><span class="p">})</span>
 <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Runtime: </span><span class="si">{}</span><span class="s1"> seconds&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">end</span><span class="o">-</span><span class="n">begin</span><span class="p">))</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre>Runtime: 107.31829977035522 seconds
 </pre>
 
 <p>为了检测参数的好坏，我们从刚才的网页上下载测试集并计算错误率：</p>
-<div class="highlight"><pre><span></span><span class="n">images_url</span> <span class="o">=</span> <span class="s1">&#39;http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="n">images_url</span> <span class="o">=</span> <span class="s1">&#39;http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz&#39;</span>
 <span class="n">labels_url</span> <span class="o">=</span> <span class="s1">&#39;http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz&#39;</span>
 <span class="n">images</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">urlopen</span><span class="p">(</span><span class="n">images_url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 <span class="n">labels</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">urlopen</span><span class="p">(</span><span class="n">labels_url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 <span class="n">test_x</span><span class="p">,</span> <span class="n">test_y</span> <span class="o">=</span> <span class="n">get_samples</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre>There are 10000 samples.
 </pre>
 
-<div class="highlight"><pre><span></span><span class="n">pred_y</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">test_x</span><span class="p">})</span>
+<div class="highlight"><pre><span></span><code><span class="n">pred_y</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">test_x</span><span class="p">})</span>
 <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">ty</span><span class="p">,</span> <span class="n">py</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">pred_y</span><span class="p">):</span>
     <span class="n">result</span><span class="p">[</span><span class="n">ty</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span><span class="o">==</span><span class="n">py</span><span class="o">.</span><span class="n">argmax</span><span class="p">()]</span> <span class="o">+=</span> <span class="mi">1</span>
 <span class="n">error_rate</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error rate is: </span><span class="si">{}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error_rate</span><span class="p">))</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre>Error rate is: 8.9%
 </pre>
 
 <p>让我们看看对于测试集前25个数据的预测情况。图像上面的数字是预测的数字，紧接的"✔"表示预测成功，“✖”表示预测失败。</p>
-<div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">5</span>
+<div class="highlight"><pre><span></span><code><span class="n">r</span> <span class="o">=</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
@@ -565,7 +565,7 @@ mMz/ARYh0EN6n/FSAAAAAElFTkSuQmCC
         <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre><matplotlib.figure.Figure at 0x11b5cd860></pre>
@@ -895,7 +895,7 @@ AoQJK0CYsAKECStAmLAChAkrQJiwAoQJK0CYsAKECStAmLAChAkrQJiwAoQJK0CYsAKECStAmLAC
 hAkrQJiwAoQJK0CYsAKECStA2A2CU4wGQiYAyAAAAABJRU5ErkJggg==
 "/></p>
 <p>第二行中的5被错误预测成6了。我们应该怎样减低错误率呢？一个最简单的方法是增加迭代次数。问题在于训练集中有60000数据点，所以迭代200次在我的机器上已经耗时107秒了。如果迭代1000次的话大概要10分钟，错误率将会降低到7.92%。注意到输入的特征<span class="math">\(x\)</span>是一个784维的向量，所以特征空间的VC维度是785。因此每次迭代的时候我们只需要大概785个数据点就行，没有必要使用全部数据点。根据这个观察，我们可以将数据分成若干块，每次迭代使用其中一块数据，这种我们在增加迭代的同时可以减少时间的消耗（相对于使用全部数据点）。</p>
-<div class="highlight"><pre><span></span><span class="n">sess</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">sess</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">784</span><span class="p">])</span>
 <span class="n">W</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">784</span><span class="p">,</span> <span class="mi">10</span><span class="p">]))</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">10</span><span class="p">]))</span>
@@ -923,7 +923,7 @@ hAkrQJiwAoQJK0CYsAKECStA2A2CU4wGQiYAyAAAAABJRU5ErkJggg==
     <span class="n">result</span><span class="p">[</span><span class="n">ty</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span><span class="o">==</span><span class="n">py</span><span class="o">.</span><span class="n">argmax</span><span class="p">()]</span> <span class="o">+=</span> <span class="mi">1</span>
 <span class="n">error_rate</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error rate is: </span><span class="si">{}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error_rate</span><span class="p">))</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre>Rumtime: 8.727920055389404 seconds
@@ -931,7 +931,7 @@ Error rate is: 7.77%
 </pre>
 
 <p>上述代码每次迭代使用1000个数据点，迭代1000次耗时仅9秒，但是错误率比之前用107秒得到的8.9%低了1.13%！最后看看预测错误的25个数据点。</p>
-<div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">5</span>
+<div class="highlight"><pre><span></span><code><span class="n">r</span> <span class="o">=</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
 <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
@@ -951,7 +951,7 @@ Error rate is: 7.77%
         <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre><matplotlib.figure.Figure at 0x11d354978></pre>

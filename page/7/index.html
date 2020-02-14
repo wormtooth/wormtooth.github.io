@@ -36,6 +36,36 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170506-leetcode-contest31/">Leetcode Contest 31</a></h1>
+    <div class="post-meta">2017-05-06</div>
+    <a data-disqus-identifier="20170506-leetcode-contest31/" href="/20170506-leetcode-contest31/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-31/">比赛</a>简单。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-31/problems/distribute-candies/">第一题</a><code>Distribute Candies</code></p>
+<div class="qbar">给定一个长度为偶数的数组，将所有数分成长度一样的两堆，求其中一堆不一样数字最多的数目。</div>
+
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">distributeCandies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">candies</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type candies: List[int]</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kind</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">candies</span><span class="p">:</span>
+            <span class="n">kind</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">candies</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">&lt;=</span><span class="nb">len</span><span class="p">(</span><span class="n">kind</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">n</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170506-leetcode-contest31/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170429-leetcode-contest30/">Leetcode Contest 30</a></h1>
     <div class="post-meta">2017-04-29</div>
     <a data-disqus-identifier="20170429-leetcode-contest30/" href="/20170429-leetcode-contest30/#disqus_thread" class="disqus-comment-count"></a>
@@ -45,7 +75,7 @@
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-30/problems/reshape-the-matrix/">第一题</a><code>Reshape the Matrix</code></p>
 <div class='qbar'>题目大意：给定一个矩阵，将其变成r行c列的矩阵。如果不能转换，则返回原矩阵。</div>
 
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">matrixReshape</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
         <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
@@ -67,7 +97,7 @@
         <span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -85,7 +115,7 @@
 <div class='qbar'>题目大意：对于一个二叉树节点，定义它的tilt为左子树之和与右子树之和差的绝对值。给定一棵二叉树，求出所有节点tilt值之和。</div>
 
 <p>感觉是简单的dfs套路。对于每个节点，递归算左右子树之和，那么它的tilt值就很容易求出来加到一个全局的变量里，然后返回当前子树之和：左子树+右子树+根节点</p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -110,7 +140,7 @@
 
         <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -128,7 +158,7 @@
 <div class='qbar'>题目大意：给定一个表示只含A、L和P的字符串，问字符串是否满足以下条件：不含多于1个的A或者不含有长度大于2的连续L子字符串。</div>
 
 <p>简单的字符串处理。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">checkRecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type s: str</span>
@@ -143,7 +173,7 @@
         <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;LLL&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -159,7 +189,7 @@
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-27/problems/reverse-words-in-a-string-iii/">第一题</a><code>Reverse Words in a String III</code></p>
 <div class='qbar'>题目大意：给定一个句子，将其中所有单词逆序。</div>
 
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">reverseWords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type s: str</span>
@@ -171,7 +201,7 @@
                 <span class="k">continue</span>
             <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
         <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -200,7 +230,7 @@
 <div class='qbar'>题目大意：给定一个整数num，判断是否为完美数。如果num是一个正整数，并且其所有正因子（除num本身之外）之和等于本身，那么num是一个完美数。</div>
 
 <p>思路：关键的观察是正因子是成对出现的，例如d是num的一个因子，那么num/d也是num的一个因子，所以我们只要搜索到<span class="math">\(\sqrt{num}\)</span>就行。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">checkPerfectNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type num: int</span>
@@ -216,7 +246,7 @@
                 <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">num</span><span class="o">/</span><span class="n">i</span><span class="p">:</span>
                     <span class="n">s</span> <span class="o">+=</span> <span class="n">num</span><span class="o">/</span><span class="n">i</span>
         <span class="k">return</span> <span class="n">s</span> <span class="o">==</span> <span class="n">num</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -234,7 +264,7 @@
 <div class='qbar'>题目大意：一棵树的直径定义为树中最长路径的长度。给定一棵二叉树，求树的直径。</div>
 
 <p>递归想法：对于每个树节点，计算经过该树节点最长路径的长度。只要修改求每个节点高度的程序就行。先算当前左子树的高度l和右子树的高度r，那么以该经过该节点最长路径的长度就是l+r+1，然后返回该节点的高度max(l, r)+1</p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -260,7 +290,7 @@
         <span class="n">ans</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">height</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">ans</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -277,7 +307,7 @@
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-23/problems/reverse-string-ii/">第一题</a><code>Reverse String II</code><br>
 <div class='qbar'>题目大意：给定一个字符串和一个数k，对于字符串的每2k长度的子字符串，逆序前k个字符串。</div></p>
 <p>没什么好说的，就直接干就好：首先将字符串按长度为2k分块，然后处理每一个分块。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">reverseStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type s: str</span>
@@ -290,7 +320,7 @@
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
             <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="n">k</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">s</span><span class="p">[</span><span class="n">k</span><span class="p">:]</span>
         <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -309,7 +339,7 @@
 </div>
 
 <p>思路比较简单：首先用哈希表统计所有数出现的频率。对于k＝0的情况，我们返回所有出现次数大于1的数的数目，对于k&gt;0的情况，我们只要统计所有n+k也出现的数n的数目。对于k&lt;0的情况，直接返回0。我第一次提交忘记考虑k&lt;0的情况了。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findPairs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -331,51 +361,12 @@
                 <span class="k">if</span> <span class="n">a</span><span class="o">+</span><span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
                     <span class="n">ans</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 
     </div>
     <p class="readmore"><a href="/20170304-leetcode-contest22/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170225-leetcode-contest21/">Leetcode Contest 21</a></h1>
-    <div class="post-meta">2017-02-25</div>
-    <a data-disqus-identifier="20170225-leetcode-contest21/" href="/20170225-leetcode-contest21/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>今晚是一次丰盛的聚餐：羊肉汤，金鲳鱼，红烧排骨，炒牛肉和炒青菜。</p>
-<p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-21">比赛</a>我全都做出来了！可惜前三题都WA了一次，而且都是粗心大意的错。</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-21/problems/minimum-absolute-difference-in-bst/">第一题</a><code>Minimum Absolute Difference in BST</code>，我采取了简单粗暴的方法：首先中序遍历将所有数放在一个数组里，然后返回相邻两个数之间差的最小值。</p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
-<span class="c1"># class TreeNode(object):</span>
-<span class="c1">#     def __init__(self, x):</span>
-<span class="c1">#         self.val = x</span>
-<span class="c1">#         self.left = None</span>
-<span class="c1">#         self.right = None</span>
-
-
-<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="nf">getMinimumDifference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type root: TreeNode</span>
-<span class="sd">        :rtype: int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">def</span> <span class="nf">inorder</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
-                <span class="k">return</span>
-            <span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
-            <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
-            <span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
-        <span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170225-leetcode-contest21/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

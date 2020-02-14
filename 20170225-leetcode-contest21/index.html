@@ -45,7 +45,7 @@ Leetcode Contest 21 | 叶某人的碎碎念    </title>
         <p>今晚是一次丰盛的聚餐：羊肉汤，金鲳鱼，红烧排骨，炒牛肉和炒青菜。</p>
 <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-21">比赛</a>我全都做出来了！可惜前三题都WA了一次，而且都是粗心大意的错。</p>
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-21/problems/minimum-absolute-difference-in-bst/">第一题</a><code>Minimum Absolute Difference in BST</code>，我采取了简单粗暴的方法：首先中序遍历将所有数放在一个数组里，然后返回相邻两个数之间差的最小值。</p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -69,7 +69,7 @@ Leetcode Contest 21 | 叶某人的碎碎念    </title>
             <span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
         <span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-</pre></div>
+</code></pre></div>
 
 
 <!--more-->
@@ -77,7 +77,7 @@ Leetcode Contest 21 | 叶某人的碎碎念    </title>
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-21/problems/continuous-subarray-sum/">第二题</a><code>Continuous Subarray Sum</code>。思路是这样的：首先计算nums的前缀和s，那么我们要找的是一对(i, j)，使得<br>
 <center>(s[j] - s[i]) % k == 0 and j - i &gt;= 2</center><br>
 我们在计算前缀和的时候应该同时mod k，这样上述的条件的第一部分就变成：s[i] == s[j]。剩下的就交给哈希表吧～对了，因为mod k的时候k不能是0，所以对k＝0的情况要单独考虑。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">checkSubarraySum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -102,11 +102,11 @@ Leetcode Contest 21 | 叶某人的碎碎念    </title>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">d</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
         <span class="k">return</span> <span class="kc">False</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-21/problems/longest-word-in-dictionary-through-deleting/">第三题</a><code>Longest Word in Dictionary through Deleting</code>。直接暴力搞就是：首先找出所有可能通过删除操作得到的字符串（那些可能的w，必然是s的一个子串），然后找出最优解。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findLongestWord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type s: str</span>
@@ -131,11 +131,11 @@ Leetcode Contest 21 | 叶某人的碎碎念    </title>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span> <span class="ow">and</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">ans</span><span class="p">):</span>
                 <span class="n">ans</span> <span class="o">=</span> <span class="n">w</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-21/problems/minesweeper/">第四题</a><code>Minesweeper</code>是一道模拟题。我是用BFS写的。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">updateBoard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">board</span><span class="p">,</span> <span class="n">click</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -181,7 +181,7 @@ Leetcode Contest 21 | 叶某人的碎碎念    </title>
                     <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
         <div class="tags">
         <a href="/tag/contest">contest</a>

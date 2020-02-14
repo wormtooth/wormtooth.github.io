@@ -47,7 +47,7 @@ Leetcode Contest 32 | 叶某人的碎碎念    </title>
 <div class="qbar">给定一个数组，求其中最短的连续子数组长度，使得对该子数组排序就能完成对整个数组的排序。</div>
 
 <p>首先将数组排好序，然后看排好的数组与原来的数组之间的差异。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findUnsortedSubarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -63,7 +63,7 @@ Leetcode Contest 32 | 叶某人的碎碎念    </title>
         <span class="k">while</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">sn</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
             <span class="n">j</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
-</pre></div>
+</code></pre></div>
 
 
 <!--more-->
@@ -72,7 +72,7 @@ Leetcode Contest 32 | 叶某人的碎碎念    </title>
 <div class="qbar">每个进程都有自己的PID，以及代表父进程的PPID。每个进程最多只有一个父进程，但是可以有多个子进程。现在给定两个数组pid和ppid，其中pid表示当前的进程，而ppid则是对应的父进程。问如果结束进程kill的话会导致哪些进程结束。当一个进程被结束的同时，其所有子进程都会被结束。</div>
 
 <p>图／树的遍历问题。DFS和BFS都行。首先建立一个父进程与子进程的一一对应，然后从kill出发，逐一访问它的子进程，并递归下去。我是用BFS实现的。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">killProcess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">ppid</span><span class="p">,</span> <span class="n">kill</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type pid: List[int]</span>
@@ -95,7 +95,7 @@ Leetcode Contest 32 | 叶某人的碎碎念    </title>
                     <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
             <span class="n">p</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-32/problems/delete-operation-for-two-strings/">第三题</a><code>Delete Operation for Two Strings</code></p>
@@ -109,7 +109,7 @@ Leetcode Contest 32 | 叶某人的碎碎念    </title>
 <center>f(i, j) = max(f(i, j+1), f(i+1, j))</center><br>
 边界条件是：如果i &gt;= n或者j &gt;= m，f(i, j) = 0.</p>
 <p>因为之前<a href="/20170429-leetcode-contest30/">讨论</a>过DP分别用递归和迭代实现的差异，所以今天就打算用不怎么熟悉的迭代来实现。然后赤裸裸的4次WA打脸了。有三次WA都是因为边界条件没有处理好！</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">minDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word1</span><span class="p">,</span> <span class="n">word2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type word1: str</span>
@@ -144,11 +144,11 @@ Leetcode Contest 32 | 叶某人的碎碎念    </title>
                     <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
                 <span class="n">ml</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ml</span><span class="p">,</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">n</span><span class="o">+</span><span class="n">m</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">ml</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>上面代码奇丑无比。完成比赛后认真想想，上述代码可以简化为：</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">minDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word1</span><span class="p">,</span> <span class="n">word2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type word1: str</span>
@@ -166,14 +166,14 @@ Leetcode Contest 32 | 叶某人的碎碎念    </title>
                     <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
                 <span class="n">ml</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ml</span><span class="p">,</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">n</span><span class="o">+</span><span class="n">m</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">ml</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-32/problems/erect-the-fence/">第四题</a><code>Erect the Fence</code></p>
 <div class="qbar">求凸包。</div>
 
 <p>经典算法了，就不解释了。这个算法我好早之前就练习过了，比赛的时候就直接拷贝过来改改就提交过了。不知道这样做算不算作弊呢 &gt;_&lt;</p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a point.</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a point.</span>
 <span class="c1"># class Point(object):</span>
 <span class="c1">#     def __init__(self, a=0, b=0):</span>
 <span class="c1">#         self.x = a</span>
@@ -228,7 +228,7 @@ Leetcode Contest 32 | 叶某人的碎碎念    </title>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ch</span> <span class="o">=</span> <span class="n">ConvexHull</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ch</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</pre></div>
+</code></pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+[npnet] 卷积模型 | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">[npnet] 卷积模型</h1>
+    <div class="post-meta">Feb 13, 2020
+    <span> | </span> <span>Machine Learning</span>
+    </div>
+    <a data-disqus-identifier="npnet5/" href="/npnet5/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>卷积神经网络 (convolution neural network) 是当下图像识别最为热门而有效的手段。这种网络一般有若干个卷积模型 (convolution model) 加上若干个线性模型 (linear model) 组合而成。卷积模型部分相当于提取图像的特征，而线性模型部分是根据这些特征做出预测。卷积模型的想法是通过卷积运算提取图像的局部信息。我们在本笔记中首先介绍卷积运行，然后按照 <a href="http://cs231n.github.io/convolutional-networks/">CS231n Convolutional Neural Networks for Visual Recognition</a> 这篇参考资料的思路实现卷积模型。我们会在下一篇笔记中使用卷积模型建立一个简单的卷积神经网络来做 Fashion MNIST 识别。</p>
+<!--more-->
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="o">%</span><span class="n">run</span> <span class="n">import_npnet</span><span class="o">.</span><span class="n">py</span>
+<span class="n">npnet</span> <span class="o">=</span> <span class="n">import_npnet</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div>
+
+
+<h1>卷积运算</h1>
+<p>给定两个矩阵 <span class="math">\(A = (A_{ij})\)</span> 和 <span class="math">\(B = (B_{kl})\)</span>，两者的卷积 (convolution) <span class="math">\(C = B \ast A\)</span> 定义为<br>
+</p>
+<div class="math">$$C_{ij} = \sum_{k,l} B_{kl}A_{i+k-1, j+l-1}.$$</div>
+<p><br>
+其中 <span class="math">\(B\)</span> 称为卷积核 (kernel)。</p>
+<p>比如我们有两个矩阵<br>
+</p>
+<div class="math">$$A = \begin{pmatrix}
+    1 &amp; 3 &amp; 5 \\
+    3 &amp; 2 &amp; 1 \\
+    0 &amp; 1 &amp; 0
+\end{pmatrix}, \hspace{5mm}
+B = \begin{pmatrix}
+    0 &amp; 1 \\
+    -1 &amp; 0
+\end{pmatrix}.$$</div>
+<p><br>
+<span class="math">\(B \ast A\)</span> 的结果是一个 <span class="math">\(2 \times 2\)</span> 的矩阵<br>
+</p>
+<div class="math">$$C = B \ast A = \begin{pmatrix}
+    0 &amp; 3 \\
+    2 &amp; 0
+\end{pmatrix}.$$</div>
+<p><br>
+<span class="math">\(C\)</span> 中的第一个 0 是 <span class="math">\(A\)</span> 中第一个 <span class="math">\(2 \times 2\)</span> 子矩阵 <span class="math">\(<div class="math">\begin{pmatrix} 1 &amp; 3\\ 3 &amp; 2\end{pmatrix}</div>\)</span> 与 <span class="math">\(B\)</span> 按位乘法得到数字之和。更细致地展开来说<br>
+</p>
+<div class="math">$$ 1 \times 0 + 3 \times 1 + 3 \times (-1) + 2 \times 0 = 0.$$</div>
+<p>接着我们向右移动 <span class="math">\(A\)</span> 中 <span class="math">\(2 \times 2\)</span> 子矩阵的位置，得到 <span class="math">\(A\)</span> 的下一个 <span class="math">\(2 \times 2\)</span> 子矩阵 <span class="math">\(<div class="math">\begin{pmatrix} 3 &amp; 5 \\ 2 &amp; 1\end{pmatrix}</div>\)</span>，其跟 <span class="math">\(B\)</span> 的按位乘法得到数字之和为3。当我们无法向右移子矩阵的位置时，我们返回最左边然后向下一移一行，得到 <span class="math">\(A\)</span> 的子矩阵 <span class="math">\(<div class="math">\begin{pmatrix} 3 &amp; 2 \\ 0 &amp; 1 \end{pmatrix}</div>\)</span>。这个子矩阵跟 <span class="math">\(B\)</span> 的卷积结果时2。最后一个子矩阵时 <span class="math">\(<div class="math">\begin{pmatrix} 2 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}</div>\)</span>，跟 <span class="math">\(B\)</span> 的卷积结果是0。我们不难发现，上述的卷积运算可以化作矩阵乘法。首先我们将所有子矩阵变成行向量得到矩阵 <span class="math">\(A^\prime\)</span>，然后将 <span class="math">\(B\)</span> 变成列向量 <span class="math">\(B^\prime\)</span>：</p>
+<div class="math">$$A' = \begin{pmatrix}
+    1 &amp; 3 &amp; 3 &amp; 2 \\
+    3 &amp; 5 &amp; 2 &amp; 1 \\
+    3 &amp; 2 &amp; 0 &amp; 1 \\
+    2 &amp; 1 &amp; 1 &amp; 0
+\end{pmatrix}, \hspace{5mm}
+B' = \begin{pmatrix} 0 \\ 1 \\ -1 \\ 0 \end{pmatrix}.$$</div>
+<p>那么将矩阵乘法 <span class="math">\(A^\prime \cdot B^\prime\)</span> 得到的结果化成 <span class="math">\(2 \times 2\)</span> 矩阵就能得到 <span class="math">\(C = B \ast A\)</span>。我们按照这个思路，首先搞清楚如何将矩阵的所有子矩阵合在一起变成一个大的矩阵，以及如何将矩阵乘法的结果变回卷积的结果。在这之前我们介绍几个卷积运算中重要的概念。在卷积运算中每次向左或者向下移动的数量叫做步长 (stride)，我们记向左的步长为 <span class="math">\(sW\)</span>，向下的步长为 <span class="math">\(sH\)</span>。在卷积运算之前我们常对矩阵 <span class="math">\(A\)</span> 进行向四周填充0 (zero padding)，我们将向上下填充的行数叫做 <span class="math">\(pH\)</span>，向左右填充的列数叫做 <span class="math">\(pW\)</span>。比如我们对上述 <span class="math">\(A\)</span> 进行 <span class="math">\(pH = pW = 1\)</span> 的0填充能得到<br>
+</p>
+<div class="math">$$\begin{pmatrix}
+    0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+    0 &amp; 1 &amp; 3 &amp; 5 &amp; 0 \\
+    0 &amp; 3 &amp; 2 &amp; 1 &amp; 0 \\
+    0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\
+    0 &amp; 0 &amp; 0 &amp; 0 &amp; 0
+\end{pmatrix}.$$</div>
+<h1>im2row</h1>
+<p>在卷积模型中，输入是一个四维 <span class="math">\(N \times C \times H \times W\)</span> 的矩阵。其中 <span class="math">\(N\)</span> 表示图片的个数，<span class="math">\(C\)</span> 表示图片的频道 (channel) 数目，<span class="math">\(H\)</span> 代表图片的高度，而 <span class="math">\(W\)</span> 代表图片的宽度。比如1张普通的 RGB <span class="math">\(1920 \times 1080\)</span> 的照片是一个 <span class="math">\(1 \times 3 \times 1920 \times 1080\)</span> 的矩阵。假设卷积模型中有 <span class="math">\(D\)</span> 个卷积核，每个卷积核的宽为 <span class="math">\(kW\)</span> 且高为 <span class="math">\(kH\)</span>。那么卷积得到的结果是一个 <span class="math">\(N \times D \times H^\prime \times W^\prime\)</span> 的思维矩阵，其中<br>
+</p>
+<div class="math">$$\begin{align*}
+    &amp; H^\prime = \frac{H + 2 * pH - kH}{sH} + 1, \\
+    &amp; W^\prime = \frac{W + 2 * pW - kW}{sW} + 1.
+\end{align*}$$</div>
+<p>卷积模型中的卷积运算是对前一节卷积运算的推广。上一节中的卷积运算相当于 <span class="math">\(N = C = 1\)</span> 的特殊情形。现在我们的图片是有 <span class="math">\(C\)</span> 层频道的，所以每个卷积核是一个 <span class="math">\(C \times kH \times kW\)</span> 的三维矩阵。如果我们希望将卷积运算化作矩阵乘法，我们需要将输入和卷积核变成二维矩阵。将 <span class="math">\(D\)</span> 个这样的卷积核变成一个二维矩阵是不难的，这个二维矩阵是一个规模为 <span class="math">\((C*kH*kW) \times D\)</span> 的矩阵，每一列代表一个卷积核。困难的是如何将 <span class="math">\(N \times C \times H \times W\)</span> 的四维矩阵变成一个二维矩阵。对输入规模和输出规模来分析，我们需要将这个四维矩阵变成一个规模为 <span class="math">\((N*H^\prime*W^\prime) \times (C*kH*kW)\)</span> 的二维矩阵。假设我们有一个简单的 <span class="math">\(2 \times 2 \times 2 \times 3\)</span> 输入：</p>
+<div class="highlight"><pre><span></span><code><span class="n">img</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span>
+        <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]],</span>
+
+        <span class="p">[[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+    <span class="p">],</span>
+    <span class="p">[</span>
+        <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
+
+        <span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
+    <span class="p">]</span>
+<span class="p">]</span>
+</code></pre></div>
+
+
+<p>我们假设 <span class="math">\(kH = kW = 2, sH = sW = 1\)</span> 且 <span class="math">\(pH = pW = 0\)</span>。我们不难计算出 <span class="math">\(H^\prime = 1, W^\prime = 2\)</span>。我们希望得到的对应的二维数组为</p>
+<div class="highlight"><pre><span></span><code><span class="err">row = [</span>
+<span class="err">    [1, 2, 4, 5, 6, 5, 3, 2],</span>
+<span class="err">    [2, 3, 5, 6, 5, 4, 2, 1],</span>
+<span class="err">    [0, 1, 2, 2, 2, 3, 6, 6],</span>
+<span class="err">    [1, 0, 2, 3, 3, 3, 6, 6]</span>
+<span class="err">]</span>
+</code></pre></div>
+
+
+<p><code>row</code> 的第一行是 <code>img[0]</code> 所有层中第一个 <span class="math">\(2 \times 2\)</span> 矩阵得到的数字所构成的行向量，第二行是 <code>img[0]</code> 所有层中第二个 <span class="math">\(2 \times 2\)</span> 矩阵得到的数字所构成的行向量。第三第四行是从 <code>img[1]</code> 得来的。如果我们分析 <code>row</code> 中数字来自于 <code>img</code> 的索引 (index)，我们可以得到</p>
+<div class="highlight"><pre><span></span><code><span class="err">row_indices = [</span>
+<span class="err">    0[000, 001, 010, 011, 100, 101, 110, 111],</span>
+<span class="err">    0[001, 002, 011, 012, 101, 102, 111, 112],</span>
+<span class="err">    1[000, 001, 010, 011, 100, 101, 110, 111],</span>
+<span class="err">    1[001, 002, 011, 012, 101, 102, 111, 112]</span>
+<span class="err">]</span>
+</code></pre></div>
+
+
+<p><code>n[...chw...]</code> 此处的数字来自于 <code>img[n, c, h, w]</code>。我们发现这些索引是很有规律的，所以我们可以通过 <code>numpy</code> 的高级所以 (<a href="https://docs.scipy.org/doc/numpy-1.17.0/reference/arrays.indexing.html">advanced indexing</a>) 来将 <code>img</code> 变成 <code>row</code>。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<span class="k">def</span> <span class="nf">im2row_indices</span><span class="p">(</span><span class="n">img_shape</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="p">):</span>
+    <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">img_shape</span>
+    <span class="n">kH</span><span class="p">,</span> <span class="n">kW</span> <span class="o">=</span> <span class="n">kernel</span>
+    <span class="n">sH</span><span class="p">,</span> <span class="n">sW</span> <span class="o">=</span> <span class="n">stride</span>
+    <span class="n">pH</span><span class="p">,</span> <span class="n">pW</span> <span class="o">=</span> <span class="n">padding</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">H</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pH</span> <span class="o">-</span> <span class="n">kH</span><span class="p">)</span> <span class="o">%</span> <span class="n">sH</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">W</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pW</span> <span class="o">-</span> <span class="n">kW</span><span class="p">)</span> <span class="o">%</span> <span class="n">sW</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="n">oH</span> <span class="o">=</span> <span class="p">(</span><span class="n">H</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pH</span> <span class="o">-</span> <span class="n">kH</span><span class="p">)</span> <span class="o">//</span> <span class="n">sH</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">oW</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pW</span> <span class="o">-</span> <span class="n">kW</span><span class="p">)</span> <span class="o">//</span> <span class="n">sW</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="c1"># k 代表的是 chw 中 c 的变化规律</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">C</span><span class="p">),</span> <span class="n">kH</span> <span class="o">*</span> <span class="n">kW</span><span class="p">)</span>
+
+    <span class="c1"># j 代表的是 chw 中 h 的变化规律</span>
+    <span class="n">j0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">kH</span><span class="p">),</span> <span class="n">kW</span><span class="p">)</span>
+    <span class="n">j0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">j0</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+    <span class="n">j1</span> <span class="o">=</span> <span class="n">sH</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">oH</span><span class="p">),</span> <span class="n">oW</span><span class="p">)</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">j0</span> <span class="o">+</span> <span class="n">j1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># i 代表的是 chw 中 w 的变化规律</span>
+    <span class="n">i0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">kW</span><span class="p">),</span> <span class="n">kH</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>
+    <span class="n">i1</span> <span class="o">=</span> <span class="n">sW</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">oW</span><span class="p">),</span> <span class="n">oH</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i0</span> <span class="o">+</span> <span class="n">i1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span>
+
+
+<span class="k">def</span> <span class="nf">im2row</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="p">):</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">kH</span><span class="p">,</span> <span class="n">kW</span> <span class="o">=</span> <span class="n">kernel</span>
+    <span class="n">pH</span><span class="p">,</span> <span class="n">pW</span> <span class="o">=</span> <span class="n">padding</span>
+
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">im2row_indices</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">pH</span><span class="p">,</span> <span class="n">pH</span><span class="p">),</span> <span class="p">(</span><span class="n">pW</span><span class="p">,</span> <span class="n">pW</span><span class="p">)),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">img</span><span class="p">[:,</span> <span class="n">k</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">kW</span> <span class="o">*</span> <span class="n">kH</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rows</span>
+</code></pre></div>
+
+
+<p>我们验证一下之前给出的例子：</p>
+<div class="highlight"><pre><span></span><code><span class="n">img</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span>
+        <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]],</span>
+
+        <span class="p">[[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+    <span class="p">],</span>
+    <span class="p">[</span>
+        <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
+
+        <span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
+    <span class="p">]</span>
+<span class="p">]</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">=</span> <span class="n">im2row</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</code></pre></div>
+
+
+<pre>[[1 2 4 5 6 5 3 2]
+ [2 3 5 6 5 4 2 1]
+ [0 1 2 2 2 3 6 6]
+ [1 0 2 3 3 3 6 6]]
+</pre>
+
+<p>Nice! 现在一个四维的输入通过上述的 <code>im2row</code> 变成一个二维的数组。那么当我们计算向后传播的导数时得到的是一个关于这个二维数组的导数。我们需要将这个二维数组的导数还原成关于四维输入的导数。使用链式法则 (chain rule) 以及 <code>im2row_indices</code>，我们能得到下列这个将二维数组导数还原成四维输入导数的函数。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<span class="k">def</span> <span class="nf">row2im</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">img_shape</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="p">):</span>
+    <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">img_shape</span>
+    <span class="n">kH</span><span class="p">,</span> <span class="n">kW</span> <span class="o">=</span> <span class="n">kernel</span>
+    <span class="n">pH</span><span class="p">,</span> <span class="n">pW</span> <span class="o">=</span> <span class="n">padding</span>
+    <span class="n">H</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pH</span>
+    <span class="n">W</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pW</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">im2row_indices</span><span class="p">(</span><span class="n">img_shape</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="p">)</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">kW</span> <span class="o">*</span> <span class="n">kH</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">k</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="n">row</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">img</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">pH</span><span class="p">:</span><span class="n">H</span><span class="o">-</span><span class="n">pH</span><span class="p">,</span> <span class="n">pW</span><span class="p">:</span><span class="n">W</span><span class="o">-</span><span class="n">pW</span><span class="p">]</span>
+</code></pre></div>
+
+
+<p>需要注意的是，<code>row2im</code> 并不是将 <code>row</code> 转成原来的 <code>img</code>，所以它不是 <code>im2row</code> 的逆函数。</p>
+<h1>卷积模型</h1>
+<p>通过 <code>im2row</code> 和 <code>row2im</code>，卷积模型其实就相当于一个线性模型来。使用之前的符号，卷积模型需要的参数有：输入图片的层数 <span class="math">\(C\)</span> ，输出图片的层数 <span class="math">\(D\)</span>，每一层卷积核的高和宽 <span class="math">\(kH, kW\)</span>，步长的高和宽 <span class="math">\(sH, sW\)</span>，和0填充的高和宽 <span class="math">\(pH, pW\)</span>。模型的参数是一个 <span class="math">\((C*kH*kW) \times D\)</span> 的二维矩阵，每一列代表一个卷积核，还有大小为 <span class="math">\(D\)</span> 的偏移量 (bias)。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<span class="k">def</span> <span class="nf">to_tuple</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">ans</span>
+
+
+<span class="k">class</span> <span class="nc">Conv</span><span class="p">(</span><span class="n">npnet</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span>
+                 <span class="n">kernel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">in_channels</span> <span class="o">=</span> <span class="n">in_channels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_channels</span> <span class="o">=</span> <span class="n">out_channels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="n">to_tuple</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stride</span> <span class="o">=</span> <span class="n">to_tuple</span><span class="p">(</span><span class="n">stride</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">padding</span> <span class="o">=</span> <span class="n">to_tuple</span><span class="p">(</span><span class="n">padding</span><span class="p">)</span>
+
+        <span class="n">ksize</span> <span class="o">=</span> <span class="n">in_channels</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">ksize</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">in_channels</span> <span class="o">+</span> <span class="n">out_channels</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">out_channels</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_gradients</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">im2row</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">row</span> <span class="o">=</span> <span class="n">row</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">row</span> <span class="o">@</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+
+        <span class="c1"># 正确地将二维数组转成四维数组作为卷积的结果</span>
+        <span class="n">N</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_output_shape</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad</span><span class="p">):</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">grad</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">grad</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">grad</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">grad</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">grad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gradients</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">grad</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">row2im</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">padding</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">grad</span>
+
+    <span class="k">def</span> <span class="nf">_get_output_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">):</span>
+        <span class="n">N</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">input_shape</span>
+        <span class="n">kH</span><span class="p">,</span> <span class="n">kW</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span>
+        <span class="n">sH</span><span class="p">,</span> <span class="n">sW</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span>
+        <span class="n">pH</span><span class="p">,</span> <span class="n">pW</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">H</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pH</span> <span class="o">-</span> <span class="n">kH</span><span class="p">)</span> <span class="o">%</span> <span class="n">sH</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">W</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pW</span> <span class="o">-</span> <span class="n">kW</span><span class="p">)</span> <span class="o">%</span> <span class="n">sW</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="n">oH</span> <span class="o">=</span> <span class="p">(</span><span class="n">H</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pH</span> <span class="o">-</span> <span class="n">kH</span><span class="p">)</span> <span class="o">//</span> <span class="n">sH</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">oW</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pW</span> <span class="o">-</span> <span class="n">kW</span><span class="p">)</span> <span class="o">//</span> <span class="n">sW</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">N</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_channels</span><span class="p">,</span> <span class="n">oH</span><span class="p">,</span> <span class="n">oW</span>
+</code></pre></div>
+
+
+<p>跟往常一样，我们需要验证偏导数是否正确。</p>
+<div class="highlight"><pre><span></span><code><span class="n">conv</span> <span class="o">=</span> <span class="n">Conv</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">npnet</span><span class="o">.</span><span class="n">GradientCheck</span><span class="p">(</span><span class="n">conv</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">allowed_error</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+</code></pre></div>
+
+
+<pre>True</pre>
+
+<h1>池化</h1>
+<p>池化 (pooling) 的操作跟卷积很像，也都是考虑图片的局部信息。不同于卷积层 (convolution layer) 的是，池化层 (pooling layer) 没有参数。常见的池化有最大池化 (max pooling) 以及平均池化 (average pooling)。最大池化是取局部的最大值，而平均池化是取局部的平均值。平均池化可以看作一种特殊的卷积。</p>
+<p>池化有很多作用，比如可以降低图片的大小，增加不变性等等。用兴趣的可以参考知乎的一个问答：<a href="https://www.zhihu.com/question/36686900">CNN网络的pooling层有什么用？</a>。使用 <code>im2row</code> 和 <code>row2im</code>，我们能很容易的封装一个抽象的池化类：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<span class="k">class</span> <span class="nc">Pooling</span><span class="p">(</span><span class="n">npnet</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool_func</span><span class="p">,</span> <span class="n">pool_der</span><span class="p">,</span>
+                 <span class="n">kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool_func</span> <span class="o">=</span> <span class="n">pool_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool_der</span> <span class="o">=</span> <span class="n">pool_der</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="n">to_tuple</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stride</span> <span class="o">=</span> <span class="n">to_tuple</span><span class="p">(</span><span class="n">stride</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">padding</span> <span class="o">=</span> <span class="n">to_tuple</span><span class="p">(</span><span class="n">padding</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">shape</span>
+        <span class="nb">input</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="n">C</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">im2row</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">row</span> <span class="o">=</span> <span class="n">row</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_func</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_output_shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad</span><span class="p">):</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">grad</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">grad</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_der</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>
+        <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="n">C</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">row2im</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span>
+                      <span class="n">shape</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span>
+                      <span class="bp">self</span><span class="o">.</span><span class="n">padding</span><span class="p">)</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">grad</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">grad</span>
+
+    <span class="k">def</span> <span class="nf">_get_output_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">):</span>
+        <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">input_shape</span>
+        <span class="n">kH</span><span class="p">,</span> <span class="n">kW</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span>
+        <span class="n">sH</span><span class="p">,</span> <span class="n">sW</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span>
+        <span class="n">pH</span><span class="p">,</span> <span class="n">pW</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">padding</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">H</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pH</span> <span class="o">-</span> <span class="n">kH</span><span class="p">)</span> <span class="o">%</span> <span class="n">sH</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">W</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pW</span> <span class="o">-</span> <span class="n">kW</span><span class="p">)</span> <span class="o">%</span> <span class="n">sW</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="n">oH</span> <span class="o">=</span> <span class="p">(</span><span class="n">H</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pH</span> <span class="o">-</span> <span class="n">kH</span><span class="p">)</span> <span class="o">//</span> <span class="n">sH</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">oW</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pW</span> <span class="o">-</span> <span class="n">kW</span><span class="p">)</span> <span class="o">//</span> <span class="n">sW</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">oH</span><span class="p">,</span> <span class="n">oW</span>
+</code></pre></div>
+
+
+<p>有了这个池化的基类 <code>Pooling</code>，我们只需要定制 <code>pool_func</code> 和 <code>pool_der</code> 就能定义特定的池化层。</p>
+<h2>最大池化</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<span class="k">class</span> <span class="nc">MaxPool</span><span class="p">(</span><span class="n">Pooling</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">max_func</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+        <span class="k">def</span> <span class="nf">max_der</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">grad</span><span class="p">):</span>
+            <span class="n">cache</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">cache</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">cache</span><span class="p">]</span> <span class="o">=</span> <span class="n">grad</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pool_func</span><span class="o">=</span><span class="n">max_func</span><span class="p">,</span>
+                         <span class="n">pool_der</span><span class="o">=</span><span class="n">max_der</span><span class="p">,</span>
+                         <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
+                         <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
+                         <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">)</span>
+</code></pre></div>
+
+
+<div class="highlight"><pre><span></span><code><span class="n">npnet</span><span class="o">.</span><span class="n">GradientCheck</span><span class="p">(</span><span class="n">MaxPool</span><span class="p">(),</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+</code></pre></div>
+
+
+<pre>True</pre>
+
+<h2>平均池化</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<span class="k">class</span> <span class="nc">AvgPool</span><span class="p">(</span><span class="n">Pooling</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">avg_func</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">out</span>
+
+        <span class="k">def</span> <span class="nf">avg_der</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">grad</span><span class="p">):</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">grad</span> <span class="o">/</span> <span class="n">m</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">grad</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pool_func</span><span class="o">=</span><span class="n">avg_func</span><span class="p">,</span>
+                         <span class="n">pool_der</span><span class="o">=</span><span class="n">avg_der</span><span class="p">,</span>
+                         <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
+                         <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
+                         <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">)</span>
+</code></pre></div>
+
+
+<div class="highlight"><pre><span></span><code><span class="n">npnet</span><span class="o">.</span><span class="n">GradientCheck</span><span class="p">(</span><span class="n">AvgPool</span><span class="p">(),</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+</code></pre></div>
+
+
+<pre>True</pre>
+
+<p>我们已经将需要的模型准备好了，下一篇笔记将使用这些模型搭建卷积神经网络来完成 Fashion MNIST 的识别任务。</p>
+
+        <div class="tags">
+        <a href="/tag/python">python</a>
+        <a href="/tag/numpy">numpy</a>
+        <a href="/tag/npnet">npnet</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = 'npnet5/';
+    var disqus_title = '[npnet] 卷积模型';
+    var disqus_url = 'https://wormtooth.com/npnet5/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2020 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

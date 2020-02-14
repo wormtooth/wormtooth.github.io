@@ -50,7 +50,7 @@ LeetCode Contest 78 | 叶某人的碎碎念    </title>
 这里的数字表示后面域名（各级域名）的访问量。统计各级域名的访问量。</p>
 </div>
 <p>比较简单的统计。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">subdomainVisits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpdomains</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type cpdomains: List[str]</span>
@@ -65,7 +65,7 @@ LeetCode Contest 78 | 叶某人的碎碎念    </title>
                 <span class="n">cnt</span><span class="p">[</span><span class="n">addr</span><span class="p">]</span> <span class="o">+=</span> <span class="n">n</span>
                 <span class="n">p</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cnt</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
-</pre></div>
+</code></pre></div>
 
 
 <!--more-->
@@ -75,7 +75,7 @@ LeetCode Contest 78 | 叶某人的碎碎念    </title>
 <p>给定一个单词，我们可以按照相同的字母分组，比如<code>aabcddd</code>可以分组成<code>aa</code>, <code>b</code>, <code>c</code>, <code>ddd</code>。我们可以对单词进行如下操作：用相同的字母延长某个分组，使得其长度大于或者等于3。现在有个字符串<code>S</code>和一个字符串列表<code>words</code>，问<code>words</code>里有多少个单词可以通过操作得到<code>S</code>。</p>
 </div>
 <p>如何判断<code>word</code>是否能通过操作得到<code>S</code>：首先将<code>word</code>和<code>S</code>按字母分组，然后判断<code>word</code>每个分组是否能通过操作得到<code>S</code>相对应的分组。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">expressiveWords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type S: str</span>
@@ -98,7 +98,7 @@ LeetCode Contest 78 | 叶某人的碎碎念    </title>
             <span class="k">return</span> <span class="kc">True</span>
 
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/weekly-contest-78/problems/soup-servings/">第三题</a><code>Soup Servings</code></p>
@@ -122,7 +122,7 @@ LeetCode Contest 78 | 叶某人的碎碎念    </title>
 <div class="math">$$f(n, m) = 0.25(f(n-4, m)+f(n-3, m-1)+f(n-2, m-2)+f(n-1, m-3))$$</div>
 <p><br>
 因为<span class="math">\(f(n, m) \le 1\)</span>，所以当迭代次数够多时，<span class="math">\(f(n-i, m-j)\)</span>对<span class="math">\(f(n, m)\)</span>的影响是在误差范围之内的。对于这些<span class="math">\(f(n-i, m-j)\)</span>，我们可以认为<span class="math">\(f(n-i, m-j)=1\)</span>，因为根据我们的操作，汤A“几乎”总是先消耗完的。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">soupServings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type N: int</span>
@@ -144,7 +144,7 @@ LeetCode Contest 78 | 叶某人的碎碎念    </title>
             <span class="k">return</span> <span class="n">memo</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/weekly-contest-78/problems/chalkboard-xor-game/">第四题</a><code>Chalkboard XOR Game</code></p>
@@ -152,7 +152,7 @@ LeetCode Contest 78 | 叶某人的碎碎念    </title>
 <p>给定一个非负整数数组，Alice和Bob轮流消除其中一个数字。如果消除之后的数组的所有数字的xor为0，那么就判定为输。如果Alice先手，问她是否有必赢策略。注意：如果初始数组的xor为0，规定Alice自动成为赢家。</p>
 </div>
 <p>这题的关键在于：如果数组长度为偶数，且总xor不为0，那么先手必胜。这是因为先手总是可以找到一个数字，使得剩下来的数组总xor不为0。不然的话，一开始的数字会全部一样并等于总xor，但是这样一来偶数个一样的数的总xor为0，跟假设矛盾。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">xorGame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -162,7 +162,7 @@ LeetCode Contest 78 | 叶某人的碎碎念    </title>
         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">^=</span> <span class="n">n</span>
         <span class="k">return</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">0</span>
-</pre></div>
+</code></pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

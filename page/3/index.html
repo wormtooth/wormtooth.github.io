@@ -36,6 +36,18 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20180207-markov-decision-process/">Markov Decision Process</a></h1>
+    <div class="post-meta">2018-02-07</div>
+    <a data-disqus-identifier="20180207-markov-decision-process/" href="/20180207-markov-decision-process/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This article is my notes for 16th lecture in <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">Machine Learning</a> by Andrew Ng on Markov Decision Process (MDP). MDP is a typical way in machine learning to formulate <a href="https://en.wikipedia.org/wiki/Reinforcement_learning">reinforcement learning</a>, whose tasks roughly speaking are to train agents to take actions in order to get maximal rewards in some settings. One example of reinforcement learning would be developing a game bot to play <a href="https://en.wikipedia.org/wiki/Super_Mario">Super Mario</a> on its own. </p>
+<p>Another simple example is used in the lecture, and I will use it throughout the post as well. Since the example is really simple, so MDP shown below is not of the most general form, but only good enough to solve the example and give the idea of what MDP and reinforcement learning are. The example begins with a 3 by 4 grid as below.</p>
+<p><img alt="the grid" src="/images/20180207-example-1.png"></p>
+
+    </div>
+    <p class="readmore"><a href="/20180207-markov-decision-process/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20180117-the-phantom-of-the-opera/">The Phantom of the Opera</a></h1>
     <div class="post-meta">2018-01-17</div>
     <a data-disqus-identifier="20180117-the-phantom-of-the-opera/" href="/20180117-the-phantom-of-the-opera/#disqus_thread" class="disqus-comment-count"></a>
@@ -188,7 +200,7 @@ ZBERj1Agi4h4hAJZRMQjFMgiIh7xf/Yg0txQBmZaAAAAAElFTkSuQmCC
 <p>给定一个二维数组表示一张图片，以及一个坐标<code>(r, c)</code>。我们需要包含这个坐标且数字一样的连通分支整体变成另一个数。</p>
 </div>
 <p>我记得高中的时候学到Flood Fill这个词的时候有种莫名开心，可能是因为这个名字很形象地描述了DFS的过程吧。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">floodFill</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">newColor</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type image: List[List[int]]</span>
@@ -215,7 +227,7 @@ ZBERj1Agi4h4hAJZRMQjFMgiIh7xf/Yg0txQBmZaAAAAAElFTkSuQmCC
 
         <span class="n">dfs</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">image</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -312,7 +324,7 @@ where <br>
 都在该列表中。如果有长度一样的多个答案，返回最小的单词。</p>
 </div>
 <p>我是用<a href="https://en.wikipedia.org/wiki/Trie">trie</a>做的。首先将单词按照长度排序，然后将单词一一放进一个trie中。用trie是因为将单词放入trie中的同时也可以判断单词的前面部分是否在trie里（这也是按长度排序的原因）。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">longestWord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type words: List[str]</span>
@@ -333,7 +345,7 @@ where <br>
             <span class="k">if</span> <span class="n">ok</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span> <span class="ow">or</span> <span class="n">word</span> <span class="o">&lt;</span> <span class="n">ans</span><span class="p">):</span>
                     <span class="n">ans</span> <span class="o">=</span> <span class="n">word</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -349,40 +361,6 @@ where <br>
 
     </div>
     <p class="readmore"><a href="/20171017-digit-recognition-softmax/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20171014-leetcode-contest-54/">LeetCode Contest 54</a></h1>
-    <div class="post-meta">2017-10-14</div>
-    <a data-disqus-identifier="20171014-leetcode-contest-54/" href="/20171014-leetcode-contest-54/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-54">比赛</a>之后，下次再遇到O(n<sup>2</sup>)的题目，而且n &lt; 1000的时候，一定要用C++！这是泪的教训啊😭</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-54/problems/degree-of-an-array/">第一题</a><code>Degree of an Array</code></p>
-<div class="qbar">
-<p>给定一个非空包含非负整数的数组<code>nums</code>，它的<em>degree</em>定义为出现次数最多的数字的出现次数。找出一个最短的连续子数组，使得它的degree与<code>nums</code>的degree一样。返回子数组的长度。</p>
-</div>
-<p>在统计每个数字频率的同时，记录这个数字出现的最左和最右位置(l, r)。那么包含这个数字的最短数组的长度为r-l+1。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">findShortestSubArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type nums: List[int]</span>
-<span class="sd">        :rtype: int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cnt</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cnt</span><span class="p">:</span>
-                <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
-                <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
-            <span class="n">f</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cnt</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">f</span><span class="p">)</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20171014-leetcode-contest-54/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

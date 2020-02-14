@@ -46,7 +46,7 @@ Leetcode Contest 27 | 叶某人的碎碎念    </title>
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-27/problems/reverse-words-in-a-string-iii/">第一题</a><code>Reverse Words in a String III</code></p>
 <div class='qbar'>题目大意：给定一个句子，将其中所有单词逆序。</div>
 
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">reverseWords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type s: str</span>
@@ -58,7 +58,7 @@ Leetcode Contest 27 | 叶某人的碎碎念    </title>
                 <span class="k">continue</span>
             <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
         <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <!--more-->
@@ -67,7 +67,7 @@ Leetcode Contest 27 | 叶某人的碎碎念    </title>
 <div class='qbar'>题目大意：有一面长方形的墙，所有的砖高度一样，但是宽度不一样。现在给定这面墙所有砖的数据：数据的每一行代表一行的砖头，每个数字代表砖头的宽度。问在墙之间劈一刀，问劈到砖头的最少数目。</div>
 
 <p>我的想法：反过来想，我们可以求解劈的时候能避开切断砖头的最大行数，那么劈到砖头的最少数目就是砖的行数减去避开的最大行数。要避开切断砖头，那么就必须从两个砖头之间的缝隙切下去。所以我们就统计缝隙出现的位置就行。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">leastBricks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wall</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type wall: List[List[int]]</span>
@@ -83,14 +83,14 @@ Leetcode Contest 27 | 叶某人的碎碎念    </title>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cnt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">m</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">wall</span><span class="p">)</span> <span class="o">-</span> <span class="n">m</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-27/problems/next-greater-element-iii/">第三题</a><code>Next Greater Element III</code></p>
 <div class='qbar'>题目大意：一个32位的正整数n，用n的数字重组一个比n大的最小数。如果这个数不存在，<strong>或者不是32位的</strong>，则输出－1。</div>
 
 <p>这题不难，就是很多细节要注意。我就是一直没有注意细节，WA了5次 :disappointed: 我以一个例子说明我的做法吧。比如给定12443322，我们从倒数第二个数字出发，找到第一个比后面数字小的数。在这个例子里，应该是第二位的2，因为它比后面的4小。然后从这个2后面挑一个比2大的最小数，是3。然后交换2与3的位置得到13442322，最后将该3后面的数从小到大排序得到13222344。注意的是，新得到的数不能大于或者等于 2<sup>31</sup>！！</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">nextGreaterElement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type n: int</span>
@@ -117,14 +117,14 @@ Leetcode Contest 27 | 叶某人的碎碎念    </title>
             <span class="n">ans</span> <span class="o">+=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">p</span>
             <span class="n">p</span> <span class="o">*=</span> <span class="mi">10</span>
         <span class="k">return</span> <span class="n">ans</span> <span class="k">if</span> <span class="n">ans</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">31</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-27/problems/binary-tree-longest-consecutive-sequence-ii/">第四题</a><code>Binary Tree Longest Consecutive Sequence II</code></p>
 <div class='qbar'>题目大意：给定一颗树，在其中找出最大长度的路径使得其路径上的数字是递增或者递减的<strong>连续</strong>数字。</div>
 
 <p>我的想法：对于每个节点，递归算出从该节点往下的最长递增路径长度inc以及最长递减路径长度dec，那么经过该节点的最大长度是inc+dec-1。在所有的inc+dec-1中挑出最大值就好。</p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -161,7 +161,7 @@ Leetcode Contest 27 | 叶某人的碎碎念    </title>
 
         <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
+</code></pre></div>
 
         <div class="tags">
         <a href="/tag/contest">contest</a>

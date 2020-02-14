@@ -54,7 +54,7 @@
 假设3）扫描图像是黑白的。</p>
 </div>
 <p>黑色的RGB值为（0，0，0），而白色的RGB的值为（255，255，255），所以如果我们将图像每一列的所有像素点的颜色值求一个平均，在黑线附近会达到比较小的值。所以我们可以扫描所有列的平均值挑出最小的列，我们可以期待这一列就是黑线所在的位置。由假设2），我们可以大大提高算法的效率：只要扫描图像中心所在的一个小范围[width/2-range, width/2+range)就可以确定黑线的所在位置，其中width是图像的宽，而range是用来控制范围大小的值，单位是像素。我是用的range值为200。程序如下（使用<a href="https://sourceforge.net/projects/cimg/">CImg</a>库）:</p>
-<div class="highlight"><pre><span></span><span class="cm">/* 使用CImg库，以及其命名空间 */</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/* 使用CImg库，以及其命名空间 */</span>
 <span class="cp">#include</span> <span class="cpf">&quot;CImg.h&quot;</span><span class="cp"></span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">cimg_library</span><span class="p">;</span>
 
@@ -114,7 +114,7 @@
 
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>下面是上面那个图像的处理结果：</p>

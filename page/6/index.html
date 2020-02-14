@@ -36,6 +36,24 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170629-cassini-ovals/">Cassini Ovals</a></h1>
+    <div class="post-meta">2017-06-29</div>
+    <a data-disqus-identifier="20170629-cassini-ovals/" href="/20170629-cassini-ovals/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This post is my note for <a href="https://math.osu.edu/whatis"><em>What is</em></a> seminar on Cassini Ovals.</p>
+<h3>Definition</h3>
+<p>An ellipse is a geometric object formed by locus of points which have fixed sum of distances to two fixes foci.</p>
+<p><img alt="Ellipse" src="/images/ellipse-20170629.png"></p>
+<p>In the above figure, we can express the definition of ellipses in one simple equation:<br>
+</p>
+<div class="math">$$|PF_1|+|PF_2|=c,$$</div>
+<p><br>
+for some <span class="math">\(c&gt;0\)</span>. What if we change the addition in the above equation to multiplication? This comes the definition of <em>Cassini ovals</em>.</p>
+
+    </div>
+    <p class="readmore"><a href="/20170629-cassini-ovals/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170625-leetcode-contest-38/">Leetcode Contest 38</a></h1>
     <div class="post-meta">2017-06-25</div>
     <a data-disqus-identifier="20170625-leetcode-contest-38/" href="/20170625-leetcode-contest-38/#disqus_thread" class="disqus-comment-count"></a>
@@ -51,7 +69,7 @@
 <li>第一个数 X 倒数第一个数 X 倒数第二个数</li>
 <li>第一个数 X 第二个数 X 倒数第一个数</li>
 </ol>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">maximumProduct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -62,7 +80,7 @@
                     <span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span>
                     <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span>
                     <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -141,7 +159,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 <div class="qbar">给定一个包含数组的数组，每个数组都已经递增排序。我们要做的是从两个数组中各选一个数，使得这两个数的差的绝对值最大。问这个最大的值是多少？</div>
 
 <p>对于第i数组中，取出最大值a，最小值b，然后将(a, i)和(b, i)放进一个数组m里。将数组m按照第一个分量排序，那么对我们有用的只是数组m前面两个元素和后面两个元素。如果第一个元素和最后一个元素来自不一样的数组（第二个分量不一样），那么答案就是这两个元素的第一个分量的差。否则，我们要比较两种情况：第一个元素与倒数第二个元素，第二个元素与最后一个元素。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">maxDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arrays</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type arrays: List[List[int]]</span>
@@ -155,7 +173,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
         <span class="k">if</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">!=</span><span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
             <span class="k">return</span> <span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -171,7 +189,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 <div class="qbar">给定一个01数组代表一排花盆，0代表是可以种花，1代表不可以。种花的时候我们要确保左右两边的花盆是空的。问能不能种n株花。</div>
 
 <p>简单的贪心。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">canPlaceFlowers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flowerbed</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type flowerbed: List[int]</span>
@@ -189,7 +207,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
             <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">cnt</span><span class="o">&gt;=</span><span class="n">n</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -206,7 +224,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 <div class="qbar">给定一个数组，找出长度最长的子数组，使得其最大值与最小值恰好相差1，返回最大长度。</div>
 
 <p>既然最大值与最小值恰好相差1，那么此子数组必定恰好有两个不一样的元素。我们只要统计每个元素出现的次数，然后枚举找出相邻两个元素出现次数之和的最大值就好。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findLHS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -222,7 +240,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
             <span class="k">if</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">cnt</span><span class="p">:</span>
                 <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">v</span><span class="o">+</span><span class="n">cnt</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -239,7 +257,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 <div class="qbar">给定一个数组，求其中最短的连续子数组长度，使得对该子数组排序就能完成对整个数组的排序。</div>
 
 <p>首先将数组排好序，然后看排好的数组与原来的数组之间的差异。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findUnsortedSubarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -255,7 +273,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
         <span class="k">while</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">sn</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
             <span class="n">j</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -275,36 +293,6 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 
     </div>
     <p class="readmore"><a href="/20170511-hexo-plugins/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170506-leetcode-contest31/">Leetcode Contest 31</a></h1>
-    <div class="post-meta">2017-05-06</div>
-    <a data-disqus-identifier="20170506-leetcode-contest31/" href="/20170506-leetcode-contest31/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-31/">比赛</a>简单。</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-31/problems/distribute-candies/">第一题</a><code>Distribute Candies</code></p>
-<div class="qbar">给定一个长度为偶数的数组，将所有数分成长度一样的两堆，求其中一堆不一样数字最多的数目。</div>
-
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">distributeCandies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">candies</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type candies: List[int]</span>
-<span class="sd">        :rtype: int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">kind</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">candies</span><span class="p">:</span>
-            <span class="n">kind</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">candies</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">&lt;=</span><span class="nb">len</span><span class="p">(</span><span class="n">kind</span><span class="p">)):</span>
-            <span class="k">return</span> <span class="n">n</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170506-leetcode-contest31/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

@@ -60,7 +60,7 @@
 <h3>怎么写插件</h3>
 <p>根据上述的思路，我们现在可以很简单地写出两个插件解决事情(I)和(II)了。因为我们需要分页功能，所以我们需要<a href="https://github.com/hexojs/hexo-pagination">hexo-pagination</a>这个插件。</p>
 <p>第一个插件是<code>index.js</code>，解决事情(I)。需要注意的是，这个插件跟<a href="https://github.com/hexojs/hexo-generator-index">hexo-generator-index</a>冲突。因为这个插件也是在修改主页的生成行为。因此，如果我们要自定义插件来修改主页，那么就要把hexo-generator-index删除。</p>
-<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;hexo-pagination&#39;</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="kd">var</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;hexo-pagination&#39;</span><span class="p">);</span>
 
 <span class="nx">hexo</span><span class="p">.</span><span class="nx">extend</span><span class="p">.</span><span class="nx">generator</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">locals</span><span class="p">){</span>
     <span class="kd">var</span> <span class="nx">posts</span> <span class="o">=</span> <span class="nx">locals</span><span class="p">.</span><span class="nx">posts</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nx">toArray</span><span class="p">();</span>
@@ -83,11 +83,11 @@
         <span class="p">}</span>
     <span class="p">});</span>
 <span class="p">});</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>第二个插件是<code>leetcode.js</code>，解决事情(II)。这个插件会生成<code>leetcode/</code>页面来陈列所有关于Leetcode的文章。可以点击<a href="/leetcode/">这里</a>查看效果。</p>
-<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;hexo-pagination&#39;</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="kd">var</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;hexo-pagination&#39;</span><span class="p">);</span>
 
 <span class="nx">hexo</span><span class="p">.</span><span class="nx">extend</span><span class="p">.</span><span class="nx">generator</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s1">&#39;leetcode&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">locals</span><span class="p">){</span>
     <span class="kd">var</span> <span class="nx">posts</span> <span class="o">=</span> <span class="nx">locals</span><span class="p">.</span><span class="nx">posts</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nx">toArray</span><span class="p">();</span>
@@ -103,7 +103,7 @@
         <span class="nx">data</span><span class="o">:</span> <span class="p">{}</span>
     <span class="p">});</span>
 <span class="p">});</span>
-</pre></div>
+</code></pre></div>
 
 
 <h3>最后说几句</h3>

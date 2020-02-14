@@ -96,7 +96,7 @@ is maximized. Here <span class="math">\(P(x^{(i)}, y^{(i)})\)</span> is the <a h
 \end{split}
 \label{eqn:simple}
 \end{equation}$$</div>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -117,7 +117,7 @@ is maximized. Here <span class="math">\(P(x^{(i)}, y^{(i)})\)</span> is the <a h
 <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">good_x</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bad_x</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre><matplotlib.figure.Figure at 0x110190110></pre>
@@ -203,21 +203,21 @@ qg7MSCWnWZI3MrjQNI9BR+D2qtqU5LUMermvBO4H/qD7bYSmJHkn8OdV9Z6W26R771/oducDn6uq
 v0mykEY/O4clOYfBBf9TgEeBP6L7LDHL2qW50JekljU3vCNJLTP0Jakhhr4kNcTQl6SGGPqS1BBD
 X5IaYuhLUkMMfUlqyP8Bk7wUZ5g1M0QAAAAASUVORK5CYII=
 "/></p>
-<div class="highlight"><pre><span></span><span class="c1"># parameters</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># parameters</span>
 <span class="n">phi</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">good_x</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 <span class="n">mu</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 <span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">bad_x</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bad_x</span><span class="p">))</span>
 <span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">good_x</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">good_x</span><span class="p">))</span>
 <span class="n">sigma</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">mu</span><span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">))</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sigma</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre>(0.7974683544303798, 43.630208333333336, 34.69444444444444, 82.28603529360076)
 </pre>
 
 <p>Gaussian discriminant analysis assumes that in each class, the features <span class="math">\(x\)</span> are normal distributed. Below is a piece of codes to show the distributions of features.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Good field goals&#39;</span><span class="p">)</span>
@@ -236,7 +236,7 @@ X5IaYuhLUkMMfUlqyP8Bk7wUZ5g1M0QAAAAASUVORK5CYII=
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre><matplotlib.figure.Figure at 0x110b88c90></pre>
@@ -622,7 +622,7 @@ P(y=1|x) &amp;= \frac{P(x|y=1)P(y=1)}{P(x)} \\
 And logistic regression gives us a prediction:<br>
 </p>
 <div class="math">$$h_{a, b}(x) = \frac{1}{1+e^{-ax-b}}.$$</div>
-<div class="highlight"><pre><span></span><span class="c1"># generative(x) = P(y=1|x)</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># generative(x) = P(y=1|x)</span>
 <span class="k">def</span> <span class="nf">generative</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">good</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma</span><span class="p">))</span>
     <span class="n">bad</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sigma</span><span class="p">))</span>
@@ -664,7 +664,7 @@ And logistic regression gives us a prediction:<br>
 <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">})</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre><matplotlib.figure.Figure at 0x110287850></pre>
@@ -1139,11 +1139,11 @@ P(y=1|x) &amp;= \frac{1}{1+\frac{1-\phi}{\phi} \cdot \exp\left(-\frac{\mu_1-\mu_
 \end{split}$$</div>
 <p><br>
 Indeed Gaussian discriminant analysis will imply logistic regression. We can then put the parameters from Gaussian discriminant analysis in the form of logistic regression.</p>
-<div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">sigma</span>
+<div class="highlight"><pre><span></span><code><span class="n">A</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">sigma</span>
 <span class="n">B</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sigma</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">phi</span><span class="p">)</span><span class="o">/</span><span class="n">phi</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Parameters from Gaussian discriminant analysis:</span><span class="se">\n</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Parameters from gradient ascent:</span><span class="se">\n</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">((</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)))</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre>Parameters from Gaussian discriminant analysis:
@@ -1152,13 +1152,13 @@ Parameters from gradient ascent:
 (-0.12228007960331008, 6.237420310313901)
 </pre>
 
-<div class="highlight"><pre><span></span><span class="n">gau_abs_err</span> <span class="o">=</span> <span class="n">gra_abs_err</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight"><pre><span></span><code><span class="n">gau_abs_err</span> <span class="o">=</span> <span class="n">gra_abs_err</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">)):</span>
     <span class="n">gau_abs_err</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">logistic</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span><span class="o">-</span><span class="n">observation</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
     <span class="n">gra_abs_err</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">logistic</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span><span class="o">-</span><span class="n">observation</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Absolute error of Gaussian discriminant analysis: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gau_abs_err</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Absolute error of gradien ascent: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gra_abs_err</span><span class="p">))</span>
-</pre></div>
+</code></pre></div>
 
 
 <pre>Absolute error of Gaussian discriminant analysis: 4.41501707618

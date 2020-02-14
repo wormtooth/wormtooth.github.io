@@ -46,23 +46,23 @@
 <!--more-->
 
 <p>首先我们要在 Raspberry Pi 的<a href="https://www.raspberrypi.org/downloads/raspbian/">官网</a>上下载最新的 Raspbian lite 镜像。我们也可以通过以下命令行下载：</p>
-<div class="highlight"><pre><span></span>wget https://downloads.raspberrypi.org/raspbian_lite_latest
-</pre></div>
+<div class="highlight"><pre><span></span><code>wget https://downloads.raspberrypi.org/raspbian_lite_latest
+</code></pre></div>
 
 
 <p>这样我们会得到一个名字叫做 <code>raspbian_lite_latest</code> 的文件。我们将其改名并解压缩：</p>
-<div class="highlight"><pre><span></span>mv raspbian_lite_latest raspbian.zip
+<div class="highlight"><pre><span></span><code>mv raspbian_lite_latest raspbian.zip
 unzip raspbian.zip
-</pre></div>
+</code></pre></div>
 
 
 <p>解压出来的是一个后缀为 <code>.img</code> 的镜像文件，使用 <code>mv</code> 命令将其改名为 <code>raspbian.img</code>。我们的目的就是编辑这个镜像文件的内容。为了达到这个目的，我们需要把这个镜像加载到系统中。这需要镜像的基本信息。</p>
-<div class="highlight"><pre><span></span>fdisk -lu raspbian.img
-</pre></div>
+<div class="highlight"><pre><span></span><code>fdisk -lu raspbian.img
+</code></pre></div>
 
 
 <p>结果大概是这样的：</p>
-<div class="highlight"><pre><span></span><span class="n">Disk</span> <span class="n">raspbian</span><span class="p">.</span><span class="n">img</span><span class="p">:</span> <span class="o">***</span> <span class="n">MB</span><span class="p">,</span> <span class="o">***</span> <span class="n">bytes</span>
+<div class="highlight"><pre><span></span><code><span class="n">Disk</span> <span class="n">raspbian</span><span class="p">.</span><span class="n">img</span><span class="p">:</span> <span class="o">***</span> <span class="n">MB</span><span class="p">,</span> <span class="o">***</span> <span class="n">bytes</span>
 <span class="mi">255</span> <span class="n">heads</span><span class="p">,</span> <span class="mi">63</span> <span class="n">sectors</span><span class="o">/</span><span class="n">track</span><span class="p">,</span> <span class="mi">0</span> <span class="n">cylinders</span><span class="p">,</span> <span class="n">total</span> <span class="mi">0</span> <span class="n">sectors</span>
 <span class="n">Units</span> <span class="o">=</span> <span class="n">sectors</span> <span class="k">of</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">512</span> <span class="o">=</span> <span class="mi">512</span> <span class="n">bytes</span>
 <span class="n">Sector</span> <span class="k">size</span> <span class="p">(</span><span class="n">logical</span><span class="o">/</span><span class="n">physical</span><span class="p">):</span> <span class="mi">512</span> <span class="n">bytes</span> <span class="o">/</span> <span class="mi">512</span> <span class="n">bytes</span>
@@ -72,7 +72,7 @@ unzip raspbian.zip
        <span class="n">Device</span> <span class="n">Boot</span>      <span class="k">Start</span>         <span class="k">End</span>      <span class="n">Blocks</span>   <span class="n">Id</span>  <span class="k">System</span>
 <span class="n">raspbian</span><span class="p">.</span><span class="n">img1</span>            <span class="mi">8192</span>      <span class="mi">122879</span>       <span class="mi">57344</span>    <span class="k">c</span>  <span class="n">W95</span> <span class="n">FAT32</span> <span class="p">(</span><span class="n">LBA</span><span class="p">)</span>
 <span class="n">raspbian</span><span class="p">.</span><span class="n">img2</span>          <span class="mi">122880</span>     <span class="mi">3788799</span>     <span class="mi">1832960</span>   <span class="mi">83</span>  <span class="n">Linux</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>这个镜像有两个分区，第一个分区对应的是 <code>/boot</code> ，而第二个分区对应的是 <code>/</code> 。如果我们需要开启 ssh 功能，我们需要在第一个分区生成一个名字为 <code>ssh</code> 的空文件。如果我们要让系统连上无线，我们则需要修改第二个分区的 <code>/etc/wpa_supplicant/wpa_supplicant.conf</code> 文件。</p>
@@ -80,21 +80,21 @@ unzip raspbian.zip
 第一个分区：8192*512=4194304<br>
 第二个分区：122880*512=62914560</p>
 <p>有了这些准备，我们就可以加载这两个分区了。</p>
-<div class="highlight"><pre><span></span>sudo mkdir /mnt/img1
+<div class="highlight"><pre><span></span><code>sudo mkdir /mnt/img1
 sudo mount -t vfat -o loop,offset<span class="o">=</span><span class="m">4194304</span> raspbian.img /mnt/img1/
 sudo mkdir /mnt/img2
 sudo mount -t ext4 -o loop,offset<span class="o">=</span><span class="m">62914560</span> raspbian.img /mnt/img2/
-</pre></div>
+</code></pre></div>
 
 
 <p>如果在加载第二个分区的时候出错了，那么我们可以先加载第一个分区，然后再完成对第一个分区的修改后卸载第一个分区：</p>
-<div class="highlight"><pre><span></span>umount /mnt/img1
-</pre></div>
+<div class="highlight"><pre><span></span><code>umount /mnt/img1
+</code></pre></div>
 
 
 <p>这样我们就可以继续使用之前的命令加载第二个分区并对其进行修改。最后修改完了不要忘记卸载第二分区：</p>
-<div class="highlight"><pre><span></span>umount /mnt/img2
-</pre></div>
+<div class="highlight"><pre><span></span><code>umount /mnt/img2
+</code></pre></div>
 
         <div class="tags">
         <a href="/tag/image">image</a>

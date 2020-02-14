@@ -48,7 +48,7 @@ LeetCode Contest 60 | 叶某人的碎碎念    </title>
 <p>给定一个二维数组表示一张图片，以及一个坐标<code>(r, c)</code>。我们需要包含这个坐标且数字一样的连通分支整体变成另一个数。</p>
 </div>
 <p>我记得高中的时候学到Flood Fill这个词的时候有种莫名开心，可能是因为这个名字很形象地描述了DFS的过程吧。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">floodFill</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">newColor</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type image: List[List[int]]</span>
@@ -75,7 +75,7 @@ LeetCode Contest 60 | 叶某人的碎碎念    </title>
 
         <span class="n">dfs</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">sc</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">image</span>
-</pre></div>
+</code></pre></div>
 
 
 <!--more-->
@@ -85,7 +85,7 @@ LeetCode Contest 60 | 叶某人的碎碎念    </title>
 <p>给定两个列表代表两句话，以及一些词语的相似关系。如果两个句子对应的词是相似的，那么我们说这两个句子相似。问给定的两个句子是否相似。</p>
 </div>
 <p>首先建立一个哈希表建立词语间的相似关系，然后遍历两个句子中的每个词语进行判断即可。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">areSentencesSimilar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words1</span><span class="p">,</span> <span class="n">words2</span><span class="p">,</span> <span class="n">pairs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type words1: List[str]</span>
@@ -111,7 +111,7 @@ LeetCode Contest 60 | 叶某人的碎碎念    </title>
                 <span class="k">if</span> <span class="n">b</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">m</span><span class="p">[</span><span class="n">a</span><span class="p">]:</span>
                     <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/weekly-contest-60/problems/asteroid-collision/">第三题</a><code>Remove Comments</code></p>
@@ -119,7 +119,7 @@ LeetCode Contest 60 | 叶某人的碎碎念    </title>
 <p>给定一个非零数组，正数表示该数往右运动，负数表示往左运动。如果两个数相遇，那么绝对值大的数留下来，如果两个数的绝对值一样，则两个数都消失。求消除后的数组。</p>
 </div>
 <p>我们可以依次处理每个数，并以<code>ans</code>表示当前消除后的数组。如果<code>ans</code>是空的，或者这个数是正的，又或者<code>ans</code>最后一个数是与当前的数都是负的（都往左运动），那么这个数不会跟<code>ans</code>的数相遇，所以直接加进<code>ans</code>即可。因此，产生碰撞时当前的数必然是负的。这意味着处理碰撞时只会涉及位于<code>ans</code>最后位置的正数。详细算法参考如下代码。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">asteroidCollision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asteroids</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type asteroids: List[int]</span>
@@ -138,7 +138,7 @@ LeetCode Contest 60 | 叶某人的碎碎念    </title>
             <span class="k">if</span> <span class="n">ans</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">ans</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/weekly-contest-60/problems/parse-lisp-expression/">第四题</a><code>Parse Lisp Expression</code></p>
@@ -149,7 +149,7 @@ LeetCode Contest 60 | 叶某人的碎碎念    </title>
 <p><code>split</code>是将表达式<code>ex</code>分成若干块，每一块都是合法的子表达式。</p>
 <p><code>get</code>首先假设输入参数<code>v</code>是一个变量，直接尝试转化成整数或者从局部变量集合<code>ls</code>或者全局变量<code>gs</code>中获得。如果上述方法无法获得<code>v</code>的值，说明<code>v</code>是一个表达式而不是变量，所以对<code>v</code>调用<code>lisp</code>函数。</p>
 <p><code>lisp</code>的输入参数<code>ex</code>表示一个表达式，<code>gs</code>表示全局变量列表。首先调用<code>split</code>函数将<code>ex</code>分解，然后按照<code>let</code>, <code>add</code>和<code>mult</code>分类讨论。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type expression: str</span>
@@ -207,7 +207,7 @@ LeetCode Contest 60 | 叶某人的碎碎念    </title>
                     <span class="k">return</span> <span class="n">first</span><span class="o">*</span><span class="n">second</span>
 
         <span class="k">return</span> <span class="n">lisp</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="p">[])</span>
-</pre></div>
+</code></pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

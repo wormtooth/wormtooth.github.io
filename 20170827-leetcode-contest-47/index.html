@@ -47,7 +47,7 @@ LeetCode Contest 47 | 叶某人的碎碎念    </title>
 <div class="qbar">给定一个数组，问是否可以最多修改一个元素，使得整个数组非递降。</div>
 
 <p>我是首先找出第一个i，满足nums[i] &lt; nums[i-1]。这样我们必须要修改i或者i-1的位置，只要分别检查修改这两个位置是否可以得到一个非递降数组就行。因为两个元素相等也是非递降，所以修改一个位置可以等价于将那个位置的数字去除。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">checkPossibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -62,7 +62,7 @@ LeetCode Contest 47 | 叶某人的碎碎念    </title>
         <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">check</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="ow">or</span> <span class="n">check</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <!--more-->
@@ -71,7 +71,7 @@ LeetCode Contest 47 | 叶某人的碎碎念    </title>
 <div class="qbar">一个三位数DPV可以表示一颗高度小于5的二叉树的一个节点。其中，D（1 <= D <= 4）表示节点所在的高度，P（1 <= P <= 8）表示节点在该层所在的位置，V（0 <= V <= 9）表示节点的值。现在给定一个包含三位数的递增数组表示一颗高度小于5的二叉树，问所有路径之和是多少？</div>
 
 <p>我们知道树的高度小于5，所以我们可以用一个小的二维数组tree表示这棵树。其中tree[d]表示高度为d那层的节点，而tree[d][p]则表示树的第d层第p个位置的节点。我用-1表示空节点。根据这个对应关系，tree[d][p]的左儿子是tree[d+1][2*p-1]，右儿子是tree[d+1][2*p]。读入树后，只要扫描出所有叶节点找出对应的路径就行。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">pathSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -95,7 +95,7 @@ LeetCode Contest 47 | 叶某人的碎碎念    </title>
                         <span class="n">t</span> <span class="o">-=</span> <span class="mi">1</span>
                         <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-47/problems/beautiful-arrangement-ii/">第三题</a><code>Beautiful Arrangement II</code></p>
@@ -105,7 +105,7 @@ LeetCode Contest 47 | 叶某人的碎碎念    </title>
 
 <p>我构造的数组是这样的: n, 1, n-1, 2, n-2, 3, ...<br>
 这样可以保证前面的k-1个值不一样且都不为1，然后用剩下的数字要么递增要么递降排起来，得到最后一个值1。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">constructArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type n: int</span>
@@ -125,14 +125,14 @@ LeetCode Contest 47 | 叶某人的碎碎念    </title>
         <span class="k">if</span> <span class="n">k</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">ans</span> <span class="o">+</span> <span class="n">temp</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-47/problems/kth-largest-number-in-multiplication-table/">第四题</a><code>Kth largest Number in Multiplication Table</code></p>
 <div class="qbar">给定一个m x n的乘法表，问第k大的数是什么？</div>
 
 <p>二分查找。给定一个数x，我们可以在O(n)时间内找出乘法表中比x小和不比x大的数的个数，所以对区间[1，m*n]二叉查找的话，我们可以得到一个O(n log(mn))的算法。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findKthNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type m: int</span>
@@ -162,7 +162,7 @@ LeetCode Contest 47 | 叶某人的碎碎念    </title>
                 <span class="n">b</span> <span class="o">=</span> <span class="n">c</span><span class="o">-</span><span class="mi">1</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">a</span> <span class="o">=</span> <span class="n">c</span><span class="o">+</span><span class="mi">1</span>
-</pre></div>
+</code></pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

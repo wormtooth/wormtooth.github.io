@@ -49,7 +49,7 @@ Leetcode Contest 22 | 叶某人的碎碎念    </title>
 </div>
 
 <p>思路比较简单：首先用哈希表统计所有数出现的频率。对于k＝0的情况，我们返回所有出现次数大于1的数的数目，对于k&gt;0的情况，我们只要统计所有n+k也出现的数n的数目。对于k&lt;0的情况，直接返回0。我第一次提交忘记考虑k&lt;0的情况了。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findPairs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -71,7 +71,7 @@ Leetcode Contest 22 | 叶某人的碎碎念    </title>
                 <span class="k">if</span> <span class="n">a</span><span class="o">+</span><span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
                     <span class="n">ans</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 <!--more-->
@@ -82,7 +82,7 @@ Leetcode Contest 22 | 叶某人的碎碎念    </title>
 </div>
 
 <p>没有什么犀利的做法，直接暴力统计。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findLonelyPixel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">picture</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type picture: List[List[str]]</span>
@@ -104,7 +104,7 @@ Leetcode Contest 22 | 叶某人的碎碎念    </title>
             <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">picture</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;B&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">ans</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-22/problems/lonely-pixel-ii/">第三题</a><code>Lonely Pixel II</code>。</p>
@@ -114,7 +114,7 @@ Leetcode Contest 22 | 叶某人的碎碎念    </title>
 </div>
 
 <p>思路：由这二个条件我们可以知道，每一列的所有B要么同时满足条件，要么同时不满足。所以，我们可以一列列枚举。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findBlackPixel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">picture</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type picture: List[List[str]]</span>
@@ -146,7 +146,7 @@ Leetcode Contest 22 | 叶某人的碎碎念    </title>
             <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="n">N</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">unique</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">N</span><span class="p">:</span>
                 <span class="n">ans</span> <span class="o">+=</span> <span class="n">c</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-22/problems/freedom-trail/">第四题</a><code>Freedom Trail</code>是一道dp题。</p>
@@ -164,7 +164,7 @@ Leetcode Contest 22 | 叶某人的碎碎念    </title>
 \right.$$</div>
 <p _="%" endraw><br></p>
 <p>边界条件是：dp(i, m) = 0。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findRotateSteps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ring</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type ring: str</span>
@@ -191,7 +191,7 @@ Leetcode Contest 22 | 叶某人的碎碎念    </title>
             <span class="k">return</span> <span class="n">ans</span>
 
         <span class="k">return</span> <span class="n">dp</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{})</span>
-</pre></div>
+</code></pre></div>
 
         <div class="tags">
         <a href="/tag/contest">contest</a>

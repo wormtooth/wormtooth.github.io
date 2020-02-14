@@ -44,8 +44,8 @@ Pelican Signals | 叶某人的碎碎念    </title>
     <div class="post-content">
         <p><a href="https://blog.getpelican.com/">Pelican</a>的插件系统是使用<a href="https://pythonhosted.org/blinker/">blinker</a>的<code>signal</code>实现的。Pelican所有可以用的signals可以在<a href="https://github.com/getpelican/pelican/blob/master/pelican/signals.py">signals.py</a>找到。本文的目的是记录这些signals是在Pelican运行中什么时候发出的。</p>
 <p>(1) Pelican有一个叫做<code>Pelican</code>的类，含有程序的主体框架。当<code>Pelican</code>的一个实例<code>pelican</code>初始化完成之后（基本设置，加载插件），发出第一个signal。</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">initialized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">pelican</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">initialized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">pelican</span><span class="p">)</span>
+</code></pre></div>
 
 
 <!--more-->
@@ -53,107 +53,107 @@ Pelican Signals | 叶某人的碎碎念    </title>
 <hr/>
 
 <p>(2) <code>pelican</code>开始加载生成器<code>Generator</code>（<a href="https://github.com/getpelican/pelican/blob/master/pelican/generators.py">generators.py</a>）。加载过程中将实例化每个<code>Generator</code>，每个实例<code>generator</code>初始化过程中会获得一个<code>Reader</code>（<a href="https://github.com/getpelican/pelican/blob/master/pelican/readers.py">readers.py</a>）实例<code>reader</code>，因此会发出</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">readers_init</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">readers_init</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p>初始化结束之后都会发出</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">generator_init</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">generator_init</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p>以上signal是由基类提供，每个<code>Generator</code>子类在发出以上signal之后还会发出自己的signal，其中最重要的两个子类是<code>ArticlesGenertor</code>和<code>PagesGenerator</code>。</p>
 <p><code>ArticlesGenerator</code>发出</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">article_generator_init</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">article_generator_init</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p><code>PagesGenerator</code>发出</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">page_generator_init</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">page_generator_init</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p>除了内置的生成器外，<code>pelican</code>在这个时候也会发出</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">get_generators</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">pelican</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">get_generators</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">pelican</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p>来获得有可能来自于插件的生成器。</p>
 <hr/>
 
 <p>(3) 生成器加载完成之后开始生成所有文章与页面。<code>ArticlesGenerator</code>在生成完所有文章之后首先发出</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">article_generator_pretaxonomy</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">article_generator_pretaxonomy</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p>然后处理tag和category等，最后发出</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">article_generator_finalized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">article_generator_finalized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p>而<code>PagesGenerator</code>只在完成生成页面时发出</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">page_generator_finalized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">page_generator_finalized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
+</code></pre></div>
 
 
 <hr/>
 
 <p>(4) <code>pelican</code>发出</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">all_generators_finalized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generators</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">all_generators_finalized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generators</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p>其中<code>generators</code>是包含所有生成器实例的列表。</p>
 <hr/>
 
 <p>(5) 接下来要将生成器得到的内容通过<code>Writer</code>（<a href="https://github.com/getpelican/pelican/blob/master/pelican/writers.py">writers.py</a>）根据主题中的模板渲染成html文件。<code>pelican</code>通过</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">get_writer</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">pelican</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">get_writer</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">pelican</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p>获得一个<code>Writer</code>实例<code>writer</code>。接着每个生成器中的内容依次通过<code>writer</code>渲染成html文件。我只说明两种生成器的过程。</p>
 <p>对于<code>ArticlesGenerator</code>，如果设置生成rss等订阅源时，首先会依次发出如下两个signals</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">feed_generated</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">feed</span><span class="o">=</span><span class="n">feed</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">feed_generated</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">feed</span><span class="o">=</span><span class="n">feed</span><span class="p">)</span>
 <span class="n">signals</span><span class="o">.</span><span class="n">feed_written</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">complete_path</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span> <span class="n">feed</span><span class="o">=</span><span class="n">feed</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>在生成每篇文章的html的过程中依次发出如下signals</p>
-<div class="highlight"><pre><span></span><span class="c1"># before writing</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># before writing</span>
 <span class="n">signals</span><span class="o">.</span><span class="n">article_generator_write_article</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">article</span><span class="p">)</span>
 <span class="c1"># after written</span>
 <span class="n">signals</span><span class="o">.</span><span class="n">content_written</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">localcontext</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>完成所有跟文章相关的html文件之后，结束时发出</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">article_writer_finalized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">,</span> <span class="n">writer</span><span class="o">=</span><span class="n">writer</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">article_writer_finalized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">,</span> <span class="n">writer</span><span class="o">=</span><span class="n">writer</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p>对于<code>PagesGenerator</code>，过程简单了些：每次完成一个页面的渲染发出</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">content_written</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">localcontext</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">content_written</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">localcontext</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p>完成所有页面的渲染后，结束时发出</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">page_writer_finalized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">,</span> <span class="n">writer</span><span class="o">=</span><span class="n">writer</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">page_writer_finalized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">,</span> <span class="n">writer</span><span class="o">=</span><span class="n">writer</span><span class="p">)</span>
+</code></pre></div>
 
 
 <hr/>
 
 <p>(6) 最后<code>pelican</code>发出</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">finalized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">pelican</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">finalized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">pelican</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p>表示程序将要结束。</p>
 <hr/>
 
 <p>上述过程包含了大部分signals，但不是全部（例如还有其他生成器产生的signals）。在实际应用中，很多时候我们只需要用到过程中(2)和(3)产生的signals。例如如果我们希望控制主页出现的文章，我们只需要用到(2)中的</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">article_generator_init</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">article_generator_init</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">generator</span><span class="p">)</span>
+</code></pre></div>
 
 
 <p>这是因为主页是用<code>generator.generate_direct_templates</code>来生成的，所以要控制主页上出现的文章，我们只需在生成器初始化的时候，将<code>generator.generate_direct_templates</code>换成我们自己的程序，这样就可以按照自己的意愿生成想要的主页。</p>

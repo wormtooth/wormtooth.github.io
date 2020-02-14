@@ -36,6 +36,45 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170902-leetcode-contest-48/">LeetCode Contest 48</a></h1>
+    <div class="post-meta">2017-09-02</div>
+    <a data-disqus-identifier="20170902-leetcode-contest-48/" href="/20170902-leetcode-contest-48/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-48">比赛</a>有点简单的样子。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-48/problems/second-minimum-node-in-a-binary-tree/">第一题</a><code>Second Minimum Node In a Binary Tree</code></p>
+<div class="qbar">给定一棵特别的二叉树，这棵二叉树的节点要么有两个子节点，要么没有节点。如果有两个子节点，那么该节点的值为子节点的最小值。求树的第二最小值。</div>
+
+<p>我当时什么都没有想，简单地将树的所有值取下来排序取出第二最小值。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
+<span class="c1"># class TreeNode(object):</span>
+<span class="c1">#     def __init__(self, x):</span>
+<span class="c1">#         self.val = x</span>
+<span class="c1">#         self.left = None</span>
+<span class="c1">#         self.right = None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findSecondMinimumValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type root: TreeNode</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nums</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">nums</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
+            <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+        <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">2</span> <span class="k">else</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nums</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170902-leetcode-contest-48/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170827-leetcode-contest-47/">LeetCode Contest 47</a></h1>
     <div class="post-meta">2017-08-27</div>
     <a data-disqus-identifier="20170827-leetcode-contest-47/" href="/20170827-leetcode-contest-47/#disqus_thread" class="disqus-comment-count"></a>
@@ -45,7 +84,7 @@
 <div class="qbar">给定一个数组，问是否可以最多修改一个元素，使得整个数组非递降。</div>
 
 <p>我是首先找出第一个i，满足nums[i] &lt; nums[i-1]。这样我们必须要修改i或者i-1的位置，只要分别检查修改这两个位置是否可以得到一个非递降数组就行。因为两个元素相等也是非递降，所以修改一个位置可以等价于将那个位置的数字去除。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">checkPossibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -60,7 +99,7 @@
         <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">check</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="ow">or</span> <span class="n">check</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -97,7 +136,7 @@
 <div class="qbar">给定一个只含R（右），L（左），U（上）和D（下）的字符串表示移动方向，问是否能回到出发点。</div>
 
 <p>简单的统计。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">judgeCircle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">moves</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type moves: str</span>
@@ -105,7 +144,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cnt</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">moves</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;R&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;U&#39;</span><span class="p">]</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -119,8 +158,8 @@
     <div class="post-content">
         <p><a href="https://blog.getpelican.com/">Pelican</a>的插件系统是使用<a href="https://pythonhosted.org/blinker/">blinker</a>的<code>signal</code>实现的。Pelican所有可以用的signals可以在<a href="https://github.com/getpelican/pelican/blob/master/pelican/signals.py">signals.py</a>找到。本文的目的是记录这些signals是在Pelican运行中什么时候发出的。</p>
 <p>(1) Pelican有一个叫做<code>Pelican</code>的类，含有程序的主体框架。当<code>Pelican</code>的一个实例<code>pelican</code>初始化完成之后（基本设置，加载插件），发出第一个signal。</p>
-<div class="highlight"><pre><span></span><span class="n">signals</span><span class="o">.</span><span class="n">initialized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">pelican</span><span class="p">)</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">signals</span><span class="o">.</span><span class="n">initialized</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">pelican</span><span class="p">)</span>
+</code></pre></div>
 
 
 
@@ -137,7 +176,7 @@
 <div class="qbar">题目大意：给定一颗二叉搜索树和一个目标值，问是否存在树中的两个数使得它们的和为目标值。</div>
 
 <p>好吧，我是写博客的时候才发现原来输入的是一颗搜索树。题目大概是想让我们快速判定一个数是否在给定的二叉搜索树中吧。我是首先遍历二叉树统计每个数出现的次数，然后枚举每个出现的数a，如果目标值减去a也出现过则返回True。注意要考虑a和目标值减去a是一样的情况。</p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -167,7 +206,7 @@
             <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="n">m</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -184,7 +223,7 @@
 <div class="qbar">题目大意：给定一棵二叉树，找出所有重复出现的子树。</div>
 
 <p>我们要对树的结构进行统计，因此这题关键是对树进行编码。可以参考 <a href="https://leetcode.com/problems/construct-string-from-binary-tree/description/">606. Construct String from Binary Tree</a>。</p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -215,7 +254,7 @@
             <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -232,7 +271,7 @@
 <div class="qbar">题目大意：给定一个长度为n数值在1到n之间的数组。已知其中一个数字出现一个，另一个数字没有出现。找出这两个数字。</div>
 
 <p>简单的统计。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findErrorNums</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -245,7 +284,7 @@
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cnt</span><span class="p">):</span>
             <span class="n">ans</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">ans</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -284,24 +323,6 @@
 
     </div>
     <p class="readmore"><a href="/20170710-maupassant-pelican/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170629-cassini-ovals/">Cassini Ovals</a></h1>
-    <div class="post-meta">2017-06-29</div>
-    <a data-disqus-identifier="20170629-cassini-ovals/" href="/20170629-cassini-ovals/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>This post is my note for <a href="https://math.osu.edu/whatis"><em>What is</em></a> seminar on Cassini Ovals.</p>
-<h3>Definition</h3>
-<p>An ellipse is a geometric object formed by locus of points which have fixed sum of distances to two fixes foci.</p>
-<p><img alt="Ellipse" src="/images/ellipse-20170629.png"></p>
-<p>In the above figure, we can express the definition of ellipses in one simple equation:<br>
-</p>
-<div class="math">$$|PF_1|+|PF_2|=c,$$</div>
-<p><br>
-for some <span class="math">\(c&gt;0\)</span>. What if we change the addition in the above equation to multiplication? This comes the definition of <em>Cassini ovals</em>.</p>
-
-    </div>
-    <p class="readmore"><a href="/20170629-cassini-ovals/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

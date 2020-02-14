@@ -36,6 +36,45 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170225-leetcode-contest21/">Leetcode Contest 21</a></h1>
+    <div class="post-meta">2017-02-25</div>
+    <a data-disqus-identifier="20170225-leetcode-contest21/" href="/20170225-leetcode-contest21/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今晚是一次丰盛的聚餐：羊肉汤，金鲳鱼，红烧排骨，炒牛肉和炒青菜。</p>
+<p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-21">比赛</a>我全都做出来了！可惜前三题都WA了一次，而且都是粗心大意的错。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-21/problems/minimum-absolute-difference-in-bst/">第一题</a><code>Minimum Absolute Difference in BST</code>，我采取了简单粗暴的方法：首先中序遍历将所有数放在一个数组里，然后返回相邻两个数之间差的最小值。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
+<span class="c1"># class TreeNode(object):</span>
+<span class="c1">#     def __init__(self, x):</span>
+<span class="c1">#         self.val = x</span>
+<span class="c1">#         self.left = None</span>
+<span class="c1">#         self.right = None</span>
+
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">getMinimumDifference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type root: TreeNode</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">def</span> <span class="nf">inorder</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
+            <span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+        <span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</code></pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170225-leetcode-contest21/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170220-leetcode-contest20/">Leetcode Contest 20</a></h1>
     <div class="post-meta">2017-02-20</div>
     <a data-disqus-identifier="20170220-leetcode-contest20/" href="/20170220-leetcode-contest20/#disqus_thread" class="disqus-comment-count"></a>
@@ -43,7 +82,7 @@
         <p>这周六的菜单是牛排骨、金鲳鱼和土豆丝，甜点是蛋糕。</p>
 <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-20/">比赛</a>有四题，我只做出来了前三道。</p>
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-20/problems/detect-capital/">第一道</a>是简单的字符串处理。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">detectCapitalUse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type word: str</span>
@@ -54,7 +93,7 @@
         <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="s1">&#39;a&#39;</span> <span class="o">&lt;=</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="s1">&#39;z&#39;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">word</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="s1">&#39;A&#39;</span> <span class="o">&lt;=</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="s1">&#39;Z&#39;</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="s1">&#39;a&#39;</span> <span class="o">&lt;=</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="s1">&#39;z&#39;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -244,22 +283,6 @@ A \otimes B (e_i \otimes f_j)
 
     </div>
     <p class="readmore"><a href="/20141130-tensor-product-of-two-linear-maps/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20141023-locally-closed-subgroups/">Locally closed subgroups are closed</a></h1>
-    <div class="post-meta">2014-10-23</div>
-    <a data-disqus-identifier="20141023-locally-closed-subgroups/" href="/20141023-locally-closed-subgroups/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>In a topology group <span class="math">\(G\)</span>, an open subgroup <span class="math">\(H\)</span> is also closed. The proof of this statement is not hard: <span class="math">\(G=\bigcup_{g_i} g_iH\)</span> is a disjoint union of open left cosets, where <span class="math">\(\{g_i\}\)</span> is a complete representatives set of <span class="math">\(G/H\)</span>. Then <span class="math">\(\bigcup_{g_i \ne 1}g_iH\)</span> is open and <span class="math">\(H=G-\bigcup_{g_i \ne 1}g_iH\)</span> is the complement of an open set, and therefore <span class="math">\(H\)</span> is closed. In this post, I will prove a slightly more general theorem: </p>
-
-<div class='qbox' ><a name='theorem'><strong>Theorem.</strong></a> Let <span class="math">\(G\)</span> be a topological group. If <span class="math">\(H\)</span> is a locally closed subgroup in <span class="math">\(G\)</span>, then <span class="math">\(H\)</span> is closed.
-</div>
-
-<p>We will see that an open subgroup <span class="math">\(H\)</span> is locally closed, so it&#8217;s closed by the <a href="#theorem"><strong>Theorem</strong></a>. Before the proof of the <a href="#theorem"><strong>Theorem</strong></a>, let&#8217;s talk about <em>locally closed</em> sets first.</p>
-
-
-    </div>
-    <p class="readmore"><a href="/20141023-locally-closed-subgroups/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

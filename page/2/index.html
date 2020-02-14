@@ -36,6 +36,23 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20180814-simple-grid-dection-for-sudoku/">Simple Grid Detection for Sudoku</a></h1>
+    <div class="post-meta">2018-08-14</div>
+    <a data-disqus-identifier="20180814-simple-grid-dection-for-sudoku/" href="/20180814-simple-grid-dection-for-sudoku/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p><a href="https://en.wikipedia.org/wiki/Sudoku">Sudoku</a> is a very interesting puzzle, and it is very easy to get familiar with the rules of the game. I always like to compare sudoku with number theory, they are easy to be understood but can be hard to solve. <a href="https://en.wikipedia.org/wiki/Fermat%27s_Last_Theorem">Fermat's Last Theorem</a>, an easily understood problem even by middle school students, took mathematians 358 years to solve it completely. Solving sudoku puzzles can take even longer: it is proven that solving sudoku puzzels is an <a href="https://en.wikipedia.org/wiki/NP-completeness">NP-complete</a> problem! However, classical 9x9 sudoku puzzles are still feasible using backtracking algorithm. We are not going to talk about how to solve sudoku puzzles here though, we are trying to sovle another problem: <strong>detect grids in images containing sudoku puzzles.</strong></p>
+<p>To make the problem more concrete, let's make some assumption on the image that contains a sudoku puzzle:</p>
+<ol>
+<li>The image only contains one sudoku puzzle</li>
+<li>The sudoku puzzle is the largest block in the image</li>
+<li>There is no/little distorsion/rotation of the sudoku puzzle grid</li>
+</ol>
+<p>Also in this article, we focus on only simple solutions without heavy image processing. We will use <a href="https://pillow.readthedocs.io/en/latest/">Pillow</a> to read images and convert them to gray scale images, and we use <a href="http://www.numpy.org/">Numpy</a> to manipulate images as arrays. For visualization, we use <a href="https://matplotlib.org/">Matplotlib</a>.</p>
+
+    </div>
+    <p class="readmore"><a href="/20180814-simple-grid-dection-for-sudoku/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20180617-pytorch-on-raspberrypi/">Pytorch on RaspberryPi</a></h1>
     <div class="post-meta">2018-06-17</div>
     <a data-disqus-identifier="20180617-pytorch-on-raspberrypi/" href="/20180617-pytorch-on-raspberrypi/#disqus_thread" class="disqus-comment-count"></a>
@@ -51,14 +68,14 @@
     <a data-disqus-identifier="20180607-chapi/" href="/20180607-chapi/#disqus_thread" class="disqus-comment-count"></a>
     <div class="post-content">
         <p>I recently built a <a href="http://flask.pocoo.org/">flask</a> app that run on my raspberry pi. Then I turned it down. Why? In order to access the app from outside the home internet, I had to expose my pi to public. After only one day of exposure, my pi received several attack attempts and the flask app then always replied 301. Here are some attack logs:</p>
-<div class="highlight"><pre><span></span><span class="err">139.162.83.10 - &quot;GET / HTTP/1.1&quot; 404 -</span>
+<div class="highlight"><pre><span></span><code><span class="err">139.162.83.10 - &quot;GET / HTTP/1.1&quot; 404 -</span>
 <span class="err">45.33.115.189 - &quot;GET / HTTP/1.0&quot; 404 -</span>
 <span class="err">79.55.11.21 - &quot;GET / HTTP/1.0&quot; 404 -</span>
 <span class="err">5.101.40.78 - code 400, message Bad HTTP/0.9 request type (&#39;\x03\x00\x00/*à\x00\x00\x00\x00\x00Cookie:&#39;)</span>
 <span class="err">5.101.40.78 - &quot;/*àCookie: mstshash=Administr&quot; HTTPStatus.BAD_REQUEST -</span>
 <span class="err">123.151.42.61 - &quot;GET http://www.baidu.com/ HTTP/1.1&quot; 404 -</span>
 <span class="err">158.85.81.116 - &quot;GET / HTTP/1.1&quot; 404 -</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>To be more precise, the flask app was still running, but the home router seemed not forwarding the requests to my pi. Anyway, I have no idea of what have happened. I just shut the app down, flashed a fresh new image to my pi.</p>
@@ -129,7 +146,7 @@
 这里的数字表示后面域名（各级域名）的访问量。统计各级域名的访问量。</p>
 </div>
 <p>比较简单的统计。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">subdomainVisits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpdomains</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type cpdomains: List[str]</span>
@@ -144,7 +161,7 @@
                 <span class="n">cnt</span><span class="p">[</span><span class="n">addr</span><span class="p">]</span> <span class="o">+=</span> <span class="n">n</span>
                 <span class="n">p</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cnt</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
-</pre></div>
+</code></pre></div>
 
 
 
@@ -177,18 +194,6 @@ All other requirements in definition of MDP will remain intact. For completeness
 
     </div>
     <p class="readmore"><a href="/20180306-markov-decision-process-continuous-states/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20180207-markov-decision-process/">Markov Decision Process</a></h1>
-    <div class="post-meta">2018-02-07</div>
-    <a data-disqus-identifier="20180207-markov-decision-process/" href="/20180207-markov-decision-process/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>This article is my notes for 16th lecture in <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">Machine Learning</a> by Andrew Ng on Markov Decision Process (MDP). MDP is a typical way in machine learning to formulate <a href="https://en.wikipedia.org/wiki/Reinforcement_learning">reinforcement learning</a>, whose tasks roughly speaking are to train agents to take actions in order to get maximal rewards in some settings. One example of reinforcement learning would be developing a game bot to play <a href="https://en.wikipedia.org/wiki/Super_Mario">Super Mario</a> on its own. </p>
-<p>Another simple example is used in the lecture, and I will use it throughout the post as well. Since the example is really simple, so MDP shown below is not of the most general form, but only good enough to solve the example and give the idea of what MDP and reinforcement learning are. The example begins with a 3 by 4 grid as below.</p>
-<p><img alt="the grid" src="/images/20180207-example-1.png"></p>
-
-    </div>
-    <p class="readmore"><a href="/20180207-markov-decision-process/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

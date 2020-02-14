@@ -47,7 +47,7 @@ Leetcode Contest 23 | 叶某人的碎碎念    </title>
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-23/problems/reverse-string-ii/">第一题</a><code>Reverse String II</code><br>
 <div class='qbar'>题目大意：给定一个字符串和一个数k，对于字符串的每2k长度的子字符串，逆序前k个字符串。</div></p>
 <p>没什么好说的，就直接干就好：首先将字符串按长度为2k分块，然后处理每一个分块。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">reverseStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type s: str</span>
@@ -60,7 +60,7 @@ Leetcode Contest 23 | 叶某人的碎碎念    </title>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
             <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="n">k</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">s</span><span class="p">[</span><span class="n">k</span><span class="p">:]</span>
         <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <!--more-->
@@ -68,7 +68,7 @@ Leetcode Contest 23 | 叶某人的碎碎念    </title>
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-23/problems/minimum-time-difference/">第二题</a><code>Minimum Time Difference</code><br>
 <div class='qbar'>题目大意：给定一个包含"hh:mm"格式的时间字符串列表，求任意两个时间分钟时间差的最小值。</div></p>
 <p>首先将"hh:mm"转化成分钟形式：60*hh+mm，然后排序。排序后寻找相邻两个数之间的差的最小值，最后处理一下第一个数与最后一个数之间的差。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findMinDifference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timePoints</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type timePoints: List[str]</span>
@@ -82,13 +82,13 @@ Leetcode Contest 23 | 叶某人的碎碎念    </title>
             <span class="n">ans</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">tp</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">tp</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
         <span class="n">ans</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">get</span><span class="p">(</span><span class="s1">&#39;24:00&#39;</span><span class="p">)</span><span class="o">-</span><span class="n">tp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">tp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-23/problems/construct-binary-tree-from-string/">第三题</a><code>Construct Binary Tree from String</code><br>
 <div class='qbar'>题目大意：给定一个表示一个二叉树的字符串，要求转化成二叉树。<br>
 样例输入："4(2(3)(1))(6(5))"。</div></p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -125,7 +125,7 @@ Leetcode Contest 23 | 叶某人的碎碎念    </title>
             <span class="k">return</span> <span class="n">root</span>
 
         <span class="k">return</span> <span class="n">build</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-23/problems/word-abbreviation/">第四题</a><code>Word Abbreviation</code><br>
@@ -139,7 +139,7 @@ Leetcode Contest 23 | 叶某人的碎碎念    </title>
 ["l2e","god","internal","me","i6t","interval","inte4n","f2e","intr4n"]</div></p>
 <p>我的解法：假设前缀长度为k（初始k为1），然后扫描没有被缩写的字符串，将其缩写后的结果保存在一个哈希表里。这个哈希表是以缩写之后的字符串为键值，其对应的是所有缩写到该键值的字符串的位置的列表。最后扫描这个哈希表，如果只有一个字符串缩写到对应键值，那么就找到了一个可行的缩写了。接着k的值增加1，重复上诉步骤直到所有字符串都有唯一缩写。</p>
 <p>需要注意的一点是，在上述扫描的过程中，可能遇到一些不用被缩略的字符串。对于它们，就没有必要放进哈希表了。</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 
 <span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">wordsAbbreviation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -169,7 +169,7 @@ Leetcode Contest 23 | 叶某人的碎碎念    </title>
                     <span class="n">n</span> <span class="o">-=</span> <span class="mi">1</span>
             <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

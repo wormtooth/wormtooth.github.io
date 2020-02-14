@@ -54,7 +54,7 @@ LeetCode Contest 51 | 叶某人的碎碎念    </title>
 </ol>
 <p>问最终得分之和。</p>
 </div>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">calPoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ops</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type ops: List[str]</span>
@@ -71,7 +71,7 @@ LeetCode Contest 51 | 叶某人的碎碎念    </title>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">op</span><span class="p">))</span>
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <!--more-->
@@ -80,7 +80,7 @@ LeetCode Contest 51 | 叶某人的碎碎念    </title>
 <div class="qbar">输入格式为"HH:MM"的时间，用这个时间的数字构造该时间之后最近的时间。</div>
 
 <p>最简单的想法就行：获取时间的所有数字，构造所有可能的时间，然后按照跟初始时间的距离排序，最后返回第一个就行。下面的代码是赛后经过大幅度修改的，所以看起来比较简洁。比赛的时候我可是用了4重for循环。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">nextClosestTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type time: str</span>
@@ -98,14 +98,14 @@ LeetCode Contest 51 | 叶某人的碎碎念    </title>
                 <span class="n">candidate</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">time_diff</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1">:</span><span class="si">{}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">)))</span>
 
         <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">candidate</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-51/problems/redundant-connection/">第三题</a><code>Redundant Connection</code></p>
 <div class="qbar">用二维数组输入一棵节点都不一样的树，每对数对[u, v]表示v是u的子节点。现在的问题是输入的数据得到的并不是一颗树，但可以通过删除一个数对使得剩下的数对构成一棵树。要求找出这个数对，如果有多个可能性，找出在输入数组中最后出现那个。</div>
 
 <p>并查集：对于当前输入[u, v]，找出u的父亲fu，v的父亲fv，如果fu与fv一样，那么添加[u, v]必然出现一个圈。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findRedundantConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edges</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type edges: List[List[int]]</span>
@@ -123,7 +123,7 @@ LeetCode Contest 51 | 叶某人的碎碎念    </title>
             <span class="k">if</span> <span class="n">fu</span> <span class="o">==</span> <span class="n">fv</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">[</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span>
             <span class="n">f</span><span class="p">[</span><span class="n">fv</span><span class="p">]</span> <span class="o">=</span> <span class="n">fu</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-51/problems/k-empty-slots">第四题</a><code>K Empty Slots</code></p>
@@ -132,7 +132,7 @@ LeetCode Contest 51 | 叶某人的碎碎念    </title>
 <p>我对flowers数组的解读出错了，导致错了3次！这题想法不难。如果将这N盆花看作一个数组a，0代表没有开，1代表已经开，那么第d天flowers[d]开放是在说第i天的时候a[flowers[d]]的值从0变成1了。假设x=flowers[d]。第d天的时候a[d]变成了1，只要考虑x+d+1以及x-d-1是否与x处的花满足条件就行，因为只有这两处的花与x处的花相隔k朵花。要检验两朵花x和y之间的花都没有开，实际上等价于检验<br>
 <center>a[x+1]+...+a[y-1]=0</center></p>
 <p>现在的问题是如何快速查询动态的区间和。明显，<a href="https://en.wikipedia.org/wiki/Fenwick_tree">Binary Indexed Tree</a>是最好的选择。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">kEmptySlots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flowers</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type flowers: List[int]</span>
@@ -162,7 +162,7 @@ LeetCode Contest 51 | 叶某人的碎碎念    </title>
                 <span class="k">return</span> <span class="n">d</span><span class="o">+</span><span class="mi">1</span>
             <span class="n">bloomed</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
-</pre></div>
+</code></pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

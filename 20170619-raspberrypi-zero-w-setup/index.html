@@ -50,71 +50,71 @@ Raspberry Pi Zero W无屏设置 | 叶某人的碎碎念    </title>
 
 <p><strong>第二步</strong>：插入一张SD卡，我用的是一张8G的SD卡。</p>
 <p>使用以下命令找出SD卡的信息。</p>
-<div class="highlight"><pre><span></span>diskutil list
-</pre></div>
+<div class="highlight"><pre><span></span><code>diskutil list
+</code></pre></div>
 
 
 <p>其中最重要的信息是它的<code>INDENTIFIER</code>。比如我的SD卡是<code>disk2</code>。<strong>下面的命令务必保证使用正确的<code>INDENTIFIER！！</code></strong></p>
 <p>接着使用以下命令写入镜像。</p>
-<div class="highlight"><pre><span></span>diskutil unmountDisk /dev/disk2
+<div class="highlight"><pre><span></span><code>diskutil unmountDisk /dev/disk2
 sudo dd <span class="nv">bs</span><span class="o">=</span>1m <span class="k">if</span><span class="o">=</span>/path/to/img <span class="nv">of</span><span class="o">=</span>/dev/rdisk2 
-</pre></div>
+</code></pre></div>
 
 
 <p>再次提醒：必须使用正确的<code>INDENTIFIER</code>！。<code>disk2</code>要修改成正确的<code>INDENTIFIER</code>，<code>/path/to/img</code>要修改成第一步得到的镜像路径。</p>
 <p><strong>第三步</strong>：修改SD卡的内容（目的是启动ssh以及设置wifi）。我是用VitualBox的Ubuntu挂载已经写入镜像的SD卡。</p>
 <p>在<code>/boot</code>分区的根目录下创建一个名为<code>ssh</code>的空文件。这一步是启动ssh。</p>
 <p>在<code>/</code>分区里，找到<code>/etc/wpa_supplicant/wpa_supplicant.conf</code>并在最后加入以下内容：</p>
-<div class="highlight"><pre><span></span><span class="nv">network</span><span class="o">={</span>  
+<div class="highlight"><pre><span></span><code><span class="nv">network</span><span class="o">={</span>  
     <span class="nv">ssid</span><span class="o">=</span><span class="s2">&quot;wifi名字&quot;</span>
     <span class="nv">psk</span><span class="o">=</span><span class="s2">&quot;wifi密码&quot;</span>
 <span class="o">}</span>
-</pre></div>
+</code></pre></div>
 
 
 <h3>启动树莓派</h3>
 <p>将SD卡插入树莓派中，连接电源，等待几分钟以确保树莓派启动并连接上wifi。</p>
 <p>首先我们可以尝试</p>
-<div class="highlight"><pre><span></span>ssh pi@raspberrypi.local
-</pre></div>
+<div class="highlight"><pre><span></span><code>ssh pi@raspberrypi.local
+</code></pre></div>
 
 
 <p>如果直接连上了，就不用找树莓派的地址了，否则要按照下面步骤寻找树莓派的地址。</p>
 <p>关键的一步是我们要确认树莓派的ip地址。我使用<a href="https://nmap.org/"><code>nmap</code></a>来寻找它的ip地址（Mac OSX上需要自行安装）。</p>
 <p>运行以下命令</p>
-<div class="highlight"><pre><span></span>ifconfig <span class="p">|</span> grep inet
-</pre></div>
+<div class="highlight"><pre><span></span><code>ifconfig <span class="p">|</span> grep inet
+</code></pre></div>
 
 
 <p>找到一个192开头的本地地址。假设是<code>192.168.0.100</code>。然后我们用<code>nmap</code>扫描一遍本地的子网络</p>
-<div class="highlight"><pre><span></span>nmap -sn <span class="m">192</span>.168.0.0/24
-</pre></div>
+<div class="highlight"><pre><span></span><code>nmap -sn <span class="m">192</span>.168.0.0/24
+</code></pre></div>
 
 
 <p>这个命令会列出这个子网络的所有设备。一般来说是比较容易看出树莓派的ip地址的。假设树莓派的地址是<code>192.168.0.101</code>。我们现在可以ssh到树莓派了：</p>
-<div class="highlight"><pre><span></span>ssh pi@192.168.0.101
-</pre></div>
+<div class="highlight"><pre><span></span><code>ssh pi@192.168.0.101
+</code></pre></div>
 
 
 <p>连上之后，我们需要输入密码。<strong>Raspbian的初始密码是<code>raspberry</code></strong></p>
 <h3>基本设置</h3>
 <p>连接上raspberry的第一步要使用以下命令修改密码。</p>
-<div class="highlight"><pre><span></span>passwd
-</pre></div>
+<div class="highlight"><pre><span></span><code>passwd
+</code></pre></div>
 
 
 <p>我们也可以使用</p>
-<div class="highlight"><pre><span></span>sudo raspi-config
-</pre></div>
+<div class="highlight"><pre><span></span><code>sudo raspi-config
+</code></pre></div>
 
 
 <p>进行更多的设置。</p>
 <p>至此，我们就基本设置好了。</p>
 <h3>个人设置</h3>
 <p>接下来这步是我自己的一些设置，如安装git与vim等软件。我将这些设置都写入了一个bash脚本并放在了本博客上。</p>
-<div class="highlight"><pre><span></span>wget https://wormtooth.com/files/pisetup.sh
+<div class="highlight"><pre><span></span><code>wget https://wormtooth.com/files/pisetup.sh
 bash pisetup.sh
-</pre></div>
+</code></pre></div>
 
         <div class="tags">
         <a href="/tag/raspberry-pi">raspberry pi</a>

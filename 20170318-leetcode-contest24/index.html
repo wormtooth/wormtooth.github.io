@@ -48,7 +48,7 @@ Leetcode Contest 24 | 叶某人的碎碎念    </title>
 <div class='qbar'>题目大意：一棵树的直径定义为树中最长路径的长度。给定一棵二叉树，求树的直径。</div>
 
 <p>递归想法：对于每个树节点，计算经过该树节点最长路径的长度。只要修改求每个节点高度的程序就行。先算当前左子树的高度l和右子树的高度r，那么以该经过该节点最长路径的长度就是l+r+1，然后返回该节点的高度max(l, r)+1</p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -74,7 +74,7 @@ Leetcode Contest 24 | 叶某人的碎碎念    </title>
         <span class="n">ans</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">height</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">ans</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
-</pre></div>
+</code></pre></div>
 
 
 <!--more-->
@@ -83,7 +83,7 @@ Leetcode Contest 24 | 叶某人的碎碎念    </title>
 <div class='qbar'>题目大意：给定一棵二叉搜索树（BST），将其转成Greater Tree：将原来BST的每个节点的值加上BST中所有比其大的节点的值。</div>
 
 <p>我的想法是先用中序遍历保存所有节点到一个列表里，然后对这个列表进行求后缀和操作。</p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -111,14 +111,14 @@ Leetcode Contest 24 | 叶某人的碎碎念    </title>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
             <span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">val</span> <span class="o">+=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">val</span>
         <span class="k">return</span> <span class="n">root</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-24/problems/01-matrix/">第三题</a><code>01 Matrix</code></p>
 <div class='qbar'>题目大意：给定一个01矩阵，求每个元素与其最近的0的路径长度。</div>
 
 <p>我使用了宽度优先想法：首先从所有的0出发，一层一层地往外扩张。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">updateMatrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type matrix: List[List[int]]</span>
@@ -147,7 +147,7 @@ Leetcode Contest 24 | 叶某人的碎碎念    </title>
             <span class="n">cur</span> <span class="o">=</span> <span class="nb">next</span>
 
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-24/problems/output-contest-matches/">第四题</a><code>Output Contest Matches</code></p>
@@ -166,7 +166,7 @@ Output: (((1,8),(4,5)),((2,7),(3,6)))
 </div>
 
 <p>找到规律就行：初始化一个列表cur，保存一个从1到n的字符串，然后每次进行一下操作直至列表长度为1。新的cur列表的第i个位置是旧cur列表中的第i个与第len(cur)-i-1组合而来。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findContestMatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type n: int</span>
@@ -179,7 +179,7 @@ Output: (((1,8),(4,5)),((2,7),(3,6)))
                 <span class="nb">next</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;(</span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cur</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cur</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cur</span><span class="p">)</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
             <span class="n">cur</span> <span class="o">=</span> <span class="nb">next</span>
         <span class="k">return</span> <span class="n">cur</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
+</code></pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

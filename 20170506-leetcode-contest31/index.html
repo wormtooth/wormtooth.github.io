@@ -46,7 +46,7 @@ Leetcode Contest 31 | 叶某人的碎碎念    </title>
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-31/problems/distribute-candies/">第一题</a><code>Distribute Candies</code></p>
 <div class="qbar">给定一个长度为偶数的数组，将所有数分成长度一样的两堆，求其中一堆不一样数字最多的数目。</div>
 
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">distributeCandies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">candies</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type candies: List[int]</span>
@@ -60,7 +60,7 @@ Leetcode Contest 31 | 叶某人的碎碎念    </title>
             <span class="k">return</span> <span class="n">n</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <!--more-->
@@ -69,7 +69,7 @@ Leetcode Contest 31 | 叶某人的碎碎念    </title>
 <div class="qbar">给定两颗二叉树s和t，问t是不是s的子树。</div>
 
 <p>首先写个程序判断两颗二叉树是否完全一样，然后遍历s的子树，一一与t比较。</p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -104,7 +104,7 @@ Leetcode Contest 31 | 叶某人的碎碎念    </title>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-31/problems/squirrel-simulation/">第三题</a><code>Squirrel Simulation</code></p>
@@ -115,7 +115,7 @@ Leetcode Contest 31 | 叶某人的碎碎念    </title>
     p<sub>i</sub> = sum(2dist(tree, nuts[j]): all j)-dist(tree, nuts[i])+dist(squirrel, nuts[i])<br>
 </center><br>
 答案明显是min(p<sub>i</sub>: all i)。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">minDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">squirrel</span><span class="p">,</span> <span class="n">nuts</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type height: int</span>
@@ -138,7 +138,7 @@ Leetcode Contest 31 | 叶某人的碎碎念    </title>
             <span class="n">p</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sx</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="nb">abs</span><span class="p">(</span><span class="n">sy</span><span class="o">-</span><span class="n">y</span><span class="p">)</span>
             <span class="n">ans</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">s</span><span class="o">-</span><span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">p</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-31/problems/out-of-boundary-paths/">第四题</a><code>Out of Boundary Paths</code></p>
@@ -152,7 +152,7 @@ Leetcode Contest 31 | 叶某人的碎碎念    </title>
 <p>对于k＝0，dp(0, i, j) = 1，如果(i, j)不在网格里，否则dp(0, i, j)=0;</p>
 <p>对于k&gt;0, dp(k, i, j) = 0，如果(i, j)不在网格里。</p>
 <p>从转移方程我们可以看出，k状态只与k-1状态有关，所以我们可以写简单的滚动实现。首先用一个m x n的数组s来表示每个位置第一步能移出网格的数目。这个数组只有边界一圈是非0的，下面的init就是用来算边界移出网格的方法数。然后我们用上述的状态转移方程依次算出走k步的数目。我下面的实现看起来有点不一样，但其实还是等价于上述的状态转移方程的。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findPaths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type m: int</span>
@@ -192,7 +192,7 @@ Leetcode Contest 31 | 叶某人的碎碎念    </title>
                         <span class="n">t</span><span class="p">[</span><span class="n">ni</span><span class="p">][</span><span class="n">nj</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">ni</span><span class="p">][</span><span class="n">nj</span><span class="p">]</span><span class="o">+</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span> <span class="o">%</span> <span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="o">+</span><span class="mi">7</span><span class="p">)</span>
             <span class="n">s</span> <span class="o">=</span> <span class="n">t</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

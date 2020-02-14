@@ -47,7 +47,7 @@ LeetCode Contest 53 | 叶某人的碎碎念    </title>
 <div class="qbar">给定一个正整数，问它的二进制表示是否01交错。</div>
 
 <p>比较直接，代码如下。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">hasAlternatingBits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type n: int</span>
@@ -55,7 +55,7 @@ LeetCode Contest 53 | 叶某人的碎碎念    </title>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">n</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
         <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-</pre></div>
+</code></pre></div>
 
 
 <!--more-->
@@ -64,7 +64,7 @@ LeetCode Contest 53 | 叶某人的碎碎念    </title>
 <div class="qbar">给定一个二维01数组，0代表海水，1代表陆地。一个岛是由陆地上下左右连接起来的连通分支。求岛的最大面积。</div>
 
 <p>用DFS找出每个连通分支的大小，求其中最大值。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">maxAreaOfIsland</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type grid: List[List[int]]</span>
@@ -92,33 +92,33 @@ LeetCode Contest 53 | 叶某人的碎碎念    </title>
                     <span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
                     <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">ans</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-53/problems/number-of-distinct-islands/">第三题</a><code>Number of Distinct Islands</code></p>
 <div class="qbar">第二题的延续。现在问不同岛屿的数目。如果一个岛屿通过平移跟另一个岛屿重合，那么这两个岛屿是一样的。</div>
 
 <p>寻找岛屿的算法跟第二题一摸一样的，关键是怎么在平移不变的条件区分两个岛屿。我比赛时候的想法是将岛屿左上角移到(0, 0)坐标，那么<s>岛屿由每一行的列坐标以及行长度完全决定</s>。比如岛屿</p>
-<div class="highlight"><pre><span></span><span class="err">11</span>
+<div class="highlight"><pre><span></span><code><span class="err">11</span>
 <span class="err">1</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>可以表示为(0, 2, 0, 1)。再比如岛屿</p>
-<div class="highlight"><pre><span></span><span class="err"> 11</span>
+<div class="highlight"><pre><span></span><code><span class="err"> 11</span>
 <span class="err">  1</span>
 <span class="err">111</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>可以表示为(0, 2, 1, 1, -1, 3)。虽然比赛的时候通过了，但是这个想法是错误的，比如如下两个岛屿：</p>
-<div class="highlight"><pre><span></span><span class="err">111   111</span>
+<div class="highlight"><pre><span></span><code><span class="err">111   111</span>
 <span class="err">101   110</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>都可以表示为(0, 3, 0, 2)。正确的做法是将岛屿左上角移到(0, 0)之后，重新计算岛屿所有坐标的值，使用新的坐标排好序作为岛屿的标识。下面给出的是正确算法的代码。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">numDistinctIslands</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type grid: List[List[int]]</span>
@@ -151,7 +151,7 @@ LeetCode Contest 53 | 叶某人的碎碎念    </title>
                     <span class="n">dfs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
                     <span class="n">ans</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-53/problems/stickers-to-spell-word/">第四题</a><code>Stickers to Spell Word</code></p>
@@ -165,7 +165,7 @@ LeetCode Contest 53 | 叶某人的碎碎念    </title>
 那么上述的不等式在这种新的加法下就变成了等号。这样我们就可以使用哈希表快速判断t是否在cur里。</p>
 <p>一个简单的优化：我们不需要长度为26的向量，只需考虑t不为0的分量就行。</p>
 <p>对于如何哈希/散列<code>std::vector&lt;int&gt;</code>，我是参考stackoverflow上的这个<a href="https://stackoverflow.com/questions/29855908/c-unordered-set-of-vectors">问答</a>。</p>
-<div class="highlight"><pre><span></span><span class="k">namespace</span> <span class="n">std</span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">namespace</span> <span class="n">std</span><span class="p">{</span>
     <span class="k">template</span> <span class="o">&lt;&gt;</span>
     <span class="k">struct</span> <span class="n">hash</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="p">{</span>
         <span class="kt">size_t</span> <span class="k">operator</span><span class="p">()(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">v</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
@@ -239,7 +239,7 @@ LeetCode Contest 53 | 叶某人的碎碎念    </title>
         <span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</pre></div>
+</code></pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>
