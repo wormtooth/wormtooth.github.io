@@ -47,7 +47,7 @@ LeetCode Contest 49 | 叶某人的碎碎念    </title>
 <div class="qbar">给定一个数组，找出连续严格递增子数组的最大长度。</div>
 
 <p>扫描一遍数组即可：如果nums[i], nums[i+1], ..., nums[j-1]是当前最长严格递增子数组，下次扫描的时候可以直接从j开始。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findLengthOfLCIS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -61,7 +61,7 @@ LeetCode Contest 49 | 叶某人的碎碎念    </title>
             <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
             <span class="n">i</span> <span class="o">=</span> <span class="n">j</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 <!--more-->
@@ -69,7 +69,7 @@ LeetCode Contest 49 | 叶某人的碎碎念    </title>
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-49/problems/implement-magic-dictionary/">第二题</a><code>Implement Magic Dictionary</code></p>
 <div class="qbar">给定一个没有重复的单词列表。问给定的另一个单词在修改某个字母之后（必须修改一个字母）是否在单词列表中。</div>
 
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">MagicDictionary</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MagicDictionary</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -109,7 +109,7 @@ LeetCode Contest 49 | 叶某人的碎碎念    </title>
 <span class="c1"># obj = MagicDictionary()</span>
 <span class="c1"># obj.buildDict(dict)</span>
 <span class="c1"># param_2 = obj.search(word)</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-49/problems/cut-off-trees-for-golf-event/">第三题</a><code>Cut Off Trees for Golf Event</code></p>
@@ -117,7 +117,7 @@ LeetCode Contest 49 | 叶某人的碎碎念    </title>
 
 <p>因为n和m都小于或等于50，所以O(n<sup>2</sup>m<sup>2</sup>)应该可以接受的。但是实际情况是python实现会TLE。</p>
 <p>O(n<sup>2</sup>m<sup>2</sup>)算法：因为每个点最多跟四个点相邻，所以用BFS写最短路径的算法复杂度是O(nm)。从(0, 0)出发，从小到大遍历所有点需要求O(nm)条最短路径。为了快速从小到大遍历所有点，我们需要将所有大于1的点从小到大先排好序。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Node</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Node</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">;</span>
     <span class="n">Node</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">:</span> <span class="n">x</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">y</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="n">v</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">{}</span>
@@ -179,14 +179,14 @@ LeetCode Contest 49 | 叶某人的碎碎念    </title>
         <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-49/problems/number-of-longest-increasing-subsequence/">第四题</a><code>Number of Longest Increasing Subsequence</code></p>
 <div class="qbar">给定一个数组，找出所有最长递增子序列的数目。</div>
 
 <p>经典的动态规划了，不过现在需要找出所有最长递增子序列的数目。下面的程序用我用dp[i]表示以nums[i]结尾的最长递增子序列的长度，f[i]表示以num[i]结尾最长递增子序列的个数。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findNumberOfLIS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -211,7 +211,7 @@ LeetCode Contest 49 | 叶某人的碎碎念    </title>
             <span class="k">elif</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">ml</span><span class="p">:</span>
                 <span class="n">ans</span> <span class="o">+=</span> <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

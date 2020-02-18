@@ -47,7 +47,7 @@ LeetCode Contest 42 | 叶某人的碎碎念    </title>
 <div class="qbar">题目大意：给定一个长度为n数值在1到n之间的数组。已知其中一个数字出现一个，另一个数字没有出现。找出这两个数字。</div>
 
 <p>简单的统计。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findErrorNums</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -60,7 +60,7 @@ LeetCode Contest 42 | 叶某人的碎碎念    </title>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cnt</span><span class="p">):</span>
             <span class="n">ans</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">ans</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-</code></pre></div>
+</pre></div>
 
 
 <!--more-->
@@ -69,7 +69,7 @@ LeetCode Contest 42 | 叶某人的碎碎念    </title>
 <div class="qbar">题目大意：给定n个数对。每个数对的第一个数都小于第二个数。数对(c, d)可以跟在(a, b)后面当且仅当b < c。问这给定的n个数对能按照这种方式串起来的最大长度是多少。</div>
 
 <p>我印象中在LeetCode出现过两道类似这道题。现在只找到其中一道：<a href="https://leetcode.com/problems/non-overlapping-intervals/">435. Non-overlapping Intervals</a>。做法都是贪心。对于这题，我们知道如果两个数对是相交的，那么这两个数对最多只能取一个。如果我们对所有数对按照第一个分量排序，那么我们应该选择相交的数对中第二分量最小的那个，这样就后面的选择就可以多点。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findLongestChain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pairs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type pairs: List[List[int]]</span>
@@ -84,14 +84,14 @@ LeetCode Contest 42 | 叶某人的碎碎念    </title>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">cur</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">cur</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-42/problems/palindromic-substrings/">第三题</a><code>Palindromic Substrings</code></p>
 <div class="qbar">题目大意：给定一个字符串，找出字符串中所有回文子字符串的总数目。</div>
 
 <p>比较简单的题目，直接看代码就应该清楚。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">countSubstrings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type s: str</span>
@@ -113,14 +113,14 @@ LeetCode Contest 42 | 叶某人的碎碎念    </title>
                 <span class="n">j</span> <span class="o">-=</span> <span class="mi">1</span>
                 <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-42/problems/replace-words/">第四题</a><code>Replace Words</code></p>
 <div class="qbar">题目大意：给定一个词根字典以及一句话，将话中的所有单词用其最短词根替换。如果单词没有词根，那么保留原词。</div>
 
 <p>直接模拟。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">replaceWords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">sentence</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type dict: List[str]</span>
@@ -138,7 +138,7 @@ LeetCode Contest 42 | 叶某人的碎碎念    </title>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
         <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

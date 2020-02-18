@@ -53,7 +53,7 @@ Leetcode Contest 38 | 叶某人的碎碎念    </title>
 <li>第一个数 X 倒数第一个数 X 倒数第二个数</li>
 <li>第一个数 X 第二个数 X 倒数第一个数</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">maximumProduct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -64,7 +64,7 @@ Leetcode Contest 38 | 叶某人的碎碎念    </title>
                     <span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span>
                     <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span>
                     <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-</code></pre></div>
+</pre></div>
 
 
 <!--more-->
@@ -83,7 +83,7 @@ Leetcode Contest 38 | 叶某人的碎碎念    </title>
 根据以上的分析，我构造了如下的贪心算法。</p>
 <p>首先要对所有课程按照d从小到大排序。假设知道课程1到课程m一共m门课时的最优解，对于新加入的第m＋1门课程，我按照以下规则处理：如果之前最优解的总时长加上第m＋1门课的时长还不晚于第m＋1门的截止时间，我们就直接将第m＋1门课加入最优解中。也就是说如果我们能继续上第m＋1门课程的话就直接上。如果不能直接上的话，我们找出之前最优解中最耗时间的课程，如果这门课程比第m＋1门课更耗时间，那么我们就将它换成第m＋1门课。虽然我们没有增加最优解的课程数目，但是替换课程可以使得最优解的总时长变短。</p>
 <p>因为希望能快速找出特定变化集合的最大值，所以实现中我用到了堆。算法的时间复杂度为O(nlog n)。</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">heapq</span> <span class="kn">import</span> <span class="n">heappush</span><span class="p">,</span> <span class="n">heappop</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">heapq</span> <span class="kn">import</span> <span class="n">heappush</span><span class="p">,</span> <span class="n">heappop</span>
 
 <span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">scheduleCourse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">courses</span><span class="p">):</span>
@@ -104,7 +104,7 @@ Leetcode Contest 38 | 叶某人的碎碎念    </title>
                 <span class="n">heappop</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
                 <span class="n">heappush</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="o">-</span><span class="n">t</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-38/problems/k-inverse-pairs-array/">第三题</a><code>K Inverse Pairs Array</code></p>
@@ -131,7 +131,7 @@ Leetcode Contest 38 | 叶某人的碎碎念    </title>
 </p>
 <div class="math">$$f(i, j) = f(i, j-1) + f(i-1, j) - f(i-1, j-i).$$</div>
 <p>这个更好的递归公式能给我们一个O(n<sup>2</sup>)的算法。不过这个递归公式有点瑕疵，因为给定i个数字，逆对的个数最多是i(i-1)/2。因此我们还要根据j和i(i-1)/2的大小关系做出细微的调整。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">kInversePairs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type n: int</span>
@@ -148,12 +148,12 @@ Leetcode Contest 38 | 叶某人的碎碎念    </title>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
                 <span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">-</span><span class="n">f</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="p">])</span> <span class="o">%</span> <span class="n">M</span>
         <span class="k">return</span> <span class="n">f</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-38/problems/design-excel-sum-formula/">第四题</a><code>Design Excel Sum Formula</code></p>
 <p>这题比我想象中简单，只是题目比较长而已。这个问题的难度我觉得在<code>set</code>的设计上。每次设置一个值时，我们都要正确的更新整个表中的值。我用了带记忆的深度搜索实现更新的。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Excel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Excel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span><span class="n">W</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -239,7 +239,7 @@ Leetcode Contest 38 | 叶某人的碎碎念    </title>
 <span class="c1"># obj.set(r,c,v)</span>
 <span class="c1"># param_2 = obj.get(r,c)</span>
 <span class="c1"># param_3 = obj.sum(r,c,strs)</span>
-</code></pre></div>
+</pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

@@ -47,8 +47,8 @@
 
 <p>我根据<a href="http://www.wjdiankong.cn/archives/845">这篇文章</a>从安卓机器中获得自己的聊天记录数据库<code>EnMicroMsg.db</code>并计算属于自己的密码。我的安卓机器已经<strong>root</strong>了，所以我可以用<code>adb</code>进行如下操作获得微信的<code>uin</code>和<code>EnMicroMsg.db</code>。</p>
 <h3>获取<code>uin</code></h3>
-<div class="highlight"><pre><span></span><code>adb shell su -c <span class="s2">&quot;cat /data/data/com.tencent.mm/shared_prefs/*.xml | grep uin&quot;</span>
-</code></pre></div>
+<div class="highlight"><pre><span></span>adb shell su -c <span class="s2">&quot;cat /data/data/com.tencent.mm/shared_prefs/*.xml | grep uin&quot;</span>
+</pre></div>
 
 
 <pre>
@@ -61,25 +61,25 @@
 <p>运行结果中的一串数字<code>MY-UIN</code>是我的微信<code>uin</code>。</p>
 <h3>获取<code>EnMicroMsg.db</code></h3>
 <p>我们要根据<code>uin</code>计算<code>EnMicroMsg.db</code>所在的目录。下面代码中的<code>MY-UIN</code>要替换成从上一步得到的值。</p>
-<div class="highlight"><pre><span></span><code><span class="nv">uin</span><span class="o">=</span>MY-UIN
+<div class="highlight"><pre><span></span><span class="nv">uin</span><span class="o">=</span>MY-UIN
 <span class="nv">folder</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> -n mm<span class="nv">$uin</span> <span class="p">|</span> md5<span class="sb">`</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>下面代码是将<code>EnMicroMsg.db</code>拉到电脑上。</p>
-<div class="highlight"><pre><span></span><code><span class="nv">database</span><span class="o">=</span><span class="s2">&quot;/data/data/com.tencent.mm/MicroMsg/</span><span class="nv">$folder</span><span class="s2">/EnMicroMsg.db&quot;</span>
+<div class="highlight"><pre><span></span><span class="nv">database</span><span class="o">=</span><span class="s2">&quot;/data/data/com.tencent.mm/MicroMsg/</span><span class="nv">$folder</span><span class="s2">/EnMicroMsg.db&quot;</span>
 <span class="nv">tmpdb</span><span class="o">=</span><span class="s2">&quot;/sdcard/EnMicroMsg.db&quot;</span>
 adb shell su -c <span class="s2">&quot;cp </span><span class="nv">$database</span><span class="s2"> </span><span class="nv">$tmpdb</span><span class="s2">&quot;</span>
 adb pull <span class="nv">$tmpdb</span>
 adb shell rm <span class="nv">$tmpdb</span>
-</code></pre></div>
+</pre></div>
 
 
 <h3>计算密码</h3>
 <p>在计算密码之前，我们还要知道手机的<code>imei</code>码。手机拨号<code>*#06#</code>就可以得到自己手机的<code>imei</code>。假设我的<code>imei</code>是<code>MY-IMEI</code>。</p>
-<div class="highlight"><pre><span></span><code><span class="nv">imei</span><span class="o">=</span>MY-IMEI
+<div class="highlight"><pre><span></span><span class="nv">imei</span><span class="o">=</span>MY-IMEI
 <span class="nb">echo</span> -n <span class="nv">$imei$uin</span> <span class="p">|</span> md5 <span class="p">|</span> cut -c -7
-</code></pre></div>
+</pre></div>
 
 
 <pre>xxxxxxx</pre>
@@ -87,19 +87,19 @@ adb shell rm <span class="nv">$tmpdb</span>
 <p>这样计算出来7位字符串就是数据库的密钥。网上有很多教程都是直接使用<code>SQLCipher</code>的数据库浏览器打开<code>EnMicroMsg.db</code>然后输入密码<code>xxxxxxx</code>的。但是使用这种直接的方法在我的<code>MacBook Air</code>上总是失败。我是根据<a href="http://www.acquireforensics.com/blog/wechat-forensics-analysis.html">这篇文章</a>解密数据库的。</p>
 <h3>安装<code>SQLCipher</code></h3>
 <p>我使用<a href="https://brew.sh/">homebrew</a>安装。</p>
-<div class="highlight"><pre><span></span><code>brew update
+<div class="highlight"><pre><span></span>brew update
 brew install sqlcipher
-</code></pre></div>
+</pre></div>
 
 
 <h3>解密数据库</h3>
 <p>首先<code>cd</code>到<code>EnMicroMsg.db</code>所在的文件夹，然后运行<code>SQLCipher</code>。</p>
-<div class="highlight"><pre><span></span><code>sqlcipher
-</code></pre></div>
+<div class="highlight"><pre><span></span>sqlcipher
+</pre></div>
 
 
 <p>然后依次执行以下SQL语句解密数据库。</p>
-<div class="highlight"><pre><span></span><code><span class="p">.</span><span class="k">open</span> <span class="n">EnMicroMsg</span><span class="p">.</span><span class="n">db</span>
+<div class="highlight"><pre><span></span><span class="p">.</span><span class="k">open</span> <span class="n">EnMicroMsg</span><span class="p">.</span><span class="n">db</span>
 <span class="n">PRAGMA</span> <span class="k">key</span><span class="o">=</span><span class="s1">&#39;xxxxxxx&#39;</span><span class="p">;</span>
 <span class="n">PRAGMA</span> <span class="n">cipher_use_hmac</span><span class="o">=</span><span class="k">off</span><span class="p">;</span>
 <span class="n">PRAGMA</span> <span class="n">cipher_page_size</span><span class="o">=</span><span class="mi">1024</span><span class="p">;</span>
@@ -108,13 +108,13 @@ brew install sqlcipher
 <span class="k">SELECT</span> <span class="n">sqlcipher_export</span><span class="p">(</span><span class="s1">&#39;mm&#39;</span><span class="p">);</span>
 <span class="n">DETACH</span> <span class="k">DATABASE</span> <span class="n">mm</span><span class="p">;</span>
 <span class="p">.</span><span class="n">quit</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>正确执行之后，在<code>EnMicroMsg.db</code>文件夹中会多出一个解密后的数据库：<code>MicroMsg.db</code>。这个数据库中的<code>message</code>表格存有聊天记录，<code>rcontact</code>存有联系人信息。</p>
 <h3>聊天词云</h3>
 <p>有了这个聊天记录<code>MicroMsg.db</code>，我们可以做很多事情。比如做个聊天词云什么的。</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">wordcloud</span> <span class="kn">import</span> <span class="n">WordCloud</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">wordcloud</span> <span class="kn">import</span> <span class="n">WordCloud</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">jieba</span>
 <span class="kn">import</span> <span class="nn">sqlite3</span>
@@ -152,7 +152,7 @@ brew install sqlcipher
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">talker</span> <span class="o">=</span> <span class="s2">&quot;FRIEND-ID&quot;</span>
     <span class="n">wechat_wordcloud</span><span class="p">(</span><span class="n">talker</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>我所使用的字体可以在<a href="https://github.com/RPi-Distro/fonts-android/blob/master/DroidSansFallbackFull.ttf">这里</a>下载。代码中的<code>FRIEND-ID</code>要正确填写朋友的id（在<code>rcontact</code>表格中找）。最后放上我跟我基友的聊天词云。</p>

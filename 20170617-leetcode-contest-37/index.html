@@ -46,7 +46,7 @@ Leetcode Contest 37 | 叶某人的碎碎念    </title>
 <div class="qbar">给定一个包含数组的数组，每个数组都已经递增排序。我们要做的是从两个数组中各选一个数，使得这两个数的差的绝对值最大。问这个最大的值是多少？</div>
 
 <p>对于第i数组中，取出最大值a，最小值b，然后将(a, i)和(b, i)放进一个数组m里。将数组m按照第一个分量排序，那么对我们有用的只是数组m前面两个元素和后面两个元素。如果第一个元素和最后一个元素来自不一样的数组（第二个分量不一样），那么答案就是这两个元素的第一个分量的差。否则，我们要比较两种情况：第一个元素与倒数第二个元素，第二个元素与最后一个元素。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">maxDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arrays</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type arrays: List[List[int]]</span>
@@ -60,7 +60,7 @@ Leetcode Contest 37 | 叶某人的碎碎念    </title>
         <span class="k">if</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">!=</span><span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
             <span class="k">return</span> <span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-</code></pre></div>
+</pre></div>
 
 
 <!--more-->
@@ -69,7 +69,7 @@ Leetcode Contest 37 | 叶某人的碎碎念    </title>
 <div class="qbar">给定一颗二叉树，以及一个值v和深度d。根节点的深度为1。按如下要求在树的第d层加一行值为v的节点：对于每个深度为d-1的非空节点，增加两个值为v的两个节点，原来的左子树变为现在左节点的左子树，原来的右子树变成现在右节点的右子树。</div>
 
 <p>简单的DFS。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -103,14 +103,14 @@ Leetcode Contest 37 | 叶某人的碎碎念    </title>
                 <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">h</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">root</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-37/problems/minimum-factorization/">第三题</a><code>Minimum Factorization</code></p>
 <div class="qbar">给定一个正整数a，寻找最小的正整数b，使得b的所有数字之积为a。如果b超出32位整数的范围，则返回0。</div>
 
 <p>从题目可以知道我们尝试的因子只有从2到9。因为我们希望b最小，所以我们要从9到2递减尝试。需要注意边界情况。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">smallestFactorization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type a: int</span>
@@ -126,7 +126,7 @@ Leetcode Contest 37 | 叶某人的碎碎念    </title>
         <span class="n">ans</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span> <span class="k">if</span> <span class="n">ans</span> <span class="k">else</span> <span class="mi">1</span>
         <span class="n">ans</span> <span class="o">=</span> <span class="n">ans</span> <span class="k">if</span> <span class="n">ans</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span> <span class="ow">and</span> <span class="n">a</span><span class="o">==</span><span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-37/problems/task-scheduler/">第四题</a><code>Task Scheduler</code></p>
@@ -135,7 +135,7 @@ Leetcode Contest 37 | 叶某人的碎碎念    </title>
 <p>因为相同的任务之间需要相隔n个单位的时间，所以我们可以每次考虑往长度为(n+1)的时间段。首先统计出现次数最多的字母的次数m，那么我们至少需要(m-1)个长度为(n+1)的时间段，在最后那段我们只需要长度为t的时间段，其中t是出线次数为m的字母的总数。根据以上分析，我们至少需要的时间为<br>
 <center>(m-1)<em>(n+1)+t</center><br>
 但是(m-1)</em>(n+1)+t有可能小于len(tasks)，答案应该是两者中最大值。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">leastInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type tasks: List[str]</span>
@@ -151,7 +151,7 @@ Leetcode Contest 37 | 叶某人的碎碎念    </title>
             <span class="k">if</span> <span class="n">cnt</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="n">cnt</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
                 <span class="n">t</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">((</span><span class="n">cnt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">t</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tasks</span><span class="p">))</span>
-</code></pre></div>
+</pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

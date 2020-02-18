@@ -121,7 +121,7 @@ V^\pi(s) = R(s) + \gamma\sum_{s^\prime \in S}P_{s, \pi(s)}(s^\prime)V^\pi(s^\pri
 \label{bellman}
 \end{equation}$$</div>
 <p>Bellman equations actually give us a system of linear equations which we can use to solve for <span class="math">\(V^\pi(s)\)</span>. I am going to implement in python to get <span class="math">\(V^\pi\)</span>.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="n">py</span> <span class="o">=</span> <span class="s1">&#39;Python &#39;</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">3</span><span class="p">]))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Jupyter notebook with kernel: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">py</span><span class="p">))</span>
@@ -162,13 +162,13 @@ V^\pi(s) = R(s) + \gamma\sum_{s^\prime \in S}P_{s, \pi(s)}(s^\prime)V^\pi(s^\pri
 
 <span class="c1"># discount factor</span>
 <span class="n">gamma</span> <span class="o">=</span> <span class="mf">0.99</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>Jupyter notebook with kernel: Python 3.6.4
 </pre>
 
-<div class="highlight"><pre><span></span><code><span class="c1"># policy pi</span>
+<div class="highlight"><pre><span></span><span class="c1"># policy pi</span>
 <span class="n">pi</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="s1">&#39;#&#39;</span><span class="p">,</span>
       <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="s1">&#39;#&#39;</span><span class="p">,</span>
       <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span> <span class="s1">&#39;U&#39;</span><span class="p">}</span>
@@ -191,7 +191,7 @@ V^\pi(s) = R(s) + \gamma\sum_{s^\prime \in S}P_{s, \pi(s)}(s^\prime)V^\pi(s^\pri
 <span class="n">V</span> <span class="o">=</span> <span class="n">val_fn</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>(0, 0): 0.52
@@ -235,7 +235,7 @@ Moreover, <span class="math">\(\pi^\ast\)</span> can be related to <span class="
 These two equations provide two ways to find the optimal policy, <em>value iteration</em> and <em>policy iteration</em>.</p>
 <h3>Value Iteration</h3>
 <p>The idea of value iteration is to use the Bellman equations <span class="math">\(\eqref{bellman-ast}\)</span> repeatly to determine <span class="math">\(V^\ast\)</span>, then use <span class="math">\(\eqref{pi-ast}\)</span> to find <span class="math">\(\pi^\ast\)</span>.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># initialize optimal value function</span>
+<div class="highlight"><pre><span></span><span class="c1"># initialize optimal value function</span>
 <span class="n">V</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="mf">0.0</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span><span class="p">}</span>
 
 <span class="c1"># tolerent error</span>
@@ -252,7 +252,7 @@ These two equations provide two ways to find the optimal policy, <em>value itera
 
 <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">V</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>(0, 0): 0.86
@@ -271,7 +271,7 @@ These two equations provide two ways to find the optimal policy, <em>value itera
 <p>From the above piece of code, we get <span class="math">\(V^\ast\)</span>:<br>
 <img alt="optimal value function" src="/images/20180207-example-4.png"></p>
 <p>Once we have <span class="math">\(V^\ast\)</span>, we can calculate <span class="math">\(\pi^\ast\)</span> easily.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># optimal policy</span>
+<div class="highlight"><pre><span></span><span class="c1"># optimal policy</span>
 <span class="n">pi</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">n</span><span class="p">]</span><span class="o">*</span><span class="n">V</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">S</span><span class="p">))</span>
      <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span><span class="p">}</span>
 
@@ -279,7 +279,7 @@ These two equations provide two ways to find the optimal policy, <em>value itera
     <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]:</span>
         <span class="k">continue</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">pi</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>(0, 0): R
@@ -304,7 +304,7 @@ repeat {
 }
 </pre>
 
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span>
 
 <span class="c1"># initialize pi randomly</span>
 <span class="n">pi</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">S</span><span class="p">}</span>
@@ -322,7 +322,7 @@ repeat {
     <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]:</span>
         <span class="k">continue</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">pi</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>(0, 0): R

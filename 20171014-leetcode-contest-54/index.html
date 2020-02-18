@@ -48,7 +48,7 @@ LeetCode Contest 54 | 叶某人的碎碎念    </title>
 <p>给定一个非空包含非负整数的数组<code>nums</code>，它的<em>degree</em>定义为出现次数最多的数字的出现次数。找出一个最短的连续子数组，使得它的degree与<code>nums</code>的degree一样。返回子数组的长度。</p>
 </div>
 <p>在统计每个数字频率的同时，记录这个数字出现的最左和最右位置(l, r)。那么包含这个数字的最短数组的长度为r-l+1。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findShortestSubArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -64,7 +64,7 @@ LeetCode Contest 54 | 叶某人的碎碎念    </title>
                 <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
             <span class="n">f</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cnt</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">f</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <!--more-->
@@ -76,7 +76,7 @@ LeetCode Contest 54 | 叶某人的碎碎念    </title>
 <center>"00", "111", "00", "11"</center><br>
 那么连续的两块能贡献出它们最小长度那么多了符合规定的字符串。比如<code>"00", "111"</code>贡献了两个<br>
 <center>"01", "0011"</center></p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">countBinarySubstrings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type s: str</span>
@@ -84,7 +84,7 @@ LeetCode Contest 54 | 叶某人的碎碎念    </title>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cnt</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;(0+)&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cnt</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">cnt</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-54/problems/partition-to-k-equal-sum-subsets/">第三题</a><code>Partition to K Equal Sum Subsets</code></p>
@@ -94,7 +94,7 @@ LeetCode Contest 54 | 叶某人的碎碎念    </title>
 <p>一个经典的DP问题：给定一个长度为m数组，在O(ms)的时间内判断改数组是否有个子集之和为s。我们可以用dp[i]表示是否有子集之和为i，为了找到这个子集，可以用x = dp[i]表示状态i由状态x加上i-x得到。DP之后，我们可以根据dp的值在O(m)的时间内找到一个和为s的子集。</p>
 <p>对于这个问题，我们可以使用上述DP找出和为s的一个子集，去除这个子集中的元素之后得到一个变短的<code>nums</code>。重复上述步骤，如果<code>nums</code>最后能变成空集，则返回True，否则返回False。</p>
 <p>注意：这是一个贪心＋DP的算法，为了保证算法的正确性，要对<code>nums</code>从大到小排序。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">canPartitionKSubsets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -125,7 +125,7 @@ LeetCode Contest 54 | 叶某人的碎碎念    </title>
                 <span class="n">nums</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">dp</span><span class="p">[</span><span class="n">a</span><span class="p">])</span>
                 <span class="n">a</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
         <span class="k">return</span> <span class="kc">True</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-54/problems/falling-squares/">第四题</a><code>Falling Squares</code></p>
@@ -134,7 +134,7 @@ LeetCode Contest 54 | 叶某人的碎碎念    </title>
 </div>
 <p>第一个想法是线段树，写完之后妥妥的MLE，因为要维护一个长度为10<sup>8</sup>的线段。后来发现正方形的个数最多是1000，所以O(n<sup>2</sup>)的算法也是可以接受的。但是用Python写还是TLE了，赛后用C++无压力AC了。。。</p>
 <p>想法的关键是这样的，对于第i个正方形，扫描之前掉落并与其有重叠部分的正方形高度，以找到第i个正方形最终的高度。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">fallingSquares</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">positions</span><span class="p">)</span> <span class="p">{</span>
         <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">positions</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
@@ -162,7 +162,7 @@ LeetCode Contest 54 | 叶某人的碎碎念    </title>
     <span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="n">a</span> <span class="o">&gt;=</span> <span class="n">y</span> <span class="o">||</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">b</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</code></pre></div>
+</pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

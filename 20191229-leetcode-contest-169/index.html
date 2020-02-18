@@ -48,7 +48,7 @@ LeetCode Contest 169 | 叶某人的碎碎念    </title>
 <p>找 n 个和为 0 且各不相同的数。</p>
 </div>
 <p>每次加入 i 和 -i 就能保证和为0。如果 n 是奇数，那么我们要添加 0。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">sumZero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
@@ -57,7 +57,7 @@ LeetCode Contest 169 | 叶某人的碎碎念    </title>
             <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 <!--more-->
@@ -67,7 +67,7 @@ LeetCode Contest 169 | 叶某人的碎碎念    </title>
 <p>按升序排列两二叉搜索树中的所有树。</p>
 </div>
 <p>二叉搜索树中序遍历能给出升序的数列，我们可以按照这个性质合并这两二叉搜索树：得到两个排好序的数列，然后合并这两个数列。但是为了快速写出这道题，我就将所有数收集到一个数组，调用函数排个序。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode:</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -91,7 +91,7 @@ LeetCode Contest 169 | 叶某人的碎碎念    </title>
         <span class="n">ans</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/weekly-contest-169/problems/jump-game-iii/">第三题</a><code>Jump Game III</code></p>
@@ -99,7 +99,7 @@ LeetCode Contest 169 | 叶某人的碎碎念    </title>
 <p>给定一个数组 <code>arr</code>。在 <code>i</code> 位置时，我们可以跳到 <code>i + arr[i]</code> 或者 <code>i - arr[i]</code>。 问：从 <code>start</code> 出发，是否可以跳到一个值为 0 的位置。</p>
 </div>
 <p>宽度优先搜索：每次跳到下一个可以跳到而且没有跳到过的点，一直到值为 0 的位置或者没有办法继续跳为止。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">canReach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
@@ -117,7 +117,7 @@ LeetCode Contest 169 | 叶某人的碎碎念    </title>
                     <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
                     <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/weekly-contest-169/problems/verbal-arithmetic-puzzle/">第四题</a><code>Verbal Arithmetic Puzzle</code></p>
@@ -132,7 +132,7 @@ LeetCode Contest 169 | 叶某人的碎碎念    </title>
 <div align="center">1000S + 91E - 90N + D - 9000M - 900O + 10R - Y = 0.</div><br>
 现在我们可以枚举字母可能对应的数字即可。这里要注意一个限制，单词中第一个字母不能为 0。我们可以给出每个字母对应的数字范围。一般的字母的数字范围是从 0 到 9，而出现在单词首端的字母则从 1 到 9。我们还可以利用等式缩小某些字母的数字范围。</p>
 <p>我用 Python 实现上述算法总是 TLE，连利用等式缩小数字范围这种优化也没有逃过 TLE。然后今天早上用 C 实现一下就过了。。。不用优化也能过的那种。</p>
-<div class="highlight"><pre><span></span><code><span class="kt">int</span> <span class="nf">get_multiplier</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">mult</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">nonzero</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">word</span><span class="p">,</span> <span class="kt">int</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">get_multiplier</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">mult</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">nonzero</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">word</span><span class="p">,</span> <span class="kt">int</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
     <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">word</span><span class="p">);</span>
     <span class="kt">char</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="n">word</span> <span class="o">+</span> <span class="n">n</span><span class="p">;</span>
     <span class="k">while</span> <span class="p">(</span><span class="n">str</span> <span class="o">!=</span> <span class="n">word</span><span class="p">)</span> <span class="p">{</span>
@@ -228,7 +228,7 @@ LeetCode Contest 169 | 叶某人的碎碎念    </title>
     <span class="n">dfs</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ret</span><span class="p">);</span>
     <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre></div>
+</pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

@@ -66,7 +66,7 @@
 <p>找 n 个和为 0 且各不相同的数。</p>
 </div>
 <p>每次加入 i 和 -i 就能保证和为0。如果 n 是奇数，那么我们要添加 0。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">sumZero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
@@ -75,7 +75,7 @@
             <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 
@@ -92,7 +92,7 @@
 <div class="qbar">
 <p>以单向链表给出一个二进制数，将其转成十进制。</p>
 </div>
-<div class="highlight"><pre><span></span><code><span class="c1"># Definition for singly-linked list.</span>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for singly-linked list.</span>
 <span class="c1"># class ListNode:</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -105,7 +105,7 @@
             <span class="n">r</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">head</span><span class="o">.</span><span class="n">val</span>
             <span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="n">next</span>
         <span class="k">return</span> <span class="n">r</span>
-</code></pre></div>
+</pre></div>
 
 
 

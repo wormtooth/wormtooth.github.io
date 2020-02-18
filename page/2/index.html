@@ -68,14 +68,14 @@
     <a data-disqus-identifier="20180607-chapi/" href="/20180607-chapi/#disqus_thread" class="disqus-comment-count"></a>
     <div class="post-content">
         <p>I recently built a <a href="http://flask.pocoo.org/">flask</a> app that run on my raspberry pi. Then I turned it down. Why? In order to access the app from outside the home internet, I had to expose my pi to public. After only one day of exposure, my pi received several attack attempts and the flask app then always replied 301. Here are some attack logs:</p>
-<div class="highlight"><pre><span></span><code><span class="err">139.162.83.10 - &quot;GET / HTTP/1.1&quot; 404 -</span>
+<div class="highlight"><pre><span></span><span class="err">139.162.83.10 - &quot;GET / HTTP/1.1&quot; 404 -</span>
 <span class="err">45.33.115.189 - &quot;GET / HTTP/1.0&quot; 404 -</span>
 <span class="err">79.55.11.21 - &quot;GET / HTTP/1.0&quot; 404 -</span>
 <span class="err">5.101.40.78 - code 400, message Bad HTTP/0.9 request type (&#39;\x03\x00\x00/*à\x00\x00\x00\x00\x00Cookie:&#39;)</span>
 <span class="err">5.101.40.78 - &quot;/*àCookie: mstshash=Administr&quot; HTTPStatus.BAD_REQUEST -</span>
 <span class="err">123.151.42.61 - &quot;GET http://www.baidu.com/ HTTP/1.1&quot; 404 -</span>
 <span class="err">158.85.81.116 - &quot;GET / HTTP/1.1&quot; 404 -</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>To be more precise, the flask app was still running, but the home router seemed not forwarding the requests to my pi. Anyway, I have no idea of what have happened. I just shut the app down, flashed a fresh new image to my pi.</p>
@@ -146,7 +146,7 @@
 这里的数字表示后面域名（各级域名）的访问量。统计各级域名的访问量。</p>
 </div>
 <p>比较简单的统计。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">subdomainVisits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpdomains</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type cpdomains: List[str]</span>
@@ -161,7 +161,7 @@
                 <span class="n">cnt</span><span class="p">[</span><span class="n">addr</span><span class="p">]</span> <span class="o">+=</span> <span class="n">n</span>
                 <span class="n">p</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cnt</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
-</code></pre></div>
+</pre></div>
 
 
 

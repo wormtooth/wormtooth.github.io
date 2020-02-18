@@ -45,12 +45,12 @@
         <p>卷积神经网络 (convolution neural network) 是当下图像识别最为热门而有效的手段。这种网络一般有若干个卷积模型 (convolution model) 加上若干个线性模型 (linear model) 组合而成。卷积模型部分相当于提取图像的特征，而线性模型部分是根据这些特征做出预测。卷积模型的想法是通过卷积运算提取图像的局部信息。我们在本笔记中首先介绍卷积运行，然后按照 <a href="http://cs231n.github.io/convolutional-networks/">CS231n Convolutional Neural Networks for Visual Recognition</a> 这篇参考资料的思路实现卷积模型。我们会在下一篇笔记中使用卷积模型建立一个简单的卷积神经网络来做 Fashion MNIST 识别。</p>
 <!--more-->
 
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="o">%</span><span class="n">run</span> <span class="n">import_npnet</span><span class="o">.</span><span class="n">py</span>
 <span class="n">npnet</span> <span class="o">=</span> <span class="n">import_npnet</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <h1>卷积运算</h1>
@@ -106,7 +106,7 @@ B' = \begin{pmatrix} 0 \\ 1 \\ -1 \\ 0 \end{pmatrix}.$$</div>
     &amp; W^\prime = \frac{W + 2 * pW - kW}{sW} + 1.
 \end{align*}$$</div>
 <p>卷积模型中的卷积运算是对前一节卷积运算的推广。上一节中的卷积运算相当于 <span class="math">\(N = C = 1\)</span> 的特殊情形。现在我们的图片是有 <span class="math">\(C\)</span> 层频道的，所以每个卷积核是一个 <span class="math">\(C \times kH \times kW\)</span> 的三维矩阵。如果我们希望将卷积运算化作矩阵乘法，我们需要将输入和卷积核变成二维矩阵。将 <span class="math">\(D\)</span> 个这样的卷积核变成一个二维矩阵是不难的，这个二维矩阵是一个规模为 <span class="math">\((C*kH*kW) \times D\)</span> 的矩阵，每一列代表一个卷积核。困难的是如何将 <span class="math">\(N \times C \times H \times W\)</span> 的四维矩阵变成一个二维矩阵。对输入规模和输出规模来分析，我们需要将这个四维矩阵变成一个规模为 <span class="math">\((N*H^\prime*W^\prime) \times (C*kH*kW)\)</span> 的二维矩阵。假设我们有一个简单的 <span class="math">\(2 \times 2 \times 2 \times 3\)</span> 输入：</p>
-<div class="highlight"><pre><span></span><code><span class="n">img</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">[</span>
         <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
          <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]],</span>
@@ -122,31 +122,31 @@ B' = \begin{pmatrix} 0 \\ 1 \\ -1 \\ 0 \end{pmatrix}.$$</div>
          <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
     <span class="p">]</span>
 <span class="p">]</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>我们假设 <span class="math">\(kH = kW = 2, sH = sW = 1\)</span> 且 <span class="math">\(pH = pW = 0\)</span>。我们不难计算出 <span class="math">\(H^\prime = 1, W^\prime = 2\)</span>。我们希望得到的对应的二维数组为</p>
-<div class="highlight"><pre><span></span><code><span class="err">row = [</span>
+<div class="highlight"><pre><span></span><span class="err">row = [</span>
 <span class="err">    [1, 2, 4, 5, 6, 5, 3, 2],</span>
 <span class="err">    [2, 3, 5, 6, 5, 4, 2, 1],</span>
 <span class="err">    [0, 1, 2, 2, 2, 3, 6, 6],</span>
 <span class="err">    [1, 0, 2, 3, 3, 3, 6, 6]</span>
 <span class="err">]</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><code>row</code> 的第一行是 <code>img[0]</code> 所有层中第一个 <span class="math">\(2 \times 2\)</span> 矩阵得到的数字所构成的行向量，第二行是 <code>img[0]</code> 所有层中第二个 <span class="math">\(2 \times 2\)</span> 矩阵得到的数字所构成的行向量。第三第四行是从 <code>img[1]</code> 得来的。如果我们分析 <code>row</code> 中数字来自于 <code>img</code> 的索引 (index)，我们可以得到</p>
-<div class="highlight"><pre><span></span><code><span class="err">row_indices = [</span>
+<div class="highlight"><pre><span></span><span class="err">row_indices = [</span>
 <span class="err">    0[000, 001, 010, 011, 100, 101, 110, 111],</span>
 <span class="err">    0[001, 002, 011, 012, 101, 102, 111, 112],</span>
 <span class="err">    1[000, 001, 010, 011, 100, 101, 110, 111],</span>
 <span class="err">    1[001, 002, 011, 012, 101, 102, 111, 112]</span>
 <span class="err">]</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><code>n[...chw...]</code> 此处的数字来自于 <code>img[n, c, h, w]</code>。我们发现这些索引是很有规律的，所以我们可以通过 <code>numpy</code> 的高级所以 (<a href="https://docs.scipy.org/doc/numpy-1.17.0/reference/arrays.indexing.html">advanced indexing</a>) 来将 <code>img</code> 变成 <code>row</code>。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<div class="highlight"><pre><span></span><span class="c1"># import</span>
 <span class="k">def</span> <span class="nf">im2row_indices</span><span class="p">(</span><span class="n">img_shape</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="p">):</span>
     <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">img_shape</span>
     <span class="n">kH</span><span class="p">,</span> <span class="n">kW</span> <span class="o">=</span> <span class="n">kernel</span>
@@ -184,11 +184,11 @@ B' = \begin{pmatrix} 0 \\ 1 \\ -1 \\ 0 \end{pmatrix}.$$</div>
     <span class="n">rows</span> <span class="o">=</span> <span class="n">img</span><span class="p">[:,</span> <span class="n">k</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
     <span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">kW</span> <span class="o">*</span> <span class="n">kH</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">rows</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>我们验证一下之前给出的例子：</p>
-<div class="highlight"><pre><span></span><code><span class="n">img</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">[</span>
         <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
          <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]],</span>
@@ -207,7 +207,7 @@ B' = \begin{pmatrix} 0 \\ 1 \\ -1 \\ 0 \end{pmatrix}.$$</div>
 <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 <span class="n">row</span> <span class="o">=</span> <span class="n">im2row</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>[[1 2 4 5 6 5 3 2]
@@ -217,7 +217,7 @@ B' = \begin{pmatrix} 0 \\ 1 \\ -1 \\ 0 \end{pmatrix}.$$</div>
 </pre>
 
 <p>Nice! 现在一个四维的输入通过上述的 <code>im2row</code> 变成一个二维的数组。那么当我们计算向后传播的导数时得到的是一个关于这个二维数组的导数。我们需要将这个二维数组的导数还原成关于四维输入的导数。使用链式法则 (chain rule) 以及 <code>im2row_indices</code>，我们能得到下列这个将二维数组导数还原成四维输入导数的函数。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<div class="highlight"><pre><span></span><span class="c1"># import</span>
 <span class="k">def</span> <span class="nf">row2im</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">img_shape</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="p">):</span>
     <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">img_shape</span>
     <span class="n">kH</span><span class="p">,</span> <span class="n">kW</span> <span class="o">=</span> <span class="n">kernel</span>
@@ -231,13 +231,13 @@ B' = \begin{pmatrix} 0 \\ 1 \\ -1 \\ 0 \end{pmatrix}.$$</div>
     <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">k</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="n">row</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">img</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">pH</span><span class="p">:</span><span class="n">H</span><span class="o">-</span><span class="n">pH</span><span class="p">,</span> <span class="n">pW</span><span class="p">:</span><span class="n">W</span><span class="o">-</span><span class="n">pW</span><span class="p">]</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>需要注意的是，<code>row2im</code> 并不是将 <code>row</code> 转成原来的 <code>img</code>，所以它不是 <code>im2row</code> 的逆函数。</p>
 <h1>卷积模型</h1>
 <p>通过 <code>im2row</code> 和 <code>row2im</code>，卷积模型其实就相当于一个线性模型来。使用之前的符号，卷积模型需要的参数有：输入图片的层数 <span class="math">\(C\)</span> ，输出图片的层数 <span class="math">\(D\)</span>，每一层卷积核的高和宽 <span class="math">\(kH, kW\)</span>，步长的高和宽 <span class="math">\(sH, sW\)</span>，和0填充的高和宽 <span class="math">\(pH, pW\)</span>。模型的参数是一个 <span class="math">\((C*kH*kW) \times D\)</span> 的二维矩阵，每一列代表一个卷积核，还有大小为 <span class="math">\(D\)</span> 的偏移量 (bias)。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<div class="highlight"><pre><span></span><span class="c1"># import</span>
 <span class="k">def</span> <span class="nf">to_tuple</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
         <span class="n">ans</span> <span class="o">=</span> <span class="n">x</span>
@@ -306,13 +306,13 @@ B' = \begin{pmatrix} 0 \\ 1 \\ -1 \\ 0 \end{pmatrix}.$$</div>
         <span class="n">oH</span> <span class="o">=</span> <span class="p">(</span><span class="n">H</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pH</span> <span class="o">-</span> <span class="n">kH</span><span class="p">)</span> <span class="o">//</span> <span class="n">sH</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">oW</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pW</span> <span class="o">-</span> <span class="n">kW</span><span class="p">)</span> <span class="o">//</span> <span class="n">sW</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">N</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_channels</span><span class="p">,</span> <span class="n">oH</span><span class="p">,</span> <span class="n">oW</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>跟往常一样，我们需要验证偏导数是否正确。</p>
-<div class="highlight"><pre><span></span><code><span class="n">conv</span> <span class="o">=</span> <span class="n">Conv</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">conv</span> <span class="o">=</span> <span class="n">Conv</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
 <span class="n">npnet</span><span class="o">.</span><span class="n">GradientCheck</span><span class="p">(</span><span class="n">conv</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">allowed_error</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>True</pre>
@@ -320,7 +320,7 @@ B' = \begin{pmatrix} 0 \\ 1 \\ -1 \\ 0 \end{pmatrix}.$$</div>
 <h1>池化</h1>
 <p>池化 (pooling) 的操作跟卷积很像，也都是考虑图片的局部信息。不同于卷积层 (convolution layer) 的是，池化层 (pooling layer) 没有参数。常见的池化有最大池化 (max pooling) 以及平均池化 (average pooling)。最大池化是取局部的最大值，而平均池化是取局部的平均值。平均池化可以看作一种特殊的卷积。</p>
 <p>池化有很多作用，比如可以降低图片的大小，增加不变性等等。用兴趣的可以参考知乎的一个问答：<a href="https://www.zhihu.com/question/36686900">CNN网络的pooling层有什么用？</a>。使用 <code>im2row</code> 和 <code>row2im</code>，我们能很容易的封装一个抽象的池化类：</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<div class="highlight"><pre><span></span><span class="c1"># import</span>
 <span class="k">class</span> <span class="nc">Pooling</span><span class="p">(</span><span class="n">npnet</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool_func</span><span class="p">,</span> <span class="n">pool_der</span><span class="p">,</span>
@@ -368,12 +368,12 @@ B' = \begin{pmatrix} 0 \\ 1 \\ -1 \\ 0 \end{pmatrix}.$$</div>
         <span class="n">oH</span> <span class="o">=</span> <span class="p">(</span><span class="n">H</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pH</span> <span class="o">-</span> <span class="n">kH</span><span class="p">)</span> <span class="o">//</span> <span class="n">sH</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">oW</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pW</span> <span class="o">-</span> <span class="n">kW</span><span class="p">)</span> <span class="o">//</span> <span class="n">sW</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">oH</span><span class="p">,</span> <span class="n">oW</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>有了这个池化的基类 <code>Pooling</code>，我们只需要定制 <code>pool_func</code> 和 <code>pool_der</code> 就能定义特定的池化层。</p>
 <h2>最大池化</h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<div class="highlight"><pre><span></span><span class="c1"># import</span>
 <span class="k">class</span> <span class="nc">MaxPool</span><span class="p">(</span><span class="n">Pooling</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -392,17 +392,17 @@ B' = \begin{pmatrix} 0 \\ 1 \\ -1 \\ 0 \end{pmatrix}.$$</div>
                          <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
                          <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
                          <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
-<div class="highlight"><pre><span></span><code><span class="n">npnet</span><span class="o">.</span><span class="n">GradientCheck</span><span class="p">(</span><span class="n">MaxPool</span><span class="p">(),</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
-</code></pre></div>
+<div class="highlight"><pre><span></span><span class="n">npnet</span><span class="o">.</span><span class="n">GradientCheck</span><span class="p">(</span><span class="n">MaxPool</span><span class="p">(),</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+</pre></div>
 
 
 <pre>True</pre>
 
 <h2>平均池化</h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<div class="highlight"><pre><span></span><span class="c1"># import</span>
 <span class="k">class</span> <span class="nc">AvgPool</span><span class="p">(</span><span class="n">Pooling</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -421,11 +421,11 @@ B' = \begin{pmatrix} 0 \\ 1 \\ -1 \\ 0 \end{pmatrix}.$$</div>
                          <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
                          <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
                          <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
-<div class="highlight"><pre><span></span><code><span class="n">npnet</span><span class="o">.</span><span class="n">GradientCheck</span><span class="p">(</span><span class="n">AvgPool</span><span class="p">(),</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
-</code></pre></div>
+<div class="highlight"><pre><span></span><span class="n">npnet</span><span class="o">.</span><span class="n">GradientCheck</span><span class="p">(</span><span class="n">AvgPool</span><span class="p">(),</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+</pre></div>
 
 
 <pre>True</pre>

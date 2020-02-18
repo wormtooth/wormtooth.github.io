@@ -47,7 +47,7 @@ Leetcode Contest 33 | 叶某人的碎碎念    </title>
 <div class="qbar">给定一个数组，找出长度最长的子数组，使得其最大值与最小值恰好相差1，返回最大长度。</div>
 
 <p>既然最大值与最小值恰好相差1，那么此子数组必定恰好有两个不一样的元素。我们只要统计每个元素出现的次数，然后枚举找出相邻两个元素出现次数之和的最大值就好。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findLHS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -63,7 +63,7 @@ Leetcode Contest 33 | 叶某人的碎碎念    </title>
             <span class="k">if</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">cnt</span><span class="p">:</span>
                 <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">v</span><span class="o">+</span><span class="n">cnt</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 <!--more-->
@@ -73,7 +73,7 @@ Leetcode Contest 33 | 叶某人的碎碎念    </title>
 
 <p>如果给定一个正方形，那么正方形任意两个顶点之间的距离构成一个只有两个元素的集合：边长与对角线长度。这个结论反过来一般来说是不正确的，但是现在顶点的坐标都是整数，在这种特殊的情况下，我们有：<br>
 <center>如果任意两个顶点之间的距离构成一个两个元素的集合，那么该四边形是正方形。</center></p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">validSquare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type p1: List[int]</span>
@@ -89,14 +89,14 @@ Leetcode Contest 33 | 叶某人的碎碎念    </title>
         <span class="n">ls</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">),</span> <span class="n">dist</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p3</span><span class="p">),</span> <span class="n">dist</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p4</span><span class="p">),</span>
             <span class="n">dist</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">),</span> <span class="n">dist</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">p4</span><span class="p">),</span> <span class="n">dist</span><span class="p">(</span><span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">)}</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="mi">0</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ls</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-33/problems/fraction-addition-and-subtraction/">第三题</a><code>Fraction Addition and Subtraction</code></p>
 <div class="qbar">计算分数加减法。分子分母保证在1到10之间。分数个数保证在10个以内。</div>
 
 <p>因为数据量极小，所以可以直接通分算。关键记得最后要约分。因为输入的分母都小于10，所以约分的时候只需约2，3，5，7的因子。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">fractionAddition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type expression: str</span>
@@ -124,14 +124,14 @@ Leetcode Contest 33 | 叶某人的碎碎念    </title>
                 <span class="n">cn</span> <span class="o">/=</span> <span class="n">d</span>
                 <span class="n">cd</span> <span class="o">/=</span> <span class="n">d</span>
         <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cn</span><span class="p">,</span> <span class="n">cd</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-33/problems/design-in-memory-file-system/">第四题</a><code>Design In-Memory File System</code></p>
 <div class="qbar">设计一个文件系统，支持ls，mkdir，addContentToFile和readContentFromFile。详细描述到leetcode上看。</div>
 
 <p>不难，就是有点麻烦。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">file</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">file</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">is_dir</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_dir</span> <span class="o">=</span> <span class="n">is_dir</span>
@@ -203,7 +203,7 @@ Leetcode Contest 33 | 叶某人的碎碎念    </title>
 <span class="c1"># obj.mkdir(path)</span>
 <span class="c1"># obj.addContentToFile(filePath,content)</span>
 <span class="c1"># param_4 = obj.readContentFromFile(filePath)</span>
-</code></pre></div>
+</pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

@@ -47,7 +47,7 @@ LeetCode Contest 167 | 叶某人的碎碎念    </title>
 <div class="qbar">
 <p>以单向链表给出一个二进制数，将其转成十进制。</p>
 </div>
-<div class="highlight"><pre><span></span><code><span class="c1"># Definition for singly-linked list.</span>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for singly-linked list.</span>
 <span class="c1"># class ListNode:</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -60,7 +60,7 @@ LeetCode Contest 167 | 叶某人的碎碎念    </title>
             <span class="n">r</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">head</span><span class="o">.</span><span class="n">val</span>
             <span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="n">next</span>
         <span class="k">return</span> <span class="n">r</span>
-</code></pre></div>
+</pre></div>
 
 
 <!--more-->
@@ -70,7 +70,7 @@ LeetCode Contest 167 | 叶某人的碎碎念    </title>
 <p>找出两个数 <code>low</code> 和 <code>high</code> 之间所有“后面一位数字比前面一位大1”的数（比如 123、3456）。</p>
 </div>
 <p>我一开始觉得这题很麻烦，先做了第三题。再次读题的时候我发现我可以枚举所有“后面一位数字比前面一位大1”的数，然后保留<code>low</code> 和 <code>high</code> 之间的数就行。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">sequentialDigits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">low</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">high</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
@@ -83,7 +83,7 @@ LeetCode Contest 167 | 叶某人的碎碎念    </title>
                     <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">ret</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/weekly-contest-167/problems/maximum-side-length-of-a-square-with-sum-less-than-or-equal-to-threshold/">第三题</a><code>Maximum Side Length of a Square with Sum Less than or Equal to Threshold</code></p>
@@ -91,7 +91,7 @@ LeetCode Contest 167 | 叶某人的碎碎念    </title>
 <p>给定一个二维数组和一个阈值，我们想找出所有数字之和小于阈值的正方形子数组的最大边长。</p>
 </div>
 <p>对正方形数组的边长做二分查找。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">maxSideLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mat</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="c1"># 预处理，方便查询数组中矩形区域的和</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
@@ -121,7 +121,7 @@ LeetCode Contest 167 | 叶某人的碎碎念    </title>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">b</span> <span class="o">=</span> <span class="n">c</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">r</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/weekly-contest-167/problems/shortest-path-in-a-grid-with-obstacles-elimination/">第四题</a><code>Shortest Path in a Grid with Obstacles Elimination</code></p>
@@ -129,7 +129,7 @@ LeetCode Contest 167 | 叶某人的碎碎念    </title>
 <p>经典的迷宫问题的变种：找出从左上到右下的最短路径的长度。只是现在我们允许通过最多 <code>k</code> 个障碍。</p>
 </div>
 <p>一开始以为可以动态规划，但是没有想出来。于是直接就深度搜索+剪枝了。我一开始就做了一个剪枝：如果当前的搜索路径长度已经大于已有的路径的长度，那么就没有必要继续下去了。不幸的是，这个算法TLE了。然后我又想到了另一个明显的剪枝：如果现在找到的答案已经是最小的，那么就没有必要搜索下去了。没有想到加上这个剪枝就过了。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">shortestPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
         <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -156,7 +156,7 @@ LeetCode Contest 167 | 叶某人的碎碎念    </title>
         <span class="n">visited</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">dfs</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</code></pre></div>
+</pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

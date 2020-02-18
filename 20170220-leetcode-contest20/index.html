@@ -45,7 +45,7 @@ Leetcode Contest 20 | 叶某人的碎碎念    </title>
         <p>这周六的菜单是牛排骨、金鲳鱼和土豆丝，甜点是蛋糕。</p>
 <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-20/">比赛</a>有四题，我只做出来了前三道。</p>
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-20/problems/detect-capital/">第一道</a>是简单的字符串处理。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">detectCapitalUse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type word: str</span>
@@ -56,13 +56,13 @@ Leetcode Contest 20 | 叶某人的碎碎念    </title>
         <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="s1">&#39;a&#39;</span> <span class="o">&lt;=</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="s1">&#39;z&#39;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">word</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="s1">&#39;A&#39;</span> <span class="o">&lt;=</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="s1">&#39;Z&#39;</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="s1">&#39;a&#39;</span> <span class="o">&lt;=</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="s1">&#39;z&#39;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-</code></pre></div>
+</pre></div>
 
 
 <!--more-->
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-20/problems/beautiful-arrangement/">第二道</a>直接深度优先搜索就是。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">countArrangement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type N: int</span>
@@ -80,12 +80,12 @@ Leetcode Contest 20 | 叶某人的碎碎念    </title>
         <span class="n">ans</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">dfs</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">ans</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-20/problems/contiguous-array/">第三道</a>我挂了三次才成功的。一开始以为可以用binary search：答案最小可能值是0，最大可能值是2*[len(num)/2]，我就对这个区间二分查找。但是后来发现这个算法是不对的，反例如下：</p>
-<div class="highlight"><pre><span></span><code><span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-</code></pre></div>
+<div class="highlight"><pre><span></span><span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
 
 
 <p>这测试数据应该要返回8，但明显不存在长度为6的连续子数组使得0和1的个数一样。所以这个问题并不符合二分查找的条件。</p>
@@ -96,7 +96,7 @@ Leetcode Contest 20 | 叶某人的碎碎念    </title>
 如果我们将nums的所有数都做了一个n -&gt; 2n-1的变换，并且将变换后的数组求出其前缀和放在数组s里，那么上述等式等价于<br>
 <center>s[i+l-1] - s[i-1] = 0 或者说是 s[i+1-l] = s[i-1]</center><br>
 所以我们可以初始化ans = 0，然后从小到大遍历所有i，找出最大的j使得s[j] = s[i-1]，然后更新ans = max(ans, j-i+1)。为了快速查找这样的j，我们用一个哈希表d来记录某个和出现的最右位置。算法详细实现如下。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findMaxLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -113,13 +113,13 @@ Leetcode Contest 20 | 叶某人的碎碎念    </title>
             <span class="n">j</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-20/problems/super-washing-machines/">第四题</a>比赛的时候没有写出来。看了别人的代码发现算法其实很简单：假设最后每个洗衣机的平均值为k，对于洗衣机i，如果<br>
 <center>machines[0]+...+machines[i] &gt;= k(i + 1)</center><br>
 那么说明需要从第i个位置向右移动machines[0]+...+machines[i]-k(i + 1)单位的衣服，反之则是说明需要从第i+1个位置向左移动k(i + 1)-(machines[0]+...+machines[i])单位的衣服。最后答案就是每个位置向左向右移动之和的最大值。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findMinMoves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">machines</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type machines: List[int]</span>
@@ -139,11 +139,11 @@ Leetcode Contest 20 | 叶某人的碎碎念    </title>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">to_left</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">to_left</span><span class="p">,</span> <span class="n">to_right</span><span class="p">))</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>我们可以降低空间的使用：</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findMinMoves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">machines</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type machines: List[int]</span>
@@ -164,7 +164,7 @@ Leetcode Contest 20 | 叶某人的碎碎念    </title>
                 <span class="n">to_left</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="n">n</span>
             <span class="n">c</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">k</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
         <div class="tags">
         <a href="/tag/contest">contest</a>

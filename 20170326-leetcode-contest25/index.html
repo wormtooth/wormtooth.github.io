@@ -48,7 +48,7 @@ Leetcode Contest 25 | 叶某人的碎碎念    </title>
 <div class='qbar'>题目大意：给定一个整数num，判断是否为完美数。如果num是一个正整数，并且其所有正因子（除num本身之外）之和等于本身，那么num是一个完美数。</div>
 
 <p>思路：关键的观察是正因子是成对出现的，例如d是num的一个因子，那么num/d也是num的一个因子，所以我们只要搜索到<span class="math">\(\sqrt{num}\)</span>就行。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">checkPerfectNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type num: int</span>
@@ -64,7 +64,7 @@ Leetcode Contest 25 | 叶某人的碎碎念    </title>
                 <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">num</span><span class="o">/</span><span class="n">i</span><span class="p">:</span>
                     <span class="n">s</span> <span class="o">+=</span> <span class="n">num</span><span class="o">/</span><span class="n">i</span>
         <span class="k">return</span> <span class="n">s</span> <span class="o">==</span> <span class="n">num</span>
-</code></pre></div>
+</pre></div>
 
 
 <!--more-->
@@ -73,7 +73,7 @@ Leetcode Contest 25 | 叶某人的碎碎念    </title>
 <div class='qbar'>题目大意：以a+bi的形式输入两个复数，以同样的方式输出它们的乘积。</div>
 
 <p>简单的字符串处理，就不多说了。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">complexNumberMultiply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type a: str</span>
@@ -92,7 +92,7 @@ Leetcode Contest 25 | 叶某人的碎碎念    </title>
         <span class="n">i</span> <span class="o">=</span> <span class="n">ra</span><span class="o">*</span><span class="n">ib</span> <span class="o">+</span> <span class="n">ia</span><span class="o">*</span><span class="n">rb</span>
 
         <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">+</span><span class="si">{}</span><span class="s1">i&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-25/problems/boundary-of-binary-tree/">第三题</a><code>Boundary of Binary Tree</code></p>
@@ -103,7 +103,7 @@ Leetcode Contest 25 | 叶某人的碎碎念    </title>
 <p>右边界：根左边界求法一样，只是在更新p时要先考虑右子树。</p>
 <p>叶子：这个比较简单，用DFS。对于当前节点root，如果root有子树，那么它不可能是叶子，递归先后考虑它的左右子树。相反地，如果root没有子树，那么root就是叶子了。</p>
 <p>在输出边界的时候要注意判重。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -160,7 +160,7 @@ Leetcode Contest 25 | 叶某人的碎碎念    </title>
                 <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-25/problems/remove-boxes/">第四题</a><code>Remove Boxes</code></p>
@@ -171,7 +171,7 @@ Leetcode Contest 25 | 叶某人的碎碎念    </title>
 <p>假设标记出来跟位置l一样的元素位置组成的位置数组为[j0=l, j1, ..., jn]。如果我们让f(j, i)表示使得j位置成为跟l位置一起消除时变成第i个的最大得分。那么转移方程是：<br>
 <center>f(j, i) = max{f(k, i-1)+dp(k+1, j-1): k &lt; j}</center><br>
 具体实现看下面代码。下面的实现还有个简单的优化，没有这个优化会TLE。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">removeBoxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boxes</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type boxes: List[int]</span>
@@ -209,7 +209,7 @@ Leetcode Contest 25 | 叶某人的碎碎念    </title>
             <span class="k">return</span> <span class="n">ans</span>
 
         <span class="k">return</span> <span class="n">dp</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">boxes</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

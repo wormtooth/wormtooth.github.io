@@ -48,7 +48,7 @@ Leetcode Contest 29 | 叶某人的碎碎念    </title>
 <div class='qbar'>题目大意：对于一个二叉树节点，定义它的tilt为左子树之和与右子树之和差的绝对值。给定一棵二叉树，求出所有节点tilt值之和。</div>
 
 <p>感觉是简单的dfs套路。对于每个节点，递归算左右子树之和，那么它的tilt值就很容易求出来加到一个全局的变量里，然后返回当前子树之和：左子树+右子树+根节点</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -73,7 +73,7 @@ Leetcode Contest 29 | 叶某人的碎碎念    </title>
 
         <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</code></pre></div>
+</pre></div>
 
 
 <!--more-->
@@ -85,7 +85,7 @@ Leetcode Contest 29 | 叶某人的碎碎念    </title>
 </div>
 
 <p>首先将数组排序，然后将第0，2，...，2n－2的位置加起来就行。证明也很简单，这里就忽略了。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">arrayPairSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -93,7 +93,7 @@ Leetcode Contest 29 | 叶某人的碎碎念    </title>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nums</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-29/problems/longest-line-of-consecutive-one-in-matrix/">第三题</a><code>Longest Line of Consecutive One in Matrix</code></p>
@@ -102,7 +102,7 @@ Leetcode Contest 29 | 叶某人的碎碎念    </title>
 <p>我是直接暴力枚举的。枚举行i和列j，如果当前是1，那么就分别算出以其为首的四种线的最大长度，然后更新答案。为了避免重复计算，我开了四个跟M一样大的二维数组。</p>
 <p>有另一种只需要O(1)空间枚举方法的。枚举所有的行，列，对角线和反对角线，然后求这些线上的所有连续1的长度，以更新答案。</p>
 <p>我当时衡量了一下，用了第一种枚举方法。下面就是第一种枚举方法的实现。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">longestLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type M: List[List[int]]</span>
@@ -151,7 +151,7 @@ Leetcode Contest 29 | 叶某人的碎碎念    </title>
                         <span class="n">t</span> <span class="o">-=</span> <span class="mi">1</span>
                     <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">k</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-29/problems/find-the-closest-palindrome/">第四题</a><code>Find the Closest Palindrome</code></p>
@@ -161,7 +161,7 @@ Leetcode Contest 29 | 叶某人的碎碎念    </title>
 <p>求比n小的回文数步骤：<br>
 第一步：将n前一半反序放在n的后一半上，如果新得到的回文数m比n小，返回m，不然进入第二步。<br>
 第二步：将n的前一半减去1，后一半全部变成9，如果得到的是一个回文数，那么返回这个回文数，不然回到第一步。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">nearestPalindromic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type n: str</span>
@@ -206,7 +206,7 @@ Leetcode Contest 29 | 叶某人的碎碎念    </title>
             <span class="k">return</span> <span class="n">s</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">b</span>
-</code></pre></div>
+</pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

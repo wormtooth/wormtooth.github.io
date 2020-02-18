@@ -46,7 +46,7 @@ Leetcode Contest 35 | 叶某人的碎碎念    </title>
 <div class="qbar">给定一个01数组代表一排花盆，0代表是可以种花，1代表不可以。种花的时候我们要确保左右两边的花盆是空的。问能不能种n株花。</div>
 
 <p>简单的贪心。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">canPlaceFlowers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flowerbed</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type flowerbed: List[int]</span>
@@ -64,7 +64,7 @@ Leetcode Contest 35 | 叶某人的碎碎念    </title>
             <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">cnt</span><span class="o">&gt;=</span><span class="n">n</span>
-</code></pre></div>
+</pre></div>
 
 
 <!--more-->
@@ -73,7 +73,7 @@ Leetcode Contest 35 | 叶某人的碎碎念    </title>
 <div class="qbar">将一颗二叉树按照前序遍历的格式转化成字符串。</div>
 
 <p>直接DFS。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -97,14 +97,14 @@ Leetcode Contest 35 | 叶某人的碎碎念    </title>
         <span class="k">if</span> <span class="n">right</span><span class="p">:</span>
             <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">()(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">val</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-35/problems/find-duplicate-file-in-system/">第三题</a><code>Find Duplicate File in System</code></p>
 <div class="qbar">题目比较长，请去leetcode看详细描述。大意是给定一个文件系统（路径以及文件的内容），将重复出现的文件（按内容）分组返回。</div>
 
 <p>关键是建立一个<code>内容：路径</code>的哈希表。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findDuplicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paths</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type paths: List[str]</span>
@@ -125,14 +125,14 @@ Leetcode Contest 35 | 叶某人的碎碎念    </title>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-35/problems/tag-validator/">第四题</a><code>Tag Validator</code></p>
 <div class="qbar">题目很长，请去leetcode看详细描述。大意是判断一段类似html的代码是否正确。</div>
 
 <p>其实不难，不过倒是挺繁琐的。首先是处理cdata，然后用一个栈来配对标签。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">isValid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type code: str</span>
@@ -189,7 +189,7 @@ Leetcode Contest 35 | 叶某人的碎碎念    </title>
             <span class="n">code</span> <span class="o">=</span> <span class="n">code</span><span class="p">[:</span><span class="n">b</span><span class="p">]</span><span class="o">+</span><span class="n">code</span><span class="p">[</span><span class="n">e</span><span class="o">+</span><span class="mi">3</span><span class="p">:]</span>
             <span class="n">b</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;&lt;![CDATA[&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">code</span>
-</code></pre></div>
+</pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

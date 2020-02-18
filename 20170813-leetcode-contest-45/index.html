@@ -48,7 +48,7 @@ LeetCode Contest 45 | 叶某人的碎碎念    </title>
 <div class="qbar">给定一个只含R（右），L（左），U（上）和D（下）的字符串表示移动方向，问是否能回到出发点。</div>
 
 <p>简单的统计。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">judgeCircle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">moves</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type moves: str</span>
@@ -56,7 +56,7 @@ LeetCode Contest 45 | 叶某人的碎碎念    </title>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cnt</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">moves</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;R&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;U&#39;</span><span class="p">]</span>
-</code></pre></div>
+</pre></div>
 
 
 <!--more-->
@@ -65,7 +65,7 @@ LeetCode Contest 45 | 叶某人的碎碎念    </title>
 <div class="qbar">给定k和x，在数组中找出跟x距离最短的k个数。</div>
 
 <p>对数组按第一关键字距离，第二关键字本身来排序。排序后的前k个数就是我们想要的了。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findClosestElements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type arr: List[int]</span>
@@ -75,7 +75,7 @@ LeetCode Contest 45 | 叶某人的碎碎念    </title>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">arr</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">x</span><span class="p">),</span> <span class="n">n</span><span class="p">))</span>
         <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">arr</span><span class="p">[:</span><span class="n">k</span><span class="p">])</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-45/problems/split-array-into-consecutive-subsequences/">第三题</a><code>Split Array into Consecutive Subsequences</code></p>
@@ -93,7 +93,7 @@ LeetCode Contest 45 | 叶某人的碎碎念    </title>
 <center>need[2] = max(0, cnt[n]-need[0])</center></p>
 <p>当所有数遍历之后，need[1]+need[2]需要为0我们才能分解这个数组。</p>
 <p>我程序的cnt跟上述的cnt稍微有点差别。第一部分是统计uni和cnt。第二部分找出uni中所有连续的块并放在stack中。第三部分是对每个连续块进行处理。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">isPossible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -129,14 +129,14 @@ LeetCode Contest 45 | 叶某人的碎碎念    </title>
             <span class="k">if</span> <span class="n">need</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">need</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-45/problems/remove-9/">第四题</a><code>Remove 9</code></p>
 <div class="qbar">将从1开始的所有整数中含9的整数全部去掉后的第n个数是什么？</div>
 
 <p>如果将9都去掉了，剩下的数字是有0，1，...，8组成的。所以剩下的数可以看作9进制的数。现在给定n，我们只要找出9进制中第n个数是什么就行。也就是将输入的n转成9进制输出就行。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">newInteger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type n: int</span>
@@ -148,7 +148,7 @@ LeetCode Contest 45 | 叶某人的碎碎念    </title>
             <span class="n">n</span> <span class="o">/=</span> <span class="mi">9</span>
             <span class="n">p</span> <span class="o">*=</span> <span class="mi">10</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

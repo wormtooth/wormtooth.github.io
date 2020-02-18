@@ -69,7 +69,7 @@ for some <span class="math">\(c&gt;0\)</span>. What if we change the addition in
 <li>第一个数 X 倒数第一个数 X 倒数第二个数</li>
 <li>第一个数 X 第二个数 X 倒数第一个数</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">maximumProduct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -80,7 +80,7 @@ for some <span class="math">\(c&gt;0\)</span>. What if we change the addition in
                     <span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span>
                     <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span>
                     <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-</code></pre></div>
+</pre></div>
 
 
 
@@ -159,7 +159,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 <div class="qbar">给定一个包含数组的数组，每个数组都已经递增排序。我们要做的是从两个数组中各选一个数，使得这两个数的差的绝对值最大。问这个最大的值是多少？</div>
 
 <p>对于第i数组中，取出最大值a，最小值b，然后将(a, i)和(b, i)放进一个数组m里。将数组m按照第一个分量排序，那么对我们有用的只是数组m前面两个元素和后面两个元素。如果第一个元素和最后一个元素来自不一样的数组（第二个分量不一样），那么答案就是这两个元素的第一个分量的差。否则，我们要比较两种情况：第一个元素与倒数第二个元素，第二个元素与最后一个元素。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">maxDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arrays</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type arrays: List[List[int]]</span>
@@ -173,7 +173,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
         <span class="k">if</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">!=</span><span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
             <span class="k">return</span> <span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-</code></pre></div>
+</pre></div>
 
 
 
@@ -189,7 +189,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 <div class="qbar">给定一个01数组代表一排花盆，0代表是可以种花，1代表不可以。种花的时候我们要确保左右两边的花盆是空的。问能不能种n株花。</div>
 
 <p>简单的贪心。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">canPlaceFlowers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flowerbed</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type flowerbed: List[int]</span>
@@ -207,7 +207,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
             <span class="n">flowerbed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">cnt</span><span class="o">&gt;=</span><span class="n">n</span>
-</code></pre></div>
+</pre></div>
 
 
 
@@ -224,7 +224,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 <div class="qbar">给定一个数组，找出长度最长的子数组，使得其最大值与最小值恰好相差1，返回最大长度。</div>
 
 <p>既然最大值与最小值恰好相差1，那么此子数组必定恰好有两个不一样的元素。我们只要统计每个元素出现的次数，然后枚举找出相邻两个元素出现次数之和的最大值就好。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findLHS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -240,7 +240,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
             <span class="k">if</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">cnt</span><span class="p">:</span>
                 <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">v</span><span class="o">+</span><span class="n">cnt</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 
@@ -257,7 +257,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 <div class="qbar">给定一个数组，求其中最短的连续子数组长度，使得对该子数组排序就能完成对整个数组的排序。</div>
 
 <p>首先将数组排好序，然后看排好的数组与原来的数组之间的差异。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findUnsortedSubarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -273,7 +273,7 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
         <span class="k">while</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">sn</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
             <span class="n">j</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
-</code></pre></div>
+</pre></div>
 
 
 

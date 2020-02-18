@@ -55,15 +55,15 @@ Generalized Linear Model (Examples) | 叶某人的碎碎念    </title>
 <p>The first example is to predict monthly production cost according to production output for a hosiery<br>
 mill. The data set is <a href="http://www.stat.ufl.edu/~winner/data/millcost.dat">here</a>, with description <a href="http://www.stat.ufl.edu/~winner/data/millcost.txt">here</a>. The first 3 rows of the data look like:</p>
 <blockquote>
-<div class="highlight"><pre><span></span><code><span class="err">  1   46.75   92.64</span>
+<div class="highlight"><pre><span></span><span class="err">  1   46.75   92.64</span>
 <span class="err">  2   42.18   88.81</span>
 <span class="err">  3   41.86   86.44</span>
-</code></pre></div>
+</pre></div>
 
 
 </blockquote>
 <p>The first column represents month, the second column represents production output and the last column represents production cost. </p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -78,7 +78,7 @@ mill. The data set is <a href="http://www.stat.ufl.edu/~winner/data/millcost.dat
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of sample points: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The first three sample points:&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)[:</span><span class="mi">3</span><span class="p">])</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>Number of sample points: 48
@@ -87,9 +87,9 @@ The first three sample points:
 </pre>
 
 <p>We have 48 sample points, let's try to plot these sample points for visualization.</p>
-<div class="highlight"><pre><span></span><code><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre><matplotlib.figure.Figure at 0x10927dc90></pre>
@@ -241,7 +241,7 @@ Using gradient descent method,<br>
 <p><br>
 where <span class="math">\(\theta^{(n)}\)</span> is the <span class="math">\(n\)</span>-th iteration of <span class="math">\(\theta\)</span> and <span class="math">\(\alpha\)</span> is the chosen learning rate.</p>
 <p>Let's put gradient descent into codes.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># set up constants for gradient calculation</span>
+<div class="highlight"><pre><span></span><span class="c1"># set up constants for gradient calculation</span>
 <span class="n">sum_of_x</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="n">sum_of_y</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 <span class="n">sum_of_x2</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="p">)</span>
@@ -270,7 +270,7 @@ where <span class="math">\(\theta^{(n)}\)</span> is the <span class="math">\(n\)
     <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">gradient</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>[[ 2.00547626]
@@ -278,12 +278,12 @@ where <span class="math">\(\theta^{(n)}\)</span> is the <span class="math">\(n\)
 </pre>
 
 <p>Number of iterations and learning rate are needed to be chosen carefully. Since I am new to machine learning, I don't have anything to say about how to choose them but only to mention the method I used: keep trying! Let's see our model in a graph.</p>
-<div class="highlight"><pre><span></span><code><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
 <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
 <span class="n">v</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">t</span><span class="o">+</span><span class="n">theta</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">u</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre><matplotlib.figure.Figure at 0x10a7e1dd0></pre>
@@ -467,9 +467,9 @@ p6AXEYlxCnoRkRj3/88hnJcQqZvGAAAAAElFTkSuQmCC
 So setting <span class="math">\(\nabla J = 0\)</span>, one easily gets<br>
 </p>
 <div class="math">$$\theta = A^{-1}B.$$</div>
-<div class="highlight"><pre><span></span><code><span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">),</span> <span class="n">B</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">),</span> <span class="n">B</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>[[ 2.00547626]
@@ -477,7 +477,7 @@ So setting <span class="math">\(\nabla J = 0\)</span>, one easily gets<br>
 </pre>
 
 <p>This is exactly the same as the one from gradient descent method! Next, I am going to show a case of linear regression with multiple features. The sample data set we are going to use is: Immigrant Salaries and Skills, U.S. 1909. You can find data <a href="http://www.stat.ufl.edu/~winner/data/immwork.dat">here</a> and description <a href="http://www.stat.ufl.edu/~winner/data/immwork.txt">here</a>.</p>
-<div class="highlight"><pre><span></span><code><span class="n">immwork_url</span> <span class="o">=</span> <span class="s1">&#39;http://www.stat.ufl.edu/~winner/data/immwork.dat&#39;</span>
+<div class="highlight"><pre><span></span><span class="n">immwork_url</span> <span class="o">=</span> <span class="s1">&#39;http://www.stat.ufl.edu/~winner/data/immwork.dat&#39;</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">immwork_url</span><span class="p">)</span>
 <span class="n">data_pat</span> <span class="o">=</span> <span class="s1">&#39;(\d+\.\d+)&#39;</span>
 <span class="n">data</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">data_pat</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
@@ -488,7 +488,7 @@ So setting <span class="math">\(\nabla J = 0\)</span>, one easily gets<br>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The first three sample points:&#39;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>Number of sample points: 35
@@ -498,7 +498,7 @@ The first three sample points:
 (10.31, (20.3, 78.2, 8.5))
 </pre>
 
-<div class="highlight"><pre><span></span><code><span class="n">f</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">4</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;English&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Wage&#39;</span><span class="p">)</span>
@@ -507,7 +507,7 @@ The first three sample points:
 <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">::</span><span class="mi">4</span><span class="p">],</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Tenure&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre><matplotlib.figure.Figure at 0x10b015190></pre>
@@ -710,7 +710,7 @@ where<br>
 By setting <span class="math">\(\nabla J = 0\)</span>,<br>
 </p>
 <div class="math">$$\theta = A^{-1}B.$$</div>
-<div class="highlight"><pre><span></span><code><span class="c1"># number of features</span>
+<div class="highlight"><pre><span></span><span class="c1"># number of features</span>
 <span class="n">n</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="c1"># add dummy feature to x</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
@@ -737,7 +737,7 @@ By setting <span class="math">\(\nabla J = 0\)</span>,<br>
 <span class="c1"># theta = A^{-1} * B</span>
 <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">),</span> <span class="n">B</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>[[ 2.43496481]
@@ -747,7 +747,7 @@ By setting <span class="math">\(\nabla J = 0\)</span>,<br>
 </pre>
 
 <p>To see how well the model fits the data, I use 5 random sample points to test the model. Each sample point has its own color. 'o' points are the observed values, while 'x' points are the predicted values. Also, we can calculate the percentage error of the prediction by the model.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># observed points</span>
+<div class="highlight"><pre><span></span><span class="c1"># observed points</span>
 <span class="n">test_x</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">test</span><span class="p">)</span>
 <span class="n">test_y</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">test</span><span class="p">)</span>
 <span class="c1"># prediction</span>
@@ -761,7 +761,7 @@ By setting <span class="math">\(\nabla J = 0\)</span>,<br>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;English&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Wage&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre><matplotlib.figure.Figure at 0x10b89b190></pre>
@@ -860,12 +860,12 @@ PZqZT3WozA2LiMuB3wdeAjwM/Cz1/2j0zBjhZJgvApdk5jONtl77LH8T+Eng68DngJ+nvibwh8DL
 G20/lZnPdazITRARfwG8AngeeG9m3tVrn2WzDAJJKpy7hiSpcAaBJBXOIJCkwhkEklQ4g0CSCmcQ
 SFLhDAJJKtz/BxDx4QwX136hAAAAAElFTkSuQmCC
 "/></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># absolute error</span>
+<div class="highlight"><pre><span></span><span class="c1"># absolute error</span>
 <span class="n">abs_error</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="o">-</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">test_y</span><span class="p">,</span> <span class="n">predict_y</span><span class="p">))</span>
 <span class="c1"># percentage error</span>
 <span class="n">per_error</span> <span class="o">=</span> <span class="n">abs_error</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">test_y</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The percentage error is </span><span class="si">{0:.2f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">per_error</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>The percentage error is 3.47%
@@ -873,7 +873,7 @@ SFLhDAJJKtz/BxDx4QwX136hAAAAAElFTkSuQmCC
 
 <h2>Logistic Regression</h2>
 <p>We are going to predict the probability of good field goals based on the dataset <a href="http://www.stat.ufl.edu/~winner/data/fieldgoal.txt">NFL Field Goal Attempts 2003</a>. Let's get the <a href="http://www.stat.ufl.edu/~winner/data/fieldgoal.dat">data</a> and do some plotting first.</p>
-<div class="highlight"><pre><span></span><code><span class="n">fieldgoal_url</span> <span class="o">=</span> <span class="s1">&#39;http://www.stat.ufl.edu/~winner/data/fieldgoal.dat&#39;</span>
+<div class="highlight"><pre><span></span><span class="n">fieldgoal_url</span> <span class="o">=</span> <span class="s1">&#39;http://www.stat.ufl.edu/~winner/data/fieldgoal.dat&#39;</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fieldgoal_url</span><span class="p">)</span>
 <span class="n">data_pat</span> <span class="o">=</span> <span class="s1">&#39;(\d+)&#39;</span>
 <span class="n">data</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">data_pat</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
@@ -885,7 +885,7 @@ SFLhDAJJKtz/BxDx4QwX136hAAAAAElFTkSuQmCC
 <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">good_x</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bad_x</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre><matplotlib.figure.Figure at 0x10b033550></pre>
@@ -1007,7 +1007,7 @@ We observe that the range of <span class="math">\(x^{(i)}\)</span> is <span clas
 \\
 \frac{\partial l}{\partial b} &amp;= \sum_{i = \min(x)}^{\max(x)} \mathrm{gxc[i]} \cdot (1 - h_{a, b}(i)) + \mathrm{bxc[i]} \cdot(0 - h_{a, b}(i)) \\
 \end{split}$$</div>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">collections</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">collections</span>
 <span class="n">gxc</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">good_x</span><span class="p">)</span>
 <span class="n">bxc</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">bad_x</span><span class="p">)</span>
 <span class="n">min_x</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -1033,14 +1033,14 @@ We observe that the range of <span class="math">\(x^{(i)}\)</span> is <span clas
     <span class="n">da</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
     <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="n">da</span><span class="p">,</span> <span class="n">b</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="n">db</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>(-0.14675490410919528, 6.2622768245732017)
 </pre>
 
 <p>Let's try to visualize how good our model fits the data. To this end, we recall that logistic regression gives prediction of probability of success. So we need to calculate the observed probability first, and then compare it to the model.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># calculate the observed probability</span>
+<div class="highlight"><pre><span></span><span class="c1"># calculate the observed probability</span>
 <span class="n">observation</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
     <span class="n">total</span> <span class="o">=</span> <span class="n">gxc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">bxc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -1056,7 +1056,7 @@ We observe that the range of <span class="math">\(x^{(i)}\)</span> is <span clas
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre><matplotlib.figure.Figure at 0x10bcaf210></pre>
@@ -1226,19 +1226,19 @@ Ep8bsuhaxDLcRURyXSyrZUREcp3CXUQkhhTuIiIxpHAXEYkhhbuISAwp3EVEYkjhLiISQwp3EZEY
 +v+C6NRSgN5dPQAAAABJRU5ErkJggg==
 "/></p>
 <p>It looks like that the model dose not fit well. We can simply do gradient descent again, but this time, we start from the previous calculated <code>a</code> and <code>b</code>. Since we are close to the optimal solution, we decrease the learning rate alpha to <span class="math">\(10^{-6}\)</span> and also decrease the iteration steps.</p>
-<div class="highlight"><pre><span></span><code><span class="n">alpha</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)</span>
 <span class="n">c</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">4</span>
 <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
     <span class="n">da</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
     <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="n">da</span><span class="p">,</span> <span class="n">b</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="n">db</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>(-0.12228007960331008, 6.237420310313901)
 </pre>
 
-<div class="highlight"><pre><span></span><code><span class="c1"># plot observation</span>
+<div class="highlight"><pre><span></span><span class="c1"># plot observation</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">observation</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">)</span>
 
 <span class="c1"># plot prediction</span>
@@ -1247,7 +1247,7 @@ Ep8bsuhaxDLcRURyXSyrZUREcp3CXUQkhhTuIiIxpHAXEYkhhbuISAwp3EVEYkjhLiISQwp3EZEY
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre><matplotlib.figure.Figure at 0x10bc85c10></pre>

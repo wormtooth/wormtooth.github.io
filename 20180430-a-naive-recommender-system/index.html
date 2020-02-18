@@ -74,17 +74,17 @@
 <p>最简单的想法是将文章的每个字作为一个特征，<span class="math">\(x_i\)</span>表示某个字是否出现在文章中。本来在朴素贝叶斯中我们就假设特征之间没有关系，如果现在还将文章每个字单独拿出来作为特征就有点太过扭曲原文的意思啦。比如“过去”和“去过”这两个意思完全不一样的词语都含有“过”和“去”两个字，使用每个字作为特征的模型就无法区分这两个词语了。</p>
 <p>为了使我们的模型不至于太过简单，我使用了文章中出现的<strong>词语</strong>作为特征。并且，我还将<strong>只有一个字的词语、标点符号和数字等</strong>去掉。</p>
 <p>首先我们使用<a href="https://github.com/fxsjy/jieba">结巴分词</a>对文章进行<strong>精确模式</strong>分词：</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">jieba</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jieba</span>
 <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;过去一年...短缺结束了。&quot;</span>
 <span class="n">words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">jieba</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">cut_all</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">))</span>
-</code></pre></div>
+</pre></div>
 
 
 <div class="qbar">过去/一年/的/挖矿/热/导致/显卡/短缺/，/价格/居高不下/。/但/随着/数字/货币/市场/热度/下降/（/或/叫/矿难/）/，/显卡/开始/不/短缺/了/，/价格/也/降下来/了/。/今年/ /1/ /月/，/去/百思买/购买/显卡/的话/，/你/会/发现/货架/上/几乎/找/不到/几张/，/即使/有/价格/也/高得/惊人/，/ /8GB/ /的/ /Radeon/ /580/ /显卡/售价/ /529.99/ /美元/，/店员/还会/告诉/你/错过/了/就/买不到/了/；/今天/相同/的/显卡/只/需/ /419.99/ /美元/，/供应/充足/。/除了/ /AMD/ /显卡/价格/下跌/外/，/Nvidia/ /的/显卡/也/存在/类似/现象/。/一名/以太/币/矿工/称/，/以太/币/的/价格/下跌/导致/了/利润/大幅/减少/，/显卡/短缺/结束/了/。</div>
 
 <p>然后我们提取长度大于1的非数字词语。</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
     <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="nb">float</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
@@ -94,7 +94,7 @@
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
 <span class="n">words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">check</span><span class="p">,</span> <span class="n">words</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <div class="qbar">{'类似', '百思买', '大幅', '下降', '导致', 'AMD', '今年', '利润', '美元', '显卡', '售价', '供应', '开始', '今天', '居高不下', '一年', '发现', '市场', '一名', '除了', '随着', '几乎', '短缺', '货币', '的话', '还会', '存在', '错过', '结束', '高得', '8GB', '店员', '以太', '过去', '购买', '矿工', '充足', '下跌', '矿难', 'Radeon', '不到', '相同', '价格', '减少', '即使', '降下来', 'Nvidia', '数字', '惊人', '告诉', '货架', '买不到', '热度', '几张', '挖矿', '现象'}</div>

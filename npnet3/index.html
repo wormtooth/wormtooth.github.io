@@ -45,12 +45,12 @@
         <p>这篇笔记尝试着实现几种简单的机遇梯度下降的优化器 (Optimizer)。主要的参考资料是 <a href="http://cs231n.github.io/neural-networks-3/">Neural Networks Part 3: Learning and Evaluation</a>。另外我还参考了 <a href="http://ruder.io/optimizing-gradient-descent/index.html">An overview of gradient descent optimization algorithms</a>。这篇博文不仅有篇对应的论文：<a href="https://arxiv.org/abs/1609.04747">An overview of gradient descent optimization algorithms</a>，还已经被翻译成中文了：<a href="http://blog.csdn.net/google19890102/article/details/69942970">梯度下降优化算法综述</a>。</p>
 <!--more-->
 
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="o">%</span><span class="n">run</span> <span class="n">import_npnet</span><span class="o">.</span><span class="n">py</span>
 <span class="n">npnet</span> <span class="o">=</span> <span class="n">import_npnet</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <h1>重新设计优化器</h1>
@@ -60,7 +60,7 @@
 <div class="math">$$\frac{\alpha}{2} |w|_2,$$</div>
 <p><br>
 其中 <span class="math">\(|w|_2\)</span> 是所有参数 <span class="math">\(w\)</span> 的 L2 范式 (norm)。在我们的实现中，参数的 L2 范式并没有真正加到损失中，而是隐式地对参数的偏导数增加了 <span class="math">\(\alpha w\)</span>。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<div class="highlight"><pre><span></span><span class="c1"># import</span>
 <span class="k">class</span> <span class="nc">Optimizer</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -122,11 +122,11 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{self.__class__.__name__}</span><span class="s2">&gt;&quot;</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>如果我们想使用其他正则方法，比如 L1 正则，我们无须重新定义基类以及所有子类，而可以通过 Python 的方法解析顺序 (method resoltuion order) 达到修改的目的。比如我们可以定义一个 <code>Optimizer</code> 的子类 <code>L1Optimizer</code>，然后在 <code>L1Optimizer.regularize</code> 中实现 L1 正则。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<div class="highlight"><pre><span></span><span class="c1"># import</span>
 <span class="k">class</span> <span class="nc">L1Optimizer</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">regularize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -136,13 +136,13 @@
         <span class="k">for</span> <span class="n">params</span><span class="p">,</span> <span class="n">grads</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gradients</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="n">grads</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="n">weight_decay</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>假设我们已经实现了基于 <code>Optimizer</code> 的梯度下降 <code>SGD</code>，我们只需使用如下代码实现使用 L1 正则的 <code>L1SGD</code>：</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">L1SGD</span><span class="p">(</span><span class="n">L1Optimizer</span><span class="p">,</span> <span class="n">SGD</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">L1SGD</span><span class="p">(</span><span class="n">L1Optimizer</span><span class="p">,</span> <span class="n">SGD</span><span class="p">):</span>
     <span class="k">pass</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>(注意：上述两行代码在 Markdown Cell 中，不在 Code Cell 中。）</p>
@@ -175,7 +175,7 @@
     &amp; \theta_t = \theta_{t-1} + (1+\mu) v_t - \mu v_{t-1}.
 \end{align*}$$</div>
 <p>以上公式就不会计算两次偏导数了。虽然 <span class="math">\(\theta_t\)</span> 不等于 <span class="math">\(w_t\)</span>，但是两者只相差一个 <span class="math">\(\mu v_t\)</span>，权当算作最后一次迭代后又做了一次额外的更新了。所以我们在实现中就将 <span class="math">\(\theta_t\)</span> 与 <span class="math">\(w_t\)</span> 等同了。我们注意到当 <span class="math">\(\mu = 0\)</span> 时迭代公式退化成一般的梯度下降了。我们将动量法和 Nesterov 动量法都实现在新的梯度下降 <code>SGD</code> 中。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<div class="highlight"><pre><span></span><span class="c1"># import</span>
 <span class="k">class</span> <span class="nc">SGD</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
@@ -224,7 +224,7 @@
                 <span class="p">}</span>
                 <span class="k">for</span> <span class="n">vects</span><span class="p">,</span> <span class="n">pre_vects</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">caches</span><span class="p">,</span> <span class="n">pre_caches</span><span class="p">)</span>
             <span class="p">]</span>
-</code></pre></div>
+</pre></div>
 
 
 <h1>学习率自适应</h1>
@@ -243,7 +243,7 @@
 \end{align*}$$</div>
 <p><br>
 <span class="math">\(\epsilon\)</span> 是一个很小的值，一般取 <span class="math">\(10^{-8}\)</span>，用来防止分母为0。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<div class="highlight"><pre><span></span><span class="c1"># import</span>
 <span class="k">class</span> <span class="nc">Adagrad</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -267,7 +267,7 @@
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">grads</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="n">caches</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+=</span> <span class="n">grads</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
                 <span class="n">updates</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">lr</span> <span class="o">*</span> <span class="n">grads</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">caches</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <h2>RMSprop</h2>
@@ -277,7 +277,7 @@
     &amp; w_{t} = w_{t-1} - \lambda \cdot \frac{\nabla_wL(w_{t-1})}{\sqrt{v_t + \epsilon}}.
 \end{align*}$$</div>
 <p><span class="math">\(\delta\)</span> 一般取 <span class="math">\(0.9\)</span>。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<div class="highlight"><pre><span></span><span class="c1"># import</span>
 <span class="k">class</span> <span class="nc">RMSprop</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">decay_rate</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
@@ -304,7 +304,7 @@
                 <span class="n">caches</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">*=</span> <span class="n">dr</span>
                 <span class="n">caches</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">dr</span><span class="p">)</span> <span class="o">*</span> <span class="n">grads</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
                 <span class="n">updates</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">lr</span> <span class="o">*</span> <span class="n">grads</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">caches</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <h2>Adam</h2>
@@ -315,7 +315,7 @@
     &amp; w_t = w_{t-1} - \lambda \cdot \frac{m_t}{\sqrt{v_t + \epsilon}}.
 \end{align*}$$</div>
 <p>一般来说，超参数 <span class="math">\(\beta_1=0.9, \beta_2=0.99\)</span>。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># import</span>
+<div class="highlight"><pre><span></span><span class="c1"># import</span>
 <span class="k">class</span> <span class="nc">Adam</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
@@ -354,12 +354,12 @@
                 <span class="n">caches2</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">*=</span> <span class="n">b2</span>
                 <span class="n">caches2</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">b2</span><span class="p">)</span> <span class="o">*</span> <span class="n">grads</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
                 <span class="n">updates</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">lr</span> <span class="o">*</span> <span class="n">caches1</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">caches2</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <h1>优化器的比较</h1>
 <p>最后我们用上一篇笔记 Fashion MNIST 的线性模型来测试一下各种优化器的收敛速度。每个优化器最重要的参数是学习率，虽然学习率自适应的优化器对学习率的依赖没有 <code>SGD</code> 那么高，但是不一样的学习率对收敛性还是会有影响的。因此我们在比较优化器的时候应该为各个优化器选择一个好的学习率。比如 <code>Adagrad</code> 的缺点要求我们给它选择一个稍大的学习率。</p>
-<div class="highlight"><pre><span></span><code><span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">npnet</span><span class="o">.</span><span class="n">load_fashion_mnist</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">npnet</span><span class="o">.</span><span class="n">load_fashion_mnist</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
 <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">epoch</span> <span class="o">=</span> <span class="mi">25</span>
 <span class="n">criterion</span> <span class="o">=</span> <span class="n">npnet</span><span class="o">.</span><span class="n">CrossEntropy</span><span class="p">()</span>
@@ -372,11 +372,11 @@
     <span class="nb">dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="n">RMSprop</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;RMSprop&#39;</span><span class="p">),</span>
     <span class="nb">dict</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="n">Adam</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Adam&#39;</span><span class="p">)</span>
 <span class="p">]</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>为了保证公平性，我们固定一个初始模型，然后用不同的优化器训练这个模型。</p>
-<div class="highlight"><pre><span></span><code><span class="n">lin</span> <span class="o">=</span> <span class="n">npnet</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">lin</span> <span class="o">=</span> <span class="n">npnet</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">copy_model</span><span class="p">():</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">npnet</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
@@ -402,7 +402,7 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;loss&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Comparision of optimizers&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>npnet:12: RuntimeWarning: divide by zero encountered in log

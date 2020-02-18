@@ -43,14 +43,14 @@ Chapi | 叶某人的碎碎念    </title>
     <a data-disqus-identifier="20180607-chapi/" href="/20180607-chapi/#disqus_thread" class="disqus-comment-count"></a>
     <div class="post-content">
         <p>I recently built a <a href="http://flask.pocoo.org/">flask</a> app that run on my raspberry pi. Then I turned it down. Why? In order to access the app from outside the home internet, I had to expose my pi to public. After only one day of exposure, my pi received several attack attempts and the flask app then always replied 301. Here are some attack logs:</p>
-<div class="highlight"><pre><span></span><code><span class="err">139.162.83.10 - &quot;GET / HTTP/1.1&quot; 404 -</span>
+<div class="highlight"><pre><span></span><span class="err">139.162.83.10 - &quot;GET / HTTP/1.1&quot; 404 -</span>
 <span class="err">45.33.115.189 - &quot;GET / HTTP/1.0&quot; 404 -</span>
 <span class="err">79.55.11.21 - &quot;GET / HTTP/1.0&quot; 404 -</span>
 <span class="err">5.101.40.78 - code 400, message Bad HTTP/0.9 request type (&#39;\x03\x00\x00/*à\x00\x00\x00\x00\x00Cookie:&#39;)</span>
 <span class="err">5.101.40.78 - &quot;/*àCookie: mstshash=Administr&quot; HTTPStatus.BAD_REQUEST -</span>
 <span class="err">123.151.42.61 - &quot;GET http://www.baidu.com/ HTTP/1.1&quot; 404 -</span>
 <span class="err">158.85.81.116 - &quot;GET / HTTP/1.1&quot; 404 -</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>To be more precise, the flask app was still running, but the home router seemed not forwarding the requests to my pi. Anyway, I have no idea of what have happened. I just shut the app down, flashed a fresh new image to my pi.</p>
@@ -65,18 +65,18 @@ Chapi | 叶某人的碎碎念    </title>
 <p>On the client end, it uses Pysher to subscribe the channel and waiting for response events. The data received from a response event is a response to some request event, and this data should contain enough information to reconstruct the request. To request, the client use Pusher to trigger a request event.</p>
 <h2>chapi</h2>
 <p><a href="https://github.com/wormtooth/chapi">chapi</a> is an implementation of the third idea. It requires <a href="https://github.com/pusher/pusher-http-python">Pusher HTTP Python Library</a>(call it Pusher from now on) and <a href="https://github.com/nlsdfnbch/Pysher">Pysher</a>, as mentioned. To install the requirements:</p>
-<div class="highlight"><pre><span></span><code>pip install pusher pysher
-</code></pre></div>
+<div class="highlight"><pre><span></span>pip install pusher pysher
+</pre></div>
 
 
 <p>To install <a href="https://github.com/wormtooth/chapi">chapi</a>,</p>
-<div class="highlight"><pre><span></span><code>pip install git+https://github.com/wormtooth/chapi.git
-</code></pre></div>
+<div class="highlight"><pre><span></span>pip install git+https://github.com/wormtooth/chapi.git
+</pre></div>
 
 
 <p>At this moment, <a href="https://github.com/wormtooth/chapi">chapi</a> does not have any docstrings. But it should be easy to read the codes directly since the codes are simple. I will add docstrings in the near future.</p>
 <p>Let's look at a piece of server codes.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">chapi</span> <span class="kn">import</span> <span class="n">Server</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">chapi</span> <span class="kn">import</span> <span class="n">Server</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
 <span class="n">app_id</span> <span class="o">=</span> <span class="s1">&#39;APP_ID&#39;</span>
@@ -96,14 +96,14 @@ Chapi | 叶某人的碎碎念    </title>
 <span class="n">server</span><span class="o">.</span><span class="n">add_request_handler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
 
 <span class="n">server</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>The credentials <code>app_id</code>, <code>key</code>, <code>secret</code> and <code>cluster</code> can be found on your pusher app dashboard on <a href="https://pusher.com/">Pusher</a>. <code>chapi.Server</code> is a subclass of <code>chapi.Pusher</code>, which has the essential functionalities to build the server end. It takes credentials and an optional argument <code>name</code> (default <code>"server"</code>) to establish connections. To register an API, we can use decorator <code>chapi.Server.api(name)</code>. Internally, <code>chapi.Server</code> maintains a <code>dict</code> with pairs <code>name: f</code>, where <code>f</code> is the decorated function. When a client end requests API <code>name</code>, function <code>f</code> will be called.</p>
 <p><code>chapi.Pusher</code> has two methods enabling custom requests and responses handling: <code>chapi.Pusher.add_request_handler(handler)</code> and <code>chapi.Pusher.add_response_handler(handler)</code>. A handler is a function with exactly one positional argument, and this argument is the raw data from an event within the channel. In the above server example, we have a handler <code>handler(data)</code> that prints the request information.</p>
 <p>Finally, in order to keep server running, we need call <code>chapi.Server.run(worker_num=1)</code>. It will start <code>worker_num</code> threads to run API requests and then block the main thread from existing.</p>
 <p>Once the server is running, we can use <code>chapi.Client</code> to request API services as below.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">chapi</span> <span class="kn">import</span> <span class="n">Client</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">chapi</span> <span class="kn">import</span> <span class="n">Client</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
@@ -127,7 +127,7 @@ Chapi | 叶某人的碎碎念    </title>
 <span class="n">client</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s1">&#39;wrong_api&#39;</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
 
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait_time</span><span class="p">)</span> <span class="c1"># wait for responses</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><code>chapi.Client</code> is also a subclass of <code>chapi.Pusher</code>. It has a specific method <code>chapi.Client.request(api, **kwargs)</code> designed to send requests. Argument <code>api</code> is the requested API name, and <code>kwargs</code> will be passed to this API in the server end. To see the results of requests, we need to write our own response handlers. In the client example, we have <code>print_result(data)</code> to print out the API name with its result.</p>

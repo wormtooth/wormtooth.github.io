@@ -50,7 +50,7 @@ LeetCode Contest 52 | 叶某人的碎碎念    </title>
 <center>i = (len(A) + len(B) - 1) / len(A)</center><br>
 最大次数j的上界是2i。然后对[i, j]这个区间进行二分查找。</p>
 <p>这题竟然WA了2次(因为typo)，TLE一次(一开始用j＝10i)。。。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">repeatedStringMatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type A: str</span>
@@ -69,7 +69,7 @@ LeetCode Contest 52 | 叶某人的碎碎念    </title>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">i</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 <!--more-->
@@ -79,7 +79,7 @@ LeetCode Contest 52 | 叶某人的碎碎念    </title>
 <div class="qbar">给入一棵二叉树，找出所有值一样的路径中的最长路径长度。</div>
 
 <p>DFS。一开始重复计算导致TLE了。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Definition for a binary tree node.</span>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
 <span class="c1"># class TreeNode(object):</span>
 <span class="c1">#     def __init__(self, x):</span>
 <span class="c1">#         self.val = x</span>
@@ -107,14 +107,14 @@ LeetCode Contest 52 | 叶某人的碎碎念    </title>
             <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">ml</span><span class="p">,</span> <span class="n">mr</span><span class="p">)</span>
         <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-52/problems/knight-probability-in-chessboard/">第三题</a><code>Knight Probability in Chessboard</code></p>
 <div class="qbar">现在有块N x N的格板，求骑士在初始位置(r, c)连续跳k步仍然留着板上的概率。假设骑士往8个方向跳的概率都一样。</div>
 
 <p>比赛的时候没有做出来。但是其实是简单的计数问题。按照乘法原理，k步之后仍然留在板上的概率是每步之后都留在板上的概率之积。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">knightProbability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type N: int</span>
@@ -149,7 +149,7 @@ LeetCode Contest 52 | 叶某人的碎碎念    </title>
             <span class="n">ans</span> <span class="o">*=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">ic</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">ic</span> <span class="o">+</span> <span class="n">oc</span><span class="p">))</span>
             <span class="n">b</span> <span class="o">=</span> <span class="n">tb</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-52/problems/maximum-sum-of-3-non-overlapping-subarrays/">第四题</a><code>Maximum Sum of 3 Non-Overlapping Subarrays</code></p>
@@ -158,7 +158,7 @@ LeetCode Contest 52 | 叶某人的碎碎念    </title>
 <p>这是我这次比赛唯一一道直接AC的题目。不过代码写得不是很让我满意。我的想法是这样：进行三轮操作。第一轮操作算出以每个位置开始长度为k的子区间之和（第－个子区间的和）。第二轮操作对第一轮的结果进一步处理，算出以第i个区间为第二个子区间的最大和并记录区间的起始位置。第二轮操作结束后，我们得到了选择两个长度为k的区间的最优结果。第三轮操作跟第二轮操作类似，这次是找第三个子区间。三轮操作结束后再枚举一下所有可能的结果找出最大值就好。每轮的操作都是O(n)的。</p>
 <p>每轮操作注意起始位置的选择范围。假设n是nums的长度。第一轮操作中，起始位置的选择范围是[0, n-k]。第二轮选择的时候，因为我们要保证选择的区间前面还有一个区间，所以起始位置的选择范围是[k, n-k]。类似地，第三轮起始位置的选择范围是[2k, n-k]。</p>
 <p>最后说一下如何解决选择的区间不重复的问题（第二第三轮操作才有的问题）。以第二轮操作为例。我们保存对第i个区间（从位置i开始）可以选择的最优区间。在处理下一个区间（从位置i＋1开始），那么让保存的最优区间与第i＋1－k个区间（从位置i＋1－k开始）比较，两者取最优者。这样我们得到的是对第i＋1个区间可以选择的最优区间。这样我们就可以在保证不重复的同时能在O(n)完成每轮操作。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">maxSumOfThreeSubarrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -202,7 +202,7 @@ LeetCode Contest 52 | 叶某人的碎碎念    </title>
             <span class="n">cm</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">ans</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
         <div class="tags">
         <a href="/tag/leetcode">leetcode</a>

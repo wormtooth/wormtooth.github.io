@@ -46,7 +46,7 @@
 <p>给定一个非空包含非负整数的数组<code>nums</code>，它的<em>degree</em>定义为出现次数最多的数字的出现次数。找出一个最短的连续子数组，使得它的degree与<code>nums</code>的degree一样。返回子数组的长度。</p>
 </div>
 <p>在统计每个数字频率的同时，记录这个数字出现的最左和最右位置(l, r)。那么包含这个数字的最短数组的长度为r-l+1。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findShortestSubArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -62,7 +62,7 @@
                 <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
             <span class="n">f</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cnt</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">f</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 
@@ -79,7 +79,7 @@
 <div class="qbar">给定一个正整数，问它的二进制表示是否01交错。</div>
 
 <p>比较直接，代码如下。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">hasAlternatingBits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type n: int</span>
@@ -87,7 +87,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">b</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">n</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
         <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-</code></pre></div>
+</pre></div>
 
 
 
@@ -297,7 +297,7 @@ where <span class="math">\(P(x) = P(x|y=0)P(y=0) + P(x|y=1)P(y=1)\)</span>.</p>
 <center>i = (len(A) + len(B) - 1) / len(A)</center><br>
 最大次数j的上界是2i。然后对[i, j]这个区间进行二分查找。</p>
 <p>这题竟然WA了2次(因为typo)，TLE一次(一开始用j＝10i)。。。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">repeatedStringMatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type A: str</span>
@@ -316,7 +316,7 @@ where <span class="math">\(P(x) = P(x|y=0)P(y=0) + P(x|y=1)P(y=1)\)</span>.</p>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">i</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 
@@ -356,7 +356,7 @@ where <span class="math">\(P(x) = P(x|y=0)P(y=0) + P(x|y=1)P(y=1)\)</span>.</p>
 </ol>
 <p>问最终得分之和。</p>
 </div>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">calPoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ops</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type ops: List[str]</span>
@@ -373,7 +373,7 @@ where <span class="math">\(P(x) = P(x|y=0)P(y=0) + P(x|y=1)P(y=1)\)</span>.</p>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">op</span><span class="p">))</span>
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 
@@ -421,7 +421,7 @@ where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\e
 <div class="qbar">给定一个数组，找出连续严格递增子数组的最大长度。</div>
 
 <p>扫描一遍数组即可：如果nums[i], nums[i+1], ..., nums[j-1]是当前最长严格递增子数组，下次扫描的时候可以直接从j开始。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findLengthOfLCIS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
@@ -435,7 +435,7 @@ where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\e
             <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
             <span class="n">i</span> <span class="o">=</span> <span class="n">j</span>
         <span class="k">return</span> <span class="n">ans</span>
-</code></pre></div>
+</pre></div>
 
 
 

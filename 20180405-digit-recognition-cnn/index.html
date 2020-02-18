@@ -47,7 +47,7 @@ Digit recognition, CNN | 叶某人的碎碎念    </title>
 <!--more-->
 
 <h2>准备数据</h2>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">py</span> <span class="o">=</span> <span class="s1">&#39;Python &#39;</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">3</span><span class="p">]))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Jupyter notebook with kernel: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">py</span><span class="p">))</span>
 
@@ -81,7 +81,7 @@ Digit recognition, CNN | 叶某人的碎碎念    </title>
         <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
         <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lbl</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>Jupyter notebook with kernel: Python 3.6.5
@@ -89,7 +89,7 @@ Using Pytorch 0.3.1
 </pre>
 
 <p>我们会从LeCun的<a href="http://yann.lecun.com/exdb/mnist/">网站</a>上下载数据。函数<code>get_data</code>以图像及对应标签的url作为输入，获取数据，并返回<code>(x, y)</code>两个列表。第一个列表<code>x</code>中的元素为(1, 28, 28)的<code>torch.Tensor</code>，第二个列表<code>y</code>是相对应的标签，类型为<code>int</code>。在训练的过程中，我们要用到<code>torch.utils.data.DataLoader</code>，为此，我们要自定义Pytorch数据集。</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">MnistData</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MnistData</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">images</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">images</span> <span class="o">=</span> <span class="n">images</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span>
@@ -99,11 +99,11 @@ Using Pytorch 0.3.1
 
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">)</span>
-</code></pre></div>
+</pre></div>
 
 
 <p>Pytorch的数据集必须要继承<code>torch.utils.data.Dataset</code>，然后要实现<code>Dataset.__getitem__</code>以及<code>Dataset.__len__</code>。我们可以在<a href="https://github.com/utkuozbulak/pytorch-custom-dataset-examples#custom-dataset-fundamentals">这里</a>找到一些资料。接下来我们要准备数据了。</p>
-<div class="highlight"><pre><span></span><code><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">100</span>
+<div class="highlight"><pre><span></span><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">100</span>
 
 <span class="c1"># train data</span>
 <span class="n">images_url</span> <span class="o">=</span> <span class="s2">&quot;http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz&quot;</span>
@@ -124,7 +124,7 @@ Using Pytorch 0.3.1
                          <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
                          <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There are </span><span class="si">{}</span><span class="s2"> testing samples&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)))</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>There are 60000 training samples
@@ -132,7 +132,7 @@ There are 10000 testing samples
 </pre>
 
 <h2>建立模型</h2>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">CNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">CNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -155,11 +155,11 @@ There are 10000 testing samples
         <span class="k">return</span> <span class="n">x</span>
 
 <span class="n">cnn</span> <span class="o">=</span> <span class="n">CNN</span><span class="p">()</span>
-</code></pre></div>
+</pre></div>
 
 
 <h2>训练模型</h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># hyper parameters</span>
+<div class="highlight"><pre><span></span><span class="c1"># hyper parameters</span>
 <span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.001</span>
 
@@ -182,7 +182,7 @@ There are 10000 testing samples
         <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">200</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;epoch </span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">, batch </span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">, loss: </span><span class="si">{:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_epochs</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="p">),</span> <span class="n">loss</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>epoch 1/5, batch 200/600, loss: 0.1690
@@ -203,7 +203,7 @@ epoch 5/5, batch 600/600, loss: 0.0381
 </pre>
 
 <h2>检测模型</h2>
-<div class="highlight"><pre><span></span><code><span class="n">cnn</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="n">cnn</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
 <span class="n">wrong</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="k">for</span> <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
@@ -214,7 +214,7 @@ epoch 5/5, batch 600/600, loss: 0.0381
     <span class="n">wrong</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">!=</span> <span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error rate: </span><span class="si">{:.2f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">wrong</span> <span class="o">/</span> <span class="n">total</span><span class="p">))</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>Error rate: 1.54%
@@ -222,8 +222,8 @@ epoch 5/5, batch 600/600, loss: 0.0381
 
 <h2>保存模型</h2>
 <p>训练好模型之后我们可以将整个模型保存下来：</p>
-<div class="highlight"><pre><span></span><code><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="s1">&#39;mnist_full_cnn.pkl&#39;</span><span class="p">)</span>
-</code></pre></div>
+<div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">cnn</span><span class="p">,</span> <span class="s1">&#39;mnist_full_cnn.pkl&#39;</span><span class="p">)</span>
+</pre></div>
 
 
 <pre>/usr/local/lib/python3.6/site-packages/torch/serialization.py:159: UserWarning: Couldn't retrieve source code for container of type CNN. It won't be checked for correctness upon loading.
@@ -231,32 +231,32 @@ epoch 5/5, batch 600/600, loss: 0.0381
 </pre>
 
 <p>以上代码不仅仅保存训练得到的权重（weights），还能保存整个模型。别人只需要执行以下代码即可使用这个训练好的模型：</p>
-<div class="highlight"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;mnist_full_cnn.pkl&#39;</span><span class="p">)</span>
-</code></pre></div>
+<div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;mnist_full_cnn.pkl&#39;</span><span class="p">)</span>
+</pre></div>
 
 
-<div class="highlight"><pre><span></span><code><span class="n">image</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">test_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="n">image</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">test_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray_r&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre><matplotlib.figure.Figure at 0x1208141d0></pre>
 
 <p><img src="data:image/png;base64,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
 "/></p>
-<div class="highlight"><pre><span></span><code><span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">Variable</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)))</span>
+<div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">Variable</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)))</span>
 <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Prediction of the above handwriting is: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pred</span><span class="p">))</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>Prediction of the above handwriting is: 7
 </pre>
 
 <p>当然我们也可以只保存权重，不保存整个模型。以下代码展示如何保存权重和加载权重。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># save weights only</span>
+<div class="highlight"><pre><span></span><span class="c1"># save weights only</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">cnn</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s1">&#39;mnist_cnn_weights.pkl&#39;</span><span class="p">)</span>
 
 <span class="c1"># load weights to model</span>
@@ -267,7 +267,7 @@ epoch 5/5, batch 600/600, loss: 0.0381
 <span class="n">output</span> <span class="o">=</span> <span class="n">cnn2</span><span class="p">(</span><span class="n">Variable</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)))</span>
 <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Prediction of the above handwriting is: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pred</span><span class="p">))</span>
-</code></pre></div>
+</pre></div>
 
 
 <pre>Prediction of the above handwriting is: 7
