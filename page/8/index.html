@@ -36,6 +36,47 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170304-leetcode-contest22/">Leetcode Contest 22</a></h1>
+    <div class="post-meta">2017-03-04</div>
+    <a data-disqus-identifier="20170304-leetcode-contest22/" href="/20170304-leetcode-contest22/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今晚吃得有点撑：排骨汤，花池鱼，红烧羊肉和炒青菜。</p>
+<p>除了第一题WA了一次之外，其他三题都一次过了！</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-22/problems/k-diff-pairs-in-an-array/">第一题</a><code>K-diff Pairs in an Array</code>。</p>
+<div class='qbar'>题目大意：给定一个数组和一个数k，求数组中所有不同的差值绝对值为k的二元对的数目。
+</div>
+
+<p>思路比较简单：首先用哈希表统计所有数出现的频率。对于k＝0的情况，我们返回所有出现次数大于1的数的数目，对于k&gt;0的情况，我们只要统计所有n+k也出现的数n的数目。对于k&lt;0的情况，直接返回0。我第一次提交忘记考虑k&lt;0的情况了。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findPairs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type nums: List[int]</span>
+<span class="sd">        :type k: int</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">ans</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">a</span><span class="o">+</span><span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+                    <span class="n">ans</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170304-leetcode-contest22/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170225-leetcode-contest21/">Leetcode Contest 21</a></h1>
     <div class="post-meta">2017-02-25</div>
     <a data-disqus-identifier="20170225-leetcode-contest21/" href="/20170225-leetcode-contest21/#disqus_thread" class="disqus-comment-count"></a>
@@ -264,25 +305,6 @@ Let <span class="math">\(\text{Hom}_G(\rho_1, \rho_2)\)</span> be the space of a
 
     </div>
     <p class="readmore"><a href="/20141219-induced-representations-and-Mackey-theory/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20141130-tensor-product-of-two-linear-maps/">Tensor product of two linear maps</a></h1>
-    <div class="post-meta">2014-11-30</div>
-    <a data-disqus-identifier="20141130-tensor-product-of-two-linear-maps/" href="/20141130-tensor-product-of-two-linear-maps/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>Let <span class="math">\(A \in End(V)\)</span> and <span class="math">\(B \in End(W)\)</span> be two linear maps. We can define naturally the tensor product <span class="math">\(A \otimes B\)</span> of <span class="math">\(A\)</span> and <span class="math">\(B\)</span>, from <span class="math">\(V \otimes W\)</span> to <span class="math">\(V \otimes W\)</span>, sending <span class="math">\(v \otimes w\)</span> to <span class="math">\(Av \otimes Bw\)</span>. In this post, I am going to realize <span class="math">\(A \otimes B\)</span> as a matrix and relate the determinant and trace of <span class="math">\(A \otimes B\)</span> to the ones of <span class="math">\(A\)</span> and <span class="math">\(B\)</span>.</p>
-
-<p>Let <span class="math">\(V\)</span> and <span class="math">\(W\)</span> be two vector spaces over a field <span class="math">\(K\)</span> with <span class="math">\(\dim V=n\)</span> and <span class="math">\(\dim W=m\)</span>. Let <span class="math">\(e_1, \dots, e_n\)</span> be a basis of <span class="math">\(V\)</span> and let <span class="math">\(f_1, \dots, f_m\)</span> a basis of <span class="math">\(W\)</span>. Under the basis, a linear map <span class="math">\(A: V \to V\)</span> can be realized as an <span class="math">\(n \times n\)</span> matrix <span class="math">\((a_{ij})_{1 \le i,j \le n}\)</span>, where <span class="math">\(a_{ij} \in K\)</span>. Similarly, a linear map <span class="math">\(B: W \to W\)</span> can be realized as a <span class="math">\(m \times m\)</span> matrix <span class="math">\((b_{kl})_{1 \le k, l \le m}\)</span>. Now, <span class="math">\(V \otimes W\)</span>, as a vector space, has basis <span class="math">\(\{e_i \otimes f_j: 1 \le i \le n, 1 \le j \le m\}\)</span>. And,
-<span class="math">\[\begin{align*}
-A \otimes B (e_i \otimes f_j)
-&= A(e_i) \otimes B(f_j) \\
-&= \sum_{k}a_{ki}e_k \otimes \sum_{l}b_{lj}f_l \\
-&= \sum_{k,l}a_{ki}b_{lj} e_k \otimes f_l.
-\end{align*}\]</span></p>
-
-
-    </div>
-    <p class="readmore"><a href="/20141130-tensor-product-of-two-linear-maps/">Read More</a></p>
 </div>
 
 <div class="page-navigator">
