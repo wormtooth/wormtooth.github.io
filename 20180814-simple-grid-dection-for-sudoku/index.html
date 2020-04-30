@@ -70,7 +70,7 @@ Simple Grid Detection for Sudoku | 叶某人的碎碎念    </title>
 <div class="highlight"><pre><span></span><span class="n">images</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
     <span class="c1"># read the image</span>
-    <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sudoku/sudoku</span><span class="si">{n}</span><span class="s1">.jpg&#39;</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sudoku/sudoku</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">.jpg&#39;</span><span class="p">)</span>
     <span class="c1"># convert image to gray scale</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
     <span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
@@ -125,7 +125,7 @@ Simple Grid Detection for Sudoku | 叶某人的碎碎念    </title>
         <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">],</span> <span class="p">[</span><span class="n">y1</span><span class="p">,</span> <span class="n">y1</span><span class="p">],</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Detection Time: </span><span class="si">{time_used:.2}</span><span class="s1">s&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Detection Time: </span><span class="si">{</span><span class="n">time_used</span><span class="si">:</span><span class="s1">.2</span><span class="si">}</span><span class="s1">s&#39;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="n">DetectorClass</span><span class="p">,</span> <span class="n">images</span><span class="p">):</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>

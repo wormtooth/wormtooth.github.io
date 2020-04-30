@@ -36,6 +36,36 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170311-leetcode-contest23/">Leetcode Contest 23</a></h1>
+    <div class="post-meta">2017-03-11</div>
+    <a data-disqus-identifier="20170311-leetcode-contest23/" href="/20170311-leetcode-contest23/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今晚有手撕鸡，玉米鸡汤，红烧牛排骨和金鲳鱼。本来还准备了要做个豆豉炒苦瓜的，但是那手撕鸡实在太大了，所以就苦瓜没有必要做了。这手撕鸡很好吃：先是用鸡熬两个小时做鸡汤，然后将鸡过冷水去骨撕条，在鸡肉上放上辣椒面与白芝麻并浇以热油，最后加上些许醋拌匀即可。</p>
+<p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-23">比赛</a>比较简单，但是还是WA了两次了，顺带吐槽一下自己写代码的速度。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-23/problems/reverse-string-ii/">第一题</a><code>Reverse String II</code><br>
+<div class='qbar'>题目大意：给定一个字符串和一个数k，对于字符串的每2k长度的子字符串，逆序前k个字符串。</div></p>
+<p>没什么好说的，就直接干就好：首先将字符串按长度为2k分块，然后处理每一个分块。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">reverseStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type s: str</span>
+<span class="sd">        :type k: int</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">):</span>
+            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
+            <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="n">k</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">s</span><span class="p">[</span><span class="n">k</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170311-leetcode-contest23/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170304-leetcode-contest22/">Leetcode Contest 22</a></h1>
     <div class="post-meta">2017-03-04</div>
     <a data-disqus-identifier="20170304-leetcode-contest22/" href="/20170304-leetcode-contest22/#disqus_thread" class="disqus-comment-count"></a>
@@ -284,27 +314,6 @@ Let <span class="math">\(\chi \text{ mod }q\)</span> be a primitive character an
 
     </div>
     <p class="readmore"><a href="/20150110-2014/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20141219-induced-representations-and-Mackey-theory/">Induced representations and Mackey theory</a></h1>
-    <div class="post-meta">2014-12-19</div>
-    <a data-disqus-identifier="20141219-induced-representations-and-Mackey-theory/" href="/20141219-induced-representations-and-Mackey-theory/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>Let <span class="math">\(G\)</span> be a group. A <em>linear representation</em> of <span class="math">\(G\)</span> is a pair <span class="math">\((\rho, V)\)</span>, where <span class="math">\(V\)</span> is a finite dimensional vector space over <span class="math">\(\mathbb{C}\)</span> and <span class="math">\(\rho: G \to GL(V)\)</span> is a group homomorphism. Without ambiguity, we will call <span class="math">\(\rho\)</span> a representation of <span class="math">\(G\)</span>. Let <span class="math">\((\rho_1, V_1)\)</span> and <span class="math">\((\rho_2, V_2)\)</span> be two representations of <span class="math">\(G\)</span>, an <em>intertwining operator</em> between them is a linear map <span class="math">\(T: V_1 \to V_2\)</span> such that for any <span class="math">\(g \in G\)</span>, the following diagram commutes:
-<span class="math">\[\begin{equation}\label{eq:diagram}
-\require{AMScd}\begin{CD}
-V_1 @>T>> V_2 \\
-@V{\rho_1(g)}VV @VV{\rho_2(g)}V \\
-V_1 @>T>> V_2
-\end{CD}
-\end{equation}\]</span>
-Let <span class="math">\(\text{Hom}_G(\rho_1, \rho_2)\)</span> be the space of all intertwining operators between <span class="math">\(\rho_1\)</span> and <span class="math">\(\rho_2\)</span>.</p>
-
-<p>Let <span class="math">\((\rho, V)\)</span> be a representation of <span class="math">\(G\)</span>. Let <span class="math">\(H\)</span> be a subgroup of <span class="math">\(G\)</span>, then we can restrict <span class="math">\(\rho\)</span> to <span class="math">\(H\)</span> to get a representation of <span class="math">\(H\)</span>. We will use <span class="math">\(\text{Res}^G_H \, \rho\)</span> to denote the restricted representation of <span class="math">\(H\)</span> from <span class="math">\(\rho\)</span>. Conversely, if <span class="math">\(\pi\)</span> is a representation of <span class="math">\(H\)</span>, then we can construct a representation of <span class="math">\(G\)</span> from <span class="math">\(\pi\)</span>, which is known as induced representation of <span class="math">\(G\)</span> from <span class="math">\(\pi\)</span>, denoted as <span class="math">\(\text{Ind}_H^G \, \pi\)</span>. In this post, I will first talk about the precise description of induced representations and the relations between <span class="math">\(\text{Res}^G_H\)</span> and <span class="math">\(\text{Ind}_H^G\)</span>. I will then discuss Mackey&#8217;s theorem, which dictates a further relation between restricted and induced representations. </p>
-
-
-    </div>
-    <p class="readmore"><a href="/20141219-induced-representations-and-Mackey-theory/">Read More</a></p>
 </div>
 
 <div class="page-navigator">
