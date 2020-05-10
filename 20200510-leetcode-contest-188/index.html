@@ -104,14 +104,13 @@ sum(i, j) = arr[i] ^ arr[i+1] ^ .. ^ arr[j],<br>
         <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
             <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">[</span><span class="n">root</span><span class="p">]:</span>
-                <span class="n">t</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
                 <span class="n">ans</span> <span class="o">+=</span> <span class="n">t</span>
-                <span class="k">if</span> <span class="n">a</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">t</span> <span class="ow">or</span> <span class="n">hasApple</span><span class="p">[</span><span class="n">child</span><span class="p">]:</span>
                     <span class="n">ans</span> <span class="o">+=</span> <span class="mi">2</span>
-            <span class="n">apple</span> <span class="o">=</span> <span class="n">hasApple</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="ow">or</span> <span class="n">ans</span>
-            <span class="k">return</span> <span class="n">ans</span><span class="p">,</span> <span class="n">apple</span>
+            <span class="k">return</span> <span class="n">ans</span>
 
-        <span class="k">return</span> <span class="n">collect</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">collect</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 
