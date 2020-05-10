@@ -68,7 +68,7 @@ sum(i, j) = arr[i] ^ arr[i+1] ^ .. ^ arr[j],<br>
 其中 <code>^</code> 是位运算 <code>xor</code>。</p>
 <p>我们需要找出满足 sum(i, j-1) = sum(j, k) 的三元数组 (i, j, k)。我们要求 i &lt; j &lt;= k。</p>
 </div>
-<p>看了一下数据范围，数组的长度最大只有300。这明显可以暴力搜。因为超时，我就直接用 C 写了。</p>
+<p>看了一下数据范围，数组的长度最大只有300。这明显可以暴力搜。因为怕超时，我就直接用 C 写了。</p>
 <div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">countTriplets</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span> <span class="n">arr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">arrSize</span><span class="p">){</span>
     <span class="kt">int</span> <span class="n">s</span><span class="p">[</span><span class="mi">301</span><span class="p">];</span>
     <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -94,31 +94,24 @@ sum(i, j) = arr[i] ^ arr[i+1] ^ .. ^ arr[j],<br>
 <p>在一棵多叉树中的一些节点上有苹果，问从节点0出发收集所有苹果回到节点0所需的最短时间是多少？每条边耗时1个单位的时间。</p>
 </div>
 <p>一开始没有察觉到这是一个多叉树，所以没有想到好的办法。我是做了最后一题回来再提交一次后错了才发现这是多叉树。题解的想法是这样的：对于一个节点，我们递归地算出子树收集所有苹果的时间，如果子树有苹果，结果要加2，这是从节点到子树根节点一个来回的时间。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">val</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">minTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">edges</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">hasApple</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 
-        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">Node</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">hasApple</span><span class="p">]</span>
+        <span class="n">children</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
-            <span class="n">nodes</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+            <span class="n">children</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">collect</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
-                <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
             <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">child</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">[</span><span class="n">root</span><span class="p">]:</span>
                 <span class="n">t</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
                 <span class="n">ans</span> <span class="o">+=</span> <span class="n">t</span>
                 <span class="k">if</span> <span class="n">a</span><span class="p">:</span>
                     <span class="n">ans</span> <span class="o">+=</span> <span class="mi">2</span>
-            <span class="n">apple</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">val</span> <span class="ow">or</span> <span class="n">ans</span>
+            <span class="n">apple</span> <span class="o">=</span> <span class="n">hasApple</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="ow">or</span> <span class="n">ans</span>
             <span class="k">return</span> <span class="n">ans</span><span class="p">,</span> <span class="n">apple</span>
 
-        <span class="k">return</span> <span class="n">collect</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">collect</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
 
