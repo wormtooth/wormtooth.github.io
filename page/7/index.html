@@ -36,6 +36,39 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170520-leetcode-contest-33/">Leetcode Contest 33</a></h1>
+    <div class="post-meta">2017-05-20</div>
+    <a data-disqus-identifier="20170520-leetcode-contest-33/" href="/20170520-leetcode-contest-33/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>就着Gin的酒劲，我还能一次不WA的过了这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-33">比赛</a>哈哈。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-33/problems/longest-harmonious-subsequence/">第一题</a><code>Longest Harmonious Subsequence</code></p>
+<div class="qbar">给定一个数组，找出长度最长的子数组，使得其最大值与最小值恰好相差1，返回最大长度。</div>
+
+<p>既然最大值与最小值恰好相差1，那么此子数组必定恰好有两个不一样的元素。我们只要统计每个元素出现的次数，然后枚举找出相邻两个元素出现次数之和的最大值就好。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findLHS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type nums: List[int]</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+            <span class="n">cnt</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">cnt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cnt</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">cnt</span><span class="p">:</span>
+                <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">v</span><span class="o">+</span><span class="n">cnt</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">cnt</span><span class="p">:</span>
+                <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">v</span><span class="o">+</span><span class="n">cnt</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170520-leetcode-contest-33/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170513-leetcode-contest32/">Leetcode Contest 32</a></h1>
     <div class="post-meta">2017-05-13</div>
     <a data-disqus-identifier="20170513-leetcode-contest32/" href="/20170513-leetcode-contest32/#disqus_thread" class="disqus-comment-count"></a>
@@ -299,50 +332,6 @@
 
     </div>
     <p class="readmore"><a href="/20170326-leetcode-contest25/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170318-leetcode-contest24/">Leetcode Contest 24</a></h1>
-    <div class="post-meta">2017-03-18</div>
-    <a data-disqus-identifier="20170318-leetcode-contest24/" href="/20170318-leetcode-contest24/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>今晚吃的是韩式烧烤：羊肉和豆腐。</p>
-<p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-24/">比赛</a>有四题，题目都比较基础，可惜打错了一个变量名字WA了一次。</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-24/problems/diameter-of-binary-tree/">第一题</a><code>Diameter of Binary Tree</code></p>
-<div class='qbar'>题目大意：一棵树的直径定义为树中最长路径的长度。给定一棵二叉树，求树的直径。</div>
-
-<p>递归想法：对于每个树节点，计算经过该树节点最长路径的长度。只要修改求每个节点高度的程序就行。先算当前左子树的高度l和右子树的高度r，那么以该经过该节点最长路径的长度就是l+r+1，然后返回该节点的高度max(l, r)+1</p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
-<span class="c1"># class TreeNode(object):</span>
-<span class="c1">#     def __init__(self, x):</span>
-<span class="c1">#         self.val = x</span>
-<span class="c1">#         self.left = None</span>
-<span class="c1">#         self.right = None</span>
-
-<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">diameterOfBinaryTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type root: TreeNode</span>
-<span class="sd">        :rtype: int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">0</span>
-        <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">ans</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
-                <span class="k">return</span> <span class="mi">0</span>
-            <span class="n">l</span> <span class="o">=</span> <span class="n">height</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">ans</span><span class="p">)</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">height</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">ans</span><span class="p">)</span>
-            <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
-
-        <span class="n">ans</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">height</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">ans</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170318-leetcode-contest24/">Read More</a></p>
 </div>
 
 <div class="page-navigator">
