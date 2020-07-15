@@ -42,7 +42,7 @@
     </div>
     <a data-disqus-identifier="npnet6/" href="/npnet6/#disqus_thread" class="disqus-comment-count"></a>
     <div class="post-content">
-        <p>我们将用上一篇<a href="{filename}/npnet5.ipynb">笔记</a>实现的模型来搭建卷积神经网络去识别 <a href="https://github.com/zalandoresearch/fashion-mnist">Fashion MNIST</a> 数据集。在之前的一篇<a href="{filename}/npnet4.ipynb">笔记</a>中我们用两个线性模型的串型网络达到了85%左右的准确率。我们期待使用卷积神经网络能达到更好的准确率。</p>
+        <p>我们将用上一篇<a href="https://wormtooth.com/npnet5/">笔记</a>实现的模型来搭建卷积神经网络去识别 <a href="https://github.com/zalandoresearch/fashion-mnist">Fashion MNIST</a> 数据集。在之前的一篇<a href="https://wormtooth.com/npnet4/">笔记</a>中我们用两个线性模型的串型网络达到了85%左右的准确率。我们期待使用卷积神经网络能达到更好的准确率。</p>
 <!--more-->
 
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -82,7 +82,7 @@
 
 <pre>True</pre>
 
-<p>现在我们在卷积层到线性层之间加入中间件 <code>Flatten</code> 就可以将卷积层和线性层接起来了。除了模型建立不一样之外，其他都跟<a href="{filename}/npnet4.ipynb">以往笔记</a>中训练串型网络一样。</p>
+<p>现在我们在卷积层到线性层之间加入中间件 <code>Flatten</code> 就可以将卷积层和线性层接起来了。除了模型建立不一样之外，其他都跟<a href="https://wormtooth.com/npnet4/">以往笔记</a>中训练串型网络一样。</p>
 <div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">time</span>
 <span class="c1"># 模型</span>
 <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span>
