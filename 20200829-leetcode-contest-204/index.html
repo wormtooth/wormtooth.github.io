@@ -47,7 +47,7 @@ LeetCode Contest 188 | 叶某人的碎碎念    </title>
 <div class="qbar">
 <p>问一个数组里面是否存在长度为 m 的子数组被重复至少 k 次。</p>
 </div>
-<p>因为数据比较小，直接暴力搜索就行。</p>
+<p>因为数据比较小，直接暴力搜索就行。第一次 WA 是因为 <code>n - m * k + 1</code> 写成 <code>n - m * k</code> 了。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">containsPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
@@ -96,7 +96,7 @@ LeetCode Contest 188 | 叶某人的碎碎念    </title>
 <div class="qbar">
 <p>在一个只有0和1的二维数组中，我们可以每次让一个1变成0。问至少多少次操作之后能将1的区域变成非连通（上下左右相接为连通）。</p>
 </div>
-<p>这题我觉得是最难的。一开始打算二分查找，但是后来想想也许广度搜索就行。因为2维数组的每一行都不多于30位，我就用一个整形来代表一行了。于是有了以下巨丑的代码。</p>
+<p>这题我觉得是最难的。一开始打算二分查找，但是后来想想也许广度搜索就行。因为2维数组的每一行都不多于30位，我就用一个整形来代表一行了。于是有了以下巨丑的代码。第一次 TLE 是检测的时机不对，我一开始是在 <code>cur, s = stack[p]</code> 之后才检测 <code>cur</code> 是否满足条件。后来我就改成了在加入 <code>stack</code> 之前检测 <code>new</code> 就过了。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">minDays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 

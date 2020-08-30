@@ -45,7 +45,7 @@
 <div class="qbar">
 <p>问一个数组里面是否存在长度为 m 的子数组被重复至少 k 次。</p>
 </div>
-<p>因为数据比较小，直接暴力搜索就行。</p>
+<p>因为数据比较小，直接暴力搜索就行。第一次 WA 是因为 <code>n - m * k + 1</code> 写成 <code>n - m * k</code> 了。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">containsPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
