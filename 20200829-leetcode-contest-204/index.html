@@ -70,10 +70,7 @@ LeetCode Contest 188 | 叶某人的碎碎念    </title>
 
 <p><a href="https://leetcode.com/contest/weekly-contest-204/problems/maximum-length-of-subarray-with-positive-product/">第二题</a><code>Maximum Length of Subarray With Positive Product</code></p>
 <div class="qbar">
-<div class="highlight"><pre><span></span><span class="err">找出一个数组中乘积为正的子数组的最大长度。</span>
-</pre></div>
-
-
+<p>找出一个数组中乘积为正的子数组的最大长度。</p>
 </div>
 <p>我的想法是将正数看作0，负数看作1。假设原来数组中没有0，题目就转化成求和为偶数的最大长度子数组。现在就用原数组中的0将数组分割成若干个分段，每个分段就没有0了。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
@@ -97,10 +94,7 @@ LeetCode Contest 188 | 叶某人的碎碎念    </title>
 
 <p><a href="https://leetcode.com/contest/weekly-contest-204/problems/minimum-number-of-days-to-disconnect-island/">第三题</a><code>Minimum Number of Days to Disconnect Island</code></p>
 <div class="qbar">
-<div class="highlight"><pre><span></span><span class="err">在一个只有0和1的二维数组中，我们可以每次让一个1变成0。问至少多少次操作之后能将1的区域变成非连通（上下左右相接为连通）。</span>
-</pre></div>
-
-
+<p>在一个只有0和1的二维数组中，我们可以每次让一个1变成0。问至少多少次操作之后能将1的区域变成非连通（上下左右相接为连通）。</p>
 </div>
 <p>这题我觉得是最难的。一开始打算二分查找，但是后来想想也许广度搜索就行。因为2维数组的每一行都不多于30位，我就用一个整形来代表一行了。于是有了以下巨丑的代码。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
