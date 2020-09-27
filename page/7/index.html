@@ -36,6 +36,19 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170619-raspberrypi-zero-w-setup/">Raspberry Pi Zero W无屏设置</a></h1>
+    <div class="post-meta">2017-06-19</div>
+    <a data-disqus-identifier="20170619-raspberrypi-zero-w-setup/" href="/20170619-raspberrypi-zero-w-setup/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>我最近入手了一个<a href="https://www.raspberrypi.org/products/pi-zero-w/">Raspberry Pi Zero W</a>，作为平时消遣的一个小玩具。因为我主要是想在它上面运行一些小程序，所以我希望将它设置为最简单的服务器，然后通过ssh来访问。这篇文章记录了我从网上搜来的设置步骤，方便下次设置。</p>
+<h3>制作SD启动盘</h3>
+<p>首先说明一下：我的系统是Mac OSX。在制作SD启动盘过程中，我们需要修改启动盘的内容，Mac OSX是不支持启动盘的格式的，所以我们需要借助其他途径。我是用VitualBox的Ubuntu来修改启动盘的内容。</p>
+<p><strong>第一步</strong>：下载<a href="https://www.raspberrypi.org/downloads/raspbian/">raspbian lite</a>，解压得到一个后缀名为img的镜像文件。我得到的是：<code>2017-04-10-raspbian-jessie-lite.img</code>。</p>
+
+    </div>
+    <p class="readmore"><a href="/20170619-raspberrypi-zero-w-setup/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170617-leetcode-contest-37/">Leetcode Contest 37</a></h1>
     <div class="post-meta">2017-06-18</div>
     <a data-disqus-identifier="20170617-leetcode-contest-37/" href="/20170617-leetcode-contest-37/#disqus_thread" class="disqus-comment-count"></a>
@@ -323,34 +336,6 @@
 
     </div>
     <p class="readmore"><a href="/20170415-leetcode-contest28/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170408-leetcode-contest27/">Leetcode Contest 27</a></h1>
-    <div class="post-meta">2017-04-08</div>
-    <a data-disqus-identifier="20170408-leetcode-contest27/" href="/20170408-leetcode-contest27/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>今晚肉特别多：红烧羊肉，焖排骨，手撕鸡和罗非鱼。</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-27/problems/reverse-words-in-a-string-iii/">第一题</a><code>Reverse Words in a String III</code></p>
-<div class='qbar'>题目大意：给定一个句子，将其中所有单词逆序。</div>
-
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">reverseWords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type s: str</span>
-<span class="sd">        :rtype: str</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">lst</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
-        <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170408-leetcode-contest27/">Read More</a></p>
 </div>
 
 <div class="page-navigator">
