@@ -36,6 +36,36 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20191214-leetcode-contest-167/">LeetCode Contest 167</a></h1>
+    <div class="post-meta">2019-12-14</div>
+    <a data-disqus-identifier="20191214-leetcode-contest-167/" href="/20191214-leetcode-contest-167/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>上次参加 leetcode 比赛还是去年四月份的时候了。回想的时候总觉得时间过得很快。只是一年，以前一起比赛的小伙伴们包括我自己都已经离开哥村了。</p>
+<p><a href="https://leetcode.com/contest/weekly-contest-167/problems/convert-binary-number-in-a-linked-list-to-integer/">第一题</a><code>Convert Binary Number in a Linked List to Integer</code></p>
+<div class="qbar">
+<p>以单向链表给出一个二进制数，将其转成十进制。</p>
+</div>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for singly-linked list.</span>
+<span class="c1"># class ListNode:</span>
+<span class="c1">#     def __init__(self, x):</span>
+<span class="c1">#         self.val = x</span>
+<span class="c1">#         self.next = None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">getDecimalValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">head</span><span class="p">:</span> <span class="n">ListNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">head</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">head</span><span class="o">.</span><span class="n">val</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">return</span> <span class="n">r</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20191214-leetcode-contest-167/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/npnet3/">[npnet] 优化器</a></h1>
     <div class="post-meta">2019-11-09</div>
     <a data-disqus-identifier="npnet3/" href="/npnet3/#disqus_thread" class="disqus-comment-count"></a>
@@ -150,23 +180,6 @@
 
     </div>
     <p class="readmore"><a href="/20180607-chapi/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20180430-a-naive-recommender-system/">一个“朴素”的推荐系统</a></h1>
-    <div class="post-meta">2018-04-30</div>
-    <a data-disqus-identifier="20180430-a-naive-recommender-system/" href="/20180430-a-naive-recommender-system/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <h2>Introduction</h2>
-<p>在这篇文章中，我将使用<a href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier">朴素贝叶斯分类器(Naive Bayes Classifier)</a>打造一个简单的个人推荐系统：给定一篇中文文章(article)，返回我喜欢(like)这篇文章的概率。用数学的语言来描述的话，我们要计算的是<br>
-</p>
-<div class="math">$$P(like|aritcle)$$</div>
-<p><br>
-根据贝叶斯公式，<br>
-</p>
-<div class="math">$$P(like|aritcle) = \frac{P(article|like)P(like)}{P(article|like)P(like)+P(article|dislike)P(dislike)}$$</div>
-
-    </div>
-    <p class="readmore"><a href="/20180430-a-naive-recommender-system/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

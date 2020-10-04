@@ -36,6 +36,30 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20201004-leetcode-contest-209/">LeetCode Contest 209</a></h1>
+    <div class="post-meta">2020-10-04</div>
+    <a data-disqus-identifier="20201004-leetcode-contest-209/" href="/20201004-leetcode-contest-209/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次只能做出前面三题，而且第三题用时过长，导致这次排名只有505。</p>
+<p><a href="https://leetcode.com/contest/weekly-contest-209/problems/special-array-with-x-elements-greater-than-or-equal-x/">第一题</a><code>Special Array With X Elements Greater Than or Equal X</code></p>
+<div class="qbar">
+<p>给定一个数组，找出 <code>x</code> 使得恰有 <code>x</code> 个数不小于 <code>x</code>。</p>
+</div>
+<p>暴力枚举所有可能的 <code>x</code>。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">specialArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">nums</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">n</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20201004-leetcode-contest-209/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20200926-leetcode-contest-208/">LeetCode Contest 208</a></h1>
     <div class="post-meta">2020-09-26</div>
     <a data-disqus-identifier="20200926-leetcode-contest-208/" href="/20200926-leetcode-contest-208/#disqus_thread" class="disqus-comment-count"></a>
@@ -199,36 +223,6 @@
 
     </div>
     <p class="readmore"><a href="/20191229-leetcode-contest-169/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20191214-leetcode-contest-167/">LeetCode Contest 167</a></h1>
-    <div class="post-meta">2019-12-14</div>
-    <a data-disqus-identifier="20191214-leetcode-contest-167/" href="/20191214-leetcode-contest-167/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>上次参加 leetcode 比赛还是去年四月份的时候了。回想的时候总觉得时间过得很快。只是一年，以前一起比赛的小伙伴们包括我自己都已经离开哥村了。</p>
-<p><a href="https://leetcode.com/contest/weekly-contest-167/problems/convert-binary-number-in-a-linked-list-to-integer/">第一题</a><code>Convert Binary Number in a Linked List to Integer</code></p>
-<div class="qbar">
-<p>以单向链表给出一个二进制数，将其转成十进制。</p>
-</div>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for singly-linked list.</span>
-<span class="c1"># class ListNode:</span>
-<span class="c1">#     def __init__(self, x):</span>
-<span class="c1">#         self.val = x</span>
-<span class="c1">#         self.next = None</span>
-
-<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">getDecimalValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">head</span><span class="p">:</span> <span class="n">ListNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">while</span> <span class="n">head</span><span class="p">:</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">head</span><span class="o">.</span><span class="n">val</span>
-            <span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="n">next</span>
-        <span class="k">return</span> <span class="n">r</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20191214-leetcode-contest-167/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

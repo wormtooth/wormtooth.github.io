@@ -36,6 +36,32 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170620-luroth-expansion/">Lüroth expansion</a></h1>
+    <div class="post-meta">2017-06-20</div>
+    <a data-disqus-identifier="20170620-luroth-expansion/" href="/20170620-luroth-expansion/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This post is my note for <a href="https://math.osu.edu/whatis"><em>What is&#8230;?</em></a> seminar on Lüroth expansion.</p>
+
+<div class='qbar' >
+
+<p><a name='defn1'><strong>Definition 1.</strong></a> A <em>Lüroth expansion</em> of a real number <span class="math">\(x \in (0, 1]\)</span> is a (possibly) infinite sequence <span class="math">\((a_1, a_2, \cdots, a_n, \cdots)\)</span> with <span class="math">\(a_n \in \N\)</span> and <span class="math">\(a_n \ge 2\)</span> for all <span class="math">\(n \ge 1\)</span> such that
+<span class="math">\[\begin{equation}
+x = \frac{1}{a_1} + \frac{1}{a_1(a_1-1)a_2} + \cdots + \frac{1}{a_1(a_1-1)\cdots a_{n-1}(a_{n-1}-1)a_n} + \cdots
+\end{equation}\]</span></p>
+By abuse of notation, we will something write the right hand side of <a href="#defn1">Definition 1</a> as <span class="math">\((a_1, a_2, \cdots, a_n, \cdots)\)</span>.
+</div>
+
+<p>Given a system of representation of real numbers in <span class="math">\((0, 1]\)</span>, we need to determine whether these representations are 1 to 1 corresponding the numbers in <span class="math">\((0, 1]\)</span>. Aslo we should study the (Lüroth) shift map:
+<span class="math">\[\begin{equation}
+T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
+\label{20170620-2}
+\end{equation}\]</span></p>
+
+
+    </div>
+    <p class="readmore"><a href="/20170620-luroth-expansion/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170619-raspberrypi-zero-w-setup/">Raspberry Pi Zero W无屏设置</a></h1>
     <div class="post-meta">2017-06-19</div>
     <a data-disqus-identifier="20170619-raspberrypi-zero-w-setup/" href="/20170619-raspberrypi-zero-w-setup/#disqus_thread" class="disqus-comment-count"></a>
@@ -303,39 +329,6 @@
 
     </div>
     <p class="readmore"><a href="/20170422-leetcode-contest29/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170415-leetcode-contest28/">Leetcode Contest 28</a></h1>
-    <div class="post-meta">2017-04-15</div>
-    <a data-disqus-identifier="20170415-leetcode-contest28/" href="/20170415-leetcode-contest28/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>今晚吃的是烤鱼以及手撕鸡。</p>
-<p>这次的<a href="https://leetcode.com/contest/leetcode-weekly-contest-28/">比赛</a>让我开始怀疑自己的智商了。</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-28/problems/student-attendance-record-i/">第一题</a><code>Student Attendance Record I</code></p>
-<div class='qbar'>题目大意：给定一个表示只含A、L和P的字符串，问字符串是否满足以下条件：不含多于1个的A或者不含有长度大于2的连续L子字符串。</div>
-
-<p>简单的字符串处理。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">checkRecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type s: str</span>
-<span class="sd">        :rtype: bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span>
-                <span class="n">a</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;LLL&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="kc">True</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170415-leetcode-contest28/">Read More</a></p>
 </div>
 
 <div class="page-navigator">
