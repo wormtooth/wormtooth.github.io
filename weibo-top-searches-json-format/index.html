@@ -40,20 +40,20 @@ Weibo's top searches json format | 叶某人的碎碎念    </title>
     <div class="post-content">
         <p>Since October 2019, I have a Python script scraping <a href="https://s.weibo.com/top/summary">Weibo's top searches (微博热搜榜)</a> hourly. Each hour's results are stored in a JSON file with its name in the pattern <code>YYYYMMDDHH.json</code>. <code>YYYY</code> is for year, <code>MM</code> is zero padded two-digits number for month, <code>DD</code> is zero padded two digits number for day, and <code>HH</code> is zero padded two digits number for hour. Note that the time is in UTC+8 timezone. For example, <code>2020100316.json</code> stores top searches results of Oct. 3, 2020 at 4pm (in UTC+8). The first avalibale JSON file is <code>2019101510.json</code>.</p>
 <p>Within each JSON file, it has the following layout:</p>
-<div class="highlight"><pre><span></span><span class="err">[</span>
-<span class="err">    {</span>
-<span class="err">        &quot;hotness&quot;: ###,</span>
-<span class="err">        &quot;tag&quot;: &quot;xxxx&quot;,</span>
-<span class="err">        &quot;weibo&quot;: [</span>
-<span class="err">            {</span>
-<span class="err">                &quot;content&quot;: &quot;xxxx&quot;,</span>
-<span class="err">                &quot;nickname&quot;: &quot;xxxx&quot;</span>
-<span class="err">            },</span>
-<span class="err">            ...</span>
-<span class="err">        ]</span>
-<span class="err">    },</span>
-<span class="err">    ...</span>
-<span class="err">]</span>
+<div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;hotness&quot;</span><span class="p">:</span> <span class="err">###</span><span class="p">,</span>
+        <span class="nt">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;xxxx&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;weibo&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="nt">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;xxxx&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;nickname&quot;</span><span class="p">:</span> <span class="s2">&quot;xxxx&quot;</span>
+            <span class="p">},</span>
+            <span class="err">...</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="err">...</span>
+<span class="p">]</span>
 </pre></div>
 
 
@@ -66,7 +66,7 @@ Weibo's top searches json format | 叶某人的碎碎念    </title>
 </ul>
 </li>
 </ul>
-<p>A sample is provided: <a href="/files/2019101510.json">2019101510.json</a></p>
+<p>A sample is provided: <a href="https://wormtooth.com/files/2019101510.json">2019101510.json</a></p>
     </div>
 </div>
         </div></div>
