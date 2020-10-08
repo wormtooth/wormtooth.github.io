@@ -36,6 +36,28 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20180607-chapi/">Chapi</a></h1>
+    <div class="post-meta">2018-06-07</div>
+    <a data-disqus-identifier="20180607-chapi/" href="/20180607-chapi/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>I recently built a <a href="http://flask.pocoo.org/">flask</a> app that run on my raspberry pi. Then I turned it down. Why? In order to access the app from outside the home internet, I had to expose my pi to public. After only one day of exposure, my pi received several attack attempts and the flask app then always replied 301. Here are some attack logs:</p>
+<div class="highlight"><pre><span></span><span class="err">139.162.83.10 - &quot;GET / HTTP/1.1&quot; 404 -</span>
+<span class="err">45.33.115.189 - &quot;GET / HTTP/1.0&quot; 404 -</span>
+<span class="err">79.55.11.21 - &quot;GET / HTTP/1.0&quot; 404 -</span>
+<span class="err">5.101.40.78 - code 400, message Bad HTTP/0.9 request type (&#39;\x03\x00\x00/*à\x00\x00\x00\x00\x00Cookie:&#39;)</span>
+<span class="err">5.101.40.78 - &quot;/*àCookie: mstshash=Administr&quot; HTTPStatus.BAD_REQUEST -</span>
+<span class="err">123.151.42.61 - &quot;GET http://www.baidu.com/ HTTP/1.1&quot; 404 -</span>
+<span class="err">158.85.81.116 - &quot;GET / HTTP/1.1&quot; 404 -</span>
+</pre></div>
+
+
+<p>To be more precise, the flask app was still running, but the home router seemed not forwarding the requests to my pi. Anyway, I have no idea of what have happened. I just shut the app down, flashed a fresh new image to my pi.</p>
+<p>I want a way to communicate with my pi without exposing it. That is the motivation I start the project <a href="https://github.com/wormtooth/chapi">chapi</a>, which means "<strong>cha</strong>t with <strong>pi</strong>".</p>
+
+    </div>
+    <p class="readmore"><a href="/20180607-chapi/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20180430-a-naive-recommender-system/">一个“朴素”的推荐系统</a></h1>
     <div class="post-meta">2018-04-30</div>
     <a data-disqus-identifier="20180430-a-naive-recommender-system/" href="/20180430-a-naive-recommender-system/#disqus_thread" class="disqus-comment-count"></a>
@@ -169,125 +191,6 @@ All other requirements in definition of MDP will remain intact. For completeness
 
     </div>
     <p class="readmore"><a href="/20180117-the-phantom-of-the-opera/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20180113-principal-component-analysis/">Principal Component Analysis</a></h1>
-    <div class="post-meta">2018-01-13</div>
-    <a data-disqus-identifier="20180113-principal-component-analysis/" href="/20180113-principal-component-analysis/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>This article is my notes on Principal Component Analysis (PCA) for Lecture 14 and 15 of <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">Machine Learning</a> by Andrew Ng. Given a set of high dimensional data <span class="math">\(\{x^{(1)}, \dots, x^{(m)}\}\)</span>, where each <span class="math">\(x^{(i)} \in \R^{n}\)</span>, with the assumption that these data actually roughly lie in a much smaller <span class="math">\(k\)</span> dimensional subspace, PCA tries to find a basis for this <span class="math">\(k\)</span> dimensional subspace. Let's look at a simple example:</p>
-<pre><matplotlib.figure.Figure at 0x10a0c6d68></pre>
-
-<p><img src="data:image/png;base64,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
-"/></p>
-
-    </div>
-    <p class="readmore"><a href="/20180113-principal-component-analysis/">Read More</a></p>
 </div>
 
 <div class="page-navigator">
