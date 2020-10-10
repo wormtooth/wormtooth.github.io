@@ -36,6 +36,45 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170429-leetcode-contest30/">Leetcode Contest 30</a></h1>
+    <div class="post-meta">2017-04-29</div>
+    <a data-disqus-identifier="20170429-leetcode-contest30/" href="/20170429-leetcode-contest30/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今晚参加了一个朋友的婚前庆祝party。看着朋友幸福也是一种幸福的享受。希望我的幸福来得更早一些 😆</p>
+<p>今晚的<a href="https://leetcode.com/contest/leetcode-weekly-contest-30">比赛</a>也一次没WA地过了。前面三题是用 C++ 写的，最后一题实在觉得 C++ 麻烦，还是换了用python写。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-30/problems/reshape-the-matrix/">第一题</a><code>Reshape the Matrix</code></p>
+<div class='qbar'>题目大意：给定一个矩阵，将其变成r行c列的矩阵。如果不能转换，则返回原矩阵。</div>
+
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">matrixReshape</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">nums</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">m</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">nums</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">m</span> <span class="o">!=</span> <span class="n">r</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="k">return</span> <span class="n">nums</span><span class="p">;</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">ans</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+        <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">row</span><span class="p">:</span> <span class="n">nums</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">n</span><span class="p">:</span> <span class="n">row</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">ans</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+                <span class="n">b</span> <span class="o">++</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">b</span> <span class="o">==</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                    <span class="n">a</span> <span class="o">++</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="k">return</span> <span class="n">ans</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170429-leetcode-contest30/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170422-leetcode-contest29/">Leetcode Contest 29</a></h1>
     <div class="post-meta">2017-04-22</div>
     <a data-disqus-identifier="20170422-leetcode-contest29/" href="/20170422-leetcode-contest29/#disqus_thread" class="disqus-comment-count"></a>
@@ -338,32 +377,6 @@
     </div>
     <p class="readmore"><a href="/20170225-leetcode-contest21/">Read More</a></p>
 </div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170220-leetcode-contest20/">Leetcode Contest 20</a></h1>
-    <div class="post-meta">2017-02-20</div>
-    <a data-disqus-identifier="20170220-leetcode-contest20/" href="/20170220-leetcode-contest20/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>这周六的菜单是牛排骨、金鲳鱼和土豆丝，甜点是蛋糕。</p>
-<p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-20/">比赛</a>有四题，我只做出来了前三道。</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-20/problems/detect-capital/">第一道</a>是简单的字符串处理。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">detectCapitalUse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type word: str</span>
-<span class="sd">        :rtype: bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="s1">&#39;A&#39;</span> <span class="o">&lt;=</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="s1">&#39;Z&#39;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">word</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="s1">&#39;a&#39;</span> <span class="o">&lt;=</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="s1">&#39;z&#39;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">word</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">return</span> <span class="s1">&#39;A&#39;</span> <span class="o">&lt;=</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="s1">&#39;Z&#39;</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="s1">&#39;a&#39;</span> <span class="o">&lt;=</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="s1">&#39;z&#39;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170220-leetcode-contest20/">Read More</a></p>
-</div>
 
 <div class="page-navigator">
     <a class="extend prev" rel="prev" href="/page/7/">Previous</a>
@@ -374,6 +387,7 @@
     <span class="page-number current">8</span>
     <a class="page-number" href="/page/9/">9</a>
     <a class="page-number" href="/page/10/">10</a>
+    <a class="page-number" href="/page/11/">11</a>
     <a class="extend next" rel="next" href="/page/9/">Next</a></nav>
 </div class="page-navigator">
 
