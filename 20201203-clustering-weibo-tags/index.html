@@ -81,6 +81,10 @@ Clustering Weibo's Tags | 叶某人的碎碎念    </title>
 </pre></div>
 
 
+<pre>Tags in weibo1: ['tag_b', 'tag_a']
+Tags in weibo2: ['tag_c', 'tag_b', 'tag_a']
+</pre>
+
 <p>Now suppose we have a list of data, each element in the list representing a fetched JSON file. A sample fetched JSON file can be found here: <a href="https://wormtooth.com/files/2019101510.json">sample</a>. Let's write a function to build a graph out of this list of data.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">collections</span>
 
@@ -141,10 +145,10 @@ Clustering Weibo's Tags | 叶某人的碎碎念    </title>
 
 
 <pre>Edges with highest heights:
-[(('魏晨女友', '魏晨成功求婚'), 26), (('宝马姐就怒怼维权车主致歉', '热依扎工作室声明'), 4), (('雪莉确认死亡', '国考报名'), 2), (('宝马姐就怒怼维权车主致歉', '输错药致患儿死亡2护士被辞退'), 2)]
+[(('魏晨成功求婚', '魏晨女友'), 26), (('宝马姐就怒怼维权车主致歉', '热依扎工作室声明'), 4), (('国考报名', '雪莉确认死亡'), 2), (('输错药致患儿死亡2护士被辞退', '宝马姐就怒怼维权车主致歉'), 2)]
 
 Edges with lowest heights:
-[(('iG输了', '为什么不让宁王上'), 1), (('詹姆斯 让我们先发声不公平', '宋茜'), 1), (('40年前就曾发现火星上有生命痕迹', '魏晨成功求婚'), 1), (('胖子和瘦子互换饮食', '涠洲岛失联少女早晨监控'), 1)]
+[(('为什么不让宁王上', 'iG输了'), 1), (('詹姆斯 让我们先发声不公平', '宋茜'), 1), (('魏晨成功求婚', '40年前就曾发现火星上有生命痕迹'), 1), (('胖子和瘦子互换饮食', '涠洲岛失联少女早晨监控'), 1)]
 </pre>
 
 <h2>The Connected Components</h2>
@@ -211,13 +215,13 @@ Largest components has 2 tags
 
 
 <pre>With thredshold=2, the largest component is
-['输错药致患儿死亡2护士被辞退', '宝马姐就怒怼维权车主致歉', '涠洲岛失联少女早晨监控', '热依扎工作室声明', '李心草家属拒绝一切调解', '警方通报李心草事件调查情况']
+['李心草家属拒绝一切调解', '热依扎工作室声明', '警方通报李心草事件调查情况', '涠洲岛失联少女早晨监控', '宝马姐就怒怼维权车主致歉', '输错药致患儿死亡2护士被辞退']
 
 With thredshold=3, the largest component is
-['魏晨女友', '魏晨成功求婚']
+['宝马姐就怒怼维权车主致歉', '热依扎工作室声明']
 
 With thredshold=4, the largest component is
-['魏晨女友', '魏晨成功求婚']
+['宝马姐就怒怼维权车主致歉', '热依扎工作室声明']
 
 </pre>
 
