@@ -36,6 +36,45 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170902-leetcode-contest-48/">LeetCode Contest 48</a></h1>
+    <div class="post-meta">2017-09-02</div>
+    <a data-disqus-identifier="20170902-leetcode-contest-48/" href="/20170902-leetcode-contest-48/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-48">比赛</a>有点简单的样子。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-48/problems/second-minimum-node-in-a-binary-tree/">第一题</a><code>Second Minimum Node In a Binary Tree</code></p>
+<div class="qbar">给定一棵特别的二叉树，这棵二叉树的节点要么有两个子节点，要么没有节点。如果有两个子节点，那么该节点的值为子节点的最小值。求树的第二最小值。</div>
+
+<p>我当时什么都没有想，简单地将树的所有值取下来排序取出第二最小值。</p>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<span class="c1"># class TreeNode(object):</span>
+<span class="c1">#     def __init__(self, x):</span>
+<span class="c1">#         self.val = x</span>
+<span class="c1">#         self.left = None</span>
+<span class="c1">#         self.right = None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findSecondMinimumValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type root: TreeNode</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nums</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">nums</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
+            <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+        <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">2</span> <span class="k">else</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nums</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170902-leetcode-contest-48/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170827-leetcode-contest-47/">LeetCode Contest 47</a></h1>
     <div class="post-meta">2017-08-27</div>
     <a data-disqus-identifier="20170827-leetcode-contest-47/" href="/20170827-leetcode-contest-47/#disqus_thread" class="disqus-comment-count"></a>
@@ -284,24 +323,6 @@
 
     </div>
     <p class="readmore"><a href="/20170710-maupassant-pelican/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170629-cassini-ovals/">Cassini Ovals</a></h1>
-    <div class="post-meta">2017-06-29</div>
-    <a data-disqus-identifier="20170629-cassini-ovals/" href="/20170629-cassini-ovals/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>This post is my note for <a href="https://math.osu.edu/whatis"><em>What is</em></a> seminar on Cassini Ovals.</p>
-<h3>Definition</h3>
-<p>An ellipse is a geometric object formed by locus of points which have fixed sum of distances to two fixes foci.</p>
-<p><img alt="Ellipse" src="/images/ellipse-20170629.png"></p>
-<p>In the above figure, we can express the definition of ellipses in one simple equation:<br>
-</p>
-<div class="math">$$|PF_1|+|PF_2|=c,$$</div>
-<p><br>
-for some <span class="math">\(c&gt;0\)</span>. What if we change the addition in the above equation to multiplication? This comes the definition of <em>Cassini ovals</em>.</p>
-
-    </div>
-    <p class="readmore"><a href="/20170629-cassini-ovals/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

@@ -36,6 +36,24 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170629-cassini-ovals/">Cassini Ovals</a></h1>
+    <div class="post-meta">2017-06-29</div>
+    <a data-disqus-identifier="20170629-cassini-ovals/" href="/20170629-cassini-ovals/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This post is my note for <a href="https://math.osu.edu/whatis"><em>What is</em></a> seminar on Cassini Ovals.</p>
+<h3>Definition</h3>
+<p>An ellipse is a geometric object formed by locus of points which have fixed sum of distances to two fixes foci.</p>
+<p><img alt="Ellipse" src="/images/ellipse-20170629.png"></p>
+<p>In the above figure, we can express the definition of ellipses in one simple equation:<br>
+</p>
+<div class="math">$$|PF_1|+|PF_2|=c,$$</div>
+<p><br>
+for some <span class="math">\(c&gt;0\)</span>. What if we change the addition in the above equation to multiplication? This comes the definition of <em>Cassini ovals</em>.</p>
+
+    </div>
+    <p class="readmore"><a href="/20170629-cassini-ovals/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170625-leetcode-contest-38/">Leetcode Contest 38</a></h1>
     <div class="post-meta">2017-06-25</div>
     <a data-disqus-identifier="20170625-leetcode-contest-38/" href="/20170625-leetcode-contest-38/#disqus_thread" class="disqus-comment-count"></a>
@@ -275,36 +293,6 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 
     </div>
     <p class="readmore"><a href="/20170511-hexo-plugins/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170506-leetcode-contest31/">Leetcode Contest 31</a></h1>
-    <div class="post-meta">2017-05-06</div>
-    <a data-disqus-identifier="20170506-leetcode-contest31/" href="/20170506-leetcode-contest31/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-31/">比赛</a>简单。</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-31/problems/distribute-candies/">第一题</a><code>Distribute Candies</code></p>
-<div class="qbar">给定一个长度为偶数的数组，将所有数分成长度一样的两堆，求其中一堆不一样数字最多的数目。</div>
-
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">distributeCandies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">candies</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type candies: List[int]</span>
-<span class="sd">        :rtype: int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">kind</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">candies</span><span class="p">:</span>
-            <span class="n">kind</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">candies</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">&lt;=</span><span class="nb">len</span><span class="p">(</span><span class="n">kind</span><span class="p">)):</span>
-            <span class="k">return</span> <span class="n">n</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170506-leetcode-contest31/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

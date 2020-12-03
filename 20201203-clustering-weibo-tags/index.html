@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Clustering Weibo's tags | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Clustering Weibo's tags</h1>
+    <div class="post-meta">Dec 03, 2020
+    <span> | </span> <span>Machine Learning</span>
+    </div>
+    <a data-disqus-identifier="20201203-clustering-weibo-tags/" href="/20201203-clustering-weibo-tags/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>I started a projected last October to collect Weibo's top search data (<a href="https://s.weibo.com/top/summary">微博热搜榜</a>) hourly. Together with the keywords or tags (关键词), most recent related weibos (or tweets) are collected as well. The result is save to a JSON file, with the format explained in this <a href="{filename}/weibo-top-searches-json-format.md">page</a>.</p>
+<p>In this post, I would like to explore this data set and try to cluster tags. To be more precise, multiple tags can be used to refer to a same event, and these different tags are related and even share the same meaning. The task is to group similar tags together based on the data collected.</p>
+<!--more-->
+
+<h2>The Graph of Tags</h2>
+<p>The idea shown in this post to cluster tags is to build a graph of tags according to their co-occurance, and treat each connected component as a cluster of tags. In this graph, tags are vertices and the weight of an edge connecting two tags are the number of co-occurances.</p>
+<p>For example, if we have two weibos:</p>
+<p><strong>weibo1:</strong> #tag_a# #tag_b# blah blah blah ...</p>
+<p><strong>weibo2:</strong> #tag_a# #tag_b# #tag_c# blah blah blah ...</p>
+<p>In <strong>weibo1</strong>, we see two tags <em>tag_a</em> and <em>tag_b</em>, and in <strong>weibo2</strong>, we see three tags <em>tag_a</em>, <em>tag_b</em>, and <em>tag_c</em>. From these two weibos, we have a graph of 3 vertices, <em>tag_a</em>, <em>tag_b</em> and <em>tag_c</em>. The edge connecting <em>tag_a</em> and <em>tag_b</em> has weight 2, becuase the pair (<em>tag_a</em>, <em>tag_b</em>) appears in two weibos. Similarly, the two edges conecting <em>tag_c</em> to <em>tag_a</em> and <em>tag_b</em> both have weight 1.</p>
+<p><img alt="graph for tag_a, tag_b and tag_c" src="/images/20201203-figure-1.png"></p>
+<p>In order to build the graph, we need to be able to extract tags out of weibos.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find_tags</span><span class="p">(</span><span class="n">content</span><span class="p">):</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">content</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s2">&quot;#&quot;</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="n">content</span><span class="p">[</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">tag</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+</pre></div>
+
+
+<p>We can try the function <code>find_tags</code> on our previous examples.</p>
+<div class="highlight"><pre><span></span><span class="n">weibo1</span> <span class="o">=</span> <span class="s2">&quot;#tag_a# #tag_b# blah blah blah ...&quot;</span>
+<span class="n">weibo2</span> <span class="o">=</span> <span class="s2">&quot;#tag_a# #tag_b# #tag_c# blah blah blah ...&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tags in weibo1: </span><span class="si">{</span><span class="n">find_tags</span><span class="p">(</span><span class="n">weibo1</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tags in weibo2: </span><span class="si">{</span><span class="n">find_tags</span><span class="p">(</span><span class="n">weibo2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Now suppose we have a list of data, each element in the list representing a fetched JSON file. A sample fetched JSON file can be found here: <a href="https://wormtooth.com/files/2019101510.json">sample</a>. Let's write a function to build a graph out of this list of data.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">collections</span>
+
+<span class="k">def</span> <span class="nf">build_graph</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">entry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">[:</span><span class="n">top</span><span class="p">]:</span>
+            <span class="n">tags</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">topic</span><span class="p">[</span><span class="s2">&quot;tag&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">entry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">[:</span><span class="n">top</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">topic</span><span class="p">[</span><span class="s2">&quot;weibo&quot;</span><span class="p">]:</span>
+                <span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span>
+                    <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">,</span> <span class="n">find_tags</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="s2">&quot;content&quot;</span><span class="p">])))</span>
+                <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span class="n">v</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                        <span class="n">graph</span><span class="p">[</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">tags</span><span class="p">),</span> <span class="n">graph</span>
+</pre></div>
+
+
+<p>Note that there could be tags that are not presented in the hot searches, but appear in some weibos. Those tags are ignored in the graph. We next build a graph of tags using the sameple JSON file and the <code>build_graph</code>.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">sample_url</span> <span class="o">=</span> <span class="s2">&quot;https://wormtooth.com/files/2019101510.json&quot;</span>
+<span class="n">page</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sample_url</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">content</span><span class="p">)]</span>
+
+<span class="n">tags</span><span class="p">,</span> <span class="n">graph</span> <span class="o">=</span> <span class="n">build_graph</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span><span class="si">}</span><span class="s2"> tags in the sample JSON file.&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<pre>There are 20 tags in the sample JSON file.
+</pre>
+
+<div class="highlight"><pre><span></span><span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tags</span> <span class="ow">or</span> <span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">seen</span> <span class="ow">or</span> <span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+<span class="n">edges</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Edges with highest heights:</span><span class="se">\n</span><span class="si">{</span><span class="n">edges</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Edges with lowest heights:</span><span class="se">\n</span><span class="si">{</span><span class="n">edges</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<pre>Edges with highest heights:
+[(('魏晨女友', '魏晨成功求婚'), 26), (('宝马姐就怒怼维权车主致歉', '热依扎工作室声明'), 4), (('雪莉确认死亡', '国考报名'), 2), (('宝马姐就怒怼维权车主致歉', '输错药致患儿死亡2护士被辞退'), 2)]
+
+Edges with lowest heights:
+[(('iG输了', '为什么不让宁王上'), 1), (('詹姆斯 让我们先发声不公平', '宋茜'), 1), (('40年前就曾发现火星上有生命痕迹', '魏晨成功求婚'), 1), (('胖子和瘦子互换饮食', '涠洲岛失联少女早晨监控'), 1)]
+</pre>
+
+<h2>The Connected Components</h2>
+<p>In a undirected graph, two vertices are connected if there is an edge connecting the two vertices. In our graph of tags, two tags are connected if they appear at the same time in a weibo. But co-occurance at the same weibo does not necessarily imply they are related. We are going to use a number <code>thredshold</code>, and consider two tags are connected only if they appear at the same time in at least <code>thredshold</code> different weibos.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">connected_components</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">bfs</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">stack</span><span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+        <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">stack</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">graph</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">threshold</span> <span class="ow">and</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                    <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                    <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">stack</span>
+    <span class="n">comps</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+            <span class="n">comps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bfs</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+    <span class="n">comps</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">comps</span>
+</pre></div>
+
+
+<p>By default, we set <code>threshold</code> to 1, using the connectness for the undirected graph. We should adjust the <code>threshold</code> according to the amount of data collected.</p>
+<div class="highlight"><pre><span></span><span class="n">clusters</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="mi">7</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span><span class="si">}</span><span class="s2"> tags.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
+    <span class="n">clusters</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">connected_components</span><span class="p">(</span><span class="n">tags</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">clusters</span><span class="p">[</span><span class="n">t</span><span class="p">])</span><span class="si">}</span><span class="s2"> clusters using threshold=</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Largest components has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">clusters</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2"> tags</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<pre>There are 20 tags.
+
+There are 6 clusters using threshold=1
+Largest components has 11 tags
+
+There are 13 clusters using threshold=2
+Largest components has 6 tags
+
+There are 18 clusters using threshold=3
+Largest components has 2 tags
+
+There are 18 clusters using threshold=4
+Largest components has 2 tags
+
+There are 19 clusters using threshold=5
+Largest components has 2 tags
+
+There are 19 clusters using threshold=6
+Largest components has 2 tags
+
+</pre>
+
+<p>The large the threshold is, the more clusters we have. To an extreme, if the threshold is bigger than the weights of any edges, each tag will be its own cluster. We don't want the threshold to be too small, because in this case, unrelated tags are grouped together. We don't want it to be too big neither, in which case related tags get separated. Thus, threshold is a parameter in this method. Since we don't have labelled data, we can now only manually tune this parameter.</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;With thredshold=</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">, the largest component is</span><span class="se">\n</span><span class="si">{</span><span class="n">clusters</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<pre>With thredshold=2, the largest component is
+['输错药致患儿死亡2护士被辞退', '宝马姐就怒怼维权车主致歉', '涠洲岛失联少女早晨监控', '热依扎工作室声明', '李心草家属拒绝一切调解', '警方通报李心草事件调查情况']
+
+With thredshold=3, the largest component is
+['魏晨女友', '魏晨成功求婚']
+
+With thredshold=4, the largest component is
+['魏晨女友', '魏晨成功求婚']
+
+</pre>
+
+<p>In this particular dataset, <code>threshold = 3</code> works the best. However, in this dataset, there is only one data point, corresponding to one fetched JSON at a particular hour. Naturally, we need to increase the threshold as we include more data.</p>
+<h2>Results</h2>
+<p>If we take all data from November, 2020, we would have 720 data points, as we have 720 hours in November. There are 3274 distinct tags if we consider only top 20 tags per hour. It turns out that with a month's data, <code>threshold</code> works well around 20. The largest 5 components using <code>threshold=20</code> for November, 2020 are:</p>
+<blockquote>
+<p>['美国大选烧钱创纪录', '特朗普发推要求停止计票', '内华达州的6张选票', '美国大选', '小红书崩了', '别再说自己是打工人', '特朗普将要求威斯康星州重新计票', '拜登在宾州反超特朗普', '美国大选选举日投票正式开始', '拜登', '梅拉尼娅建议特朗普接受失败', '拜登率先获得270张选举人票', '拜登赢得威斯康星州', '特朗普称拒绝接受将采取法律行动', '宾夕法尼亚州或将重新计票', '拜登向全国发表讲话', '外交部向拜登和哈里斯表示祝贺', '拜登称首要任务是控制疫情', '特朗普团队计票诉讼被两州驳回', '特朗普竞选团队在宾夕法尼亚州提起诉讼', '美大选当天移居加拿大搜索量暴增', '佐治亚州将重新计票', '美国同时出现抗议示威和上街庆祝', '特朗普团队在内华达州诉讼被驳回', '特朗普', '特朗普团队选举诉讼在多州被驳回', '拜登获306张选举人票特朗普获232张', '特朗普团队正募集6000万美元用于诉讼', '拜登在佐治亚州反超特朗普', '多家美媒掐断特朗普讲话直播', '拜登拿下关键摇摆州密歇根州', '白宫方面表示特朗普未准备败选演说', '谭德塞称期待与拜登团队合作', '特朗普金色头发变得花白', '拜登竟称美日安保条约适用钓鱼岛', '特朗普11亿美元债务表', '菅义伟与拜登进行首次通话']</p>
+<p>['马苏 这几年摊上一些乱七八糟的事', '演员请就位', '郭敬明被尔冬升怼哭', '郭敬明版画皮的画面质感', '王楚然好适合南湘', '丁程鑫稚嫩妩媚感', '演员请就位版小时代好像小品', '尔冬升离场', '黄奕马苏倪虹洁把票让给张月', '郭敬明再给何昶希S卡', '赵薇导的剧场太好看了', '任敏哭着说压力好大太可爱了', '辣目洋子版顾里', '董思怡 好一个捧哏']</p>
+<p>['萧胡辇怀孕', '燕云台', '萧燕燕儿子被下毒', '萧燕燕封后', '萧燕燕当太后', '萧家两姐妹大婚', '萧家三姐妹帮萧思温找凶手', '萧燕燕大婚', '燕云台大结局', '萧燕燕韩德让私奔', '韩德让辞职', '棋魂大结局', '棋魂', '日本网友对棋魂的反馈']</p>
+<p>['狼殿下', '王大陆演技', '肖战疾冲', '李沁 我可是勇敢的马摘星', '那些年为肖战挡刀的女孩', '狼殿下台词又土又好笑', '狼殿下开播', '狼殿下弹幕', '狼殿下全集上线', '肖战李沁吻戏', '李沁演的马摘星', '王大陆蹭了李沁鼻子瞬间打了高光']</p>
+<p>['丁真的字里有珍珠的影子', '全国各地都在邀请丁真', '丁真说不要再p了', '西藏日报 丁真我们在西藏等你', '四川为了丁真有多努力', '山东请求加入大乱斗', '怪不得四川观察总观察丁真', '黄子韬要去四川找丁真', '四川日报 玩够早点回家', '西藏拥有了躺赢的快乐', '丁真最想去的地方是拉萨']</p>
+</blockquote>
+<p>The result is pretty good. It successfully groups all election-realted tags together, and separates topics for different TV series as well.</p>
+<p>Here is a figure for number of clusters vs threshold. Recall that there are 3274 tags in consideration.</p>
+<p><img alt="clusters vs threshold" src="/images/20201203-figure-2.png"></p>
+
+        <div class="tags">
+        <a href="/tag/clustering">clustering</a>
+        <a href="/tag/graph">graph</a>
+        <a href="/tag/python">python</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20201203-clustering-weibo-tags/';
+    var disqus_title = 'Clustering Weibo's tags';
+    var disqus_url = 'https://wormtooth.com/20201203-clustering-weibo-tags/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2020 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

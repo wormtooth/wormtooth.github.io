@@ -36,6 +36,36 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170506-leetcode-contest31/">Leetcode Contest 31</a></h1>
+    <div class="post-meta">2017-05-06</div>
+    <a data-disqus-identifier="20170506-leetcode-contest31/" href="/20170506-leetcode-contest31/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-31/">比赛</a>简单。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-31/problems/distribute-candies/">第一题</a><code>Distribute Candies</code></p>
+<div class="qbar">给定一个长度为偶数的数组，将所有数分成长度一样的两堆，求其中一堆不一样数字最多的数目。</div>
+
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">distributeCandies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">candies</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type candies: List[int]</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kind</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">candies</span><span class="p">:</span>
+            <span class="n">kind</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">candies</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">&lt;=</span><span class="nb">len</span><span class="p">(</span><span class="n">kind</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">n</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170506-leetcode-contest31/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170429-leetcode-contest30/">Leetcode Contest 30</a></h1>
     <div class="post-meta">2017-04-29</div>
     <a data-disqus-identifier="20170429-leetcode-contest30/" href="/20170429-leetcode-contest30/#disqus_thread" class="disqus-comment-count"></a>
@@ -337,45 +367,6 @@
 
     </div>
     <p class="readmore"><a href="/20170304-leetcode-contest22/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170225-leetcode-contest21/">Leetcode Contest 21</a></h1>
-    <div class="post-meta">2017-02-25</div>
-    <a data-disqus-identifier="20170225-leetcode-contest21/" href="/20170225-leetcode-contest21/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>今晚是一次丰盛的聚餐：羊肉汤，金鲳鱼，红烧排骨，炒牛肉和炒青菜。</p>
-<p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-21">比赛</a>我全都做出来了！可惜前三题都WA了一次，而且都是粗心大意的错。</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-21/problems/minimum-absolute-difference-in-bst/">第一题</a><code>Minimum Absolute Difference in BST</code>，我采取了简单粗暴的方法：首先中序遍历将所有数放在一个数组里，然后返回相邻两个数之间差的最小值。</p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
-<span class="c1"># class TreeNode(object):</span>
-<span class="c1">#     def __init__(self, x):</span>
-<span class="c1">#         self.val = x</span>
-<span class="c1">#         self.left = None</span>
-<span class="c1">#         self.right = None</span>
-
-
-<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
-    <span class="k">def</span> <span class="nf">getMinimumDifference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type root: TreeNode</span>
-<span class="sd">        :rtype: int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">def</span> <span class="nf">inorder</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
-                <span class="k">return</span>
-            <span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
-            <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
-            <span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
-        <span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170225-leetcode-contest21/">Read More</a></p>
 </div>
 
 <div class="page-navigator">
