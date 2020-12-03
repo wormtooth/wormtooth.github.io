@@ -42,7 +42,7 @@ Clustering Weibo's Tags | 叶某人的碎碎念    </title>
     </div>
     <a data-disqus-identifier="20201203-clustering-weibo-tags/" href="/20201203-clustering-weibo-tags/#disqus_thread" class="disqus-comment-count"></a>
     <div class="post-content">
-        <p>I started a projected last October to collect Weibo's top search data (<a href="https://s.weibo.com/top/summary">微博热搜榜</a>) hourly. Together with the keywords or tags (关键词), most recent related weibos (or tweets) are collected as well. The result is save to a JSON file, with the format explained in this <a href="{filename}/weibo-top-searches-json-format.md">page</a>.</p>
+        <p>I started a projected last October to collect Weibo's top search data (<a href="https://s.weibo.com/top/summary">微博热搜榜</a>) hourly. Together with the keywords or tags (关键词), most recent related weibos (or tweets) are collected as well. The result is save to a JSON file, with the format explained in this <a href="https://wormtooth.com/weibo-top-searches-json-format/">page</a>.</p>
 <p>In this post, I would like to explore this data set and try to cluster tags. To be more precise, multiple tags can be used to refer to a same event, and these different tags are related and even share the same meaning. The task is to group similar tags together based on the data collected.</p>
 <!--more-->
 
@@ -52,7 +52,7 @@ Clustering Weibo's Tags | 叶某人的碎碎念    </title>
 <p><strong>weibo1:</strong> #tag_a# #tag_b# blah blah blah ...</p>
 <p><strong>weibo2:</strong> #tag_a# #tag_b# #tag_c# blah blah blah ...</p>
 <p>In <strong>weibo1</strong>, we see two tags <em>tag_a</em> and <em>tag_b</em>, and in <strong>weibo2</strong>, we see three tags <em>tag_a</em>, <em>tag_b</em>, and <em>tag_c</em>. From these two weibos, we have a graph of 3 vertices, <em>tag_a</em>, <em>tag_b</em> and <em>tag_c</em>. The edge connecting <em>tag_a</em> and <em>tag_b</em> has weight 2, becuase the pair (<em>tag_a</em>, <em>tag_b</em>) appears in two weibos. Similarly, the two edges conecting <em>tag_c</em> to <em>tag_a</em> and <em>tag_b</em> both have weight 1.</p>
-<p><img alt="graph for tag_a, tag_b and tag_c" src="/images/20201203-figure-1.png"></p>
+<p><img alt="graph for tag_a, tag_b and tag_c" src="https://wormtooth.com/images/20201203-figure-1.png"></p>
 <p>In order to build the graph, we need to be able to extract tags out of weibos.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find_tags</span><span class="p">(</span><span class="n">content</span><span class="p">):</span>
     <span class="n">tags</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -237,7 +237,7 @@ With thredshold=4, the largest component is
 </blockquote>
 <p>The result is pretty good. It successfully groups all election-realted tags together, and separates topics for different TV series as well.</p>
 <p>Here is a figure for number of clusters vs threshold. Recall that there are 3274 tags in consideration.</p>
-<p><img alt="clusters vs threshold" src="/images/20201203-figure-2.png"></p>
+<p><img alt="clusters vs threshold" src="https://wormtooth.com/images/20201203-figure-2.png"></p>
 
         <div class="tags">
         <a href="/tag/clustering">clustering</a>
