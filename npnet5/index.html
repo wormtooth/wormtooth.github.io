@@ -106,42 +106,42 @@ B' = \begin{pmatrix} 0 \\ 1 \\ -1 \\ 0 \end{pmatrix}.$$</div>
     &amp; W^\prime = \frac{W + 2 * pW - kW}{sW} + 1.
 \end{align*}$$</div>
 <p>卷积模型中的卷积运算是对前一节卷积运算的推广。上一节中的卷积运算相当于 <span class="math">\(N = C = 1\)</span> 的特殊情形。现在我们的图片是有 <span class="math">\(C\)</span> 层频道的，所以每个卷积核是一个 <span class="math">\(C \times kH \times kW\)</span> 的三维矩阵。如果我们希望将卷积运算化作矩阵乘法，我们需要将输入和卷积核变成二维矩阵。将 <span class="math">\(D\)</span> 个这样的卷积核变成一个二维矩阵是不难的，这个二维矩阵是一个规模为 <span class="math">\((C*kH*kW) \times D\)</span> 的矩阵，每一列代表一个卷积核。困难的是如何将 <span class="math">\(N \times C \times H \times W\)</span> 的四维矩阵变成一个二维矩阵。对输入规模和输出规模来分析，我们需要将这个四维矩阵变成一个规模为 <span class="math">\((N*H^\prime*W^\prime) \times (C*kH*kW)\)</span> 的二维矩阵。假设我们有一个简单的 <span class="math">\(2 \times 2 \times 2 \times 3\)</span> 输入：</p>
-<div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">[</span>
-        <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-         <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]],</span>
+<div class="highlight"><pre><span></span>img = [
+    [
+        [[1, 2, 3],
+         [4, 5, 6]],
 
-        <span class="p">[[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
-         <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
-    <span class="p">],</span>
-    <span class="p">[</span>
-        <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-         <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
+        [[6, 5, 4],
+         [3, 2, 1]]
+    ],
+    [
+        [[0, 1, 0],
+         [2, 2, 3]],
 
-        <span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-         <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">]]</span>
-    <span class="p">]</span>
-<span class="p">]</span>
+        [[2, 3, 3],
+         [6, 6, 6]]
+    ]
+]
 </pre></div>
 
 
 <p>我们假设 <span class="math">\(kH = kW = 2, sH = sW = 1\)</span> 且 <span class="math">\(pH = pW = 0\)</span>。我们不难计算出 <span class="math">\(H^\prime = 1, W^\prime = 2\)</span>。我们希望得到的对应的二维数组为</p>
-<div class="highlight"><pre><span></span><span class="err">row = [</span>
-<span class="err">    [1, 2, 4, 5, 6, 5, 3, 2],</span>
-<span class="err">    [2, 3, 5, 6, 5, 4, 2, 1],</span>
-<span class="err">    [0, 1, 2, 2, 2, 3, 6, 6],</span>
-<span class="err">    [1, 0, 2, 3, 3, 3, 6, 6]</span>
-<span class="err">]</span>
+<div class="highlight"><pre><span></span>row = [
+    [1, 2, 4, 5, 6, 5, 3, 2],
+    [2, 3, 5, 6, 5, 4, 2, 1],
+    [0, 1, 2, 2, 2, 3, 6, 6],
+    [1, 0, 2, 3, 3, 3, 6, 6]
+]
 </pre></div>
 
 
 <p><code>row</code> 的第一行是 <code>img[0]</code> 所有层中第一个 <span class="math">\(2 \times 2\)</span> 矩阵得到的数字所构成的行向量，第二行是 <code>img[0]</code> 所有层中第二个 <span class="math">\(2 \times 2\)</span> 矩阵得到的数字所构成的行向量。第三第四行是从 <code>img[1]</code> 得来的。如果我们分析 <code>row</code> 中数字来自于 <code>img</code> 的索引 (index)，我们可以得到</p>
-<div class="highlight"><pre><span></span><span class="err">row_indices = [</span>
-<span class="err">    0[000, 001, 010, 011, 100, 101, 110, 111],</span>
-<span class="err">    0[001, 002, 011, 012, 101, 102, 111, 112],</span>
-<span class="err">    1[000, 001, 010, 011, 100, 101, 110, 111],</span>
-<span class="err">    1[001, 002, 011, 012, 101, 102, 111, 112]</span>
-<span class="err">]</span>
+<div class="highlight"><pre><span></span>row_indices = [
+    0[000, 001, 010, 011, 100, 101, 110, 111],
+    0[001, 002, 011, 012, 101, 102, 111, 112],
+    1[000, 001, 010, 011, 100, 101, 110, 111],
+    1[001, 002, 011, 012, 101, 102, 111, 112]
+]
 </pre></div>
 
 
