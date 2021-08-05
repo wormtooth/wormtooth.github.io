@@ -8,7 +8,7 @@
     <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
     <meta content="telephone=no" name="format-detection" />
     <title>
-Weibo's top searches json format | 叶某人的碎碎念    </title>
+SVD | 叶某人的碎碎念    </title>
     <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
     <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
     <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
@@ -35,40 +35,13 @@ Weibo's top searches json format | 叶某人的碎碎念    </title>
     </div>
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
-<div class="post">
-    <h1 class="post-title">Weibo's top searches json format</h1>
-    <div class="post-content">
-        <p>Since October 2019, I have a Python script scraping <a href="https://s.weibo.com/top/summary">Weibo's top searches (微博热搜榜)</a> hourly. Each hour's results are stored in a JSON file with its name in the pattern <code>YYYYMMDDHH.json</code>. <code>YYYY</code> is for year, <code>MM</code> is zero padded two-digits number for month, <code>DD</code> is zero padded two digits number for day, and <code>HH</code> is zero padded two digits number for hour. Note that the time is in UTC+8 timezone. For example, <code>2020100316.json</code> stores top searches results of Oct. 3, 2020 at 4pm (in UTC+8). The first avalibale JSON file is <code>2019101510.json</code>.</p>
-<p>Within each JSON file, it has the following layout:</p>
-<div class="highlight"><pre><span></span><span class="p">[</span>
-    <span class="p">{</span>
-        <span class="nt">&quot;hotness&quot;</span><span class="p">:</span> <span class="err">###</span><span class="p">,</span>
-        <span class="nt">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;xxxx&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;weibo&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="nt">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;xxxx&quot;</span><span class="p">,</span>
-                <span class="nt">&quot;nickname&quot;</span><span class="p">:</span> <span class="s2">&quot;xxxx&quot;</span>
-            <span class="p">},</span>
-            <span class="err">...</span>
-        <span class="p">]</span>
-    <span class="p">},</span>
-    <span class="err">...</span>
-<span class="p">]</span>
-</pre></div>
-
-
-<ul>
-<li>hotness (热度): int. An integer indicating how popular the topic is.</li>
-<li>tag: str. The name of the topic.</li>
-<li>weibo: list. A list of most recent tweets in this topic.<ul>
-<li>content: str. The conent of the tweets.</li>
-<li>nickname: str. The nickname of the owner of the tweets.</li>
+<div class="post"><div class="post-archive">
+<h1 class="label-title">Articles tagged by <em>SVD</em></h1>
+<h2>2021</h2>
+<ul class="listing">
+    <li><span class="date">2021/08/05</span><a href="/20210805-netflix-svd/">Simple SVD with Bias for Netflix Prize</a></li>
 </ul>
-</li>
-</ul>
-<p>A sample is provided: <a href="https://wormtooth.com/files/2019101510.json">2019101510.json</a></p>
-    </div>
-</div>
+</div></div>
         </div></div>
         <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
 <div class="widget">

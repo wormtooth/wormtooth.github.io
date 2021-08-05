@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Simple SVD with Bias for Netflix Prize | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Simple SVD with Bias for Netflix Prize</h1>
+    <div class="post-meta">Aug 05, 2021
+    <span> | </span> <span>Machine Learning</span>
+    </div>
+    <a data-disqus-identifier="20210805-netflix-svd/" href="/20210805-netflix-svd/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>In my linear algebra class this summer, I used the <a href="https://www.netflixprize.com">Netflix Prize challenge</a> as a pratical example for an application of singular value decomposition (<a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">SVD</a>). To be more precise, I explained the term <span class="math">\(p_u^Tq_i\)</span> in the simple SVD with bias model:<br>
+</p>
+<div class="math">$$\hat{r}_{ui} = \mu + b_u + b_i + p_u^Tq_i.$$</div>
+<p><br>
+The above model can be found in section 2.1 in this <a href="https://www.netflixprize.com/assets/ProgressPrize2008_BellKor.pdf">progress paper</a> of the winning team. In this note, I will explain this model and give an implementation in Python. A C implementation of the moddel can be found in my GitHub repository here: <a href="https://github.com/wormtooth/netflix_svd">https://github.com/wormtooth/netflix_svd</a>.</p>
+<!--more-->
+
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+
+
+<h2>Load Data</h2>
+<p>We can find the data on <a href="https://www.kaggle.com/netflix-inc/netflix-prize-data">Kaggle</a>. There are 100 millions (100480507 to be exact) rating items for 480189 users and 17770 movies. All these ratings are stored in the 4 txt files with name prefix <strong>combined_data</strong>. There are roughly 2G of data, but if we are not careful, we would soon find that we need 16G+ of memory to load all of them. The trick here is not to use <code>list</code>, but use <code>np.array</code> stead!</p>
+<div class="highlight"><pre><span></span><span class="n">RATINGS_NUMBER</span> <span class="o">=</span> <span class="mi">100480507</span>
+<span class="n">MOVIES_NUMBER</span> <span class="o">=</span> <span class="mi">17770</span>
+<span class="n">USERS_NUMBER</span> <span class="o">=</span> <span class="mi">480189</span>
+
+<span class="k">def</span> <span class="nf">load_ratings</span><span class="p">(</span><span class="n">src_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cache_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+    <span class="n">ratings_cache_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cache_folder</span><span class="p">,</span> <span class="s1">&#39;ratings.npy&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ratings_cache_path</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ratings_cache_path</span><span class="p">)</span>
+    <span class="n">ratings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+        <span class="n">RATINGS_NUMBER</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;movie&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;rating&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># read all ratings</span>
+    <span class="n">src_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">src_folder</span><span class="p">,</span> <span class="s1">&#39;combined_data_</span><span class="si">{}</span><span class="s1">.txt&#39;</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">src_path</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">path</span> <span class="o">+</span> <span class="s2">&quot; not existed&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;:&#39;</span><span class="p">:</span>
+                    <span class="n">m</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span> <span class="c1"># make it from 0</span>
+                    <span class="k">continue</span>
+                <span class="n">u</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+                <span class="n">u</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">u</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+                <span class="n">ratings</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">r</span>
+                <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># remap user ids so that they are sequential from 0</span>
+    <span class="n">ratings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">ratings</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
+    <span class="n">ratings</span> <span class="o">=</span> <span class="n">ratings</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">RATINGS_NUMBER</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">RATINGS_NUMBER</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">users</span> <span class="ow">and</span> <span class="n">users</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">ratings</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]:</span>
+            <span class="n">ratings</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">users</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ratings</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="n">ratings</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">users</span><span class="p">)</span>
+
+    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">ratings_cache_path</span><span class="p">,</span> <span class="n">ratings</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cache_folder</span><span class="p">,</span> <span class="s1">&#39;users.npy&#39;</span><span class="p">),</span> <span class="n">users</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ratings</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># change the src_folder to wherever you store the decompressed data</span>
+<span class="c1"># it caches loaded ratings to current folder by default</span>
+<span class="n">src_folder</span> <span class="o">=</span> <span class="s1">&#39;/data/netflix&#39;</span>
+<span class="n">ratings</span> <span class="o">=</span> <span class="n">load_ratings</span><span class="p">(</span><span class="n">src_folder</span><span class="p">)</span>
+</pre></div>
+
+
+<p>I remap both user ids and movie ids to sequential sequences starting from 0. It will take a while to load all the ratings at the first time. But it will cache the loaded ratings to the current folder so that it will be much faster next time. You can change the <code>cache_folder</code> if you want.</p>
+<p>Let's wrap the ratings into a dataframe and compute the average ratings for all movies.</p>
+<div class="highlight"><pre><span></span><span class="n">ratings_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">ratings</span><span class="p">,</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;movie&#39;</span><span class="p">,</span> <span class="s1">&#39;rating&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">ratings_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+
+<pre>   user  movie  rating
+0     0     29       3
+1     0    156       3
+2     0    172       4
+3     0    174       5
+4     0    190       2</pre>
+
+<div class="highlight"><pre><span></span><span class="n">avg_rating</span> <span class="o">=</span> <span class="n">ratings_df</span><span class="o">.</span><span class="n">rating</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The average ratings for all movies: &#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">avg_rating</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<pre>The average ratings for all movies: 3.60
+</pre>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">s</span> <span class="o">*</span> <span class="n">s</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE for using the average rating only: &#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">RMSE</span><span class="p">(</span><span class="n">ratings_df</span><span class="o">.</span><span class="n">rating</span> <span class="o">-</span> <span class="n">avg_rating</span><span class="p">)</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<pre>RMSE for using the average rating only: 1.0852
+</pre>
+
+<h2>The Baseline Model</h2>
+<p>Let <span class="math">\(\mu\)</span> be the average rating, and it is roughly 3.60. Rating is subjective. Some users might be pickier than others, so they tend to give lower ratings. Some movies are better than others, so they receive higher ratings. These are bias from users and movies:<br>
+</p>
+<div class="math">$$\tilde{r}_{um} = \mu + b_u + b_m,$$</div>
+<p><br>
+where <span class="math">\(\tilde{r}_{um}\)</span> is the predicted rating for user <span class="math">\(u\)</span> and movie <span class="math">\(m\)</span>, <span class="math">\(b_u\)</span> is the bias for user <span class="math">\(u\)</span> and <span class="math">\(b_m\)</span> is the bias for movie <span class="math">\(m\)</span>. We use this model as the baseline model.</p>
+<p>Let <span class="math">\(r_{um}\)</span> the true rating for user <span class="math">\(u\)</span> and movie <span class="math">\(m\)</span>. Suppose <span class="math">\(r_{um} \ne 0\)</span> if the rating for user <span class="math">\(u\)</span> and movie <span class="math">\(m\)</span> is not missing. Then we can find <span class="math">\(b_u\)</span> and <span class="math">\(b_m\)</span> to minimize<br>
+</p>
+<div class="math">$$\sum_{r_{um} \ne 0} (\mu + b_u + b_m - r_{um})^2 + \lambda (\sum_{u} b_u^2 + \sum_{m} b_m^2).$$</div>
+<p><br>
+The hyperparameter <span class="math">\(\lambda\)</span> is the regulization factor to avoid overfitting. This is essentially a least-squares problem, and can be solved using gradient descent (or stochastic gradient descent).</p>
+<p>One way to obtain an approximation of the baseline model is to separate users' bias and movies' bias. For example, we can assume no bias for movies, and consider only the users' bais, then we just need to find <span class="math">\(b_u\)</span> to minimize<br>
+</p>
+<div class="math">$$\sum_{r_{um} \ne 0}(\mu + b_u - r_{um})^2 + \alpha \sum_{u}b_u^2.$$</div>
+<p>The hyperparameter <span class="math">\(\alpha\)</span> is the regulization factor to replace <span class="math">\(\lambda\)</span>. The above function can be easily minized using calculus, i.e., set the partial derivative equal 0. We get<br>
+</p>
+<div class="math">$$b_u = \frac{\sum_{m, r_{um} \ne 0} (r_{um} - \mu)}{R_u + \alpha}.$$</div>
+<p><br>
+Here, <span class="math">\(R_u = \sum_{m, r_{um} \ne 0} 1\)</span> is the number of moives user <span class="math">\(u\)</span> rated.</p>
+<p>Once we get <span class="math">\(b_u\)</span>, we then find <span class="math">\(b_m\)</span> to minimize<br>
+</p>
+<div class="math">$$\sum_{r_{um} \ne 0} (\mu + b_u + b_m - r_{um})^2 + \beta \sum_{m} b_m^2,$$</div>
+<p><br>
+which gives us<br>
+</p>
+<div class="math">$$b_m = \frac{\sum_{u, r_{um} \ne 0} (r_{um} - \mu - b_u)}{R_m + \beta}.$$</div>
+<p><br>
+Here, <span class="math">\(R_m = \sum_{u, r_{um} \ne 0} 1\)</span> is the number users who rated movie <span class="math">\(m\)</span>.</p>
+<p>We can also consider <span class="math">\(b_m\)</span> first then <span class="math">\(b_u\)</span> in a similar way. They will give different approximations to the original baseline model.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bisect</span> <span class="kn">import</span> <span class="n">bisect_left</span><span class="p">,</span> <span class="n">bisect_right</span>
+
+<span class="k">def</span> <span class="nf">get_baseline_model</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">avg_rating</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rating</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ratings</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">user_bias</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">USERS_NUMBER</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">USERS_NUMBER</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">bisect_left</span><span class="p">(</span><span class="n">ratings</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">bisect_right</span><span class="p">(</span><span class="n">ratings</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">user_bias</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">ratings</span><span class="p">[</span><span class="n">p</span><span class="p">:</span><span class="n">q</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">avg_rating</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">q</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span>
+
+    <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;movie&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ratings</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">movie_bias</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">MOVIES_NUMBER</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MOVIES_NUMBER</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">bisect_left</span><span class="p">(</span><span class="n">ratings</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">bisect_right</span><span class="p">(</span><span class="n">ratings</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">movie_bias</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+            <span class="n">ratings</span><span class="p">[</span><span class="n">p</span><span class="p">:</span><span class="n">q</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">avg_rating</span> <span class="o">-</span> <span class="n">user_bias</span><span class="p">[</span><span class="n">ratings</span><span class="p">[</span><span class="n">p</span><span class="p">:</span><span class="n">q</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span> <span class="o">/</span> <span class="p">(</span><span class="n">beta</span> <span class="o">+</span> <span class="n">q</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">user_bias</span><span class="p">,</span> <span class="n">movie_bias</span>
+</pre></div>
+
+
+<p>In <code>get_baseline_model</code> above, I computed <span class="math">\(b_u\)</span> first and then <span class="math">\(b_m\)</span>. The implementation could look much better using <code>groupby</code> with dataframes. But it takes too much memory and crushes my computer with 8G RAM. So I have to do it without <code>groupby</code>.</p>
+<div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">user_bias</span><span class="p">,</span> <span class="n">movie_bias</span> <span class="o">=</span> <span class="n">get_baseline_model</span><span class="p">(</span><span class="n">ratings_df</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+</pre></div>
+
+
+<p>The choice of regulization factors <span class="math">\(\alpha\)</span> and <span class="math">\(\beta\)</span> can be done using cross validation on the Probe set. Since it takes a while to do, I would just use <span class="math">\(\alpha = 25\)</span> and <span class="math">\(\beta = 10\)</span> from section III of this <a href="https://www.netflixprize.com/assets/GrandPrize2009_BPC_BellKor.pdf">paper</a>.</p>
+<div class="highlight"><pre><span></span><span class="n">ratings</span> <span class="o">=</span> <span class="n">ratings_df</span><span class="o">.</span><span class="n">values</span>
+<span class="n">avg_rating</span> <span class="o">=</span> <span class="n">ratings_df</span><span class="o">.</span><span class="n">rating</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">resid</span> <span class="o">=</span> <span class="n">ratings</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">avg_rating</span> <span class="o">-</span> <span class="n">user_bias</span><span class="p">[</span><span class="n">ratings</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]]</span> <span class="o">-</span> <span class="n">movie_bias</span><span class="p">[</span><span class="n">ratings</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;RMSE for the baseline model with alpha = </span><span class="si">{</span><span class="n">alpha</span><span class="si">}</span><span class="s1">, beta=</span><span class="si">{</span><span class="n">beta</span><span class="si">}</span><span class="s1">: &#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">RMSE</span><span class="p">(</span><span class="n">resid</span><span class="p">)</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<pre>RMSE for the baseline model with alpha = 25, beta=10: 0.9240
+</pre>
+
+<h2>Simple SVD with Bias Model</h2>
+<p>The singular value decomposition, or SVD, states that for any <span class="math">\(m \times n\)</span> real matrice <span class="math">\(A\)</span> can be decomposed as <span class="math">\(A = U \Sigma V^T\)</span>, where <span class="math">\(U\)</span> is an <span class="math">\(m \times m\)</span> orthogonal matrix, <span class="math">\(\Sigma\)</span> is an <span class="math">\(m \times n\)</span> diagonal matrice, and <span class="math">\(V\)</span> is an <span class="math">\(n \times n\)</span> orthogonal matrix. The nonzero values in the diagonal of <span class="math">\(\Sigma\)</span> are the singular values of <span class="math">\(A\)</span>, and there are exactly <span class="math">\(r = rank A\)</span> many of them. We are not going into details of SVD, as we don't need exactly the SVD, but rather the idea from SVD.</p>
+<p>One application of SVD is to approximate the matrix <span class="math">\(A\)</span> using only the first <span class="math">\(k\)</span> largest singular values. We write <span class="math">\(A = U\Sigma V^T\)</span> in such a way that the diagonal of <span class="math">\(\Sigma\)</span> is in descending order. Then we can take the upper left <span class="math">\(k \times k\)</span> submatrix <span class="math">\(\Sigma_k\)</span> of <span class="math">\(\Sigma\)</span> instead of the full <span class="math">\(\Sigma\)</span>, and take the corresponding <span class="math">\(U_k\)</span> and <span class="math">\(V_k\)</span> so that<br>
+</p>
+<div class="math">$$A \approx U_k \Sigma_k V_k^T,$$</div>
+<p><br>
+where <span class="math">\(U_k\)</span> is of size <span class="math">\(m \times k\)</span> and <span class="math">\(V_k\)</span> is of size <span class="math">\(n \times k\)</span>.</p>
+<p>And now we use the idea of SVD: <span class="math">\(U\)</span> and <span class="math">\(V\)</span> contain "characteristic" of the matrix <span class="math">\(A\)</span> (<span class="math">\(U\)</span> is actually the set of orthonormal eigenvectors of <span class="math">\(AA^T\)</span> and <span class="math">\(V\)</span> is the set of orthonormal eigenvectors of <span class="math">\(A^TA\)</span>). In other words, both <span class="math">\(U\)</span> and <span class="math">\(V\)</span> contain latent features related to <span class="math">\(A\)</span>. The approximation above now means that we want <span class="math">\(k\)</span> latent features to reconstruct <span class="math">\(A\)</span>. Absorbing <span class="math">\(\Sigma_k\)</span> either into <span class="math">\(U_k\)</span> or <span class="math">\(V_k\)</span> or even both, we get a even simpler decomposition:<br>
+</p>
+<div class="math">$$A = U_k V_k^T,$$</div>
+<p><br>
+where <span class="math">\(k\)</span> is the number of latent features we use to reconstruct <span class="math">\(A\)</span>.</p>
+<p>It might be better understood if we put the idea in context. Let <span class="math">\(R\)</span> be a <span class="math">\(s \times t\)</span> matrix representating all ratings. The <span class="math">\(u\)</span>-th row of <span class="math">\(R\)</span> are all the ratings of user <span class="math">\(u\)</span> gives to movies, and the <span class="math">\(m\)</span>-th column of <span class="math">\(R\)</span> are all the ratings of movie <span class="math">\(m\)</span> receives from all users. We have some entries given in <span class="math">\(R\)</span>, but a lot of them are missing. Our task is to reconstruct an approximation of <span class="math">\(R\)</span> using the given entries. Now let<br>
+</p>
+<div class="math">$$R = UM^T,$$</div>
+<p><br>
+where <span class="math">\(U\)</span> is a <span class="math">\(s \times k\)</span> matrix, <span class="math">\(M\)</span> is a <span class="math">\(t \times k\)</span> matrix, and <span class="math">\(k\)</span> represents the number of latent features.</p>
+<p>Each row of <span class="math">\(U\)</span> represents how much a user likes the corresponding <span class="math">\(k\)</span> features, and each row of <span class="math">\(M\)</span> says how well the movie presents those features. We can think of these features as genres for example. I will give a simple example for <span class="math">\(k=3\)</span> features: mystery, action and animation. Tom likes mystery movies a lot and not so much into animation. So his scores for these 3 features might be 2, 1, -0.5. Let's imagine that an animated mystery movie has 2, 0.5, 2 for the 3 features. Then using these features we predict that the rating Tom gives to the movie is<br>
+</p>
+<div class="math">$$2 \times 2 + 1 \times 0.5 + (-0.5) \times 2 = 3.5.$$</div>
+<p>In application though, we don't know what these latent features mean. There is usually no good interpretation for them.</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SimpleSVD</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_features</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_features</span> <span class="o">=</span> <span class="n">num_features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">users</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">USERS_NUMBER</span><span class="p">,</span> <span class="n">num_features</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">movies</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">MOVIES_NUMBER</span><span class="p">,</span> <span class="n">num_features</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">double</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">xavier_uniform_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">users</span><span class="p">)</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">xavier_uniform_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">movies</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">users</span><span class="p">[</span><span class="n">inp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">),</span> <span class="p">:]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">movies</span><span class="p">[</span><span class="n">inp</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">),</span> <span class="p">:],</span>
+            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+
+
+<p>Above is an implementation of the simple SVD model in PyTorch. It takes an input of two columns, the first column of which are the user ids and the sceond of which are movie ids. It outputs the predicted ratings for each pair of user id and movid id.</p>
+<p>Instead of using the simple SVD model to predict the actual ratings, we predict the residues from the baseline model. That is<br>
+</p>
+<div class="math">$$\hat{r}_{um} = \mu + b_u + b_m + U_u M_m^T.$$</div>
+<p><br>
+Here, <span class="math">\(U_u\)</span> is the row vector representing features for the user <span class="math">\(u\)</span>, and <span class="math">\(M_m\)</span> is the row vector for the features of movie <span class="math">\(m\)</span>.</p>
+<div class="highlight"><pre><span></span><span class="c1"># batch_size = 8</span>
+<span class="c1"># num_features = 20</span>
+<span class="c1"># lr = 0.001</span>
+<span class="c1"># epoch = 2</span>
+
+<span class="c1"># svd = SimpleSVD(num_features)</span>
+
+<span class="c1"># # prepare train dataset</span>
+<span class="c1"># trainset = torch.utils.data.TensorDataset(</span>
+<span class="c1">#     torch.tensor(ratings[:, 0:2]), torch.tensor(resid)</span>
+<span class="c1"># )</span>
+<span class="c1"># trainloader = torch.utils.data.DataLoader(</span>
+<span class="c1">#     trainset,</span>
+<span class="c1">#     batch_size=batch_size,</span>
+<span class="c1">#     shuffle=True,</span>
+<span class="c1">#     drop_last=True</span>
+<span class="c1"># )</span>
+
+<span class="c1"># # criterion</span>
+<span class="c1"># criterion = nn.MSELoss()</span>
+<span class="c1"># optimizer = torch.optim.SGD(svd.parameters(), lr=lr)</span>
+
+<span class="c1"># for e in range(epoch):</span>
+<span class="c1">#     total_loss = 0.0</span>
+<span class="c1">#     for i, (inp, tgt) in enumerate(trainloader):</span>
+<span class="c1">#         optimizer.zero_grad()</span>
+<span class="c1">#         pred = svd(inp)</span>
+<span class="c1">#         loss = criterion(pred, tgt)</span>
+<span class="c1">#         loss.backward()</span>
+<span class="c1">#         optimizer.step()</span>
+<span class="c1">#         total_loss += loss.item()</span>
+<span class="c1">#     total_loss /= len(trainloader)</span>
+<span class="c1">#     print(f&#39;RMSE after {e+1} epoch: {np.sqrt(total_loss):.4f}&#39;)</span>
+</pre></div>
+
+
+<p>I commented out the above code because it takes a long time to train the model. It is mainly because my laptop does not have enough RAM. I reimplemented the model using C and it ran fine with less that 1G memory. You can find the C implementation on GitHub: <a href="https://github.com/wormtooth/netflix_svd">netflix_svd</a>. Out of the 100M ratings, I reserved 1M for the test set. Here are some output from the C implementation of the model:</p>
+<div class="highlight"><pre><span></span><span class="nv">Got</span> <span class="nv">bias</span> <span class="k">for</span> <span class="nv">the</span> <span class="nv">model</span> <span class="nv">with</span> <span class="nv">alpha</span> <span class="o">=</span> <span class="mi">25</span>.<span class="mi">00</span> <span class="nv">and</span> <span class="nv">beta</span> <span class="o">=</span> <span class="mi">10</span>.<span class="mi">00</span>
+<span class="nv">RMSE</span> <span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>: <span class="mi">1</span>.<span class="mi">038225</span>
+<span class="nv">RMSE</span> <span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>: <span class="mi">1</span>.<span class="mi">040508</span>
+<span class="nv">Shuffled</span> <span class="nv">ratings</span>.
+<span class="nv">Epoch</span> <span class="mi">1</span> <span class="nv">done</span>.
+<span class="nv">RMSE</span> <span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>: <span class="mi">0</span>.<span class="mi">861172</span>
+<span class="nv">RMSE</span> <span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>: <span class="mi">0</span>.<span class="mi">874805</span>
+<span class="nv">Shuffled</span> <span class="nv">ratings</span>.
+<span class="nv">Epoch</span> <span class="mi">2</span> <span class="nv">done</span>.
+<span class="nv">RMSE</span> <span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>: <span class="mi">0</span>.<span class="mi">821142</span>
+<span class="nv">RMSE</span> <span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>: <span class="mi">0</span>.<span class="mi">847518</span>
+<span class="nv">Shuffled</span> <span class="nv">ratings</span>.
+<span class="nv">Epoch</span> <span class="mi">3</span> <span class="nv">done</span>.
+<span class="nv">RMSE</span> <span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>: <span class="mi">0</span>.<span class="mi">801727</span>
+<span class="nv">RMSE</span> <span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>: <span class="mi">0</span>.<span class="mi">838259</span>
+<span class="nv">Shuffled</span> <span class="nv">ratings</span>.
+<span class="nv">Epoch</span> <span class="mi">4</span> <span class="nv">done</span>.
+<span class="nv">RMSE</span> <span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>: <span class="mi">0</span>.<span class="mi">791160</span>
+<span class="nv">RMSE</span> <span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>: <span class="mi">0</span>.<span class="mi">834764</span>
+<span class="nv">Shuffled</span> <span class="nv">ratings</span>.
+<span class="nv">Epoch</span> <span class="mi">5</span> <span class="nv">done</span>.
+<span class="nv">RMSE</span> <span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>: <span class="mi">0</span>.<span class="mi">785267</span>
+<span class="nv">RMSE</span> <span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>: <span class="mi">0</span>.<span class="mi">833697</span>
+</pre></div>
+
+        <div class="tags">
+        <a href="/tag/svd">SVD</a>
+        <a href="/tag/linear-algebra">linear algebra</a>
+        <a href="/tag/python">python</a>
+        <a href="/tag/c">c</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20210805-netflix-svd/';
+    var disqus_title = 'Simple SVD with Bias for Netflix Prize';
+    var disqus_url = 'https://wormtooth.com/20210805-netflix-svd/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>含蓄的极致是闷骚，闷骚的极致是深情。</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2021 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

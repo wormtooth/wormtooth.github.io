@@ -36,6 +36,16 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20171017-digit-recognition-softmax/">Digit recognition, Softmax</a></h1>
+    <div class="post-meta">2017-10-17</div>
+    <a data-disqus-identifier="20171017-digit-recognition-softmax/" href="/20171017-digit-recognition-softmax/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>在这篇博客中，我将使用softmax模型来识别手写数字。文章的第一部分是关于softmax模型的理论推导，而第二部分则是模型的实现。softmax的本质是一个线性模型，所以推导所需要的理论在我之前的一篇博客<a href="https://wormtooth.com/20170920-generalized-linear-model/">Generalized Linear Model</a>已经详细介绍过了。softmax是逻辑回归(logistic regression)的推广：逻辑回归使用Bernoulli分布（二项分布），而softmax使用多项分布。</p>
+
+    </div>
+    <p class="readmore"><a href="/20171017-digit-recognition-softmax/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20171014-leetcode-contest-54/">LeetCode Contest 54</a></h1>
     <div class="post-meta">2017-10-14</div>
     <a data-disqus-identifier="20171014-leetcode-contest-54/" href="/20171014-leetcode-contest-54/#disqus_thread" class="disqus-comment-count"></a>
@@ -411,37 +421,6 @@ where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\e
     </div>
     <p class="readmore"><a href="/20170912-simple-python-crawler/">Read More</a></p>
 </div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170910-leetcode-contest-49/">LeetCode Contest 49</a></h1>
-    <div class="post-meta">2017-09-10</div>
-    <a data-disqus-identifier="20170910-leetcode-contest-49/" href="/20170910-leetcode-contest-49/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-49/">比赛</a>对python不友好啊，第三题在比赛的时候一直TLE，比赛结束后用C++实现同样的算法就过了😭</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-49/problems/longest-continuous-increasing-subsequence/">第一题</a><code>Longest Continuous Increasing Subsequence</code></p>
-<div class="qbar">给定一个数组，找出连续严格递增子数组的最大长度。</div>
-
-<p>扫描一遍数组即可：如果nums[i], nums[i+1], ..., nums[j-1]是当前最长严格递增子数组，下次扫描的时候可以直接从j开始。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">findLengthOfLCIS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type nums: List[int]</span>
-<span class="sd">        :rtype: int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ans</span> <span class="o">=</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">):</span>
-            <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-                <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="n">j</span>
-        <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170910-leetcode-contest-49/">Read More</a></p>
-</div>
 
 <div class="page-navigator">
     <a class="extend prev" rel="prev" href="/page/4/">Previous</a>
@@ -495,7 +474,7 @@ where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\e
 </div>
         </div></div>
         <div class="pure-u-1 pure-u-lg-3-4">
-<div id="footer">Copyright © 2020 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+<div id="footer">Copyright © 2021 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
     </div>
 </div>
 <a id="rocket" href="#top" class="show"></a>

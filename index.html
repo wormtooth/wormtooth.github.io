@@ -36,6 +36,20 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20210805-netflix-svd/">Simple SVD with Bias for Netflix Prize</a></h1>
+    <div class="post-meta">2021-08-05</div>
+    <a data-disqus-identifier="20210805-netflix-svd/" href="/20210805-netflix-svd/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>In my linear algebra class this summer, I used the <a href="https://www.netflixprize.com">Netflix Prize challenge</a> as a pratical example for an application of singular value decomposition (<a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">SVD</a>). To be more precise, I explained the term <span class="math">\(p_u^Tq_i\)</span> in the simple SVD with bias model:<br>
+</p>
+<div class="math">$$\hat{r}_{ui} = \mu + b_u + b_i + p_u^Tq_i.$$</div>
+<p><br>
+The above model can be found in section 2.1 in this <a href="https://www.netflixprize.com/assets/ProgressPrize2008_BellKor.pdf">progress paper</a> of the winning team. In this note, I will explain this model and give an implementation in Python. A C implementation of the moddel can be found in my GitHub repository here: <a href="https://github.com/wormtooth/netflix_svd">https://github.com/wormtooth/netflix_svd</a>.</p>
+
+    </div>
+    <p class="readmore"><a href="/20210805-netflix-svd/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20201203-clustering-weibo-tags/">Clustering Weibo Tags</a></h1>
     <div class="post-meta">2020-12-03</div>
     <a data-disqus-identifier="20201203-clustering-weibo-tags/" href="/20201203-clustering-weibo-tags/#disqus_thread" class="disqus-comment-count"></a>
@@ -217,16 +231,6 @@
     </div>
     <p class="readmore"><a href="/npnet7/">Read More</a></p>
 </div>
-<div class="post">
-    <h1 class="post-title"><a href="/npnet6/">[npnet] 卷积神经网络</a></h1>
-    <div class="post-meta">2020-03-07</div>
-    <a data-disqus-identifier="npnet6/" href="/npnet6/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>我们将用上一篇<a href="https://wormtooth.com/npnet5/">笔记</a>实现的模型来搭建卷积神经网络去识别 <a href="https://github.com/zalandoresearch/fashion-mnist">Fashion MNIST</a> 数据集。在之前的一篇<a href="https://wormtooth.com/npnet4/">笔记</a>中我们用两个线性模型的串型网络达到了85%左右的准确率。我们期待使用卷积神经网络能达到更好的准确率。</p>
-
-    </div>
-    <p class="readmore"><a href="/npnet6/">Read More</a></p>
-</div>
 
 <div class="page-navigator">
     <span class="page-number current">1</span>
@@ -275,7 +279,7 @@
 </div>
         </div></div>
         <div class="pure-u-1 pure-u-lg-3-4">
-<div id="footer">Copyright © 2020 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+<div id="footer">Copyright © 2021 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
     </div>
 </div>
 <a id="rocket" href="#top" class="show"></a>

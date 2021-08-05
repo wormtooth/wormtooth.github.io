@@ -36,6 +36,20 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170511-hexo-plugins/">编写Hexo插件让主页显示特定的文章</a></h1>
+    <div class="post-meta">2017-05-11</div>
+    <a data-disqus-identifier="20170511-hexo-plugins/" href="/20170511-hexo-plugins/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今年三月份我在hostgator买的虚拟主机到期了，衡量几番二月就从<a href="https://wordpress.org/">wordpress</a>迁到了<a href="https://hexo.io/">Hexo</a>。从这三个月左右的使用来看，Hexo让我挺满意的。一方面，它简洁且容易使用；另一方面它又给予用户很大的修改空间。奇怪的是，网上几乎没有编写Hexo插件的教程，以至于最近我折腾了好久才能写出可用的插件来让Hexo生成我预期的网页效果。这篇文章记录我编写Hexo插件的方法，希望对后来者有帮助。</p>
+<p>首先描述一下我想要做的事情。最近一直参加<a href="https://leetcode.com/">Leetcode</a>上面的比赛，而且每次参加之后都会写篇文章记录自己的做法，所以主页就被这些文章占领了。我希望主页只显示最新一篇关于Leetcode的文章。同时，我希望能有一个类似主页的页面，该页面是要列出所有关于Leetcode比赛的文章。总结说一下，我要做的事情是：<br>
+<div class='qbar'></p>
+<p>(I) 让主页只显示特定文章（或者说过滤掉特定文章）。</p>
+<p>(II) 建立一个页面只显示特定文章。</div></p>
+
+    </div>
+    <p class="readmore"><a href="/20170511-hexo-plugins/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170506-leetcode-contest31/">Leetcode Contest 31</a></h1>
     <div class="post-meta">2017-05-06</div>
     <a data-disqus-identifier="20170506-leetcode-contest31/" href="/20170506-leetcode-contest31/#disqus_thread" class="disqus-comment-count"></a>
@@ -327,47 +341,6 @@
     </div>
     <p class="readmore"><a href="/20170311-leetcode-contest23/">Read More</a></p>
 </div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170304-leetcode-contest22/">Leetcode Contest 22</a></h1>
-    <div class="post-meta">2017-03-04</div>
-    <a data-disqus-identifier="20170304-leetcode-contest22/" href="/20170304-leetcode-contest22/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>今晚吃得有点撑：排骨汤，花池鱼，红烧羊肉和炒青菜。</p>
-<p>除了第一题WA了一次之外，其他三题都一次过了！</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-22/problems/k-diff-pairs-in-an-array/">第一题</a><code>K-diff Pairs in an Array</code>。</p>
-<div class='qbar'>题目大意：给定一个数组和一个数k，求数组中所有不同的差值绝对值为k的二元对的数目。
-</div>
-
-<p>思路比较简单：首先用哈希表统计所有数出现的频率。对于k＝0的情况，我们返回所有出现次数大于1的数的数目，对于k&gt;0的情况，我们只要统计所有n+k也出现的数n的数目。对于k&lt;0的情况，直接返回0。我第一次提交忘记考虑k&lt;0的情况了。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">findPairs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type nums: List[int]</span>
-<span class="sd">        :type k: int</span>
-<span class="sd">        :rtype: int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">0</span>
-        <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
-            <span class="n">d</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">ans</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">a</span><span class="o">+</span><span class="n">k</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
-                    <span class="n">ans</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170304-leetcode-contest22/">Read More</a></p>
-</div>
 
 <div class="page-navigator">
     <a class="extend prev" rel="prev" href="/page/7/">Previous</a>
@@ -420,7 +393,7 @@
 </div>
         </div></div>
         <div class="pure-u-1 pure-u-lg-3-4">
-<div id="footer">Copyright © 2020 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+<div id="footer">Copyright © 2021 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
     </div>
 </div>
 <a id="rocket" href="#top" class="show"></a>
