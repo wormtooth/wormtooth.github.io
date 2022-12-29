@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Fixing an issue in saving/loading BERT models | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Fixing an issue in saving/loading BERT models</h1>
+    <div class="post-meta">Dec 29, 2022
+    <span> | </span> <span>Machine Learning</span>
+    </div>
+    <a data-disqus-identifier="20221229-save-bert-model-correctly/" href="/20221229-save-bert-model-correctly/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>Recently I came across an issue in saving/loading <a href="https://en.wikipedia.org/wiki/BERT_(language_model)">BERT</a> models with <a href="https://www.tensorflow.org">TensorFlow</a>. The BERT models are provided by the <a href="https://huggingface.co/docs/transformers/index">Transformers</a> library, and I used Tensorflow backend. When saving with <code>model.save(path)</code> then loading with <code>tf.keras.models.load_model(path)</code>, it gave the following TypeError or ValueError:</p>
+<div class="highlight"><pre><span></span>TypeError/ValueError: The two structures don&#39;t have the same nested structure.
+</pre></div>
+
+
+<p>The article is to document several ways to solve the issue.</p>
+<!--more-->
+
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">transformers</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">TFBertForSequenceClassification</span>
+
+<span class="c1"># suppress warning messages as they are irrelevant to the issue in discussion</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">FATAL</span><span class="p">)</span>
+<span class="n">transformers</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">set_verbosity_error</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TensorFlow version: </span><span class="si">{</span><span class="n">tf</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Transformers version: </span><span class="si">{</span><span class="n">transformers</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<pre>TensorFlow version: 2.9.2
+Transformers version: 4.22.0
+</pre>
+
+<h2>Reproducing the Issue</h2>
+<p>Let's reproduce the issue. Imagine that we want to build a binary classification model that will predict whether a given sentence is positive or negative. We will fine tune a BERT model for the classification.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_model</span><span class="p">(</span><span class="n">bert_model</span><span class="p">,</span> <span class="n">input_len</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+
+    <span class="c1"># model input</span>
+    <span class="n">input_ids</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_len</span><span class="p">,</span> <span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+    <span class="c1"># the bert model as clf</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">clf</span> <span class="o">=</span> <span class="n">TFBertForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">bert_model</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">clf</span> <span class="o">=</span> <span class="n">TFBertForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">bert_model</span><span class="p">,</span> <span class="n">from_pt</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># output score for positive class</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">clf</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span><span class="o">.</span><span class="n">logits</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">output</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">input_ids</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">score</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">model</span>
+
+<span class="n">bert_model</span> <span class="o">=</span> <span class="s2">&quot;google/bert_uncased_L-2_H-128_A-2&quot;</span> <span class="c1"># use the tiny BERT as demo</span>
+<span class="n">input_len</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span><span class="n">bert_model</span><span class="p">,</span> <span class="n">input_len</span><span class="o">=</span><span class="n">input_len</span><span class="p">)</span>
+</pre></div>
+
+
+<p>At this point, we normally need to fine tune the model with our own data. We will skip this fine-tuning part though, since it is irrelevant to the issue we try to solve here. So let's pretend we have fine tuned our model and next give it a try on some input.</p>
+<div class="highlight"><pre><span></span><span class="n">test_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">input_len</span><span class="p">])</span>
+<span class="n">test_output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">test_input</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">test_output</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+
+<pre>0.47826624
+</pre>
+
+<p>We are ready to reproduce the error.</p>
+<div class="highlight"><pre><span></span><span class="c1"># save the model, it will run successfully as expected</span>
+<span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;test/sent-clf&quot;</span><span class="p">)</span>
+
+<span class="c1"># load back the model, and here comes the TypeError</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s2">&quot;test/sent-clf&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> is raised. Error message:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</pre></div>
+
+
+<pre>WARNING:absl:Found untraced functions such as embeddings_layer_call_fn, embeddings_layer_call_and_return_conditional_losses, encoder_layer_call_fn, encoder_layer_call_and_return_conditional_losses, pooler_layer_call_fn while saving (showing 5 of 80). These functions will not be directly callable after loading.
+</pre>
+
+<pre>A ValueError is raised. Error message:
+The two structures don't have the same nested structure.
+
+First structure: type=tuple str=(({'input_ids': TensorSpec(shape=(None, 5), dtype=tf.int32, name=None)}, None, None, None, None, None, None, None, None, None, False), {})
+
+Second structure: type=tuple str=((TensorSpec(shape=(None, 50), dtype=tf.int32, name='input_ids'), None, None, None, None, None, None, None, None, None, False), {})
+
+More specifically: Substructure "type=dict str={'input_ids': TensorSpec(shape=(None, 5), dtype=tf.int32, name=None)}" is a sequence, while substructure "type=TensorSpec str=TensorSpec(shape=(None, 50), dtype=tf.int32, name='input_ids')" is not
+Entire first structure:
+(({'input_ids': .}, ., ., ., ., ., ., ., ., ., .), {})
+Entire second structure:
+((., ., ., ., ., ., ., ., ., ., .), {})
+</pre>
+
+<h2>A Simple Fix</h2>
+<p>A very simple fix is to save the weights of the model instead.</p>
+<div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">save_weights</span><span class="p">(</span><span class="s2">&quot;test/sent-clf-weights&quot;</span><span class="p">)</span>
+
+<span class="n">loaded_model_from_weights</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span><span class="n">bert_model</span><span class="p">,</span> <span class="n">input_len</span><span class="o">=</span><span class="n">input_len</span><span class="p">)</span>
+<span class="n">loaded_model_from_weights</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="s2">&quot;test/sent-clf-weights&quot;</span><span class="p">)</span>
+
+<span class="n">test_output_simple</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">test_input</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">test_output_simple</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+
+<pre>0.47826624
+</pre>
+
+<div class="highlight"><pre><span></span><span class="c1"># make sure we get the same result on the same input</span>
+<span class="k">assert</span> <span class="n">test_output_simple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">test_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+
+<h2>Another Fix</h2>
+<p>While the simple fix works, we might still want to save the model via <code>model.save</code>. For example, if we want to log the model using <a href="https://www.mlflow.org">mlflow</a>. When we run <code>mlflow.keras.log_model(model, some_model_uri)</code>, mlflow will internally call <code>model.save</code> or something equivalent. It will be painful to figure out later that while we can log successfully with mlflow, but we cannot load it back, at least not easily.</p>
+<p>So what is the problem with <code>model.save</code> and <code>tf.keras.models.load_model</code>? If we look closer to the error message above, we see something like <code>TensorSpec(shape=(None, 5), dtype=tf.int32, name=None)</code>. Wait a minute, didn't we say we want the input length to be 50? Where was this 5 coming from?</p>
+<p>A quick google search gives me the answer:</p>
+<blockquote>
+<p>Keras saves the input specs on the first call of the model <a href="https://github.com/tensorflow/tensorflow/blob/8b54374d803496667b1cc3d9dfcfa3bd8861581b/tensorflow/python/keras/engine/base_layer.py#L3013">here</a>. When loading a pretrained model with transformers using the <code>from_pretrained</code> class classmethod of <code>TFPretrainedModel</code>, the networks is first fed dummy inputs <a href="https://github.com/huggingface/transformers/blob/99289c08a1b16a805dd4ee46de029e9fd23cba3d/src/transformers/modeling_tf_utils.py#L1803">here</a>. So the saved models expect their input tensors to be of sequence length 5, because that is the length of the dummy inputs. (<a href="https://github.com/keras-team/keras/issues/14345#issuecomment-1118569356">source</a>)</p>
+</blockquote>
+<p>A further dig shows that the <a href="https://github.com/huggingface/transformers/blob/99289c08a1b16a805dd4ee46de029e9fd23cba3d/src/transformers/utils/__init__.py#L155">dummy input</a> is</p>
+<div class="highlight"><pre><span></span><span class="n">DUMMY_INPUTS</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]]</span>
+</pre></div>
+
+
+<p>Its last dimension is 5, and that is why we see the mysterious 5. Given this, the natural idea to fix the problem is to make the dummy input to have the length we desire. We can modify our <code>create_model</code> to do so.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_model_fix</span><span class="p">(</span><span class="n">bert_model</span><span class="p">,</span> <span class="n">input_len</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+
+    <span class="c1"># model input</span>
+    <span class="n">input_ids</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_len</span><span class="p">,</span> <span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+    <span class="c1"># the bert model as clf</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">clf</span> <span class="o">=</span> <span class="n">TFBertForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">bert_model</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">clf</span> <span class="o">=</span> <span class="n">TFBertForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">bert_model</span><span class="p">,</span> <span class="n">from_pt</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># change dummy input for bert</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">input_len</span><span class="p">])</span>
+    <span class="n">clf</span><span class="o">.</span><span class="n">_saved_model_inputs_spec</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">clf</span><span class="o">.</span><span class="n">_set_save_spec</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+    <span class="c1"># output score for positive class</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">clf</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span><span class="o">.</span><span class="n">logits</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">output</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">input_ids</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">score</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">model</span>
+
+<span class="n">bert_model</span> <span class="o">=</span> <span class="s2">&quot;google/bert_uncased_L-2_H-128_A-2&quot;</span> <span class="c1"># use the tiny BERT as demo</span>
+<span class="n">input_len</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">model_fix</span> <span class="o">=</span> <span class="n">create_model_fix</span><span class="p">(</span><span class="n">bert_model</span><span class="p">,</span> <span class="n">input_len</span><span class="o">=</span><span class="n">input_len</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">test_output_2</span> <span class="o">=</span> <span class="n">model_fix</span><span class="p">(</span><span class="n">test_input</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">test_output_2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+
+<pre>0.4662352
+</pre>
+
+<p>A note on why we get different results from <code>model</code> vs <code>model_fix</code>. <code>TFBertForSequenceClassification</code> consists of two main parts, first the BERT encoder and then a dense layer. While they load the same pretrained BERT model into the first part, the dense layer parts are randomly intitialized.</p>
+<p>We can now save/load as usual.</p>
+<div class="highlight"><pre><span></span><span class="c1"># save the model, it will run successfully as expected</span>
+<span class="n">model_fix</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;test/sent-clf-fix&quot;</span><span class="p">)</span>
+
+<span class="c1"># load back the model</span>
+<span class="n">loaded_model_fix</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s2">&quot;test/sent-clf-fix&quot;</span><span class="p">)</span>
+
+<span class="c1"># test the loaded_model</span>
+<span class="n">test_output_fix</span> <span class="o">=</span> <span class="n">loaded_model_fix</span><span class="p">(</span><span class="n">test_input</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">test_output_fix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+
+<pre>WARNING:absl:Found untraced functions such as embeddings_layer_call_fn, embeddings_layer_call_and_return_conditional_losses, encoder_layer_call_fn, encoder_layer_call_and_return_conditional_losses, pooler_layer_call_fn while saving (showing 5 of 80). These functions will not be directly callable after loading.
+</pre>
+
+<pre>0.46623516
+</pre>
+
+<pre>2022-12-29 16:16:22.178045: W tensorflow/core/platform/profile_utils/cpu_utils.cc:128] Failed to get CPU frequency: 0 Hz
+2022-12-29 16:16:22.178854: I tensorflow/core/grappler/optimizers/custom_graph_optimizer_registry.cc:113] Plugin optimizer for device_type GPU is enabled.
+</pre>
+
+<p>I like this fix better because it addresses the problem instead of avoiding it. It is also now compatible with mlflow. Before encountering this issue, I also had another issue with <code>TFBertModel</code>. <a href="https://github.com/huggingface/transformers/issues/3627">Here</a> is a reference to this related issue.</p>
+<h2>Restore the Model</h2>
+<p>The two fixes are good, but what if I have already saved the model without noticing the issue? Is there a way for me to restore the model? The good news is YES! Let's remind ourselves the error.</p>
+<div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">loaded_model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s2">&quot;test/sent-clf&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> is raised. Error message:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</pre></div>
+
+
+<pre>A ValueError is raised. Error message:
+The two structures don't have the same nested structure.
+
+First structure: type=tuple str=(({'input_ids': TensorSpec(shape=(None, 5), dtype=tf.int32, name=None)}, None, None, None, None, None, None, None, None, None, False), {})
+
+Second structure: type=tuple str=((TensorSpec(shape=(None, 50), dtype=tf.int32, name='input_ids'), None, None, None, None, None, None, None, None, None, False), {})
+
+More specifically: Substructure "type=dict str={'input_ids': TensorSpec(shape=(None, 5), dtype=tf.int32, name=None)}" is a sequence, while substructure "type=TensorSpec str=TensorSpec(shape=(None, 50), dtype=tf.int32, name='input_ids')" is not
+Entire first structure:
+(({'input_ids': .}, ., ., ., ., ., ., ., ., ., .), {})
+Entire second structure:
+((., ., ., ., ., ., ., ., ., ., .), {})
+</pre>
+
+<p>Let's take a look into what are saved in the folder <strong>test/sent-clf</strong>.</p>
+<div class="highlight"><pre><span></span><span class="err">!</span><span class="n">tree</span> <span class="o">-</span><span class="n">n</span> <span class="n">test</span><span class="o">/</span><span class="n">sent</span><span class="o">-</span><span class="n">clf</span>
+</pre></div>
+
+
+<pre>test/sent-clf
+├── assets
+├── keras_metadata.pb
+├── saved_model.pb
+└── variables
+    ├── variables.data-00000-of-00001
+    └── variables.index
+
+2 directories, 4 files
+</pre>
+
+<p>Upon inspection, the weights of the model are saved in the <strong>variables</strong> subfolder. We can restore the model using <code>load_weights</code>.</p>
+<div class="highlight"><pre><span></span><span class="n">restored_model</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span><span class="n">bert_model</span><span class="p">,</span> <span class="n">input_len</span><span class="o">=</span><span class="n">input_len</span><span class="p">)</span>
+<span class="n">restored_model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="s2">&quot;test/sent-clf/variables/variables&quot;</span><span class="p">)</span>
+
+<span class="n">test_output_restored</span> <span class="o">=</span> <span class="n">restored_model</span><span class="p">(</span><span class="n">test_input</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="k">assert</span> <span class="n">test_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">test_output_restored</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">test_output_restored</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+
+<pre>0.47826624
+</pre>
+
+        <div class="tags">
+        <a href="/tag/python">python</a>
+        <a href="/tag/tensorflow">tensorflow</a>
+        <a href="/tag/bert">bert</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20221229-save-bert-model-correctly/';
+    var disqus_title = 'Fixing an issue in saving/loading BERT models';
+    var disqus_url = 'https://wormtooth.com/20221229-save-bert-model-correctly/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>未来会来～</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2022 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

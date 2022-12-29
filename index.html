@@ -36,6 +36,21 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20221229-save-bert-model-correctly/">Fixing an issue in saving/loading BERT models</a></h1>
+    <div class="post-meta">2022-12-29</div>
+    <a data-disqus-identifier="20221229-save-bert-model-correctly/" href="/20221229-save-bert-model-correctly/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>Recently I came across an issue in saving/loading <a href="https://en.wikipedia.org/wiki/BERT_(language_model)">BERT</a> models with <a href="https://www.tensorflow.org">TensorFlow</a>. The BERT models are provided by the <a href="https://huggingface.co/docs/transformers/index">Transformers</a> library, and I used Tensorflow backend. When saving with <code>model.save(path)</code> then loading with <code>tf.keras.models.load_model(path)</code>, it gave the following TypeError or ValueError:</p>
+<div class="highlight"><pre><span></span>TypeError/ValueError: The two structures don&#39;t have the same nested structure.
+</pre></div>
+
+
+<p>The article is to document several ways to solve the issue.</p>
+
+    </div>
+    <p class="readmore"><a href="/20221229-save-bert-model-correctly/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20210805-netflix-svd/">Simple SVD with Bias for Netflix Prize</a></h1>
     <div class="post-meta">2021-08-05</div>
     <a data-disqus-identifier="20210805-netflix-svd/" href="/20210805-netflix-svd/#disqus_thread" class="disqus-comment-count"></a>
@@ -221,16 +236,6 @@ The above model can be found in section 2.1 in this <a href="https://www.netflix
     </div>
     <p class="readmore"><a href="/20200510-leetcode-contest-188/">Read More</a></p>
 </div>
-<div class="post">
-    <h1 class="post-title"><a href="/npnet7/">[npnet] 循环神经网络</a></h1>
-    <div class="post-meta">2020-04-30</div>
-    <a data-disqus-identifier="npnet7/" href="/npnet7/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>循环神经网络 (RNN, Recurrent Neural Network) 相对于之前的线性模型 (Linear Model) 或者卷积神经网络 (Convolution Neural Network) 能更好地处理具有顺序性的数据。比如说温度，每一个时间点的温度都跟之前若干个时间点的温度有联系。更重要的是，某个地方的温度在一天或者一年的时间内有一定的周期性。又比如说语言，一些单独的字或词需要有序地组织起来才能表达出清晰的意思。这样的数据用 RNN 能更好的归纳出规律。我们在这篇笔记中讨论简单 RNN 的理论以及实现。本文的主要参考文章：<a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">The Unreasonable Effectiveness of Recurrent Neural Networks</a>。</p>
-
-    </div>
-    <p class="readmore"><a href="/npnet7/">Read More</a></p>
-</div>
 
 <div class="page-navigator">
     <span class="page-number current">1</span>
@@ -279,7 +284,7 @@ The above model can be found in section 2.1 in this <a href="https://www.netflix
 </div>
         </div></div>
         <div class="pure-u-1 pure-u-lg-3-4">
-<div id="footer">Copyright © 2021 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+<div id="footer">Copyright © 2022 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
     </div>
 </div>
 <a id="rocket" href="#top" class="show"></a>
