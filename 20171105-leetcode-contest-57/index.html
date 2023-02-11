@@ -52,7 +52,7 @@ LeetCode Contest 57 | 叶某人的碎碎念    </title>
 <p>我是用<a href="https://en.wikipedia.org/wiki/Trie">trie</a>做的。首先将单词按照长度排序，然后将单词一一放进一个trie中。用trie是因为将单词放入trie中的同时也可以判断单词的前面部分是否在trie里（这也是按长度排序的原因）。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">longestWord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type words: List[str]</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -79,7 +79,7 @@ LeetCode Contest 57 | 叶某人的碎碎念    </title>
 <p>但是这题用更简单的做法。这是我朋友们的算法：首先将列表变成集合，然后一个一个去掉最后的字母并判断得到的单词是否在集合中。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">longestWord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type words: List[str]</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -106,7 +106,7 @@ LeetCode Contest 57 | 叶某人的碎碎念    </title>
 <p>感觉是模拟：如果两个账号是一个人的则合并。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">accountsMerge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">accounts</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type accounts: List[List[str]]</span>
 <span class="sd">        :rtype: List[List[str]]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -149,7 +149,7 @@ LeetCode Contest 57 | 叶某人的碎碎念    </title>
 <p>也是模拟：一行一行处理源代码。如果是<code>//</code>注释，情况简单，直接去掉就行。如果是<code>/*</code>注释，那么在去除<code>/* comments */</code>之后还要继续处理剩下来的代码。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">removeComments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type source: List[str]</span>
 <span class="sd">        :rtype: List[str]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -195,7 +195,7 @@ LeetCode Contest 57 | 叶某人的碎碎念    </title>
 <p>还是模拟：首先找出可以消除的位置，如果没有消除的位置，程序就结束了。如果有消除的位置，将那些位置消除（变成0），然后将悬空的糖果掉落。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">candyCrush</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">board</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type board: List[List[int]]</span>
 <span class="sd">        :rtype: List[List[int]]</span>
 <span class="sd">        &quot;&quot;&quot;</span>

@@ -54,16 +54,16 @@ maupassant: a Pelican theme | 叶某人的碎碎念    </title>
 <p>因为我要强行实现如下图所示的主页分页效果，所以将大量逻辑写入了Jinja模版里。这是不应该的。</p>
 <p><img alt="分页页码" src="/images/20170710-pagination.png"></p>
 <p>点击<a href="https://github.com/wormtooth/maupassant-pelican/blob/master/templates/partials/pagination.html">这里</a>可以看到这段代码。如果放弃实现上图中的数字页码，代码可以简化很多：</p>
-<div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">articles_previous_page</span> <span class="k">or</span> <span class="nv">articles_next_page</span> <span class="cp">%}</span><span class="x"></span>
+<div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">articles_previous_page</span> <span class="k">or</span> <span class="nv">articles_next_page</span> <span class="cp">%}</span>
 <span class="x">&lt;div class=&quot;page-navigator&quot;&gt;</span>
-<span class="cp">{%</span> <span class="k">if</span> <span class="nv">articles_previous_page</span> <span class="cp">%}</span><span class="x"></span>
+<span class="cp">{%</span> <span class="k">if</span> <span class="nv">articles_previous_page</span> <span class="cp">%}</span>
 <span class="x">    &lt;a class=&quot;extend prev&quot; rel=&quot;prev&quot; href=&quot;</span><span class="cp">{{</span> <span class="nv">articles_previous_page.url</span> <span class="cp">}}</span><span class="x">&quot;&gt;Previous&lt;/a&gt;</span>
-<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"></span>
-<span class="cp">{%</span> <span class="k">if</span> <span class="nv">articles_next_page</span> <span class="cp">%}</span><span class="x"></span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">if</span> <span class="nv">articles_next_page</span> <span class="cp">%}</span>
 <span class="x">    &lt;a class=&quot;extend next&quot; rel=&quot;next&quot; href=&quot;</span><span class="cp">{{</span> <span class="nv">articles_next_page.url</span> <span class="cp">}}</span><span class="x">&quot;&gt;Next&lt;/a&gt;&lt;/nav&gt;</span>
-<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"></span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
 <span class="x">&lt;/div class=&quot;page-navigator&quot;&gt;</span>
-<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"></span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
 </pre></div>
 
 

@@ -46,60 +46,60 @@ Pytorch on RaspberryPi | 叶某人的碎碎念    </title>
 <!--more-->
 
 <p>First of all, we need to set up SWAP. Edit file <code>/etc/dphys-swapfile</code>, find the constant <code>CONF_SWAPSIZE</code> and change its value to at least 2048, which means sparing 2G for swap file system. I set it to 4096 (4G), because I use a 32G card. To activate the swap file system, do the following commands:</p>
-<div class="highlight"><pre><span></span>sudo /etc/init.d/dphys-swapfile stop
-sudo /etc/init.d/dphys-swapfile start
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>/etc/init.d/dphys-swapfile<span class="w"> </span>stop
+sudo<span class="w"> </span>/etc/init.d/dphys-swapfile<span class="w"> </span>start
 </pre></div>
 
 
 <p>Then, we need to install dependencies.</p>
-<div class="highlight"><pre><span></span>sudo apt-get install libopenblas-dev cython3 libatlas-dev <span class="se">\</span>
-    m4 libblas-dev cmake
-pip3 install --user pyyaml numpy
+<div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>libopenblas-dev<span class="w"> </span>cython3<span class="w"> </span>libatlas-dev<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>m4<span class="w"> </span>libblas-dev<span class="w"> </span>cmake
+pip3<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>pyyaml<span class="w"> </span>numpy
 </pre></div>
 
 
 <p>We shall now be ready to compile pytorch. We get pytorch from github, and choose a version (v0.4.0) to build.</p>
-<div class="highlight"><pre><span></span>git clone --recursive https://github.com/pytorch/pytorch
-<span class="nb">cd</span> pytorch
-git checkout tags/v0.4.0 -b build
-git submodule update --init --recursive
+<div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/pytorch/pytorch
+<span class="nb">cd</span><span class="w"> </span>pytorch
+git<span class="w"> </span>checkout<span class="w"> </span>tags/v0.4.0<span class="w"> </span>-b<span class="w"> </span>build
+git<span class="w"> </span>submodule<span class="w"> </span>update<span class="w"> </span>--init<span class="w"> </span>--recursive
 </pre></div>
 
 
 <p>Since Pi does not have a GPU that supports CUDA, we are going disable it. We also disable distributed computing.</p>
-<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">NO_CUDA</span><span class="o">=</span><span class="m">1</span>
-<span class="nb">export</span> <span class="nv">NO_DISTRIBUTED</span><span class="o">=</span><span class="m">1</span>
+<div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">NO_CUDA</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">NO_DISTRIBUTED</span><span class="o">=</span><span class="m">1</span>
 </pre></div>
 
 
 <p>Suppose we are now in the <em>pytorch</em> folder, use the following command to build <code>pytorch</code>.</p>
-<div class="highlight"><pre><span></span>python3 setup.py build
+<div class="highlight"><pre><span></span>python3<span class="w"> </span>setup.py<span class="w"> </span>build
 </pre></div>
 
 
 <p>This process will be long! On my Pi, it took at least 4 hours (I forgot to time it). I would recommend running the building process in the background:</p>
-<div class="highlight"><pre><span></span>date <span class="o">&amp;&amp;</span> python3 setup.py build <span class="o">&amp;&amp;</span> date <span class="p">&amp;</span>&gt; message-build <span class="p">&amp;</span>
+<div class="highlight"><pre><span></span>date<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>python3<span class="w"> </span>setup.py<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>date<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>message-build<span class="w"> </span><span class="p">&amp;</span>
 </pre></div>
 
 
 <p>The above command will run the building process in the background and output building messages to a file named <em>message-build</em>. Also, <code>date</code> command is used to time the building process. When Pi is working hard to compile <code>pytorch</code>, don't run any other complicated work on it. Indeed, I will suggest not to interrupt it at all, including not to peek the building message in <em>message-build</em> frequently. It is a good idea to run the building process before going to sleep.</p>
 <p>After a long enough time, check your <em>message-build</em> file to see if you have a successful build. We can look at the last row of the file:</p>
-<div class="highlight"><pre><span></span>tail -1 message-build
+<div class="highlight"><pre><span></span>tail<span class="w"> </span>-1<span class="w"> </span>message-build
 </pre></div>
 
 
 <p>You should get a message about time from command <code>date</code>. If you do not get it, make sure to check running processes using <code>pstree</code> to see whether the building process has ended. Say we have successfully built <code>pytorch</code>. Since I wanted to get a wheel file for <code>pytorch</code> and installed it to the local user, I did not install it directly using <code>sudo python3 setup.py install</code>. Instead, I went to <em>pytorch</em> folder and did the following commands:</p>
-<div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">NO_CUDA</span><span class="o">=</span><span class="m">1</span>
-<span class="nb">export</span> <span class="nv">NO_DISTRIBUTED</span><span class="o">=</span><span class="m">1</span>
-pip3 install --user wheel
-python3 setup.py bdist_wheel
-<span class="nb">cd</span> dist
-pip3 install --user torch-0.4.0a0+3749c58-cp36-cp36m-linux_armv7l.whl
+<div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">NO_CUDA</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">NO_DISTRIBUTED</span><span class="o">=</span><span class="m">1</span>
+pip3<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>wheel
+python3<span class="w"> </span>setup.py<span class="w"> </span>bdist_wheel
+<span class="nb">cd</span><span class="w"> </span>dist
+pip3<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>torch-0.4.0a0+3749c58-cp36-cp36m-linux_armv7l.whl
 </pre></div>
 
 
 <p>Pytorch on RaspberryPi got! I share <code>pytorch</code> wheel file so that you can avoid the compilation. It should save you a lot of time. But make sure you are running <strong>Python 3.6</strong> and have <strong>numpy</strong> installed. If so, use the following command to install <code>pytorch</code>.</p>
-<div class="highlight"><pre><span></span>pip install --user https://wormtooth.com/files/pytorch/torch-0.4.0a0+3749c58-cp36-cp36m-linux_armv7l.whl
+<div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>https://wormtooth.com/files/pytorch/torch-0.4.0a0+3749c58-cp36-cp36m-linux_armv7l.whl
 </pre></div>
 
         <div class="tags">

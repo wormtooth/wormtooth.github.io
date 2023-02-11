@@ -57,9 +57,9 @@ SIR to fit COVID-19 data in the U.S. | 叶某人的碎碎念    </title>
 <span class="kn">import</span> <span class="nn">datetime</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;I use Python </span><span class="si">{</span><span class="n">platform</span><span class="o">.</span><span class="n">python_version</span><span class="p">()</span><span class="si">}</span><span class="s1"> with:</span>
-<span class="s1">numpy </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1"></span>
-<span class="s1">pandas </span><span class="si">{</span><span class="n">pd</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1"></span>
-<span class="s1">scipy </span><span class="si">{</span><span class="n">scipy</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1"></span>
+<span class="s1">numpy </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span>
+<span class="s1">pandas </span><span class="si">{</span><span class="n">pd</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span>
+<span class="s1">scipy </span><span class="si">{</span><span class="n">scipy</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span>
 <span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -243,10 +243,10 @@ We want paramters <span class="math">\(\beta\)</span> and <span class="math">\(\
     <span class="n">method</span><span class="o">=</span><span class="s2">&quot;L-BFGS-B&quot;</span><span class="p">)</span>
 <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;Parameters for SIR model:</span>
-<span class="s1">beta = </span><span class="si">{</span><span class="n">beta</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"></span>
-<span class="s1">gamma = </span><span class="si">{</span><span class="n">gamma</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"></span>
+<span class="s1">beta = </span><span class="si">{</span><span class="n">beta</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span>
+<span class="s1">gamma = </span><span class="si">{</span><span class="n">gamma</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span>
 
-<span class="s1">Basic reproductive number: </span><span class="si">{</span><span class="n">beta</span> <span class="o">/</span> <span class="n">gamma</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">.</span>
+<span class="s1">Basic reproductive number: </span><span class="si">{</span><span class="n">beta</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">gamma</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">.</span>
 <span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -318,10 +318,10 @@ MAPE for Removed cases: 496.35%
     <span class="n">method</span><span class="o">=</span><span class="s2">&quot;L-BFGS-B&quot;</span><span class="p">)</span>
 <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;Parameters for SIR model:</span>
-<span class="s1">beta = </span><span class="si">{</span><span class="n">beta</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"></span>
-<span class="s1">gamma = </span><span class="si">{</span><span class="n">gamma</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"></span>
+<span class="s1">beta = </span><span class="si">{</span><span class="n">beta</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span>
+<span class="s1">gamma = </span><span class="si">{</span><span class="n">gamma</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span>
 
-<span class="s1">Basic reproductive number: </span><span class="si">{</span><span class="n">beta</span> <span class="o">/</span> <span class="n">gamma</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">.</span>
+<span class="s1">Basic reproductive number: </span><span class="si">{</span><span class="n">beta</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">gamma</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">.</span>
 <span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -399,7 +399,7 @@ MAPE for Removed cases: 3.73%
 <p>We need to interpret the result correctly. According to the trend of most recent 30 days' data, the SIR model predicts that in the <strong>worse</strong> scenario where everyone gets the disease, COVID-19 reaches its peak on July 12, 2021. Don't panic. It is almost impossible to get into the <strong>worse</strong> scenario.</p>
 <h2>Discussion</h2>
 <p>I want to see the peak dates of better scenarios. Hopefully, the result will cheer you and me up a bit. We can safely claim that not everyone will get COVID-19, due to our effort (wearing masks, keep social distance, and etc.). Let's see what the percentage of comfirmed cases among the whole population so far.</p>
-<div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;confirmed cases / population: </span><span class="si">{</span><span class="n">confirmed</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">/</span> <span class="n">population</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;confirmed cases / population: </span><span class="si">{</span><span class="n">confirmed</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">population</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -432,10 +432,10 @@ MAPE for Removed cases: 3.73%
 
     <span class="k">if</span> <span class="n">print_info</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;Parameters for SIR model (using most recent </span><span class="si">{</span><span class="n">n_day</span><span class="si">}</span><span class="s1"> days&#39; data):</span>
-<span class="s1">beta = </span><span class="si">{</span><span class="n">beta</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"></span>
-<span class="s1">gamma = </span><span class="si">{</span><span class="n">gamma</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"></span>
+<span class="s1">beta = </span><span class="si">{</span><span class="n">beta</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span>
+<span class="s1">gamma = </span><span class="si">{</span><span class="n">gamma</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span>
 
-<span class="s1">Basic reproductive number: </span><span class="si">{</span><span class="n">beta</span> <span class="o">/</span> <span class="n">gamma</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"></span>
+<span class="s1">Basic reproductive number: </span><span class="si">{</span><span class="n">beta</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">gamma</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span>
 
 <span class="s1">MAPE for Infected cases: </span><span class="si">{</span><span class="n">I_err</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%</span>
 <span class="s1">MAPE for Removed cases: </span><span class="si">{</span><span class="n">R_err</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%</span>
@@ -468,7 +468,7 @@ Peak at day 158 on 2020-11-21
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scenario: Peak Date&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">percentages</span><span class="p">:</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">peak</span> <span class="o">=</span> <span class="n">scenario</span><span class="p">(</span><span class="n">population</span> <span class="o">*</span> <span class="n">p</span><span class="p">,</span> <span class="n">print_info</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">p</span> <span class="o">*</span> <span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%: </span><span class="si">{</span><span class="n">peak</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">p</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%: </span><span class="si">{</span><span class="n">peak</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
 

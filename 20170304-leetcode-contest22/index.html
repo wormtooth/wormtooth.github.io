@@ -51,7 +51,7 @@ Leetcode Contest 22 | 叶某人的碎碎念    </title>
 <p>思路比较简单：首先用哈希表统计所有数出现的频率。对于k＝0的情况，我们返回所有出现次数大于1的数的数目，对于k&gt;0的情况，我们只要统计所有n+k也出现的数n的数目。对于k&lt;0的情况，直接返回0。我第一次提交忘记考虑k&lt;0的情况了。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findPairs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
 <span class="sd">        :type k: int</span>
 <span class="sd">        :rtype: int</span>
@@ -84,7 +84,7 @@ Leetcode Contest 22 | 叶某人的碎碎念    </title>
 <p>没有什么犀利的做法，直接暴力统计。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findLonelyPixel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">picture</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type picture: List[List[str]]</span>
 <span class="sd">        :rtype: int</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -116,7 +116,7 @@ Leetcode Contest 22 | 叶某人的碎碎念    </title>
 <p>思路：由这二个条件我们可以知道，每一列的所有B要么同时满足条件，要么同时不满足。所以，我们可以一列列枚举。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findBlackPixel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">picture</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type picture: List[List[str]]</span>
 <span class="sd">        :type N: int</span>
 <span class="sd">        :rtype: int</span>
@@ -166,7 +166,7 @@ Leetcode Contest 22 | 叶某人的碎碎念    </title>
 <p>边界条件是：dp(i, m) = 0。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findRotateSteps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ring</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type ring: str</span>
 <span class="sd">        :type key: str</span>
 <span class="sd">        :rtype: int</span>

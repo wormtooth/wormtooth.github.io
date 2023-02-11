@@ -49,7 +49,7 @@ LeetCode Contest 47 | 叶某人的碎碎念    </title>
 <p>我是首先找出第一个i，满足nums[i] &lt; nums[i-1]。这样我们必须要修改i或者i-1的位置，只要分别检查修改这两个位置是否可以得到一个非递降数组就行。因为两个元素相等也是非递降，所以修改一个位置可以等价于将那个位置的数字去除。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">checkPossibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
 <span class="sd">        :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -73,7 +73,7 @@ LeetCode Contest 47 | 叶某人的碎碎念    </title>
 <p>我们知道树的高度小于5，所以我们可以用一个小的二维数组tree表示这棵树。其中tree[d]表示高度为d那层的节点，而tree[d][p]则表示树的第d层第p个位置的节点。我用-1表示空节点。根据这个对应关系，tree[d][p]的左儿子是tree[d+1][2*p-1]，右儿子是tree[d+1][2*p]。读入树后，只要扫描出所有叶节点找出对应的路径就行。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">pathSum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
 <span class="sd">        :rtype: int</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -107,7 +107,7 @@ LeetCode Contest 47 | 叶某人的碎碎念    </title>
 这样可以保证前面的k-1个值不一样且都不为1，然后用剩下的数字要么递增要么递降排起来，得到最后一个值1。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">constructArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type n: int</span>
 <span class="sd">        :type k: int</span>
 <span class="sd">        :rtype: List[int]</span>
@@ -134,7 +134,7 @@ LeetCode Contest 47 | 叶某人的碎碎念    </title>
 <p>二分查找。给定一个数x，我们可以在O(n)时间内找出乘法表中比x小和不比x大的数的个数，所以对区间[1，m*n]二叉查找的话，我们可以得到一个O(n log(mn))的算法。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findKthNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type m: int</span>
 <span class="sd">        :type n: int</span>
 <span class="sd">        :type k: int</span>

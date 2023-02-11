@@ -52,7 +52,7 @@ LeetCode Contest 78 | 叶某人的碎碎念    </title>
 <p>比较简单的统计。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">subdomainVisits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpdomains</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type cpdomains: List[str]</span>
 <span class="sd">        :rtype: List[str]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -77,7 +77,7 @@ LeetCode Contest 78 | 叶某人的碎碎念    </title>
 <p>如何判断<code>word</code>是否能通过操作得到<code>S</code>：首先将<code>word</code>和<code>S</code>按字母分组，然后判断<code>word</code>每个分组是否能通过操作得到<code>S</code>相对应的分组。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">expressiveWords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type S: str</span>
 <span class="sd">        :type words: List[str]</span>
 <span class="sd">        :rtype: int</span>
@@ -124,7 +124,7 @@ LeetCode Contest 78 | 叶某人的碎碎念    </title>
 因为<span class="math">\(f(n, m) \le 1\)</span>，所以当迭代次数够多时，<span class="math">\(f(n-i, m-j)\)</span>对<span class="math">\(f(n, m)\)</span>的影响是在误差范围之内的。对于这些<span class="math">\(f(n-i, m-j)\)</span>，我们可以认为<span class="math">\(f(n-i, m-j)=1\)</span>，因为根据我们的操作，汤A“几乎”总是先消耗完的。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">soupServings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type N: int</span>
 <span class="sd">        :rtype: float</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -154,7 +154,7 @@ LeetCode Contest 78 | 叶某人的碎碎念    </title>
 <p>这题的关键在于：如果数组长度为偶数，且总xor不为0，那么先手必胜。这是因为先手总是可以找到一个数字，使得剩下来的数组总xor不为0。不然的话，一开始的数字会全部一样并等于总xor，但是这样一来偶数个一样的数的总xor为0，跟假设矛盾。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">xorGame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type nums: List[int]</span>
 <span class="sd">        :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>

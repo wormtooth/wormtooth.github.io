@@ -56,7 +56,7 @@ LeetCode Contest 43 | 叶某人的碎碎念    </title>
 
 <span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findDuplicateSubtrees</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type root: TreeNode</span>
 <span class="sd">        :rtype: List[TreeNode]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -100,7 +100,7 @@ LeetCode Contest 43 | 叶某人的碎碎念    </title>
 <p>通过这两步我们就得到n个'A'，而两步次数之和就是一个可能的操作次数。枚举n的所有分解，选出最小的操作次数即可。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">minSteps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type n: int</span>
 <span class="sd">        :rtype: int</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -122,7 +122,7 @@ LeetCode Contest 43 | 叶某人的碎碎念    </title>
 <p>我的做法是这样的。首先将R映射到1，D影射到0，得到一个数组s。这样当<code>sum(s)</code>为0或者<code>len(s)</code>时，能投票的人都是同一个团队的人了。然后依次枚举s的元素，如果当前的元素为i，那么表示当前的团队为i，对方团队为1-i。查看之前有没有1-i的票，如果有的话，那么当前i就不能投票，团队1-i减少一票；否则当前的i能投票，将i放进一个数组t里，团队i添加一票。扫描一次s之后，我们就得到一个数组t。这时侯两个团队可能还有票，因为有可能没有排在后面的对方的人可以被投票。所以我们要遍历一次t，按照剩下的票数剔除一些人，得到最终新的s。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">predictPartyVictory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">senate</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type senate: str</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -162,7 +162,7 @@ LeetCode Contest 43 | 叶某人的碎碎念    </title>
 这是因为改变粘贴板需要按下两次键盘，改变键盘后粘贴板最多有f[i]个'A'，剩下的n-i-2次按键，是以这f[i]个'A'为基础的，所以这n-i-2最多能生成f[i]*f[n-i-2]个'A'。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">maxA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type N: int</span>
 <span class="sd">        :rtype: int</span>
 <span class="sd">        &quot;&quot;&quot;</span>

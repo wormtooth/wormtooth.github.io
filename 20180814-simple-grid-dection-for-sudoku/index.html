@@ -100,7 +100,7 @@ Simple Grid Detection for Sudoku | 叶某人的碎碎念    </title>
         <span class="bp">self</span><span class="o">.</span><span class="n">coords</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">grid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Return a tuple (x1, y1, x2, y2) indicating the grid,</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Return a tuple (x1, y1, x2, y2) indicating the grid,</span>
 <span class="sd">        where (x1, y1) is the upper left corner of the grid,</span>
 <span class="sd">        and (x2, y2) is the lower right corner of the grid.</span>
 
@@ -226,7 +226,7 @@ Simple Grid Detection for Sudoku | 叶某人的碎碎念    </title>
 "/></p>
 <p>By looking at the graphs above, we see that the valleys of the graphs might indicate the rows or columns of the grid. So we need a way to identify valleys in the graphs.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">valleys</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Identify first `num` valleys in the array `vals`, with</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Identify first `num` valleys in the array `vals`, with</span>
 <span class="sd">    the assumption that two valleys are at least `dist` away</span>
 <span class="sd">    from each other.&#39;&#39;&#39;</span>
     <span class="n">candidates</span> <span class="o">=</span> <span class="p">[]</span>

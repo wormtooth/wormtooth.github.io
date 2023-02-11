@@ -50,7 +50,7 @@ LeetCode Contest 60 | 叶某人的碎碎念    </title>
 <p>我记得高中的时候学到Flood Fill这个词的时候有种莫名开心，可能是因为这个名字很形象地描述了DFS的过程吧。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">floodFill</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">newColor</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type image: List[List[int]]</span>
 <span class="sd">        :type sr: int</span>
 <span class="sd">        :type sc: int</span>
@@ -87,7 +87,7 @@ LeetCode Contest 60 | 叶某人的碎碎念    </title>
 <p>首先建立一个哈希表建立词语间的相似关系，然后遍历两个句子中的每个词语进行判断即可。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">areSentencesSimilar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words1</span><span class="p">,</span> <span class="n">words2</span><span class="p">,</span> <span class="n">pairs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type words1: List[str]</span>
 <span class="sd">        :type words2: List[str]</span>
 <span class="sd">        :type pairs: List[List[str]]</span>
@@ -121,7 +121,7 @@ LeetCode Contest 60 | 叶某人的碎碎念    </title>
 <p>我们可以依次处理每个数，并以<code>ans</code>表示当前消除后的数组。如果<code>ans</code>是空的，或者这个数是正的，又或者<code>ans</code>最后一个数是与当前的数都是负的（都往左运动），那么这个数不会跟<code>ans</code>的数相遇，所以直接加进<code>ans</code>即可。因此，产生碰撞时当前的数必然是负的。这意味着处理碰撞时只会涉及位于<code>ans</code>最后位置的正数。详细算法参考如下代码。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">asteroidCollision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asteroids</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type asteroids: List[int]</span>
 <span class="sd">        :rtype: List[int]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -151,7 +151,7 @@ LeetCode Contest 60 | 叶某人的碎碎念    </title>
 <p><code>lisp</code>的输入参数<code>ex</code>表示一个表达式，<code>gs</code>表示全局变量列表。首先调用<code>split</code>函数将<code>ex</code>分解，然后按照<code>let</code>, <code>add</code>和<code>mult</code>分类讨论。</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :type expression: str</span>
 <span class="sd">        :rtype: int</span>
 <span class="sd">        &quot;&quot;&quot;</span>

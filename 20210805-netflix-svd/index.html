@@ -148,7 +148,7 @@ The above model can be found in section 2.1 in this <a href="https://www.netflix
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">s</span> <span class="o">*</span> <span class="n">s</span><span class="p">))</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE for using the average rating only: &#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">RMSE</span><span class="p">(</span><span class="n">ratings_df</span><span class="o">.</span><span class="n">rating</span> <span class="o">-</span> <span class="n">avg_rating</span><span class="p">)</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">RMSE</span><span class="p">(</span><span class="n">ratings_df</span><span class="o">.</span><span class="n">rating</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">avg_rating</span><span class="p">)</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -314,29 +314,29 @@ Here, <span class="math">\(U_u\)</span> is the row vector representing features 
 
 
 <p>I commented out the above code because it takes a long time to train the model. It is mainly because my laptop does not have enough RAM. I reimplemented the model using C and it ran fine with less that 1G memory. You can find the C implementation on GitHub: <a href="https://github.com/wormtooth/netflix_svd">netflix_svd</a>. Out of the 100M ratings, I reserved 1M for the test set. Here are some output from the C implementation of the model:</p>
-<div class="highlight"><pre><span></span><span class="nv">Got</span><span class="w"> </span><span class="nv">bias</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">model</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">25</span>.<span class="mi">00</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>.<span class="mi">00</span><span class="w"></span>
-<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">1</span>.<span class="mi">038225</span><span class="w"></span>
-<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">1</span>.<span class="mi">040508</span><span class="w"></span>
-<span class="nv">Shuffled</span><span class="w"> </span><span class="nv">ratings</span>.<span class="w"></span>
-<span class="nv">Epoch</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nv">done</span>.<span class="w"></span>
-<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">861172</span><span class="w"></span>
-<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">874805</span><span class="w"></span>
-<span class="nv">Shuffled</span><span class="w"> </span><span class="nv">ratings</span>.<span class="w"></span>
-<span class="nv">Epoch</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="nv">done</span>.<span class="w"></span>
-<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">821142</span><span class="w"></span>
-<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">847518</span><span class="w"></span>
-<span class="nv">Shuffled</span><span class="w"> </span><span class="nv">ratings</span>.<span class="w"></span>
-<span class="nv">Epoch</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="nv">done</span>.<span class="w"></span>
-<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">801727</span><span class="w"></span>
-<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">838259</span><span class="w"></span>
-<span class="nv">Shuffled</span><span class="w"> </span><span class="nv">ratings</span>.<span class="w"></span>
-<span class="nv">Epoch</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="nv">done</span>.<span class="w"></span>
-<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">791160</span><span class="w"></span>
-<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">834764</span><span class="w"></span>
-<span class="nv">Shuffled</span><span class="w"> </span><span class="nv">ratings</span>.<span class="w"></span>
-<span class="nv">Epoch</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="nv">done</span>.<span class="w"></span>
-<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">785267</span><span class="w"></span>
-<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">833697</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="nv">Got</span><span class="w"> </span><span class="nv">bias</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">model</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">25</span>.<span class="mi">00</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>.<span class="mi">00</span>
+<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">1</span>.<span class="mi">038225</span>
+<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">1</span>.<span class="mi">040508</span>
+<span class="nv">Shuffled</span><span class="w"> </span><span class="nv">ratings</span>.
+<span class="nv">Epoch</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="nv">done</span>.
+<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">861172</span>
+<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">874805</span>
+<span class="nv">Shuffled</span><span class="w"> </span><span class="nv">ratings</span>.
+<span class="nv">Epoch</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="nv">done</span>.
+<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">821142</span>
+<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">847518</span>
+<span class="nv">Shuffled</span><span class="w"> </span><span class="nv">ratings</span>.
+<span class="nv">Epoch</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="nv">done</span>.
+<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">801727</span>
+<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">838259</span>
+<span class="nv">Shuffled</span><span class="w"> </span><span class="nv">ratings</span>.
+<span class="nv">Epoch</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="nv">done</span>.
+<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">791160</span>
+<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">834764</span>
+<span class="nv">Shuffled</span><span class="w"> </span><span class="nv">ratings</span>.
+<span class="nv">Epoch</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="nv">done</span>.
+<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">train</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">785267</span>
+<span class="nv">RMSE</span><span class="w"> </span><span class="ss">(</span><span class="nv">test</span><span class="ss">)</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">833697</span>
 </pre></div>
 
         <div class="tags">
