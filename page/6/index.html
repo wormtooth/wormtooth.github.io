@@ -36,6 +36,26 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170920-generalized-linear-model/">Generalized Linear Model</a></h1>
+    <div class="post-meta">2017-09-20</div>
+    <a data-disqus-identifier="20170920-generalized-linear-model/" href="/20170920-generalized-linear-model/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This article on <em>Generalized Linear Model (GLM)</em> is based on the first four lectures of <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">Machine Learning</a> by Andrew Ng. But the structure of the article is quite different from the lecture. I will talk about exponential family of distributions first. Then I will discuss the general idea of GLM. Finally, I will try to derive some well known learning algorithms from GLM.</p>
+<h2>Exponential Family</h2>
+<div class="qbar">
+A family of distributions is an exponential family if it can be parametrized by vector $\eta$ in the form
+
+$$P(y; \eta) = b(y)\exp(\eta^{T} T(y)-a(\eta)),$$
+
+where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\eta)$ is a function in terms of $\eta$.
+</div>
+
+<p><span class="math">\(\eta\)</span> is called the natural parameter and <span class="math">\(T(y)\)</span> is called the sufficient statistic.</p>
+
+    </div>
+    <p class="readmore"><a href="/20170920-generalized-linear-model/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170912-simple-python-crawler/">简单的python爬虫</a></h1>
     <div class="post-meta">2017-09-12</div>
     <a data-disqus-identifier="20170912-simple-python-crawler/" href="/20170912-simple-python-crawler/#disqus_thread" class="disqus-comment-count"></a>
@@ -303,36 +323,6 @@
     </div>
     <p class="readmore"><a href="/20170730-leetcode-contest-43/">Read More</a></p>
 </div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170722-leetcode-contest-42/">LeetCode Contest 42</a></h1>
-    <div class="post-meta">2017-07-22</div>
-    <a data-disqus-identifier="20170722-leetcode-contest-42/" href="/20170722-leetcode-contest-42/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>今天晚上在朋友家做好饭已经过了<a href="https://leetcode.com/contest/leetcode-weekly-contest-42/">比赛</a>时间了，我们是边吃着饭边喝着酒来写代码。牛肉炖土豆是一如既往的美味，新尝试的豆腐煮白菜也很不错。这次朋友买了Habanero，辣味惊人，我是打着喷嚏做菜的😢</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-42/problems/set-mismatch/">第一题</a><code>Set Mismatch</code></p>
-<div class="qbar">题目大意：给定一个长度为n数值在1到n之间的数组。已知其中一个数字出现一个，另一个数字没有出现。找出这两个数字。</div>
-
-<p>简单的统计。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">findErrorNums</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type nums: List[int]</span>
-<span class="sd">        :rtype: List[int]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ans</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">cnt</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
-            <span class="n">cnt</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cnt</span><span class="p">):</span>
-            <span class="n">ans</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">ans</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170722-leetcode-contest-42/">Read More</a></p>
-</div>
 
 <div class="page-navigator">
     <a class="extend prev" rel="prev" href="/page/5/">Previous</a>
@@ -386,7 +376,7 @@
 </div>
         </div></div>
         <div class="pure-u-1 pure-u-lg-3-4">
-<div id="footer">Copyright © 2022 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+<div id="footer">Copyright © 2023 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
     </div>
 </div>
 <a id="rocket" href="#top" class="show"></a>

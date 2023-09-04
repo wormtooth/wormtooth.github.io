@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+PySpark Estimator and Transformer | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">PySpark Estimator and Transformer</h1>
+    <div class="post-meta">Sep 03, 2023
+    <span> | </span> <span>Machine Learning</span>
+    </div>
+    <a data-disqus-identifier="20230904-pyspark-estimator-and-transformer/" href="/20230904-pyspark-estimator-and-transformer/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>PySpark's <a href="https://spark.apache.org/docs/latest/ml-pipeline.html">pipeline</a> is a powerful tool that encapsulates machine learning processes. We can build rather complicated pipelines to our needs using the existing estimators/transformers come with the PySpark's library, until we can't. In this article, I will show how we can build custom estimators and transformers to make the pipeline even more powerful. </p>
+<p>Imagine that we want to build a model with some high cardinality categorical features. Upon inspection, we find that only some most frequent values are useful and we decide to keep those frequent values and mask other values "OTHERS". We will implement <code>CardinalityReducer</code> that will keep only most frequent N values in a categorical column (or a column of string type). We will implement it in a way so that it can fit training sets together with other components in a pipeline.</p>
+<!--more-->
+
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">keyword_only</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">f</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Estimator</span><span class="p">,</span> <span class="n">Transformer</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span><span class="p">,</span> <span class="n">PipelineModel</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.param.shared</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">HasInputCol</span><span class="p">,</span>
+    <span class="n">HasOutputCol</span><span class="p">,</span>
+    <span class="n">Param</span><span class="p">,</span>
+    <span class="n">Params</span><span class="p">,</span>
+    <span class="n">TypeConverters</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.util</span> <span class="kn">import</span> <span class="n">DefaultParamsReadable</span><span class="p">,</span> <span class="n">DefaultParamsWritable</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">master</span><span class="p">(</span><span class="s2">&quot;local&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;PySpark Version: </span><span class="si">{</span><span class="n">spark</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<pre>PySpark Version: 3.4.1
+</pre>
+
+<p>Before the implementation, we need to understand is the differences between <a href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.Estimator.html">Estimator</a> and <a href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.Transformer.html">Transformer</a>. Let's take our example <code>CardinalityReducer</code>. It is going to be an Estimator that will know:</p>
+<ul>
+<li>input column: what column it is going to perform the cardinality reduction;</li>
+<li>output column: where should the results be stored;</li>
+<li>top n: the number of most frequent values to keep.</li>
+</ul>
+<p>However, the estimator <code>CardinalityReducer</code> doesn't know the most frequent values util it sees that training data and learn the statistics. So it cannot transform any datasets.</p>
+<p>Once <code>CardinalityReducer</code> sees (i.e., is fitted on) the training data, it will return a transformer <code>CardinalityReducerModel</code> that knows input column, output column and the top n values to keep. This transformer has all needed information to actual transform datasets. We will start from <code>CardinalityReducerModel</code>.</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CardinalityReducerModelParams</span><span class="p">(</span>
+    <span class="n">HasInputCol</span><span class="p">,</span> <span class="c1"># param: inputCol</span>
+    <span class="n">HasOutputCol</span><span class="p">,</span> <span class="c1"># param: outputCol</span>
+<span class="p">):</span>
+    <span class="c1"># param: keepValues</span>
+    <span class="n">keepValues</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="c1"># parent of the param, it is required to set to this placeholder</span>
+        <span class="s2">&quot;keepValues&quot;</span><span class="p">,</span> <span class="c1"># name of the param</span>
+        <span class="s2">&quot;A list of values to keep for the categorical column&quot;</span><span class="p">,</span> <span class="c1"># desc of the param</span>
+        <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span> <span class="c1"># try to convert param to a list of strings</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># good practice: set default values for params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">keepValues</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># HasInputCol has the getter but not the setter</span>
+    <span class="c1"># we add the setter</span>
+    <span class="c1"># same for HasOutputCol</span>
+    <span class="k">def</span> <span class="nf">setInputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputCol</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">inputCol</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputCol</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">outputCol</span><span class="p">)</span>
+
+    <span class="c1"># getter and setter for keepValues</span>
+    <span class="k">def</span> <span class="nf">getKeepValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keepValues</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setKeepValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">keepValues</span><span class="o">=</span><span class="n">vals</span><span class="p">)</span>
+</pre></div>
+
+
+<p>I personally prefer to put the parameters in their own class for Tramsformer or Estimator. But we can put them directly in Transformer/Estimator if we want. Going a bit more on the details on <code>CardinalityReducerModelParams</code>, we see 3 parameters: inputCol (provided by HasInputCol), outputCol (provided by HasOutputCol) and keepValues (custom). You might notice that the <code>keepValues</code> is a class level attribute. Won't that be a problem since all instances of the class share the same class level attributes?</p>
+<p>The answer is no and it is handled by some internal tricks. HasInputCol is a subclass of <code>Params</code> and in its <code>__init__</code> function:</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">_Params</span><span class="p">:</span> <span class="c1"># modified, original: Params(Identifiable, metaclass=ABCMeta)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># other codes</span>
+        <span class="o">...</span>
+
+        <span class="c1"># Copy the params from the class to the object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_copy_params</span><span class="p">()</span>
+</pre></div>
+
+
+<p>The class level params will be copied to instances by <code>Params._copy_params</code> so that they have individual params. We need to make sure our custom params inherit from <code>Params</code> or subclass(es) of it. In our case, <code>CardinalityReducerModelParams</code> inherits from <code>HasInputCol</code> and <code>HasOutputCol</code>, which are subclasses of <code>Params</code>. A deeper dig into <code>Params._copy_params</code> also shows that we need to use <code>Params._dummy()</code> in our custom param <code>keepValues</code>. I will leave it as an exercise for you to trace the code. I will give you a hint: you need to trace back to <code>Param._copy_new_parent</code> and <code>Params._dummy()</code>.</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CardinalityReducerModel</span><span class="p">(</span>
+    <span class="n">Transformer</span><span class="p">,</span> <span class="c1"># must inherit Transformer</span>
+    <span class="n">CardinalityReducerModelParams</span><span class="p">,</span> <span class="c1"># params for the tramsformer</span>
+    <span class="c1"># the two classes below make the transformer serializable</span>
+    <span class="n">DefaultParamsReadable</span><span class="p">,</span>
+    <span class="n">DefaultParamsWritable</span>
+<span class="p">):</span>
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">inputCol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keepValues</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span> <span class="c1"># need to pair with keyword_only decorator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setParams</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">inputCol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keepValues</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+        <span class="c1"># get params for the transformer, provided by CardinalityReducerModelParams</span>
+        <span class="c1"># it is a good time to validate our params here</span>
+        <span class="c1"># for example, the dataset must contain inputCol</span>
+        <span class="c1"># I leave the validation out for simplicity</span>
+        <span class="n">inputCol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputCol</span><span class="p">()</span>
+        <span class="n">outputCol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOutputCol</span><span class="p">()</span>
+        <span class="n">keepVals</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getKeepValues</span><span class="p">())</span>
+
+        <span class="c1"># transform: keep top values and mask the remainings &quot;OTHERS&quot;</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span>
+            <span class="n">outputCol</span><span class="p">,</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">inputCol</span><span class="p">)</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">keepVals</span><span class="p">),</span> <span class="n">f</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">inputCol</span><span class="p">))</span><span class="o">.</span><span class="n">otherwise</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">lit</span><span class="p">(</span><span class="s2">&quot;OTHERS&quot;</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">dataset</span>
+</pre></div>
+
+
+<p>Excellent, we got our <code>CardinalityReducerModelParams</code>. At minimum, a custom transformer must inherit the base class <code>Transformer</code> and implement <code>_transform</code>. </p>
+<p>Let's make some fake data and try it out!</p>
+<div class="highlight"><pre><span></span><span class="n">data</span><span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a1&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;a2&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;a3&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;a4&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;b1&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;b2&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+
+<pre>+---+---+
+|  a|  b|
++---+---+
+| a2| b1|
+| a3| b2|
+| a1| b1|
+| a4| b1|
+| a2| b2|
+| a3| b1|
+| a1| b1|
+| a1| b1|
+| a2| b2|
+| a1| b1|
++---+---+
+
+</pre>
+
+<div class="highlight"><pre><span></span><span class="n">xformer</span> <span class="o">=</span> <span class="n">CardinalityReducerModel</span><span class="p">(</span>
+    <span class="n">inputCol</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">,</span>
+    <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;a_reduced&quot;</span><span class="p">,</span>
+    <span class="n">keepValues</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a1&quot;</span><span class="p">,</span> <span class="s2">&quot;a2&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">xformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+
+<pre>+---+---+---------+
+|  a|  b|a_reduced|
++---+---+---------+
+| a2| b1|       a2|
+| a3| b2|   OTHERS|
+| a1| b1|       a1|
+| a4| b1|   OTHERS|
+| a2| b2|       a2|
+| a3| b1|   OTHERS|
+| a1| b1|       a1|
+| a1| b1|       a1|
+| a2| b2|       a2|
+| a1| b1|       a1|
++---+---+---------+
+
+</pre>
+
+<p>Now we are ready to implement <code>CardinalityReducer</code>. We will again separate out the params into a class <code>CardinalityReducerParams</code>. Since it is very simlar to <code>CardinalityReducerModelParams</code>, I will skip the explanation.</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CardinalityReducerParams</span><span class="p">(</span>
+    <span class="n">HasInputCol</span><span class="p">,</span>
+    <span class="n">HasOutputCol</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">topN</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;topN&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Keep top N number of values in the categorical column&quot;</span><span class="p">,</span>
+        <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># set default values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">topN</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setInputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputCol</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">inputCol</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputCol</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">outputCol</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getTopN</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topN</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setTopN</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topN</span><span class="o">=</span><span class="n">val</span><span class="p">)</span>
+</pre></div>
+
+
+<p>For a custom estimator, it must inherit <code>Estimator</code> and implement <code>_fit</code> that returns a corresponding transformer. For our estimator <code>CardinalityReducer</code>, it learns the most frequent values and returns a <code>CardinalityReducerModel</code> in its <code>CardinalityReducer._fit</code>.</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CardinalityReducer</span><span class="p">(</span>
+    <span class="n">Estimator</span><span class="p">,</span> <span class="c1"># a must for custom estimator</span>
+    <span class="n">CardinalityReducerParams</span><span class="p">,</span> <span class="c1"># params</span>
+    <span class="c1"># make it serializable by subclassing the following two classes</span>
+    <span class="n">DefaultParamsReadable</span><span class="p">,</span>
+    <span class="n">DefaultParamsWritable</span>
+<span class="p">):</span>
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">inputCol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">topN</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maskValue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setParams</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span> <span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">inputCol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">topN</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maskValue</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+        <span class="c1"># get params</span>
+        <span class="n">inputCol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputCol</span><span class="p">()</span>
+        <span class="n">outputCol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOutputCol</span><span class="p">()</span>
+        <span class="n">topN</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTopN</span><span class="p">()</span>
+
+        <span class="c1"># compute the top N values in the inputCol</span>
+        <span class="n">keepVals</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">dataset</span>
+            <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">inputCol</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">count</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">desc</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">))</span>
+            <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">inputCol</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+            <span class="p">[</span><span class="n">inputCol</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="p">[:</span><span class="n">topN</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="c1"># return a CardinalityReducerModel with learned top values to keep</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">CardinalityReducerModel</span><span class="p">(</span>
+            <span class="n">inputCol</span><span class="o">=</span><span class="n">inputCol</span><span class="p">,</span>
+            <span class="n">outputCol</span><span class="o">=</span><span class="n">outputCol</span><span class="p">,</span>
+            <span class="n">keepValues</span><span class="o">=</span><span class="n">keepVals</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+
+
+<p>It is not hard, right? Let's use it on our fake data. We will put two <code>CardinalityReducer</code>in a pipeline, one for column <code>a</code> and one for <code>b</code>!</p>
+<div class="highlight"><pre><span></span><span class="c1"># make our pipeline with our custom estimator CardinalityReducer</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">CardinalityReducer</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;a_reduced&quot;</span><span class="p">,</span> <span class="n">topN</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+    <span class="n">CardinalityReducer</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">outputCol</span><span class="o">=</span><span class="s2">&quot;b_reduced&quot;</span><span class="p">,</span> <span class="n">topN</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">])</span>
+
+<span class="c1"># fit the pipeline on the dataset to get a transformer</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># transform datasets</span>
+<span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+
+<pre>+---+---+---------+---------+
+|  a|  b|a_reduced|b_reduced|
++---+---+---------+---------+
+| a2| b1|       a2|       b1|
+| a3| b2|   OTHERS|   OTHERS|
+| a1| b1|       a1|       b1|
+| a4| b1|   OTHERS|       b1|
+| a2| b2|       a2|   OTHERS|
+| a3| b1|   OTHERS|       b1|
+| a1| b1|       a1|       b1|
+| a1| b1|       a1|       b1|
+| a2| b2|       a2|   OTHERS|
+| a1| b1|       a1|       b1|
++---+---+---------+---------+
+
+</pre>
+
+<p>We have successfully implemented an estimator <code>CardinalityReducer</code> and its corresponding transformer <code>CardinalityReducerModel</code>. Lastly, we save and load back the pipeline model to test the cabability of persisting the model.</p>
+<div class="highlight"><pre><span></span><span class="c1"># save the model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">write</span><span class="p">()</span><span class="o">.</span><span class="n">overwrite</span><span class="p">()</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;saved-models/cardinality-reducer&quot;</span><span class="p">)</span>
+
+<span class="c1"># load back the model</span>
+<span class="n">loaded_model</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;saved-models/cardinality-reducer&quot;</span><span class="p">)</span>
+
+<span class="c1"># use the loaded model </span>
+<span class="n">loaded_model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+
+<pre>+---+---+---------+---------+
+|  a|  b|a_reduced|b_reduced|
++---+---+---------+---------+
+| a2| b1|       a2|       b1|
+| a3| b2|   OTHERS|   OTHERS|
+| a1| b1|       a1|       b1|
+| a4| b1|   OTHERS|       b1|
+| a2| b2|       a2|   OTHERS|
+| a3| b1|   OTHERS|       b1|
+| a1| b1|       a1|       b1|
+| a1| b1|       a1|       b1|
+| a2| b2|       a2|   OTHERS|
+| a1| b1|       a1|       b1|
++---+---+---------+---------+
+
+</pre>
+
+        <div class="tags">
+        <a href="/tag/python">python</a>
+        <a href="/tag/pyspark">pyspark</a>
+        </div>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20230904-pyspark-estimator-and-transformer/';
+    var disqus_title = 'PySpark Estimator and Transformer';
+    var disqus_url = 'https://wormtooth.com/20230904-pyspark-estimator-and-transformer/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>未来会来～</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2023 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

@@ -36,6 +36,50 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20171105-expectation-maximization/">Expectation-Maximization algorithm</a></h1>
+    <div class="post-meta">2017-11-05</div>
+    <a data-disqus-identifier="20171105-expectation-maximization/" href="/20171105-expectation-maximization/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>In this article, I will collect my notes on Expectation-Maximization algorithm (EM) based on lecture 12 and 13 of Andrew Ng's <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">online course</a>. Given a set of unlabeled data points EM tries iteratively to determine the distribution of data, assuming that all data points are implicitly labeled (unobserved latent variables). For simplicity, we shall limit ourselves to the case where there are only finitely many implicit labels.</p>
+<h2>Description of the problem</h2>
+<p>Given a set of unlabeled data <span class="math">\(\{x^{(1)}, \dots, x^{(m)}\}\)</span>, our goal is to determine <span class="math">\(P(x)\)</span>, the distribution of <span class="math">\(x\)</span>, with the following assumptions.</p>
+<div class="qbar">
+<p><a name="assumptions"><strong>Assumptions.</strong></a></p>
+<ol>
+<li>
+<p>There are finitely many unobserved latent variables <span class="math">\(z \in \{1, \dots, k\}\)</span> and they obey some multinomial distribution, i.e., <span class="math">\(P(z=j) = \phi_j\)</span> with <span class="math">\(\sum \phi_j = 1\)</span>.</p>
+</li>
+<li>
+<p><span class="math">\(\{P(x|z=j; a_j): j=1, \dots, k\}\)</span> are a family of uniformly parametrized distribution.</p>
+</li>
+</ol>
+</div>
+<p>Assumptions 1 and 2 will gives us a set of parameters <span class="math">\(\theta = (\phi_1, \dots, \phi_j, a_1,\dots, a_j)\)</span> and<br>
+</p>
+<div class="math">$$\begin{equation}
+P(x; \theta) = \sum_{j=1}^k P(x|z=j; \theta)P(z=j; \theta).
+\label{px}
+\end{equation}$$</div>
+<p><br>
+We want to find this set of parameters so that the likelihood function<br>
+</p>
+<div class="math">$$L(\theta) = \prod_{i=1}^m P(x^{(i)}) = \prod_{i=1}^m \sum_{j=1}^k P(x^{(i)}|z=j; \theta)P(z=j; \theta).$$</div>
+<p><br>
+is maximized. Or equivalently, the log likelihood function below is maximized:<br>
+</p>
+<div class="math">$$\begin{equation}
+l(\theta) = \sum_{i=1}^m \log\left(\sum_{j=1}^k P(x^{(i)}, z=j; \theta)\right),
+\label{log-likelihood}
+\end{equation}$$</div>
+<p><br>
+where <br>
+</p>
+<div class="math">$$P(x^{(i)}, z=j; \theta) = P(x^{(i)}|z=j; \theta)P(z=j; \theta).$$</div>
+
+    </div>
+    <p class="readmore"><a href="/20171105-expectation-maximization/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20171105-leetcode-contest-57/">LeetCode Contest 57</a></h1>
     <div class="post-meta">2017-11-05</div>
     <a data-disqus-identifier="20171105-leetcode-contest-57/" href="/20171105-leetcode-contest-57/#disqus_thread" class="disqus-comment-count"></a>
@@ -431,26 +475,6 @@ where <span class="math">\(P(x) = P(x|y=0)P(y=0) + P(x|y=1)P(y=1)\)</span>.</p>
     </div>
     <p class="readmore"><a href="/20170923-leetcode-contest-51/">Read More</a></p>
 </div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170920-generalized-linear-model/">Generalized Linear Model</a></h1>
-    <div class="post-meta">2017-09-20</div>
-    <a data-disqus-identifier="20170920-generalized-linear-model/" href="/20170920-generalized-linear-model/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>This article on <em>Generalized Linear Model (GLM)</em> is based on the first four lectures of <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">Machine Learning</a> by Andrew Ng. But the structure of the article is quite different from the lecture. I will talk about exponential family of distributions first. Then I will discuss the general idea of GLM. Finally, I will try to derive some well known learning algorithms from GLM.</p>
-<h2>Exponential Family</h2>
-<div class="qbar">
-A family of distributions is an exponential family if it can be parametrized by vector $\eta$ in the form
-
-$$P(y; \eta) = b(y)\exp(\eta^{T} T(y)-a(\eta)),$$
-
-where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\eta)$ is a function in terms of $\eta$.
-</div>
-
-<p><span class="math">\(\eta\)</span> is called the natural parameter and <span class="math">\(T(y)\)</span> is called the sufficient statistic.</p>
-
-    </div>
-    <p class="readmore"><a href="/20170920-generalized-linear-model/">Read More</a></p>
-</div>
 
 <div class="page-navigator">
     <a class="extend prev" rel="prev" href="/page/4/">Previous</a>
@@ -504,7 +528,7 @@ where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\e
 </div>
         </div></div>
         <div class="pure-u-1 pure-u-lg-3-4">
-<div id="footer">Copyright © 2022 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+<div id="footer">Copyright © 2023 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
     </div>
 </div>
 <a id="rocket" href="#top" class="show"></a>

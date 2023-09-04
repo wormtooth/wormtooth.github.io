@@ -36,6 +36,16 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/npnet0/">[npnet] 序言</a></h1>
+    <div class="post-meta">2019-09-25</div>
+    <a data-disqus-identifier="npnet0/" href="/npnet0/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>很早之前我就有一个“写一个机器学习的系列笔记”的想法了。之所以叫做“笔记”而不叫“教程”，是因为机器学习只是我的业余爱好之一，我并不精通此道。事实上，我只是学到最简单的皮毛知识，还不一定明白透彻。所以我把我将要写的这个系列定义为笔记，并且在开篇就写得明明白白，这样我就可以随心所欲地写而并不担心误人子弟。不过既然我把笔记放在网上了，那表明我也希望其他人能从我写的东西里得到启发。如果你发现我的理解有误或者文章有错，也请务必留言让我知道。</p>
+
+    </div>
+    <p class="readmore"><a href="/npnet0/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20190812-edit-raspbian-image/">编辑 Raspbian 镜像</a></h1>
     <div class="post-meta">2019-08-12</div>
     <a data-disqus-identifier="20190812-edit-raspbian-image/" href="/20190812-edit-raspbian-image/#disqus_thread" class="disqus-comment-count"></a>
@@ -160,41 +170,6 @@
     </div>
     <p class="readmore"><a href="/20180405-digit-recognition-cnn/">Read More</a></p>
 </div>
-<div class="post">
-    <h1 class="post-title"><a href="/20180401-leetcode-contest-78/">LeetCode Contest 78</a></h1>
-    <div class="post-meta">2018-04-01</div>
-    <a data-disqus-identifier="20180401-leetcode-contest-78/" href="/20180401-leetcode-contest-78/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>好久没有比赛了，上次比赛还是去年11月了。这次<a href="https://leetcode.com/contest/weekly-contest-78">比赛</a>表现比较差，只做出了前两道。后来发现，第三道我跟小伙伴都有正确的想法了，只是没有意识到答案允许有10<sup>-6</sup>的误差。</p>
-<p><a href="https://leetcode.com/contest/weekly-contest-78/problems/subdomain-visit-count/">第一题</a><code>Subdomain Visit Count</code></p>
-<div class="qbar">
-<p>给定一个列表，其中的元素形如<br>
-<center>"9001 discuss.leetcode.com"</center><br>
-这里的数字表示后面域名（各级域名）的访问量。统计各级域名的访问量。</p>
-</div>
-<p>比较简单的统计。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">subdomainVisits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpdomains</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type cpdomains: List[str]</span>
-<span class="sd">        :rtype: List[str]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cnt</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">cp</span> <span class="ow">in</span> <span class="n">cpdomains</span><span class="p">:</span>
-            <span class="n">n</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-            <span class="n">n</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="s1">&#39;.&#39;</span><span class="o">+</span><span class="n">addr</span><span class="p">,</span> <span class="mi">0</span>
-            <span class="k">while</span> <span class="n">p</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                <span class="n">addr</span> <span class="o">=</span> <span class="n">addr</span><span class="p">[</span><span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
-                <span class="n">cnt</span><span class="p">[</span><span class="n">addr</span><span class="p">]</span> <span class="o">+=</span> <span class="n">n</span>
-                <span class="n">p</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cnt</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20180401-leetcode-contest-78/">Read More</a></p>
-</div>
 
 <div class="page-navigator">
     <a class="extend prev" rel="prev" href="/page/2/">Previous</a>
@@ -246,7 +221,7 @@
 </div>
         </div></div>
         <div class="pure-u-1 pure-u-lg-3-4">
-<div id="footer">Copyright © 2022 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+<div id="footer">Copyright © 2023 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
     </div>
 </div>
 <a id="rocket" href="#top" class="show"></a>
