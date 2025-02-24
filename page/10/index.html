@@ -36,6 +36,35 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20150511-nontrivial-bound/">Nontrivial bound for a sum involving characters</a></h1>
+    <div class="post-meta">2015-05-11</div>
+    <a data-disqus-identifier="20150511-nontrivial-bound/" href="/20150511-nontrivial-bound/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>To find a non-trivial bound for an expression is an essential task in analytic number theory. For example, to derive a asymptotic formula for the number of primes less than or equal to <span class="math">\(x\)</span>, i.e. <span class="math">\(\pi(x)\)</span>, we investigate into the function
+<span class="math">\[\Psi(x) = \sum_{\substack{n \le x \\ n = p^k}} \log p.\]</span>
+Along the way to the asymptotic formula for <span class="math">\(\Psi(x)\)</span>, it&#8217;s important to bound the error terms so that they won&#8217;t overweight the dominant term. Nowadays, many mathematicians are interested in finding non-trivial bounds for weighted <span class="math">\(\Psi(x)\)</span>, i.e.,
+<span class="math">\[\Psi(x) = \sum_{\substack{n \le x \\ n = p^k}} a_n \log p,\]</span>
+where <span class="math">\(a_n \in \C\)</span>. If <span class="math">\(a_n = \chi(n)\)</span> for some character <span class="math">\(\chi \text{ mod }q\)</span>, this is actually <span class="math">\(\Psi(x, \chi)\)</span>. Trivially, we can have
+<span class="math">\[\left\lvert \Psi(x) \right\rvert \le \sum_{\substack{n \le x \\ n = p^k}} |a_n| \log p.\]</span>
+Therefore, it seems that we can just work with <span class="math">\(a_n \in \R_{\ge 0}\)</span>. Truly, this will give us a bound for <span class="math">\(\Psi(x)\)</span>, but it ignores all the cancellation encoded in the signs of <span class="math">\(a_n\)</span>, thus it won&#8217;t provide any good bounds.</p>
+
+<p>Another kind of expressions that many mathematicians work with are those sums involving characters. The simplest example is <span class="math">\(\displaystyle \sum_{n=m+1}^{m+N} \chi(n)\)</span> for a character <span class="math">\(\chi \text{ mod }q\)</span>. The trivial bound for it is <span class="math">\(N\)</span>, since <span class="math">\(|\chi(n)| \le 1\)</span>, which is certainly a coarse bound. Actually, we have</p>
+
+<div class='qbox' >
+<a name='thm1'><strong>Theorem 1 (Pólga-Vinogradov inequality).</strong></a>
+Let <span class="math">\(\chi \text{ mod }q\)</span> be a primitive character and <span class="math">\(q \ge 3\)</span>. Then
+<span class="math">\[\left\lvert \sum_{n=m+1}^{m+N} \chi(n) \right\rvert < \sqrt{q}\log q.\]</span>
+</div>
+
+<p>This non-trivial bound doesn&#8217;t depend on the length <span class="math">\(N\)</span> at all, but only depends on the modulus <span class="math">\(q\)</span>. If the primitive condition is dropped, then it is bounded by <span class="math">\(2 \sqrt{q}\log q\)</span>.</p>
+
+<p>In this post, I will give a non-trivial bound for the sum <span class="math">\(\displaystyle \sum_{n=1}^{N} \chi(n)\chi(n+1)\)</span>, which was originally asked by my friend Yongxiao, as a practice for my analytic number theory course.</p>
+
+
+    </div>
+    <p class="readmore"><a href="/20150511-nontrivial-bound/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20150110-2014/">2014年</a></h1>
     <div class="post-meta">2015-01-10</div>
     <a data-disqus-identifier="20150110-2014/" href="/20150110-2014/#disqus_thread" class="disqus-comment-count"></a>
@@ -184,19 +213,6 @@ g_k(q) &= \sum_{n \in \mathbb{N}} w_k(n)q^n \\
     </div>
     <p class="readmore"><a href="/20140516-after-rain/">Read More</a></p>
 </div>
-<div class="post">
-    <h1 class="post-title"><a href="/20140101-2013/">过去的2013</a></h1>
-    <div class="post-meta">2014-01-01</div>
-    <a data-disqus-identifier="20140101-2013/" href="/20140101-2013/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>2013年有两件重要的事情：毕业、出国——一个阶段的结束伴随另一个阶段的开始。</p>
-<h3>毕业</h3>
-<p>回忆的时候总觉得时间过得很快——不知不觉中，我已经毕业半年了。在那个特殊的季节里，我不断回忆我大学四年所做过的事情。杭州的闷热让我略感烦躁，而烦躁在侵蚀我的记忆。记忆中的大一与日记中的大一出现了很大的偏差，对于很多当时发生的事情，当下的感受比当时的感受淡多了，时间抹去了很多强烈的情绪。大二大三的时候，学习生活的单调性让我不怎么写日记了。没有了日记的对照，大二大三只剩下骨头了。但我相信，大二大三是我大学里最用功的两年。</p>
-<p>大四上学期忙完申请，大四下学期就没有多少事情了，花时间的只有一门关于李代数表示的讨论班以及毕业论文。我的毕业论文比较简单：只是说明一些对称恒等式（特别是涉及Schur函数的对称恒等式）以及同构表示之间的对应关系。所以，我在毕业那段时间是很闲的。人太闲会出问题的，闲下来之后，很多让我不能入睡的问题像一颗颗子弹正中红心。毕业那段时间也是我失眠最厉害的一段时间。</p>
-
-    </div>
-    <p class="readmore"><a href="/20140101-2013/">Read More</a></p>
-</div>
 
 <div class="page-navigator">
     <a class="extend prev" rel="prev" href="/page/9/">Previous</a>
@@ -247,7 +263,7 @@ g_k(q) &= \sum_{n \in \mathbb{N}} w_k(n)q^n \\
 </div>
         </div></div>
         <div class="pure-u-1 pure-u-lg-3-4">
-<div id="footer">Copyright © 2023 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+<div id="footer">Copyright © 2025 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
     </div>
 </div>
 <a id="rocket" href="#top" class="show"></a>
