@@ -250,7 +250,7 @@ Sentiment (Predicted): negative
 Correct count = 323/453 = 71.30%
 </pre>
 
-<p>We get it working, and the accuracy. But we immediately notice a problem: the predicted labels "Negative" and "Positive" are not exactly the wanted labels. In our examples, they are easy to handle. We just need to make them lower cases. However, there is still a risk that the predicted label is random.</p>
+<p>We get it working, and the accuracy is not bad. But we immediately notice a problem: the predicted labels "Negative" and "Positive" are not exactly the wanted labels. In our examples, they are easy to handle. We just need to make them lower cases. However, there is still a risk that the predicted label is random.</p>
 <div class="highlight"><pre><span></span><span class="c1"># accuracy when we convert the labels to lower cases.</span>
 <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">prediction</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">df_data</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">],</span> <span class="n">lm_results</span><span class="p">):</span>
