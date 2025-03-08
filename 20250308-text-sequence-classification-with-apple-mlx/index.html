@@ -90,17 +90,8 @@ mlx-lm version: 0.21.5
 <p>The package <code>mlx-lm</code> provides implementation of popular LLM models including <a href="https://github.com/ml-explore/mlx-examples/blob/main/llms/mlx_lm/models/qwen2.py">Qwen2</a>. We can directly load the needed model from huggingface.</p>
 <div class="highlight"><pre><span></span><span class="n">model_path</span> <span class="o">=</span> <span class="s2">&quot;Qwen/Qwen2.5-0.5B-Instruct&quot;</span>
 <span class="n">lm_model</span><span class="p">,</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type of the model: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">lm_model</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type of the tokenizer: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
-
-<pre>Fetching 7 files:   0%|          | 0/7 [00:00<?, ?it/s]</pre>
-
-<pre>Type of the model: <class 'mlx_lm.models.qwen2.Model'>
-Type of the tokenizer: <class 'mlx_lm.tokenizer_utils.TokenizerWrapper'>
-</pre>
 
 <p>Following my previous article <a href="https://wormtooth.com/20250223-zero-shot-classification-with-llm/">Zero-Shot Text Classification with pretrained LLM</a>, I will do the sentiment classification with the <a href="https://huggingface.co/datasets/vumichien/financial-sentiment">financial data</a>.</p>
 <div class="highlight"><pre><span></span><span class="c1"># https://huggingface.co/datasets/vumichien/financial-sentiment</span>
@@ -370,7 +361,7 @@ Ground Truth: negative
 </pre></div>
 
 
-<pre>Finish inference with dtype mlx.core.bfloat16: 12.63 seconds
+<pre>Finish inference with dtype mlx.core.bfloat16: 12.65 seconds
 Correct count = 348/453 = 76.82%
 </pre>
 
@@ -378,7 +369,7 @@ Correct count = 348/453 = 76.82%
 </pre></div>
 
 
-<pre>Finish inference with dtype mlx.core.float32: 14.63 seconds
+<pre>Finish inference with dtype mlx.core.float32: 14.01 seconds
 Correct count = 356/453 = 78.59%
 </pre>
 
