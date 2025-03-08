@@ -38,6 +38,53 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170806-leetcode-contest-44/">LeetCode Contest 44</a></h1>
+    <div class="post-meta">2017-08-06</div>
+    <a data-disqus-identifier="20170806-leetcode-contest-44/" href="/20170806-leetcode-contest-44/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-44/">比赛</a>很遗憾只能做出三题，没有做出第三题。第三题其实不难，只是比赛的时候脑袋就像面粉加水一团浆糊没有反应过来。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-44/problems/two-sum-iv-input-is-a-bst/">第一题</a><code>Two Sum IV - Input is a BST</code></p>
+<div class="qbar">题目大意：给定一颗二叉搜索树和一个目标值，问是否存在树中的两个数使得它们的和为目标值。</div>
+
+<p>好吧，我是写博客的时候才发现原来输入的是一颗搜索树。题目大概是想让我们快速判定一个数是否在给定的二叉搜索树中吧。我是首先遍历二叉树统计每个数出现的次数，然后枚举每个出现的数a，如果目标值减去a也出现过则返回True。注意要考虑a和目标值减去a是一样的情况。</p>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<span class="c1"># class TreeNode(object):</span>
+<span class="c1">#     def __init__(self, x):</span>
+<span class="c1">#         self.val = x</span>
+<span class="c1">#         self.left = None</span>
+<span class="c1">#         self.right = None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findTarget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type root: TreeNode</span>
+<span class="sd">        :type k: int</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nums</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">val</span>
+            <span class="n">nums</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+        <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nums</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="n">n</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="n">m</span> <span class="ow">and</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="n">m</span> <span class="ow">and</span> <span class="n">nums</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170806-leetcode-contest-44/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170730-leetcode-contest-43/">LeetCode Contest 43</a></h1>
     <div class="post-meta">2017-07-30</div>
     <a data-disqus-identifier="20170730-leetcode-contest-43/" href="/20170730-leetcode-contest-43/#disqus_thread" class="disqus-comment-count"></a>
@@ -262,36 +309,6 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 
     </div>
     <p class="readmore"><a href="/20170619-raspberrypi-zero-w-setup/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170617-leetcode-contest-37/">Leetcode Contest 37</a></h1>
-    <div class="post-meta">2017-06-18</div>
-    <a data-disqus-identifier="20170617-leetcode-contest-37/" href="/20170617-leetcode-contest-37/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p><a href="https://leetcode.com/contest/leetcode-weekly-contest-37/problems/maximum-distance-in-arrays/">第一题</a><code>Maximum Distance in Arrays</code></p>
-<div class="qbar">给定一个包含数组的数组，每个数组都已经递增排序。我们要做的是从两个数组中各选一个数，使得这两个数的差的绝对值最大。问这个最大的值是多少？</div>
-
-<p>对于第i数组中，取出最大值a，最小值b，然后将(a, i)和(b, i)放进一个数组m里。将数组m按照第一个分量排序，那么对我们有用的只是数组m前面两个元素和后面两个元素。如果第一个元素和最后一个元素来自不一样的数组（第二个分量不一样），那么答案就是这两个元素的第一个分量的差。否则，我们要比较两种情况：第一个元素与倒数第二个元素，第二个元素与最后一个元素。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">maxDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arrays</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type arrays: List[List[int]]</span>
-<span class="sd">        :rtype: int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">m</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">arrays</span><span class="p">):</span>
-            <span class="n">m</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">))</span>
-            <span class="n">m</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">i</span><span class="p">))</span>
-        <span class="n">m</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">!=</span><span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170617-leetcode-contest-37/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

@@ -38,6 +38,15 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20250308-text-sequence-classification-with-apple-mlx/">Sequence Classification with Apple MLX</a></h1>
+    <div class="post-meta">2025-03-08</div>
+    <a data-disqus-identifier="20250308-text-sequence-classification-with-apple-mlx/" href="/20250308-text-sequence-classification-with-apple-mlx/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p><a href="https://github.com/ml-explore/mlx">MLX</a> is an array framework for machine learning on Apple silicon. The biggest advantage of the framework is the compatibility with the unified memory on Apple so that operations on MLX arrays can be performed on any of the supported device types without transferring data. It makes MLX a strong …</p>
+    </div>
+    <p class="readmore"><a href="/20250308-text-sequence-classification-with-apple-mlx/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20250223-zero-shot-classification-with-llm/">Zero-Shot Text Classification with pretrained LLM</a></h1>
     <div class="post-meta">2025-02-23</div>
     <a data-disqus-identifier="20250223-zero-shot-classification-with-llm/" href="/20250223-zero-shot-classification-with-llm/#disqus_thread" class="disqus-comment-count"></a>
@@ -46,7 +55,7 @@
 <blockquote>
 <p>Zero-shot text classification is a task in natural language processing where a model is trained on a set of labeled examples but is then able to classify new examples from previously unseen classes.</p>
 </blockquote>
-<p>Simply put, zero-shot text classification is to use preexisting models on classification tasks that the models are not trained upon. Large Language Models backed by <a href="https://arxiv.org/abs/1706.03762">attention</a> have a lot of great applications, such as summarization, chatbot, code completion and etc. It aslo gives zero-shot text classification a huge potential since most LLMs are pretrained on tremendous data which cover most common use case already. LLMs with strong reasoning capability such as deepseek can even perform well on unseen data. In this article, I want to discuss some pratical ways to use pretrained LLMs to do zero-shot classification using <a href="https://huggingface.co/docs/transformers/en/index">🤗 Transformers</a>. <br>
+<p>Simply put, zero-shot text classification is to use preexisting models on classification tasks that the models are not trained upon. Large Language Models backed by <a href="https://arxiv.org/abs/1706.03762">attention</a> have a lot of great applications, such as summarization, chatbot, code completion and etc. It aslo gives zero-shot text classification a huge potential since most LLMs are pretrained on tremendous data which cover most common use case already. LLMs with strong reasoning capability such as deepseek can even perform well on unseen data. In this article, I want to discuss some pratical ways to use pretrained LLMs to do zero-shot classification using <a href="https://huggingface.co/docs/transformers/en/index">🤗 Transformers</a>. </p>
 
     </div>
     <p class="readmore"><a href="/20250223-zero-shot-classification-with-llm/">Read More</a></p>
@@ -193,39 +202,6 @@ The above model can be found in section 2.1 in this <a href="https://www.netflix
 
     </div>
     <p class="readmore"><a href="/20200926-leetcode-contest-208/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20200829-leetcode-contest-204/">LeetCode Contest 204</a></h1>
-    <div class="post-meta">2020-08-29</div>
-    <a data-disqus-identifier="20200829-leetcode-contest-204/" href="/20200829-leetcode-contest-204/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>偶尔冒泡参加 Leetcode 的比赛。这次四题都做出来了，但是第一、三和四题都各自错了一次。排名250左右。</p>
-<p><a href="https://leetcode.com/contest/weekly-contest-204/problems/detect-pattern-of-length-m-repeated-k-or-more-times/">第一题</a><code>Detect Pattern of Length M Repeated K or More Times</code></p>
-<div class="qbar">
-<p>问一个数组里面是否存在长度为 m 的子数组被重复至少 k 次。</p>
-</div>
-<p>因为数据比较小，直接暴力搜索就行。第一次 WA 是因为 <code>n - m * k + 1</code> 写成 <code>n - m * k</code> 了。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">containsPattern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">t</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">s</span><span class="p">]</span> <span class="o">!=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">s</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">m</span><span class="p">]:</span>
-                        <span class="n">t</span> <span class="o">=</span> <span class="kc">False</span>
-                        <span class="k">break</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">t</span><span class="p">:</span>
-                    <span class="k">break</span>
-            <span class="k">if</span> <span class="n">t</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">return</span> <span class="kc">False</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20200829-leetcode-contest-204/">Read More</a></p>
 </div>
 
 <div class="page-navigator">
