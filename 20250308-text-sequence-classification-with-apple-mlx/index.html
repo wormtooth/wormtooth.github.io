@@ -45,17 +45,22 @@ Sequence Classification with Apple MLX | 叶某人的碎碎念    </title>
     <a data-disqus-identifier="20250308-text-sequence-classification-with-apple-mlx/" href="/20250308-text-sequence-classification-with-apple-mlx/#disqus_thread" class="disqus-comment-count"></a>
     <div class="post-content">
         <p><a href="https://github.com/ml-explore/mlx">MLX</a> is an array framework for machine learning on Apple silicon. The biggest advantage of the framework is the compatibility with the unified memory on Apple so that operations on MLX arrays can be performed on any of the supported device types without transferring data. It makes MLX a strong candidate when it comes to inferencing and even training a large model on Apple silicon. There are examples specifically designed for <a href="https://github.com/ml-explore/mlx-examples/tree/main/llms">LLM</a>, with a focus on text completion. As of today, there are few examples on other LLM tasks such as sequence classification for MLX since the framework is relatively new. I will provide an example to do classification inference with MLX, replicating what I did in my previous article <a href="https://wormtooth.com/20250223-zero-shot-classification-with-llm/">Zero-Shot Text Classification with pretrained LLM</a>.</p>
-<!--more>
+<!--more--><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
+     crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+         style="display:block; text-align:center;"
+         data-ad-layout="in-article"
+         data-ad-format="fluid"
+         data-ad-client="ca-pub-7674955363445536"
+         data-ad-slot="4714691501"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 
-## Setup
-
-We will need both `mlx` and `mlx-lm`:
-
-
+<h2>Setup</h2>
+<p>We will need both <code>mlx</code> and <code>mlx-lm</code>:</p>
 <div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>mlx<span class="w"> </span>mlx-lm
 </pre></div>
-
-
 
 
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">asdict</span>
@@ -77,16 +82,12 @@ We will need both `mlx` and `mlx-lm`:
 </pre></div>
 
 
-
 <pre>mlx version: 0.23.2
 mlx-lm version: 0.21.5
 </pre>
 
-## Load Qwen2 Model
-
-The package `mlx-lm` provides implementation of popular LLM models including [Qwen2](https://github.com/ml-explore/mlx-examples/blob/main/llms/mlx_lm/models/qwen2.py). We can directly load the needed model from huggingface.
-
-
+<h2>Load Qwen2 Model</h2>
+<p>The package <code>mlx-lm</code> provides implementation of popular LLM models including <a href="https://github.com/ml-explore/mlx-examples/blob/main/llms/mlx_lm/models/qwen2.py">Qwen2</a>. We can directly load the needed model from huggingface.</p>
 <div class="highlight"><pre><span></span><span class="n">model_path</span> <span class="o">=</span> <span class="s2">&quot;Qwen/Qwen2.5-0.5B-Instruct&quot;</span>
 <span class="n">lm_model</span><span class="p">,</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
 
@@ -95,16 +96,13 @@ The package `mlx-lm` provides implementation of popular LLM models including [Qw
 </pre></div>
 
 
-
 <pre>Fetching 7 files:   0%|          | 0/7 [00:00<?, ?it/s]</pre>
 
 <pre>Type of the model: <class 'mlx_lm.models.qwen2.Model'>
 Type of the tokenizer: <class 'mlx_lm.tokenizer_utils.TokenizerWrapper'>
 </pre>
 
-Following my previous article [Zero-Shot Text Classification with pretrained LLM]({filename}/20250223-zero-shot-classification-with-llm.ipynb), I will do the sentiment classification with the [financial data](https://huggingface.co/datasets/vumichien/financial-sentiment).
-
-
+<p>Following my previous article <a href="https://wormtooth.com/20250223-zero-shot-classification-with-llm/">Zero-Shot Text Classification with pretrained LLM</a>, I will do the sentiment classification with the <a href="https://huggingface.co/datasets/vumichien/financial-sentiment">financial data</a>.</p>
 <div class="highlight"><pre><span></span><span class="c1"># https://huggingface.co/datasets/vumichien/financial-sentiment</span>
 <span class="c1"># use the valid split</span>
 <span class="n">data_path</span> <span class="o">=</span> <span class="s2">&quot;hf://datasets/vumichien/financial-sentiment/data/valid-00000-of-00001.parquet&quot;</span>
@@ -118,14 +116,12 @@ Following my previous article [Zero-Shot Text Classification with pretrained LLM
 </pre></div>
 
 
-
 <pre>Sample size: 453
 Labels: ['negative', 'neutral', 'positive']
 Label sample size for negative: 61
 Label sample size for neutral: 265
 Label sample size for positive: 127
 </pre>
-
 
 <div class="highlight"><pre><span></span><span class="c1"># set up prompt template</span>
 <span class="n">user_prompt_template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;What is the sentiment of the following text related to finance?</span>
@@ -144,7 +140,6 @@ Label sample size for positive: 127
 </pre></div>
 
 
-
 <pre><|im_start|>system
 You are a helpful assistant.<|im_end|>
 <|im_start|>user
@@ -155,16 +150,12 @@ Give your answer in one word.<|im_end|>
 
 </pre>
 
-
 <div class="highlight"><pre><span></span><span class="c1"># apply the prompt template to all samples</span>
 <span class="n">df_data</span><span class="p">[</span><span class="s2">&quot;prompt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_data</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">text</span><span class="p">:</span> <span class="n">prompt_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">))</span>
 </pre></div>
 
 
-
-Let's see how to run Qwen2 directly on a prompt to generate one token.
-
-
+<p>Let's see how to run Qwen2 directly on a prompt to generate one token.</p>
 <div class="highlight"><pre><span></span><span class="n">sample</span> <span class="o">=</span> <span class="n">df_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="c1"># step 1: convert the prompt into input ids</span>
 <span class="n">inputs</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="s2">&quot;prompt&quot;</span><span class="p">]))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
@@ -181,20 +172,17 @@ Let's see how to run Qwen2 directly on a prompt to generate one token.
 </pre></div>
 
 
-
 <pre>Text: In Q2 of 2009 , profit before taxes amounted to EUR 13.6 mn , down from EUR 26.8 mn in Q2 of 2008 .
 Predicted Sentiment: negative
 Ground Truth: negative
 </pre>
 
-## Implement Classification Model with Qwen2
-
-The equivalence of `Qwen2ForSequenceClassification` is not implemented in `mlx-lm`. We will need to do it ourselves. I find it actually fun as well as educational to implemenet it with `mlx`. We will start with the needed arguments for the classification model. Our classification is built on top of Qwen2, with two more crucial arguments
-
-- num_labels: the number of labels in the classification task
-- pad_token_id: the pad token id needed for batch inference
-
-
+<h2>Implement Classification Model with Qwen2</h2>
+<p>The equivalence of <code>Qwen2ForSequenceClassification</code> is not implemented in <code>mlx-lm</code>. We will need to do it ourselves. I find it actually fun as well as educational to implemenet it with <code>mlx</code>. We will start with the needed arguments for the classification model. Our classification is built on top of Qwen2, with two more crucial arguments</p>
+<ul>
+<li>num_labels: the number of labels in the classification task</li>
+<li>pad_token_id: the pad token id needed for batch inference</li>
+</ul>
 <div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">ClassificationModelArgs</span><span class="p">(</span><span class="n">ModelArgs</span><span class="p">):</span>
     <span class="n">num_labels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># number of labels in the classification task</span>
@@ -202,10 +190,7 @@ The equivalence of `Qwen2ForSequenceClassification` is not implemented in `mlx-l
 </pre></div>
 
 
-
-Following [Qwen2ForSequenceClassification](https://github.com/huggingface/transformers/blob/94ae1ba5b55e79ba766582de8a199d8ccf24a021/src/transformers/models/qwen2/modeling_qwen2.py#L906), we will use the last token to do classification.
-
-
+<p>Following <a href="https://github.com/huggingface/transformers/blob/94ae1ba5b55e79ba766582de8a199d8ccf24a021/src/transformers/models/qwen2/modeling_qwen2.py#L906">Qwen2ForSequenceClassification</a>, we will use the last token to do classification.</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ClassificationModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Sequence classification model on top of Qwen2Model.&quot;&quot;&quot;</span>
 
@@ -249,10 +234,7 @@ Following [Qwen2ForSequenceClassification](https://github.com/huggingface/transf
 </pre></div>
 
 
-
-We can now create an uninitialized classification model for our sentiment analysis.
-
-
+<p>We can now create an uninitialized classification model for our sentiment analysis.</p>
 <div class="highlight"><pre><span></span><span class="c1"># keep the original Qwen2Model arguments</span>
 <span class="n">args</span> <span class="o">=</span> <span class="n">ClassificationModelArgs</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">asdict</span><span class="p">(</span><span class="n">lm_model</span><span class="o">.</span><span class="n">args</span><span class="p">))</span>
 
@@ -267,10 +249,7 @@ We can now create an uninitialized classification model for our sentiment analys
 </pre></div>
 
 
-
-We will apply the same idea to initialize the `score` module in classification model: fill with the corresponding weights in the `lm_head`. However, if we inspect the parameters of `lm_model` we loaded, there is no `lm_head` in it. It is because `Qwen2` has `tie_word_embeddings` set to `True`, meaning that the token embeddings are used as weights in the `lm_head`.
-
-
+<p>We will apply the same idea to initialize the <code>score</code> module in classification model: fill with the corresponding weights in the <code>lm_head</code>. However, if we inspect the parameters of <code>lm_model</code> we loaded, there is no <code>lm_head</code> in it. It is because <code>Qwen2</code> has <code>tie_word_embeddings</code> set to <code>True</code>, meaning that the token embeddings are used as weights in the <code>lm_head</code>.</p>
 <div class="highlight"><pre><span></span><span class="n">model_parameters</span> <span class="o">=</span> <span class="n">tree_flatten</span><span class="p">(</span><span class="n">lm_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">model_parameters</span><span class="p">)</span><span class="si">}</span><span class="s2"> parameters.&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The first parameter is `</span><span class="si">{</span><span class="n">model_parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">)</span>
@@ -278,15 +257,12 @@ We will apply the same idea to initialize the `score` module in classification m
 </pre></div>
 
 
-
 <pre>There are 290 parameters.
 The first parameter is `model.embed_tokens.weight`
 The last parameter is `model.norm.weight`
 </pre>
 
-Normally, the last paramter should be `lm_head.weight`, which we would use to fill the `score` in the classification model. We confirm that it is not in the MLX implementation, as QWen2 uses token embeddings as LM head. We will initialize `score` with the first parameter `model.embed_tokens.weight`.
-
-
+<p>Normally, the last paramter should be <code>lm_head.weight</code>, which we would use to fill the <code>score</code> in the classification model. We confirm that it is not in the MLX implementation, as QWen2 uses token embeddings as LM head. We will initialize <code>score</code> with the first parameter <code>model.embed_tokens.weight</code>.</p>
 <div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;positive&quot;</span><span class="p">,</span> <span class="s2">&quot;negative&quot;</span><span class="p">,</span> <span class="s2">&quot;neutral&quot;</span><span class="p">]</span>
 <span class="n">labels_token_ids</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">label</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -303,18 +279,12 @@ Normally, the last paramter should be `lm_head.weight`, which we would use to fi
 </pre></div>
 
 
-
-To initialize paramters of a MLX module, we will use `update` method.
-
-
+<p>To initialize paramters of a MLX module, we will use <code>update</code> method.</p>
 <div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tree_unflatten</span><span class="p">(</span><span class="n">model_parameters</span><span class="p">))</span>
 </pre></div>
 
 
-
-We run the model on the sample:
-
-
+<p>We run the model on the sample:</p>
 <div class="highlight"><pre><span></span><span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
 <span class="n">label_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">logits</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">argmax</span><span class="p">())</span>
 <span class="n">predicted_label2</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">label_idx</span><span class="p">]</span>
@@ -324,17 +294,13 @@ We run the model on the sample:
 </pre></div>
 
 
-
 <pre>Text: In Q2 of 2009 , profit before taxes amounted to EUR 13.6 mn , down from EUR 26.8 mn in Q2 of 2008 .
 Predicted Sentiment: negative
 Ground Truth: negative
 </pre>
 
-## Batch Inference
-
-Now that we have our classificaiton model initialized, we run it on all the samples in batches and find out its performance. The annoying part is that the `mlx_lm.models.qwen2.Qwen2Model` doesn't accept the usual 2d attention mask. We need to convert the 2d attention mask from the tokenizer to the 4d mask. Luckily, we can use `transformers.modeling_attn_mask_utils.AttentionMaskConverter` for the conversion.
-
-
+<h2>Batch Inference</h2>
+<p>Now that we have our classificaiton model initialized, we run it on all the samples in batches and find out its performance. The annoying part is that the <code>mlx_lm.models.qwen2.Qwen2Model</code> doesn't accept the usual 2d attention mask. We need to convert the 2d attention mask from the tokenizer to the 4d mask. Luckily, we can use <code>transformers.modeling_attn_mask_utils.AttentionMaskConverter</code> for the conversion.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">score_model</span><span class="p">(</span>
     <span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">prompts</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">mask_dtype</span><span class="o">=</span><span class="n">mx</span><span class="o">.</span><span class="n">bfloat16</span>
 <span class="p">):</span>
@@ -384,10 +350,7 @@ Now that we have our classificaiton model initialized, we run it on all the samp
 </pre></div>
 
 
-
-We will see that running the model in difference data types will have difference performance.
-
-
+<p>We will see that running the model in difference data types will have difference performance.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
 
 <span class="k">def</span> <span class="nf">run_model</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">mx</span><span class="o">.</span><span class="n">bfloat16</span><span class="p">):</span>
@@ -403,30 +366,24 @@ We will see that running the model in difference data types will have difference
 </pre></div>
 
 
-
-
 <div class="highlight"><pre><span></span><span class="n">run_model</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">mx</span><span class="o">.</span><span class="n">bfloat16</span><span class="p">)</span>
 </pre></div>
 
 
-
-<pre>Finish inference with dtype mlx.core.bfloat16: 12.38 seconds
+<pre>Finish inference with dtype mlx.core.bfloat16: 12.63 seconds
 Correct count = 348/453 = 76.82%
 </pre>
-
 
 <div class="highlight"><pre><span></span><span class="n">run_model</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">mx</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 </pre></div>
 
 
-
-<pre>Finish inference with dtype mlx.core.float32: 13.87 seconds
+<pre>Finish inference with dtype mlx.core.float32: 14.63 seconds
 Correct count = 356/453 = 78.59%
 </pre>
 
-For referece, the pytorch equivalence with bfloat16 (see previous [article](({filename}/20250223-zero-shot-classification-with-llm.ipynb))) took 20 seconds to finish and the accuracy was 351/453 = 77.48%. All ran on my M1 pro Macbook. The discrepancy of the accuracy on the two models with bfloat16 is due to the precision errors from bfloat16. They have similar performance, but MLX is about 40% faster than pytorch! Switching to float32 reduces precision errors thus improving the performance.
-
-That's it for the article. I noticed a bug of `mlx_lm.utils.load` when I wrote this article. Though it accepts model_config in arguments, it doesn't use it to load the model. Anyway, I think both `mlx` and `mlx_lm` are good if you want to run models on Apple silicon.
+<p>For referece, the pytorch equivalence with bfloat16 (see previous <a href="({filename}/20250223-zero-shot-classification-with-llm.ipynb)">article</a>) took 20 seconds to finish and the accuracy was 351/453 = 77.48%. All ran on my M1 pro Macbook. The discrepancy of the accuracy on the two models with bfloat16 is due to the precision errors from bfloat16. They have similar performance, but MLX is about 40% faster than pytorch! Switching to float32 reduces precision errors thus improving the performance.</p>
+<p>That's it for the article. I noticed a bug of <code>mlx_lm.utils.load</code> when I wrote this article. Though it accepts model_config in arguments, it doesn't use it to load the model. Anyway, I think both <code>mlx</code> and <code>mlx_lm</code> are good if you want to run models on Apple silicon.</p>
 
         <div class="tags">
         <a href="/tag/classification">classification</a>
