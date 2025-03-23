@@ -38,6 +38,16 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20250323-prompt-tuning-for-sequence-classification/">Prompt Tuning for Sequence Classification</a></h1>
+    <div class="post-meta">2025-03-23</div>
+    <a data-disqus-identifier="20250323-prompt-tuning-for-sequence-classification/" href="/20250323-prompt-tuning-for-sequence-classification/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>In my previous blog post <a href="https://wormtooth.com/20250223-zero-shot-classification-with-llm/">Zero-Shot Text Classification with pretrained LLM</a>, I used Qwen2.5-0.5B-Instruct for sentiment analysis without any training. With some tweet on the prompts, we can see an improvement of accuracy from 77.5% to 82.5%. We might be able to squeeze the performance even more with prompt engineering, but it is inefficient as most of the time we don't know why one word is better than another in the prompts. Instead of prompt engineering, we can do <a href="https://arxiv.org/abs/2104.08691">prompt tuning</a> with some labelled data, which is one of the parameter-efficent ways to fine tune a LLM model. Its main idea is to prepend some tunable tokens to some task specific prompt while freezing the LLM model. We then train the embeddings of the prepended tokens on the labelled data so that the learned tokens can align the task specific prompt better to the task. </p>
+
+    </div>
+    <p class="readmore"><a href="/20250323-prompt-tuning-for-sequence-classification/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20250308-text-sequence-classification-with-apple-mlx/">Sequence Classification with Apple MLX</a></h1>
     <div class="post-meta">2025-03-08</div>
     <a data-disqus-identifier="20250308-text-sequence-classification-with-apple-mlx/" href="/20250308-text-sequence-classification-with-apple-mlx/#disqus_thread" class="disqus-comment-count"></a>
@@ -174,35 +184,6 @@ The above model can be found in section 2.1 in this <a href="https://www.netflix
 
     </div>
     <p class="readmore"><a href="/20201004-leetcode-contest-209/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20200926-leetcode-contest-208/">LeetCode Contest 208</a></h1>
-    <div class="post-meta">2020-09-26</div>
-    <a data-disqus-identifier="20200926-leetcode-contest-208/" href="/20200926-leetcode-contest-208/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>第二题 WA 了一次，其他都能一次 AC。这次拖慢速度的竟然不是手速，而是阅读速度。。。排名150左右。</p>
-<p><a href="https://leetcode.com/contest/weekly-contest-208/problems/crawler-log-folder/">第一题</a><code>Crawler Log Folder</code></p>
-<div class="qbar">
-<p>给定一系列类似于 <code>cd</code> 的操作，问最后的文件路径深度是多少。</p>
-</div>
-<p>模拟题，因为只需要知道深度，所以我们并不关心文件夹的名字，只考虑对深度影响 <code>../</code> -&gt; -1，<code>./</code> -&gt; 0，其他 -&gt; +1 。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">minOperations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">depth</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">logs</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">path</span> <span class="o">==</span> <span class="s1">&#39;../&#39;</span><span class="p">:</span>
-                <span class="n">depth</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">path</span> <span class="o">==</span> <span class="s1">&#39;./&#39;</span><span class="p">:</span>
-                <span class="k">pass</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">depth</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="n">depth</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20200926-leetcode-contest-208/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Prompt Tuning for Sequence Classification | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Prompt Tuning for Sequence Classification</h1>
+    <div class="post-meta">Mar 23, 2025
+    <span> | </span> <span>Machine Learning</span>
+    </div>
+    <a data-disqus-identifier="20250323-prompt-tuning-for-sequence-classification/" href="/20250323-prompt-tuning-for-sequence-classification/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>In my previous blog post <a href="https://wormtooth.com/20250223-zero-shot-classification-with-llm/">Zero-Shot Text Classification with pretrained LLM</a>, I used Qwen2.5-0.5B-Instruct for sentiment analysis without any training. With some tweet on the prompts, we can see an improvement of accuracy from 77.5% to 82.5%. We might be able to squeeze the performance even more with prompt engineering, but it is inefficient as most of the time we don't know why one word is better than another in the prompts. Instead of prompt engineering, we can do <a href="https://arxiv.org/abs/2104.08691">prompt tuning</a> with some labelled data, which is one of the parameter-efficent ways to fine tune a LLM model. Its main idea is to prepend some tunable tokens to some task specific prompt while freezing the LLM model. We then train the embeddings of the prepended tokens on the labelled data so that the learned tokens can align the task specific prompt better to the task. </p>
+<!--more--><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
+     crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+         style="display:block; text-align:center;"
+         data-ad-layout="in-article"
+         data-ad-format="fluid"
+         data-ad-client="ca-pub-7674955363445536"
+         data-ad-slot="4714691501"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span>
+<span class="kn">from</span> <span class="nn">peft</span> <span class="kn">import</span> <span class="n">PromptTuningConfig</span><span class="p">,</span> <span class="n">get_peft_model</span><span class="p">,</span> <span class="n">PromptTuningInit</span><span class="p">,</span> <span class="n">TaskType</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelForSequenceClassification</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">TrainingArguments</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="kn">from</span> <span class="nn">datasets.utils.logging</span> <span class="kn">import</span> <span class="n">disable_progress_bar</span>
+<span class="n">disable_progress_bar</span><span class="p">()</span>
+</pre></div>
+
+
+<h2>0. Prompt Tuning</h2>
+<p>Prompt tuning prepends some virtual tokens to the actual prompt tokens. The virtual tokens come with trainable embeddings that have the same dimension as the ones from the LLM's embeddings. The concatenation of embeddings from both virtual tokens and prompt tokens are then fed into the LLM.</p>
+<p><img alt="prompt tuning with virtual tokens prepended to actual prompt" src="https://wormtooth.com/images/20250323-prompt-tuning-virtual-tokens.png"></p>
+<p>Most LLMs in <a href="https://huggingface.co/docs/transformers/en/index">🤗 Transformers</a> accept two kinds of inputs: <code>input_ids</code>or <code>inputs_embeds</code>. Usually we will tokenize texts into token ids and feed the ids to the models via <code>input_ids</code>. But for prompt tuning, we need to use <code>inputs_embeds</code>. The reason is obvious - the original models don't have any inforamtion about the virtual tokens. Using <code>inputs_embeds</code> posts a challenge for batch inference for our example use case here: the sequence classification models rely on the <code>input_ids</code> to detect the last non padding tokens and use their embeddings to do scoring/prediction. If we use <code>inputs_embeds</code>, it makes it harder to detect the last non padding tokens. We will use <code>Qwen2ForSequenceClassification</code> later in this blog. The current <a href="https://github.com/huggingface/transformers/blob/c9d1e5238a752813ba91a8751a638a09b5efbb73/src/transformers/models/qwen2/modeling_qwen2.py#L973C13-L973C36">implementation</a> of the model use the last tokens for the classifiation task when <code>inputs_embeds</code> is used.</p>
+<p>If we have only one prompt/text as input, then there is no issue. However, if we want batch inference, we will have to do padding if the input prompts are not of the same length. There are two ways to pad the batch, left or right.</p>
+<p><img alt="padding of a batch in prompt tuning" src="https://wormtooth.com/images/20250323-prompt-tuning-padding.png"></p>
+<p>The above image shows the right and left padding of a batch in prompt tuning. The red boxes are the padding tokens. The tokens marked with "x" are the ones used in the classification task in the current implementation when <code>inputs_embeds</code> is used. It is clear from the iamge that we should pad on the left so that the correct tokens are used in the classification.</p>
+<h2>1. Data Preparation</h2>
+<p>I will use the same financial sentiment analysis data as in my previous posts, so that we can compare prompt tuning to prompt engineering.</p>
+<div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;vumichien/financial-sentiment&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+</pre></div>
+
+
+<pre>DatasetDict({
+    train: Dataset({
+        features: ['text', 'label_experts'],
+        num_rows: 1811
+    })
+    valid: Dataset({
+        features: ['text', 'label_experts'],
+        num_rows: 453
+    })
+})
+</pre>
+
+<div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;positive&quot;</span><span class="p">,</span> <span class="s2">&quot;negative&quot;</span><span class="p">,</span> <span class="s2">&quot;neutral&quot;</span><span class="p">]</span>
+<span class="n">label2id</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
+<span class="n">id2label</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">labels</span><span class="p">))</span>
+</pre></div>
+
+
+<p>We will prepare the dataset in our base prompt:</p>
+<div class="highlight"><pre><span></span>What is the sentiment of the following text related to finance?
+negative, neutral or positive: {text}
+Give your answer in one word.
+</pre></div>
+
+
+<p>The prompt will have 77.5% in accuracy on the validation set.</p>
+<p><strong>ATTENTION</strong>: we need to pad on the left to correctly use the last tokens in the prompt for classification.</p>
+<div class="highlight"><pre><span></span><span class="n">model_path</span> <span class="o">=</span> <span class="s2">&quot;Qwen/Qwen2.5-0.5B-Instruct&quot;</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+    <span class="n">model_path</span><span class="p">,</span>
+    <span class="n">padding_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> 
+<span class="p">)</span>
+<span class="n">user_prompt_template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;What is the sentiment of the following text related to finance?</span>
+<span class="s2">negative, neutral or positive: </span><span class="si">{text}</span>
+<span class="s2">Give your answer in one word.&quot;&quot;&quot;</span>
+<span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;You are a helpful assistant.&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">user_prompt_template</span><span class="p">}</span>
+<span class="p">]</span>
+<span class="n">prompt_template</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">apply_chat_template</span><span class="p">(</span>
+    <span class="n">messages</span><span class="p">,</span>
+    <span class="n">tokenize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">add_generation_prompt</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">prompt_template</span><span class="p">)</span>
+</pre></div>
+
+
+<pre><|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+What is the sentiment of the following text related to finance?
+negative, neutral or positive: {text}
+Give your answer in one word.<|im_end|>
+<|im_start|>assistant
+
+</pre>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_prompt</span><span class="p">(</span><span class="n">example</span><span class="p">):</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">prompt_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">example</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;prompt&quot;</span><span class="p">:</span> <span class="n">prompt</span><span class="p">}</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">get_prompt</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+</pre></div>
+
+
+<pre>DatasetDict({
+    train: Dataset({
+        features: ['text', 'label_experts', 'prompt'],
+        num_rows: 1811
+    })
+    valid: Dataset({
+        features: ['text', 'label_experts', 'prompt'],
+        num_rows: 453
+    })
+})
+</pre>
+
+<h2>2. Setup Model</h2>
+<p>We load the LLM as a classifier. We use the corresponding token weights for the labels <code>positive</code>, <code>negative</code> and <code>neutral</code> to initialize the score weight. Usually we will get those token weights from the LM head. However, for Qwen2.5 family, its <code>tie_word_embeddings</code> is true, meaning that the LM head reuses the weights from the embedding layer. We will pull the weights from the embedding layer as well.</p>
+<div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+    <span class="n">model_path</span><span class="p">,</span>
+    <span class="n">num_labels</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span>
+    <span class="n">id2label</span><span class="o">=</span><span class="n">id2label</span><span class="p">,</span>
+    <span class="n">label2id</span><span class="o">=</span><span class="n">label2id</span><span class="p">,</span>
+    <span class="n">torch_dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">,</span>
+    <span class="n">device_map</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># set the pad token</span>
+<span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">pad_token</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">pad_token</span>
+<span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">pad_token_id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">pad_token_id</span>
+
+<span class="c1"># initialize the score layer for the classifier</span>
+<span class="n">labels_token_ids</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">label</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span>
+<span class="p">]</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">score_weight</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">embed_tokens</span><span class="o">.</span><span class="n">weight</span><span class="p">[</span><span class="n">labels_token_ids</span><span class="p">]</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">score_weight</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">embed_tokens</span><span class="o">.</span><span class="n">weight</span><span class="p">[</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">pad_token_id</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+</pre></div>
+
+
+<pre>Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
+Some weights of Qwen2ForSequenceClassification were not initialized from the model checkpoint at Qwen/Qwen2.5-0.5B-Instruct and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+</pre>
+
+<p>Now let's evaluate the model on the validation set to confirm that the model is correctly initialized. The accuracy should be around 77.5% with this prompt.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">eval_model_on_accuracy</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate the model&#39;s accuracy on the dataset.</span>
+
+<span class="sd">    The dataset is assumed to have `prompt` and `label_experts`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">predicted_labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">prompts</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;prompt&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">batch_begin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">prompts</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">):</span>
+        <span class="n">batch_end</span> <span class="o">=</span> <span class="n">batch_begin</span> <span class="o">+</span> <span class="n">batch_size</span>
+        <span class="n">batch_texts</span> <span class="o">=</span> <span class="n">prompts</span><span class="p">[</span><span class="n">batch_begin</span><span class="p">:</span> <span class="n">batch_end</span><span class="p">]</span>
+        <span class="c1"># tokenize batch of texts</span>
+        <span class="n">batch_inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span>
+            <span class="n">batch_texts</span><span class="p">,</span>
+            <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="c1"># scoring</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">batch_outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">batch_inputs</span><span class="p">)</span>
+        <span class="c1"># get the last predicted tokens</span>
+        <span class="n">predicted_ids</span> <span class="o">=</span> <span class="n">batch_outputs</span><span class="o">.</span><span class="n">logits</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">predicted_ids</span><span class="p">:</span>
+            <span class="n">predicted_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">pid</span><span class="p">])</span>
+    <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">predicted</span><span class="p">,</span> <span class="n">truth</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">predicted_labels</span><span class="p">,</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;label_experts&quot;</span><span class="p">]):</span>
+        <span class="n">correct</span> <span class="o">+=</span> <span class="n">predicted</span> <span class="o">==</span> <span class="n">truth</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">correct</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">eval_model_on_accuracy</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;valid&quot;</span><span class="p">])</span>
+</pre></div>
+
+
+<pre>Accuracy: 78.59%
+</pre>
+
+<p>Yep, we got a well-initialized model. It is a bit higher in accuracy than expected because we use "float32" instead of "bloat16".</p>
+<h2>3. PEFT model for Prompt Tuning</h2>
+<p>The most important hyperparameter for prompt tuning is the number of virtual tokens <code>num_virtual_tokens</code> that got prepended to the prompt. There are multiple ways we can initialize the weights of the tokens:<br>
+1. randomly,<br>
+2. use the embeddings of the labels <code>positive</code>, <code>negative</code> and <code>neutral</code>,<br>
+3. use the embeddings of the task description.</p>
+<p>Here, I will take the 3rd approach.</p>
+<div class="highlight"><pre><span></span><span class="n">task_desc</span> <span class="o">=</span> <span class="s2">&quot;Classify the sentiment of the financial statement into positive, negative and neutral.&quot;</span>
+<span class="n">peft_config</span> <span class="o">=</span> <span class="n">PromptTuningConfig</span><span class="p">(</span>
+    <span class="n">task_type</span><span class="o">=</span><span class="n">TaskType</span><span class="o">.</span><span class="n">SEQ_CLS</span><span class="p">,</span>
+    <span class="n">prompt_tuning_init</span><span class="o">=</span><span class="n">PromptTuningInit</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span>
+    <span class="n">num_virtual_tokens</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">prompt_tuning_init_text</span><span class="o">=</span><span class="n">task_desc</span><span class="p">,</span>
+    <span class="n">tokenizer_name_or_path</span><span class="o">=</span><span class="n">model_path</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">peft_model</span> <span class="o">=</span> <span class="n">get_peft_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">peft_config</span><span class="p">)</span>
+<span class="n">peft_model</span><span class="o">.</span><span class="n">print_trainable_parameters</span><span class="p">()</span>
+</pre></div>
+
+
+<pre>trainable params: 20,608 || all params: 494,056,064 || trainable%: 0.0042
+</pre>
+
+<p>Let's take a look at the initial accuracy of the <code>peft_model</code>. It is most likely slightly worse than the original model as it has not yet been trained.</p>
+<div class="highlight"><pre><span></span><span class="n">eval_model_on_accuracy</span><span class="p">(</span><span class="n">peft_model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;valid&quot;</span><span class="p">])</span>
+</pre></div>
+
+
+<pre>Qwen2ForSequenceClassification will not detect padding tokens in `inputs_embeds`. Results may be unexpected if using padding tokens in conjunction with `inputs_embeds.`
+</pre>
+
+<pre>Accuracy: 75.50%
+</pre>
+
+<h2>4. Training</h2>
+<p>We will tokenize the training dataset into something the model is ready to intake. We will further split the training dataset into two parts, one for actual training and other for validation in the training process.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tokenize_dataset</span><span class="p">(</span><span class="n">example</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tokenize the examples.&quot;&quot;&quot;</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">example</span><span class="p">[</span><span class="s2">&quot;prompt&quot;</span><span class="p">]</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label2id</span><span class="p">[</span><span class="n">example</span><span class="p">[</span><span class="s2">&quot;label_experts&quot;</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">inputs</span>
+
+<span class="c1"># tokenize the prompt and labels</span>
+<span class="n">tokenized_train</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+    <span class="n">tokenize_dataset</span><span class="p">,</span>
+    <span class="n">remove_columns</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">column_names</span>
+<span class="p">)</span>
+
+<span class="c1"># split the train further into train_train, train_valid for training</span>
+<span class="n">tokenized_train</span> <span class="o">=</span> <span class="n">tokenized_train</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">tokenized_train</span>
+</pre></div>
+
+
+<pre>DatasetDict({
+    train: Dataset({
+        features: ['input_ids', 'attention_mask', 'labels'],
+        num_rows: 1358
+    })
+    test: Dataset({
+        features: ['input_ids', 'attention_mask', 'labels'],
+        num_rows: 453
+    })
+})</pre>
+
+<p>We are finally ready to do prompt tuning!</p>
+<div class="highlight"><pre><span></span><span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">8</span>
+
+<span class="n">training_arguments</span> <span class="o">=</span> <span class="n">TrainingArguments</span><span class="p">(</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;data/prompt-tuning&quot;</span><span class="p">,</span>
+    <span class="n">per_device_train_batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span>
+    <span class="n">per_device_eval_batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span>
+    <span class="n">num_train_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
+    <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">eval_strategy</span><span class="o">=</span><span class="s2">&quot;epoch&quot;</span><span class="p">,</span>
+    <span class="n">save_strategy</span><span class="o">=</span><span class="s2">&quot;epoch&quot;</span><span class="p">,</span>
+    <span class="n">logging_strategy</span><span class="o">=</span><span class="s2">&quot;epoch&quot;</span><span class="p">,</span>
+    <span class="n">load_best_model_at_end</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">peft_model</span><span class="p">,</span>
+    <span class="n">processing_class</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">args</span><span class="o">=</span><span class="n">training_arguments</span><span class="p">,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">tokenized_train</span><span class="p">[</span><span class="s2">&quot;train&quot;</span><span class="p">],</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">tokenized_train</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+<span class="kc">None</span>
+</pre></div>
+
+
+<pre>No label_names provided for model class `PeftModelForSequenceClassification`. Since `PeftModel` hides base models input arguments, if label_names is not given, label_names can't be set automatically within `Trainer`. Note that empty label_names list will be used instead.
+</pre>
+
+<pre><IPython.core.display.HTML object></pre>
+
+<p><img alt="training loss" src="https://wormtooth.com/images/20250323-prompt-tuning-training.png"></p>
+<p>I did 10 epochs only. But it seems pretty good when looking at the training vs validation loss. We also see a big jump in accuracy as well:</p>
+<div class="highlight"><pre><span></span><span class="n">eval_model_on_accuracy</span><span class="p">(</span><span class="n">peft_model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;valid&quot;</span><span class="p">])</span>
+</pre></div>
+
+
+<pre>Accuracy: 93.16%
+</pre>
+
+<p>With only 0.0042% of the original parameters, we are only to improve the accuracy to 93.2% from 78.5% - a 15% absolute gain! I highly recommend prompt tuning over prompt engineering if you have some labelled data.</p>
+
+        <div class="tags">
+        <a href="/tag/classification">classification</a>
+        <a href="/tag/llm">LLM</a>
+        <a href="/tag/peft">peft</a>
+        </div>
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
+     crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+         style="display:block; text-align:center;"
+         data-ad-layout="in-article"
+         data-ad-format="fluid"
+         data-ad-client="ca-pub-7674955363445536"
+         data-ad-slot="4714691501"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20250323-prompt-tuning-for-sequence-classification/';
+    var disqus_title = 'Prompt Tuning for Sequence Classification';
+    var disqus_url = 'https://wormtooth.com/20250323-prompt-tuning-for-sequence-classification/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>未来会来～</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2025 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>
