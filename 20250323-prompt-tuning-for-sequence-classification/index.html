@@ -333,16 +333,24 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 
 <pre><IPython.core.display.HTML object></pre>
 
-<p><img alt="training loss" src="https://wormtooth.com/images/20250323-prompt-tuning-training.png"></p>
-<p>I did 10 epochs only. But it seems pretty good when looking at the training vs validation loss. We also see a big jump in accuracy as well:</p>
+<div><progress value='1700' max='1700' style='width:300px; height:20px; vertical-align: middle;'></progress>[1700/1700 20:48, Epoch 10/10]</div>
+
+<table border="1" class="dataframe"><thead><tr style="text-align: left;"><th>Epoch</th><th>Training Loss</th><th>Validation Loss</th></tr></thead><tbody><tr><td>1</td><td>0.467900</td><td>0.398714</td></tr><tr><td>2</td><td>0.337400</td><td>0.314317</td></tr><tr><td>3</td><td>0.282200</td><td>0.272602</td></tr><tr><td>4</td><td>0.250900</td><td>0.246164</td></tr><tr><td>5</td><td>0.238500</td><td>0.231969</td></tr><tr><td>6</td><td>0.230400</td><td>0.222497</td></tr><tr><td>7</td><td>0.221400</td><td>0.222217</td></tr><tr><td>8</td><td>0.217900</td><td>0.216793</td></tr><tr><td>9</td><td>0.211900</td><td>0.214810</td></tr><tr><td>10</td><td>0.211800</td><td>0.213523</td></tr></tbody></table>
+
+<p>
+
+I did 10 epochs only. But it seems pretty good when looking at the training vs validation loss. We also see a big jump in accuracy as well:
+
+
 <div class="highlight"><pre><span></span><span class="n">eval_model_on_accuracy</span><span class="p">(</span><span class="n">peft_model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;valid&quot;</span><span class="p">])</span>
 </pre></div>
+
 
 
 <pre>Accuracy: 93.16%
 </pre>
 
-<p>With only 0.0042% of the original parameters, we are only to improve the accuracy to 93.2% from 78.5% - a 15% absolute gain! I highly recommend prompt tuning over prompt engineering if you have some labelled data.</p>
+With only 0.0042% of the original parameters, we are only to improve the accuracy to 93.2% from 78.5% - a 15% absolute gain! I highly recommend prompt tuning over prompt engineering if you have some labelled data.
 
         <div class="tags">
         <a href="/tag/classification">classification</a>

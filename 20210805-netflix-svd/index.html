@@ -147,6 +147,8 @@ The above model can be found in section 2.1 in this <a href="https://www.netflix
 3     0    174       5
 4     0    190       2</pre>
 
+<div><style scoped>.dataframe tbody tr th:only-of-type {vertical-align: middle;}.dataframe tbody tr th {vertical-align: top;}.dataframe thead th {text-align: right;}</style><table border="1" class="dataframe"><thead><tr style="text-align: right;"><th></th><th>user</th><th>movie</th><th>rating</th></tr></thead><tbody><tr><th>0</th><td>0</td><td>29</td><td>3</td></tr><tr><th>1</th><td>0</td><td>156</td><td>3</td></tr><tr><th>2</th><td>0</td><td>172</td><td>4</td></tr><tr><th>3</th><td>0</td><td>174</td><td>5</td></tr><tr><th>4</th><td>0</td><td>190</td><td>2</td></tr></tbody></table></div>
+
 <div class="highlight"><pre><span></span><span class="n">avg_rating</span> <span class="o">=</span> <span class="n">ratings_df</span><span class="o">.</span><span class="n">rating</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The average ratings for all movies: &#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">avg_rating</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
