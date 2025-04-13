@@ -47,6 +47,24 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20171002-generative-model/">Generative Model</a></h1>
+    <div class="post-meta">2017-10-02</div>
+    <a data-disqus-identifier="20171002-generative-model/" href="/20171002-generative-model/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This article is my notes on generative model for Lecture 5 and 6 of <a href="https://www.youtube.com/playlist?list=PLA89DCFA6ADACE599">Machine Learning</a> by Andrew Ng. What we do in logistic regression using generalized linear model is that, we approximate <span class="math">\(P(y|x)\)</span> using given data. This kind of learning algorithms is <em>discriminative</em>, in which we predict <span class="math">\(y\)</span> based on the input features <span class="math">\(x\)</span>. On the contrary, <em>generative</em> model is to model <span class="math">\(P(x|y)\)</span>, the probability of the features <span class="math">\(x\)</span> given class <span class="math">\(y\)</span>. In other words, we want to study how the features structure looks like given a class <span class="math">\(y\)</span>. If we also learn what <span class="math">\(P(y)\)</span> is, we can easily recover <span class="math">\(P(y|x)\)</span>, for example, in the binary classification problem,<br>
+</p>
+<div class="math">$$\begin{equation}
+P(y=1|x) = \frac{P(x|y=1)P(y=1)}{P(x)},
+\label{eqn:bayes}
+\end{equation}$$</div>
+<p><br>
+where <span class="math">\(P(x) = P(x|y=0)P(y=0) + P(x|y=1)P(y=1)\)</span>.</p>
+<p>In this article, we are going to see a simple example of generative model on Gaussian discriminant analysis and Naive Bayes.</p>
+
+    </div>
+    <p class="readmore"><a href="/20171002-generative-model/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20171001-leetcode-contest-52/">LeetCode Contest 52</a></h1>
     <div class="post-meta">2017-10-01</div>
     <a data-disqus-identifier="20171001-leetcode-contest-52/" href="/20171001-leetcode-contest-52/#disqus_thread" class="disqus-comment-count"></a>
@@ -293,32 +311,6 @@ where $T(y)$ and $b(y)$ are (vector-valued) functions in terms of $y$, and $a(\e
 
     </div>
     <p class="readmore"><a href="/20170826-willpower/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170813-leetcode-contest-45/">LeetCode Contest 45</a></h1>
-    <div class="post-meta">2017-08-13</div>
-    <a data-disqus-identifier="20170813-leetcode-contest-45/" href="/20170813-leetcode-contest-45/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-45/">比赛</a>也是卡在第三题上！😂<br>
-机智小伙伴是用状态机做的，非常厉害。</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-45/problems/judge-route-circle/">第一题</a><code>Judge Route Circle</code></p>
-<div class="qbar">给定一个只含R（右），L（左），U（上）和D（下）的字符串表示移动方向，问是否能回到出发点。</div>
-
-<p>简单的统计。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">judgeCircle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">moves</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type moves: str</span>
-<span class="sd">        :rtype: bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cnt</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">moves</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;L&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;R&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">cnt</span><span class="p">[</span><span class="s1">&#39;U&#39;</span><span class="p">]</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170813-leetcode-contest-45/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

@@ -47,6 +47,28 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20140726-k-squares-problem/">$k$ squares problem</a></h1>
+    <div class="post-meta">2014-07-26</div>
+    <a data-disqus-identifier="20140726-k-squares-problem/" href="/20140726-k-squares-problem/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>Let&#8217;s fix a natural number <span class="math">\(k\)</span>. How many ways can we decompose <span class="math">\(n\)</span> into <span class="math">\(k\)</span> squares? It&#8217;s an interesting problem and it should help me understand automorphic forms better.</p>
+
+<p>Let <span class="math">\(w_k(n)\)</span> be the number of tuples <span class="math">\((n_1, \cdots, n_k)\in \mathbb{Z}^k\)</span> such that <span class="math">\(n_1^2+\cdots+n_k^2=n\)</span>. Let <span class="math">\(g_k(q)\)</span> be the generating function of <span class="math">\(w_k(n)\)</span>, i.e.,
+<span class="math">\[g_k(q)=\sum_{n \in \mathbb{N}} w_k(n)q^n.\]</span>
+Then,
+<span class="math">\[\begin{split}
+g_k(q) &= \sum_{n \in \mathbb{N}} w_k(n)q^n \\
+       &= \sum_{n \in \mathbb{N}} \sum_{\substack{n_1, \cdots, n_k \in \mathbb{Z} \\ n_1^2+\cdots+n_k^2=n}}q^n \\
+       &= \sum_{n_1, \cdots, n_k \in \mathbb{Z}} q^{n_1^2+\cdots+n_k^2} \\
+       &= \left(\sum_{n \in \mathbb{Z}} q^{n^2}\right)^k \\
+       &= (g_1(q))^k.
+\end{split}\]</span></p>
+
+
+    </div>
+    <p class="readmore"><a href="/20140726-k-squares-problem/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20140714-Self-hypnosis-and-insomnia/">Self hypnosis and insomnia</a></h1>
     <div class="post-meta">2014-07-14</div>
     <a data-disqus-identifier="20140714-Self-hypnosis-and-insomnia/" href="/20140714-Self-hypnosis-and-insomnia/#disqus_thread" class="disqus-comment-count"></a>

@@ -47,6 +47,39 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170415-leetcode-contest28/">Leetcode Contest 28</a></h1>
+    <div class="post-meta">2017-04-15</div>
+    <a data-disqus-identifier="20170415-leetcode-contest28/" href="/20170415-leetcode-contest28/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今晚吃的是烤鱼以及手撕鸡。</p>
+<p>这次的<a href="https://leetcode.com/contest/leetcode-weekly-contest-28/">比赛</a>让我开始怀疑自己的智商了。</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-28/problems/student-attendance-record-i/">第一题</a><code>Student Attendance Record I</code></p>
+<div class='qbar'>题目大意：给定一个表示只含A、L和P的字符串，问字符串是否满足以下条件：不含多于1个的A或者不含有长度大于2的连续L子字符串。</div>
+
+<p>简单的字符串处理。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">checkRecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type s: str</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span>
+                <span class="n">a</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;LLL&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170415-leetcode-contest28/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170408-leetcode-contest27/">Leetcode Contest 27</a></h1>
     <div class="post-meta">2017-04-08</div>
     <a data-disqus-identifier="20170408-leetcode-contest27/" href="/20170408-leetcode-contest27/#disqus_thread" class="disqus-comment-count"></a>
@@ -326,23 +359,6 @@
 
     </div>
     <p class="readmore"><a href="/20161004-idempotented-algebra/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20160111-2015/">我的2015</a></h1>
-    <div class="post-meta">2016-01-11</div>
-    <a data-disqus-identifier="20160111-2015/" href="/20160111-2015/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>最近在练习法语翻译的时候遇到<a href="https://en.wikipedia.org/wiki/Alfred_de_Vigny">Vigny</a>的两句诗<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>：</p>
-<blockquote>
-<p>Quand on voit ce qu'on fut sur terre et ce qu'on laisse<br>
-Seul le silence est grand; tout le reste est faiblesse</p>
-</blockquote>
-<p>无论生活过得精彩或者惨淡，记忆也都是若干断断续续的画面，最终也都是黑白的，没有声音。我喜欢写日记，因为日记可以帮助我回忆。今年的年度我是先在日记里写好了，然后再从里面挑出一些合成了这篇短短的博客。因此，我总觉得这篇博客怪怪的。</p>
-<p>－－－－－</p>
-<p>2015年中我觉得对我最重要的事情就是换导师了。我原来的导师<a href="https://people.math.osu.edu/flicker.1/">Prof. Yuval Flicker</a>今年三四月份的时候退休了，我只好另选导师了。我对表示论感兴趣，但是系里只有三两个教授在做表示论，再仔细考虑一下自己以后可能要做的方向，那么就只剩下Prof. Yuval Flicker和<a href="https://people.math.osu.edu/cogdell.1/">Prof. James Cogdell</a>了。我并没有其他选择，所以当Prof. Flicker退休之后，我在他们两人都同意之下，就正式更换了导师。Prof. Cogdell主要的工作在于L函数方面，所以我慢慢也往L函数这个方向靠拢了。如果现在有人问我是做什么方向的，我会回答是<em>Representation theory of p adic groups</em>。而现在我主要的研究一些表示的L函数的性质。在Prof. Cogdell的帮助下，我在12月考过了Candidacy Exam。希望我能在2016年里做出一些成果。</p>
-
-    </div>
-    <p class="readmore"><a href="/20160111-2015/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

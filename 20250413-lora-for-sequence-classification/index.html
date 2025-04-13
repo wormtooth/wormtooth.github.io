@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G153DWZ7W5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-G153DWZ7W5');
+    </script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+LoRA for Sequence Classification | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">LoRA for Sequence Classification</h1>
+    <div class="post-meta">Apr 13, 2025
+    <span> | </span> <span>Machine Learning</span>
+    </div>
+    <a data-disqus-identifier="20250413-lora-for-sequence-classification/" href="/20250413-lora-for-sequence-classification/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>Low-rank adaption, or <a href="https://arxiv.org/abs/2106.09685">LoRA</a>, is another parameter-efficient fine-tuning techniques to align large models to specific tasks. The core idea is to approximate updates of a large matrix by two matrices of smaller rank:</p>
+<p><img alt="Illustration of LoRA, from the original paper" src="images/20250413-lora.png"></p>
+<p>The idea works becasue in the fine-tuning stage, the data we use is very small and narrowly-focused (on some speficic domain) compared to the pretrained data, and thus we can represent the updates with smaller matrices.</p>
+<!--more--><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
+     crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+         style="display:block; text-align:center;"
+         data-ad-layout="in-article"
+         data-ad-format="fluid"
+         data-ad-client="ca-pub-7674955363445536"
+         data-ad-slot="4714691501"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span>
+<span class="kn">from</span> <span class="nn">peft</span> <span class="kn">import</span> <span class="n">get_peft_model</span><span class="p">,</span> <span class="n">LoraConfig</span><span class="p">,</span> <span class="n">TaskType</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelForSequenceClassification</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">TrainingArguments</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="kn">from</span> <span class="nn">datasets.utils.logging</span> <span class="kn">import</span> <span class="n">disable_progress_bar</span>
+<span class="n">disable_progress_bar</span><span class="p">()</span>
+</pre></div>
+
+
+<h2>0. LoRA</h2>
+<p>Let's say <span class="math">\(M\)</span> is a <span class="math">\(d \times d\)</span> matrix in a pretrained model, usually in some linear module <span class="math">\(x \mapsto xM\)</span>. In the traditional way to fine tune the model with labelled data, all parameters in <span class="math">\(M\)</span> will be updated, and that are <span class="math">\(d^2\)</span> many parameters. When <span class="math">\(d\)</span> is large, say 1000, the number of parameters for <span class="math">\(M\)</span> alone is already 1 million. Nowadays, pretrain models come with many large matrices and easily have billions of parameters. However, when we fine-tune model for specific task, we might have limited labelled data. We might only have thousands of samples, or even only hundreds. Comparing to the number of parameters, the number of samples is usually disportionally small. This disportinality motivates us to reduce the number of parameters in fine-tuning.</p>
+<p>LoRA reduces the number of parameters by approximating a matrix with two smaller matrics. After fine-tuning, the matrix <span class="math">\(M\)</span> will be udpated by some delta <span class="math">\(\Delta M\)</span>. In other words, <span class="math">\(M\)</span> is updated to <span class="math">\(M + \Delta M\)</span>. Here <span class="math">\(\Delta M\)</span> is another <span class="math">\(d \times d\)</span> matrix. Since we only have a small sample set for fine-tuning compared to the pretraining stage, <span class="math">\(\Delta M\)</span> is most likely not of full <a href="https://en.wikipedia.org/wiki/Rank_(linear_algebra)">rank</a>. Rank is a mathematical concept that measures the "dimension" of the matrix. In laymen terms, it represents the number of <strong>independent</strong> information the matrix carries. In pretraining, LLMs are trained on large corpus with various domains. But for a specific task, we might only want to focus on a few domains. For example, if we want to classifiy the sentiment of some financial statements, we focus on the finance and our samples should be fincial statements and their sentiments. We won't see art descriptions in this financial sentiment dataset, thus we expect <span class="math">\(\Delta M\)</span> carries no art related information in the financial sentiment analysis.</p>
+<p>Realizing the above high level observation, LoRA approximate <span class="math">\(\Delta M\)</span> by two smaller matrics of rank <span class="math">\(r\)</span> (<span class="math">\(r\)</span> is a hyperparameter):<br>
+</p>
+<div class="math">$$\Delta M = sA B,$$</div>
+<p><br>
+where <span class="math">\(A\)</span> is of size <span class="math">\(d \times r\)</span> and <span class="math">\(B\)</span> is <span class="math">\(r \times d\)</span>, and <span class="math">\(s \in \mathbb{R}\)</span> is some scaling hyperparameter. In implementation, the linear module <span class="math">\(x \mapsto xM\)</span> will be modified to <span class="math">\(x \mapsto xM + s ((xA)B)\)</span> with <span class="math">\(M\)</span> frozen. So the trainable parameters become those in <span class="math">\(A\)</span> and <span class="math">\(B\)</span>, and the trainable parameters is <span class="math">\(2rd\)</span>. If <span class="math">\(d = 1000\)</span> and <span class="math">\(r\)</span> is chosen to be <span class="math">\(16\)</span>, then we reduce the total number of trainable parameters <span class="math">\(d^2 = 1,000,000\)</span> down to <span class="math">\(2rd = 32,000\)</span>. The trainable parameters are only 3.2% of the original parameters.</p>
+<p>There are two major hyperparameters in LoRA: the rank <span class="math">\(r\)</span> and the scaling factor <span class="math">\(s\)</span>. The rank <span class="math">\(r\)</span> control how much <strong>independent</strong> information you want to extract from the labelled dataset, and <span class="math">\(s\)</span> control how much you want the extracted information affect the original model. The scaling factor also comes with another form, the alpha hyperparameter <span class="math">\(\alpha\)</span>, in which <span class="math">\(s = \alpha / r\)</span>.</p>
+<p>The procedure of fine-tuning with LoRA is made simple by the <a href="https://huggingface.co/docs/peft/en/index">peft</a> package. Actually, it is almost identical to my previous article <a href="https://wormtooth.com/20250323-prompt-tuning-for-sequence-classification/">Prompt Tuning for Sequence Classification</a>. I am going to redo financial sentiment in the previous artical with LoRA so that I can resue most of the code in that article. I want to point out in advance that the major difference is in section 3 where we set the <code>PEFTModel</code> for LoRA.</p>
+<h2>1. Data Preparation</h2>
+<div class="highlight"><pre><span></span><span class="c1"># load dataset</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;vumichien/financial-sentiment&quot;</span><span class="p">)</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;positive&quot;</span><span class="p">,</span> <span class="s2">&quot;negative&quot;</span><span class="p">,</span> <span class="s2">&quot;neutral&quot;</span><span class="p">]</span>
+<span class="n">label2id</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
+<span class="n">id2label</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">labels</span><span class="p">))</span>
+
+<span class="c1"># setup template</span>
+<span class="n">model_path</span> <span class="o">=</span> <span class="s2">&quot;Qwen/Qwen2.5-0.5B-Instruct&quot;</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+    <span class="n">model_path</span><span class="p">,</span>
+    <span class="n">padding_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> 
+<span class="p">)</span>
+<span class="n">user_prompt_template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;What is the sentiment of the following text related to finance?</span>
+<span class="s2">negative, neutral or positive: </span><span class="si">{text}</span>
+<span class="s2">Give your answer in one word.&quot;&quot;&quot;</span>
+<span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;You are a helpful assistant.&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">user_prompt_template</span><span class="p">}</span>
+<span class="p">]</span>
+<span class="n">prompt_template</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">apply_chat_template</span><span class="p">(</span>
+    <span class="n">messages</span><span class="p">,</span>
+    <span class="n">tokenize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">add_generation_prompt</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># apply template to the dataset</span>
+<span class="k">def</span> <span class="nf">get_prompt</span><span class="p">(</span><span class="n">example</span><span class="p">):</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">prompt_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">example</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;prompt&quot;</span><span class="p">:</span> <span class="n">prompt</span><span class="p">}</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">get_prompt</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+</pre></div>
+
+
+<pre>DatasetDict({
+    train: Dataset({
+        features: ['text', 'label_experts', 'prompt'],
+        num_rows: 1811
+    })
+    valid: Dataset({
+        features: ['text', 'label_experts', 'prompt'],
+        num_rows: 453
+    })
+})
+</pre>
+
+<h2>2. Setup Model</h2>
+<p>We load the LLM as a classifier. We use the corresponding token weights for the labels <code>positive</code>, <code>negative</code> and <code>neutral</code> to initialize the score weight.</p>
+<div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+    <span class="n">model_path</span><span class="p">,</span>
+    <span class="n">num_labels</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span>
+    <span class="n">id2label</span><span class="o">=</span><span class="n">id2label</span><span class="p">,</span>
+    <span class="n">label2id</span><span class="o">=</span><span class="n">label2id</span><span class="p">,</span>
+    <span class="n">torch_dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">,</span>
+    <span class="n">device_map</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># set the pad token</span>
+<span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">pad_token</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">pad_token</span>
+<span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">pad_token_id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">pad_token_id</span>
+
+<span class="c1"># initialize the score layer for the classifier</span>
+<span class="n">labels_token_ids</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">label</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span>
+<span class="p">]</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">score_weight</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">embed_tokens</span><span class="o">.</span><span class="n">weight</span><span class="p">[</span><span class="n">labels_token_ids</span><span class="p">]</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">score_weight</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">embed_tokens</span><span class="o">.</span><span class="n">weight</span><span class="p">[</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">pad_token_id</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+</pre></div>
+
+
+<pre>Some weights of Qwen2ForSequenceClassification were not initialized from the model checkpoint at Qwen/Qwen2.5-0.5B-Instruct and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+</pre>
+
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">eval_model_on_accuracy</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate the model&#39;s accuracy on the dataset.</span>
+
+<span class="sd">    The dataset is assumed to have `prompt` and `label_experts`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">predicted_labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">prompts</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;prompt&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">batch_begin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">prompts</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">):</span>
+        <span class="n">batch_end</span> <span class="o">=</span> <span class="n">batch_begin</span> <span class="o">+</span> <span class="n">batch_size</span>
+        <span class="n">batch_texts</span> <span class="o">=</span> <span class="n">prompts</span><span class="p">[</span><span class="n">batch_begin</span><span class="p">:</span> <span class="n">batch_end</span><span class="p">]</span>
+        <span class="c1"># tokenize batch of texts</span>
+        <span class="n">batch_inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span>
+            <span class="n">batch_texts</span><span class="p">,</span>
+            <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="c1"># scoring</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">batch_outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">batch_inputs</span><span class="p">)</span>
+        <span class="c1"># get the last predicted tokens</span>
+        <span class="n">predicted_ids</span> <span class="o">=</span> <span class="n">batch_outputs</span><span class="o">.</span><span class="n">logits</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">predicted_ids</span><span class="p">:</span>
+            <span class="n">predicted_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">pid</span><span class="p">])</span>
+    <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">predicted</span><span class="p">,</span> <span class="n">truth</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">predicted_labels</span><span class="p">,</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;label_experts&quot;</span><span class="p">]):</span>
+        <span class="n">correct</span> <span class="o">+=</span> <span class="n">predicted</span> <span class="o">==</span> <span class="n">truth</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">correct</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Get the current model performance before fine-tuning on the validation set as the baseline.</p>
+<div class="highlight"><pre><span></span><span class="n">eval_model_on_accuracy</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;valid&quot;</span><span class="p">])</span>
+</pre></div>
+
+
+<pre>Accuracy: 78.59%
+</pre>
+
+<h2>3. PEFT model for LoRA</h2>
+<p>The most important hyperparameters for LoRA are the rank <span class="math">\(r\)</span> and the scaling factor <span class="math">\(s\)</span>. In this experiment, we set the rank to be <span class="math">\(8\)</span>, and alpha to be <span class="math">\(16\)</span>. Note that the scaling factor and alpha is related by <span class="math">\(s = \alpha / r\)</span> (there are other ways to relate alpha and scaling factor), so the scaling factor in our experiment is <span class="math">\(2\)</span>. We can also choose what linear modules to apply LoRA with the <code>target_modules</code> argument. I choose to apply LoRA to linear modules in the attention modules of Qwen model.</p>
+<div class="highlight"><pre><span></span><span class="n">peft_config</span> <span class="o">=</span> <span class="n">LoraConfig</span><span class="p">(</span>
+    <span class="n">task_type</span><span class="o">=</span><span class="n">TaskType</span><span class="o">.</span><span class="n">SEQ_CLS</span><span class="p">,</span>
+    <span class="n">target_modules</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;q_proj&quot;</span><span class="p">,</span> <span class="s2">&quot;v_proj&quot;</span><span class="p">,</span> <span class="s2">&quot;k_proj&quot;</span><span class="p">,</span> <span class="s2">&quot;o_proj&quot;</span><span class="p">],</span>
+    <span class="n">r</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">lora_dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">bias</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">peft_model</span> <span class="o">=</span> <span class="n">get_peft_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">peft_config</span><span class="p">)</span>
+<span class="n">peft_model</span><span class="o">.</span><span class="n">print_trainable_parameters</span><span class="p">()</span>
+</pre></div>
+
+
+<pre>trainable params: 1,084,032 || all params: 495,119,488 || trainable%: 0.2189
+</pre>
+
+<p>The number of trainable parameters is driven by the hyperparameter <span class="math">\(r\)</span> and <code>target_modules</code>. The trainable parameters is only 0.2189% with the above configuration for the Qwen model we use.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">tokenize_dataset</span><span class="p">(</span><span class="n">example</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tokenize the examples.&quot;&quot;&quot;</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">example</span><span class="p">[</span><span class="s2">&quot;prompt&quot;</span><span class="p">]</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label2id</span><span class="p">[</span><span class="n">example</span><span class="p">[</span><span class="s2">&quot;label_experts&quot;</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">inputs</span>
+
+<span class="c1"># tokenize the prompt and labels</span>
+<span class="n">tokenized_train</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+    <span class="n">tokenize_dataset</span><span class="p">,</span>
+    <span class="n">remove_columns</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;train&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">column_names</span>
+<span class="p">)</span>
+
+<span class="c1"># split the train further into train_train, train_valid for training</span>
+<span class="n">tokenized_train</span> <span class="o">=</span> <span class="n">tokenized_train</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">tokenized_train</span>
+</pre></div>
+
+
+<pre>DatasetDict({
+    train: Dataset({
+        features: ['input_ids', 'attention_mask', 'labels'],
+        num_rows: 1358
+    })
+    test: Dataset({
+        features: ['input_ids', 'attention_mask', 'labels'],
+        num_rows: 453
+    })
+})</pre>
+
+<div class="highlight"><pre><span></span><span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">8</span>
+
+<span class="n">training_arguments</span> <span class="o">=</span> <span class="n">TrainingArguments</span><span class="p">(</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;data/lora&quot;</span><span class="p">,</span>
+    <span class="n">per_device_train_batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span>
+    <span class="n">per_device_eval_batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span>
+    <span class="n">num_train_epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
+    <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">eval_strategy</span><span class="o">=</span><span class="s2">&quot;epoch&quot;</span><span class="p">,</span>
+    <span class="n">save_strategy</span><span class="o">=</span><span class="s2">&quot;epoch&quot;</span><span class="p">,</span>
+    <span class="n">logging_strategy</span><span class="o">=</span><span class="s2">&quot;epoch&quot;</span><span class="p">,</span>
+    <span class="n">load_best_model_at_end</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">peft_model</span><span class="p">,</span>
+    <span class="n">processing_class</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">args</span><span class="o">=</span><span class="n">training_arguments</span><span class="p">,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">tokenized_train</span><span class="p">[</span><span class="s2">&quot;train&quot;</span><span class="p">],</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">tokenized_train</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+<span class="kc">None</span>
+</pre></div>
+
+
+<pre>No label_names provided for model class `PeftModelForSequenceClassification`. Since `PeftModel` hides base models input arguments, if label_names is not given, label_names can't be set automatically within `Trainer`. Note that empty label_names list will be used instead.
+</pre>
+
+<pre><IPython.core.display.HTML object></pre>
+
+<div><progress value='510' max='510' style='width:300px; height:20px; vertical-align: middle;'></progress>[510/510 06:47, Epoch 3/3]</div>
+
+<table border="1" class="dataframe"><thead><tr style="text-align: left;"><th>Epoch</th><th>Training Loss</th><th>Validation Loss</th></tr></thead><tbody><tr><td>1</td><td>0.305500</td><td>0.195282</td></tr><tr><td>2</td><td>0.202700</td><td>0.165687</td></tr><tr><td>3</td><td>0.183300</td><td>0.160726</td></tr></tbody></table>
+
+<p>
+
+<div class="highlight"><pre><span></span><span class="n">eval_model_on_accuracy</span><span class="p">(</span><span class="n">peft_model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;valid&quot;</span><span class="p">])</span>
+</pre></div>
+
+
+
+<pre>Accuracy: 94.92%
+</pre>
+
+For a comparison of performance, the zero shot learning has accuracy 78.5% on the validation set. Prompt tuning can achieve 93.1% in accuracy, see previous [article]({filename}/20250323-prompt-tuning-for-sequence-classification.ipynb) if interested. And LoRA is even better at 94.9% accuracy. This is not a surprise given that LoRA actually has more trainable parameters (about 50x) than that in prompt tuning.
+
+        <div class="tags">
+        <a href="/tag/classification">classification</a>
+        <a href="/tag/llm">LLM</a>
+        <a href="/tag/peft">peft</a>
+        </div>
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
+     crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+         style="display:block; text-align:center;"
+         data-ad-layout="in-article"
+         data-ad-format="fluid"
+         data-ad-client="ca-pub-7674955363445536"
+         data-ad-slot="4714691501"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20250413-lora-for-sequence-classification/';
+    var disqus_title = 'LoRA for Sequence Classification';
+    var disqus_url = 'https://wormtooth.com/20250413-lora-for-sequence-classification/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>未来会来～</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2025 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

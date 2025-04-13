@@ -47,6 +47,18 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20250413-lora-for-sequence-classification/">LoRA for Sequence Classification</a></h1>
+    <div class="post-meta">2025-04-13</div>
+    <a data-disqus-identifier="20250413-lora-for-sequence-classification/" href="/20250413-lora-for-sequence-classification/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>Low-rank adaption, or <a href="https://arxiv.org/abs/2106.09685">LoRA</a>, is another parameter-efficient fine-tuning techniques to align large models to specific tasks. The core idea is to approximate updates of a large matrix by two matrices of smaller rank:</p>
+<p><img alt="Illustration of LoRA, from the original paper" src="images/20250413-lora.png"></p>
+<p>The idea works becasue in the fine-tuning stage, the data we use is very small and narrowly-focused (on some speficic domain) compared to the pretrained data, and thus we can represent the updates with smaller matrices.</p>
+
+    </div>
+    <p class="readmore"><a href="/20250413-lora-for-sequence-classification/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20250323-prompt-tuning-for-sequence-classification/">Prompt Tuning for Sequence Classification</a></h1>
     <div class="post-meta">2025-03-23</div>
     <a data-disqus-identifier="20250323-prompt-tuning-for-sequence-classification/" href="/20250323-prompt-tuning-for-sequence-classification/#disqus_thread" class="disqus-comment-count"></a>
@@ -169,30 +181,6 @@ The above model can be found in section 2.1 in this <a href="https://www.netflix
 
     </div>
     <p class="readmore"><a href="/20201008-linear-regression/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20201004-leetcode-contest-209/">LeetCode Contest 209</a></h1>
-    <div class="post-meta">2020-10-04</div>
-    <a data-disqus-identifier="20201004-leetcode-contest-209/" href="/20201004-leetcode-contest-209/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>这次只能做出前面三题，而且第三题用时过长，导致这次排名只有505。</p>
-<p><a href="https://leetcode.com/contest/weekly-contest-209/problems/special-array-with-x-elements-greater-than-or-equal-x/">第一题</a><code>Special Array With X Elements Greater Than or Equal X</code></p>
-<div class="qbar">
-<p>给定一个数组，找出 <code>x</code> 使得恰有 <code>x</code> 个数不小于 <code>x</code>。</p>
-</div>
-<p>暴力枚举所有可能的 <code>x</code>。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">specialArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">nums</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">n</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20201004-leetcode-contest-209/">Read More</a></p>
 </div>
 
 <div class="page-navigator">
