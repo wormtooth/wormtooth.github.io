@@ -54,7 +54,7 @@ LoRA for Sequence Classification | 叶某人的碎碎念    </title>
     <a data-disqus-identifier="20250413-lora-for-sequence-classification/" href="/20250413-lora-for-sequence-classification/#disqus_thread" class="disqus-comment-count"></a>
     <div class="post-content">
         <p>Low-rank adaption, or <a href="https://arxiv.org/abs/2106.09685">LoRA</a>, is another parameter-efficient fine-tuning techniques to align large models to specific tasks. The core idea is to approximate updates of a large matrix by two matrices of smaller rank:</p>
-<p><img alt="Illustration of LoRA, from the original paper" src="images/20250413-lora.png"></p>
+<p><img alt="Illustration of LoRA, from the original paper" src="https://wormtooth.com/images/20250413-lora.png"></p>
 <p>The idea works becasue in the fine-tuning stage, the data we use is very small and narrowly-focused (on some speficic domain) compared to the pretrained data, and thus we can represent the updates with smaller matrices.</p>
 <!--more--><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
      crossorigin="anonymous"></script>
@@ -305,7 +305,7 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 <pre>Accuracy: 94.92%
 </pre>
 
-For a comparison of performance, the zero shot learning has accuracy 78.5% on the validation set. Prompt tuning can achieve 93.1% in accuracy, see previous [article]({filename}/20250323-prompt-tuning-for-sequence-classification.ipynb) if interested. And LoRA is even better at 94.9% accuracy. This is not a surprise given that LoRA actually has more trainable parameters (about 50x) than that in prompt tuning.
+For a comparison of performance, the zero shot learning has accuracy 78.5% on the validation set. Prompt tuning can achieve 93.1% in accuracy, see my previous article if interested. And LoRA is even better at 94.9% accuracy. This is not a surprise given that LoRA actually has more trainable parameters (about 50x) than that in prompt tuning.
 
         <div class="tags">
         <a href="/tag/classification">classification</a>
