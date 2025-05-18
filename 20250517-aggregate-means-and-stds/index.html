@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G153DWZ7W5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-G153DWZ7W5');
+    </script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <title>
+Aggregate Means and Standard Deviations | 叶某人的碎碎念    </title>
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygment.css" />
+    <link rel="stylesheet" type="text/css" href="/theme/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/grids-responsive-min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div class="body_container">
+    <div id="header">
+        <div class="site-name">
+            <a id="logo" href="/."> 叶某人的碎碎念 </a>
+            <p class="description"> Believe in Mathematics </p>
+        </div>
+        <div id="nav-menu">
+            <a href="/."><i class="fa fa-home"> Home</i></a>
+            <a href="/movies/"><i class="fa fa-film"> Movies</i></a>
+            <a href="/archives.html"><i class="fa fa-archive"> Archive</i></a>
+        </div>
+    </div>
+    <div id="layout" class="pure-g">
+        <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
+<div class="post">
+    <h1 class="post-title">Aggregate Means and Standard Deviations</h1>
+    <div class="post-meta">May 17, 2025
+    <span> | </span> <span>Mathematics</span>
+    </div>
+    <a data-disqus-identifier="20250517-aggregate-means-and-stds/" href="/20250517-aggregate-means-and-stds/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>Imagine that we need to monitor the average response time of a webpage and the standard deviation daily. This is a simple ask. At the end of the day, we will get a list of response times <span class="math">\(x_1, x2, ..., x_n\)</span>. Then we use the formulas to get the mean <span class="math">\(\mu\)</span> and standard deviation <span class="math">\(\sigma\)</span>:<br>
+</p>
+<div class="math">$$\mu = \frac{\sum_i^n x_i}{n}, \text{ and } \sigma = \sqrt{\frac{\sum_i^n(x_i - \mu)^2}{n}}.$$</div>
+<p>What if at the end of the month we want to get the mean and standard deviation for the whole month? Well, it is also a simple ask. The simpleset way is to pull the record of all response times and use the formulas again to compute the mean and standard deviation. But we already has computed the daily means and standard deviations. Can we aggregate the daily means and standard deviations into monthly statistics? More generally, can we aggregate means and standard deviations of subsets into that of the whole set? The answer is affirmative with the following formulas.</p>
+<!--more-->
+
+<div class="qbar">
+<p>(Aggregation of Means and Standard Deviations) Suppose a set of samples <span class="math">\(S\)</span> is split into <span class="math">\(k\)</span> collections <span class="math">\(S_1, S_2, ..., S_k\)</span>. For each collection <span class="math">\(S_i\)</span>, we know its count <span class="math">\(n_i\)</span>, mean <span class="math">\(\mu_i\)</span>, and standard deviation <span class="math">\(\sigma_i\)</span>. Then the mean of the whole set is<br>
+<div class="math">$$\mu = \frac{\sum_{i=1}^k n_i \mu_i}{\sum_{i=1}^k n_i},$$</div>
+<br>
+and the standard deviation is<br>
+<div class="math">$$\sigma = \sqrt{\frac{\sum_{i=1}^k n_i (\mu_i^2 + \sigma_i^2)}{\sum_{i=1}^k n_i} - \mu^2}.$$</div>
+</p>
+</div>
+<p><em>Proof.</em> The aggregation of means is simple. Let <span class="math">\(\mathrm{sum}(S_i)\)</span> be the sum of all elements in <span class="math">\(S_i\)</span>, then <span class="math">\(\mathrm{sum}(S_i) = n_i \mu_i\)</span> by the definition of mean. Then<br>
+</p>
+<div class="math">$$\mathrm{sum}(S) = \mathrm{sum}(S_1) + ... + \mathrm{sum}(S_k) = \sum_{i=1}^k n_i \mu_i.$$</div>
+<p><br>
+The mean <span class="math">\(\mu\)</span> of <span class="math">\(S\)</span> is<br>
+</p>
+<div class="math">$$\mu = \frac{\mathrm{sum}(S)}{\sum_{i=1}^k n_i} = \frac{\sum_{i=1}^k n_i \mu_i}{\sum_{i=1}^k n_i}.$$</div>
+<p><br>
+So the mean of the whole set is the weighted sum of the means of subsets. The aggregation of standard derivation is a bit trickier. We need to use the "Shortcut Formula for Variance" - <span class="math">\(Var X = E(X^2) - (EX)^2.\)</span> Translating it to a set of samples <span class="math">\(\{x_1, ..., x_n\}\)</span> with mean <span class="math">\(\mu\)</span> and standard deviation <span class="math">\(\sigma\)</span>, it is<br>
+</p>
+<div class="math">$$n\sigma^2 = \sum_i^n x_i^2 - n\mu^2.$$</div>
+<p><br>
+We will provide a proof of the "Shorcut Formula for Variance" at the end. For now, let's proceed assuming the shorcut formula. Applying the shortcut formula to a subset <span class="math">\(S_i\)</span>:<br>
+</p>
+<div class="math">$$n_i \sigma_i^2 = \sum_{x \in S_i} x^2 - n_i \mu_i^2, \text{ or } \sum_{x \in S_i} x^2 = n_i (\mu_i^2 + \sigma_i^2).$$</div>
+<p><br>
+Apply the shorcut formula again but this time on the whole set <span class="math">\(S\)</span>, we get<br>
+</p>
+<div class="math">$$\begin{align*}
+n\sigma^2 &amp;= \sum_{x \in S} x^2 - n \mu^2 \\
+&amp;= \sum_{i=1}^k \sum_{x \in S_i} x^2 - n \mu^2 \\
+&amp;= \sum_{i=1}^k n_i (\mu_i^2 + \sigma_i^2) - n \mu^2.
+\end{align*}$$</div>
+<p><br>
+Dividing both sides by <span class="math">\(n = \sum_i^k n_i\)</span>, we get the formula to aggregate standard deviations. <span class='qed'><span class="math">\(\square\)</span></span></p>
+<p>For completeness, I will include the proof of the well-known shortcut formula we use in the above proof.</p>
+<div class="qbar">
+<p>(Shortcut Formula for Variance) Let <span class="math">\(\mu\)</span> be the mean and <span class="math">\(\sigma\)</span> be the standard deviation of the set <span class="math">\(\{x_1, ..., x_n\}\)</span>. Then<br>
+<div class="math">$$n\sigma^2 = \sum_i^n x_i^2 - n\mu^2.$$</div>
+</p>
+</div>
+<p><em>Proof.</em> By definition of the mean <span class="math">\(\mu\)</span>, we know <span class="math">\(n\mu = \sum_i^n x_i\)</span>. By definition of the standard deviation <span class="math">\(\sigma\)</span>,<br>
+</p>
+<div class="math">$$\begin{align*}
+n\sigma^2 &amp;= \sum_i^n(x_i - \mu)^2 \\ 
+&amp;= \sum_i^n (x_i^2 - 2\mu x_i + \mu^2) \\
+&amp;= \sum_i^n x_i^2 - 2\mu \sum_i^n x_i + n\mu^2 \\
+&amp;= \sum_i^n x_i^2 - 2n\mu^2 + n\mu^2 \\
+&amp;= \sum_i^n x_i^2 - n \mu^2.
+\end{align*}$$</div>
+<p>That completes the proof of the shortcut formula. Indeed, if we divide both sides by <span class="math">\(n\)</span>, we can get the fancy form of the formula: <span class="math">\(Var X = E(X^2) - (EX)^2\)</span>. <span class='qed'><span class="math">\(\square\)</span></span></p>
+
+        <div class="tags">
+        <a href="/tag/statistics">statistics</a>
+        </div>
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
+     crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+         style="display:block; text-align:center;"
+         data-ad-layout="in-article"
+         data-ad-format="fluid"
+         data-ad-client="ca-pub-7674955363445536"
+         data-ad-slot="4714691501"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+
+<div id="disqus_thread">
+  <div class="btn_click_load">
+    <button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button>
+  </div>
+  <script>
+    var disqus_shortname = 'wormtooth';
+    var disqus_identifier = '20250517-aggregate-means-and-stds/';
+    var disqus_title = 'Aggregate Means and Standard Deviations';
+    var disqus_url = 'https://wormtooth.com/20250517-aggregate-means-and-stds/';
+    $('.btn_click_load').click(function() {
+      (function() {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+      $('.btn_click_load').css('display','none');
+    });
+
+    $.ajax({
+      url: 'https://disqus.com/favicon.ico',
+      timeout: 3000,
+      type: 'GET',
+      success: (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || 
+          document.getElementsByTagName('body')[0]).appendChild(dsq);
+        $('.btn_click_load').css('display','none');
+      })(),
+      error: function() {
+        $('.btn_click_load').css('display','block');
+        }
+      });
+  </script>
+  <script id="dsq-count-scr" src="//wormtooth.disqus.com/count.js" async></script>
+</div>
+    </div>
+</div>
+        </div></div>
+        <div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar">
+<div class="widget">
+    <form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form">
+        <input type="text" name="q" maxlength="20" placeholder="Search"/>
+        <input type="hidden" name="sitesearch" value="https://wormtooth.com"/>
+    </form>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-heart-o"> 年轻的心只有一面</i></div>
+    <img src="/images/mobius_heart.png" class="nofancybox" />
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-paper-plane-o"> 心情随笔</i></div>
+    <p>未来会来～</p>
+    <span class="qed"><a href="/scribble">View All</a></span>
+</div><div class="widget">
+    <div class="widget-title">
+        <i class="fa fa-folder-o"> Categories</i>
+    </div>
+    <ul class="category-list">
+        <li class="category-list-item"><a class="category-list-link" href="/category/life/">Life</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/machine-learning/">Machine Learning</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/mathematics/">Mathematics</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/notes/">Notes</a></li>
+        <li class="category-list-item"><a class="category-list-link" href="/category/programming/">Programming</a></li>
+    </ul>
+</div><div class="widget">
+    <div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div>
+    <ul></ul>
+    <a href="https://yongjiasong.com/" title="JOY DOMAIN" target="_blank">JOY DOMAIN</a>
+</div>
+<div class="widget">
+    <div class="widget-title"><i class="fa fa-comment-o"> Recent Comments</i></div>
+    <script type="text/javascript" src="//wormtooth.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=1&avatar_size=32&excerpt_length=20&hide_mods=1"></script>
+</div>
+        </div></div>
+        <div class="pure-u-1 pure-u-lg-3-4">
+<div id="footer">Copyright © 2025 <a href="/." rel="nofollow">叶某人的碎碎念.</a> <a rel="nofollow" target="_blank" href="https://getpelican.com/">Pelican</a> &amp; <a rel="nofollow", target="_blank", href="https://github.com/wormtooth/maupassant-pelican">maupassant</a>.</div>        </div>
+    </div>
+</div>
+<a id="rocket" href="#top" class="show"></a>
+<script type="text/javascript" src="/theme/js/totop.js" async></script><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js" async></script>
+<script type="text/javascript" src="/theme/js/fancybox.js" async></script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css" />
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+      processEscapes: true
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      },
+      Macros: {
+        N: "\\mathbb{N}",
+        Z: "\\mathbb{Z}",
+        Q: "\\mathbb{Q}",
+        R: "\\mathbb{R}",
+        C: "\\mathbb{C}"
+      }
+    },
+    'HTML-CSS': {
+      imageFont: null
+    }
+  });
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.1.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

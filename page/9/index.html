@@ -47,6 +47,49 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170422-leetcode-contest29/">Leetcode Contest 29</a></h1>
+    <div class="post-meta">2017-04-22</div>
+    <a data-disqus-identifier="20170422-leetcode-contest29/" href="/20170422-leetcode-contest29/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>今晚有鱼、豆腐和西芹。</p>
+<p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-29">比赛</a>是久违的全一次就AC了，开心😎</p>
+<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-29/problems/binary-tree-tilt/">第一题</a><code>Binary Tree Tilt</code></p>
+<div class='qbar'>题目大意：对于一个二叉树节点，定义它的tilt为左子树之和与右子树之和差的绝对值。给定一棵二叉树，求出所有节点tilt值之和。</div>
+
+<p>感觉是简单的dfs套路。对于每个节点，递归算左右子树之和，那么它的tilt值就很容易求出来加到一个全局的变量里，然后返回当前子树之和：左子树+右子树+根节点</p>
+<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
+<span class="c1"># class TreeNode(object):</span>
+<span class="c1">#     def __init__(self, x):</span>
+<span class="c1">#         self.val = x</span>
+<span class="c1">#         self.left = None</span>
+<span class="c1">#         self.right = None</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findTilt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type root: TreeNode</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+            <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">left</span><span class="o">-</span><span class="n">right</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">left</span><span class="o">+</span><span class="n">right</span><span class="o">+</span><span class="n">root</span><span class="o">.</span><span class="n">val</span>
+
+        <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20170422-leetcode-contest29/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170415-leetcode-contest28/">Leetcode Contest 28</a></h1>
     <div class="post-meta">2017-04-15</div>
     <a data-disqus-identifier="20170415-leetcode-contest28/" href="/20170415-leetcode-contest28/#disqus_thread" class="disqus-comment-count"></a>
@@ -331,34 +374,6 @@
 
     </div>
     <p class="readmore"><a href="/20170220-leetcode-contest20/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20161004-idempotented-algebra/">Idempotented algebra</a></h1>
-    <div class="post-meta">2016-10-04</div>
-    <a data-disqus-identifier="20161004-idempotented-algebra/" href="/20161004-idempotented-algebra/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>This post is a reading note to Bernstein&#8217;s <a href="http://www.math.tau.ac.il/~bernstei/Publication_list/publication_texts/Bern_Center.pdf">Le &#8220;centre&#8221; de Bernstein</a>, on the part of idempotented algebras (section 1.1 to 1.7, ibid.). Let <span class="math">\(R\)</span> be a ring, an element <span class="math">\(e\)</span> is called <em>an idempotent</em> if <span class="math">\(e^2=e\)</span>. Let <span class="math">\(k\)</span> be a field.</p>
-
-<div class='qbar' >
-
-<p><a name='defn1'><strong>Definition 1.</strong> </a>A <span class="math">\(k\)</span>-idempotented algebra <span class="math">\((H, I)\)</span> is a <span class="math">\(k\)</span>-algebra <span class="math">\(H\)</span> together with the set idempotents <span class="math">\(I\)</span> satisfying</p>
-(*) For any finite family <span class="math">\((x_i)\)</span>, there exists an idempotent <span class="math">\(e \in I\)</span> such that <span class="math">\(ex_ie = x_i\)</span> for all <span class="math">\(i\)</span>.
-</div>
-
-<p>The <span class="math">\(k\)</span>-structures of <span class="math">\(H\)</span> is not involved in the discussion of this post, so we will ignore it. Let <span class="math">\((H, I)\)</span> be an idempotented algebra for the rest of the post.</p>
-
-<div class='qbar' >
-
-<p><a name='lemma2'><strong>Lemma 2.</strong> </a>Let <span class="math">\(e, f \in I\)</span>. The following are equivalent.</p>
-(1) <span class="math">\(eHe \subset fHf\)</span>
-<br/>(2) <span class="math">\(e \in fHf\)</span>
-<br/>(3) <span class="math">\(e = fef\)</span>
-<br/>
-</div>
-
-
-    </div>
-    <p class="readmore"><a href="/20161004-idempotented-algebra/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

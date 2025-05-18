@@ -47,6 +47,30 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20170622-rademacher-functions/">Rademacher functions</a></h1>
+    <div class="post-meta">2017-06-22</div>
+    <a data-disqus-identifier="20170622-rademacher-functions/" href="/20170622-rademacher-functions/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This post is my note for <a href="https://math.osu.edu/whatis"><em>What is&#8230;?</em></a> seminar on Rademacher function.</p>
+
+<p>For a real number <span class="math">\(x\)</span> in <span class="math">\([0, 1]\)</span>, let <span class="math">\((a_1(x), a_2(x), \cdots, a_n(x), \cdots)\)</span> be its binary representation. That is to say,
+<span class="math">\[\begin{equation}
+x = \sum_{n=1}^\infty \frac{a_n(x)}{2^n}.
+\label{20170623-1}
+\end{equation}\]</span></p>
+
+<p>For some <span class="math">\(x\)</span>, there might be two possible binary representation. Take <span class="math">\(\frac{1}{2}\)</span> for example, it can be represented as <span class="math">\((1, 0, 0, \cdots)\)</span> or <span class="math">\((0, 1, 1, \cdots)\)</span>. In this situation, we always prefer the former representation, in which all terms become <span class="math">\(0\)</span> eventually.</p>
+
+<div class='qbar' >
+<a name='defn1'><strong>Definition 1.</strong></a> Let <span class="math">\(n \ge 1\)</span> be an integer. The <span class="math">\(n\)</span>-th <em>Rademacher function</em> <span class="math">\(r_n: [0, 1] \to \{-1,1\}\)</span> is defined to be
+<span class="math">\[r_n(x) = 1 - 2a_n(x).\]</span>
+</div>
+
+
+    </div>
+    <p class="readmore"><a href="/20170622-rademacher-functions/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20170620-luroth-expansion/">Lüroth expansion</a></h1>
     <div class="post-meta">2017-06-20</div>
     <a data-disqus-identifier="20170620-luroth-expansion/" href="/20170620-luroth-expansion/#disqus_thread" class="disqus-comment-count"></a>
@@ -297,49 +321,6 @@ T: (a_1, a_2, \cdots, a_n, \cdots) \mapsto (a_2, \cdots, a_n, \cdots).
 
     </div>
     <p class="readmore"><a href="/20170429-leetcode-contest30/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20170422-leetcode-contest29/">Leetcode Contest 29</a></h1>
-    <div class="post-meta">2017-04-22</div>
-    <a data-disqus-identifier="20170422-leetcode-contest29/" href="/20170422-leetcode-contest29/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>今晚有鱼、豆腐和西芹。</p>
-<p>这次<a href="https://leetcode.com/contest/leetcode-weekly-contest-29">比赛</a>是久违的全一次就AC了，开心😎</p>
-<p><a href="https://leetcode.com/contest/leetcode-weekly-contest-29/problems/binary-tree-tilt/">第一题</a><code>Binary Tree Tilt</code></p>
-<div class='qbar'>题目大意：对于一个二叉树节点，定义它的tilt为左子树之和与右子树之和差的绝对值。给定一棵二叉树，求出所有节点tilt值之和。</div>
-
-<p>感觉是简单的dfs套路。对于每个节点，递归算左右子树之和，那么它的tilt值就很容易求出来加到一个全局的变量里，然后返回当前子树之和：左子树+右子树+根节点</p>
-<div class="highlight"><pre><span></span><span class="c1"># Definition for a binary tree node.</span>
-<span class="c1"># class TreeNode(object):</span>
-<span class="c1">#     def __init__(self, x):</span>
-<span class="c1">#         self.val = x</span>
-<span class="c1">#         self.left = None</span>
-<span class="c1">#         self.right = None</span>
-
-<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">findTilt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :type root: TreeNode</span>
-<span class="sd">        :rtype: int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ans</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-        <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
-                <span class="k">return</span> <span class="mi">0</span>
-            <span class="n">left</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
-            <span class="n">right</span> <span class="o">=</span> <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
-            <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">left</span><span class="o">-</span><span class="n">right</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">left</span><span class="o">+</span><span class="n">right</span><span class="o">+</span><span class="n">root</span><span class="o">.</span><span class="n">val</span>
-
-        <span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20170422-leetcode-contest29/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

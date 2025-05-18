@@ -47,6 +47,29 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20201008-linear-regression/">Linear Regression</a></h1>
+    <div class="post-meta">2020-10-08</div>
+    <a data-disqus-identifier="20201008-linear-regression/" href="/20201008-linear-regression/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>This is the note I used as an example of applications in Linear Algebra I lectured at Purdue University. It is slightly modified so that it is more or less self contained.</p>
+<p>Starting from least-squares solution, we are going to give an introductory exploration on (linear) regression in this note.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sklearn.linear_model</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">set_matplotlib_formats</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;pdf&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<h2>Least-squares solution</h2>
+<p>Let <span class="math">\(A\)</span> be an <span class="math">\(m \times n\)</span> matrix, and <span class="math">\(B\)</span> be a vector in <span class="math">\(\mathbb{R}^m\)</span>. A <strong>least-squares</strong> solution to a linear system <span class="math">\(Ax = B\)</span> is an <span class="math">\(\hat{x}\)</span> such that <span class="math">\(|A \hat{x} - B| \le |A x - B|\)</span> for all <span class="math">\(x\)</span>. Here, <span class="math">\(|x|\)</span> is the length of the vector <span class="math">\(x\)</span>. If the system <span class="math">\(Ax = B\)</span> is consistent, then a least-squares solution is just a solution.</p>
+
+    </div>
+    <p class="readmore"><a href="/20201008-linear-regression/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20201004-leetcode-contest-209/">LeetCode Contest 209</a></h1>
     <div class="post-meta">2020-10-04</div>
     <a data-disqus-identifier="20201004-leetcode-contest-209/" href="/20201004-leetcode-contest-209/#disqus_thread" class="disqus-comment-count"></a>
@@ -207,33 +230,6 @@
 
     </div>
     <p class="readmore"><a href="/npnet4/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20191229-leetcode-contest-169/">LeetCode Contest 169</a></h1>
-    <div class="post-meta">2019-12-29</div>
-    <a data-disqus-identifier="20191229-leetcode-contest-169/" href="/20191229-leetcode-contest-169/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>这次只做出了前三题。最后一题我算了一下枚举复杂度也大概是 10!=3628800 左右，但是就老是 TLE。今天早上用 C 重新写了一下就过了。有点郁闷。</p>
-<p><a href="https://leetcode.com/contest/weekly-contest-169/problems/find-n-unique-integers-sum-up-to-zero/">第一题</a><code>Find N Unique Integers Sum up to Zero</code></p>
-<div class="qbar">
-<p>找 n 个和为 0 且各不相同的数。</p>
-</div>
-<p>每次加入 i 和 -i 就能保证和为0。如果 n 是奇数，那么我们要添加 0。</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">sumZero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-        <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">//</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ans</span>
-</pre></div>
-
-
-
-    </div>
-    <p class="readmore"><a href="/20191229-leetcode-contest-169/">Read More</a></p>
 </div>
 
 <div class="page-navigator">

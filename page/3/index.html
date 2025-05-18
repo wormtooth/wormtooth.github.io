@@ -47,6 +47,33 @@
     <div id="layout" class="pure-g">
         <div class="pure-u-1 pure-u-lg-3-4"><div class="content_container">
 <div class="post">
+    <h1 class="post-title"><a href="/20191229-leetcode-contest-169/">LeetCode Contest 169</a></h1>
+    <div class="post-meta">2019-12-29</div>
+    <a data-disqus-identifier="20191229-leetcode-contest-169/" href="/20191229-leetcode-contest-169/#disqus_thread" class="disqus-comment-count"></a>
+    <div class="post-content">
+        <p>这次只做出了前三题。最后一题我算了一下枚举复杂度也大概是 10!=3628800 左右，但是就老是 TLE。今天早上用 C 重新写了一下就过了。有点郁闷。</p>
+<p><a href="https://leetcode.com/contest/weekly-contest-169/problems/find-n-unique-integers-sum-up-to-zero/">第一题</a><code>Find N Unique Integers Sum up to Zero</code></p>
+<div class="qbar">
+<p>找 n 个和为 0 且各不相同的数。</p>
+</div>
+<p>每次加入 i 和 -i 就能保证和为0。如果 n 是奇数，那么我们要添加 0。</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">sumZero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">//</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">ans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+
+
+
+    </div>
+    <p class="readmore"><a href="/20191229-leetcode-contest-169/">Read More</a></p>
+</div>
+<div class="post">
     <h1 class="post-title"><a href="/20191214-leetcode-contest-167/">LeetCode Contest 167</a></h1>
     <div class="post-meta">2019-12-14</div>
     <a data-disqus-identifier="20191214-leetcode-contest-167/" href="/20191214-leetcode-contest-167/#disqus_thread" class="disqus-comment-count"></a>
@@ -169,28 +196,6 @@
 
     </div>
     <p class="readmore"><a href="/20180617-pytorch-on-raspberrypi/">Read More</a></p>
-</div>
-<div class="post">
-    <h1 class="post-title"><a href="/20180607-chapi/">Chapi</a></h1>
-    <div class="post-meta">2018-06-07</div>
-    <a data-disqus-identifier="20180607-chapi/" href="/20180607-chapi/#disqus_thread" class="disqus-comment-count"></a>
-    <div class="post-content">
-        <p>I recently built a <a href="http://flask.pocoo.org/">flask</a> app that run on my raspberry pi. Then I turned it down. Why? In order to access the app from outside the home internet, I had to expose my pi to public. After only one day of exposure, my pi received several attack attempts and the flask app then always replied 301. Here are some attack logs:</p>
-<div class="highlight"><pre><span></span><span class="mf">139.162.83.10</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="s">&quot;GET / HTTP/1.1&quot;</span><span class="w"> </span><span class="mf">404</span><span class="w"> </span><span class="o">-</span>
-<span class="mf">45.33.115.189</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="s">&quot;GET / HTTP/1.0&quot;</span><span class="w"> </span><span class="mf">404</span><span class="w"> </span><span class="o">-</span>
-<span class="mf">79.55.11.21</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="s">&quot;GET / HTTP/1.0&quot;</span><span class="w"> </span><span class="mf">404</span><span class="w"> </span><span class="o">-</span>
-<span class="mf">5.101.40.78</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">code</span><span class="w"> </span><span class="mf">400</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="n">Bad</span><span class="w"> </span><span class="n">HTTP</span><span class="o">/</span><span class="mf">0.9</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">(</span><span class="err">&#39;\</span><span class="n">x03</span><span class="err">\</span><span class="n">x00</span><span class="err">\</span><span class="n">x00</span><span class="o">/*</span><span class="n">à</span><span class="err">\</span><span class="n">x00</span><span class="err">\</span><span class="n">x00</span><span class="err">\</span><span class="n">x00</span><span class="err">\</span><span class="n">x00</span><span class="err">\</span><span class="n">x00Cookie</span><span class="p">:</span><span class="err">&#39;</span><span class="p">)</span>
-<span class="mf">5.101.40.78</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="s">&quot;/*àCookie: mstshash=Administr&quot;</span><span class="w"> </span><span class="n">HTTPStatus</span><span class="mf">.</span><span class="n">BAD_REQUEST</span><span class="w"> </span><span class="o">-</span>
-<span class="mf">123.151.42.61</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="s">&quot;GET http://www.baidu.com/ HTTP/1.1&quot;</span><span class="w"> </span><span class="mf">404</span><span class="w"> </span><span class="o">-</span>
-<span class="mf">158.85.81.116</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="s">&quot;GET / HTTP/1.1&quot;</span><span class="w"> </span><span class="mf">404</span><span class="w"> </span><span class="o">-</span>
-</pre></div>
-
-
-<p>To be more precise, the flask app was still running, but the home router seemed not forwarding the requests to my pi. Anyway, I have no idea of what have happened. I just shut the app down, flashed a fresh new image to my pi.</p>
-<p>I want a way to communicate with my pi without exposing it. That is the motivation I start the project <a href="https://github.com/wormtooth/chapi">chapi</a>, which means "<strong>cha</strong>t with <strong>pi</strong>".</p>
-
-    </div>
-    <p class="readmore"><a href="/20180607-chapi/">Read More</a></p>
 </div>
 
 <div class="page-navigator">
