@@ -51,7 +51,7 @@
     <div class="post-meta">2025-05-17</div>
     <a data-disqus-identifier="20250517-aggregate-means-and-stds/" href="/20250517-aggregate-means-and-stds/#disqus_thread" class="disqus-comment-count"></a>
     <div class="post-content">
-        <p>Imagine that we need to monitor the average response time of a webpage and the standard deviation daily. This is a simple ask. At the end of the day, we will get a list of response times <span class="math">\(x_1, x2, ..., x_n\)</span>. Then we use the formulas to get the mean <span class="math">\(\mu\)</span> and standard deviation <span class="math">\(\sigma\)</span>:<br>
+        <p>Imagine that we need to monitor the average response time of a webpage and the standard deviation daily. This is a simple ask. At the end of the day, we will get a list of response times <span class="math">\(x_1, x_2, ..., x_n\)</span>. Then we use the formulas to get the mean <span class="math">\(\mu\)</span> and standard deviation <span class="math">\(\sigma\)</span>:<br>
 </p>
 <div class="math">$$\mu = \frac{\sum_i^n x_i}{n}, \text{ and } \sigma = \sqrt{\frac{\sum_i^n(x_i - \mu)^2}{n}}.$$</div>
 <p>What if at the end of the month we want to get the mean and standard deviation for the whole month? Well, it is also a simple ask. The simpleset way is to pull the record of all response times and use the formulas again to compute the mean and standard deviation. But we already has computed the daily means and standard deviations. Can we aggregate the daily means and standard deviations into monthly statistics? More generally, can we aggregate means and standard deviations of subsets into that of the whole set? The answer is affirmative with the following formulas.</p>
