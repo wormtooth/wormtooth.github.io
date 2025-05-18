@@ -56,17 +56,7 @@ LoRA for Sequence Classification | 叶某人的碎碎念    </title>
         <p>Low-rank adaption, or <a href="https://arxiv.org/abs/2106.09685">LoRA</a>, is another parameter-efficient fine-tuning techniques to align large models to specific tasks. The core idea is to approximate updates of a large matrix by two matrices of smaller rank:</p>
 <p><img alt="Illustration of LoRA, from the original paper" src="https://wormtooth.com/images/20250413-lora.png"></p>
 <p>The idea works becasue in the fine-tuning stage, the data we use is very small and narrowly-focused (on some speficic domain) compared to the pretrained data, and thus we can represent the updates with smaller matrices.</p>
-<!--more--><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-layout="in-article"
-         data-ad-format="fluid"
-         data-ad-client="ca-pub-7674955363445536"
-         data-ad-slot="4714691501"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+<!--more-->
 
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span>
 <span class="kn">from</span> <span class="nn">peft</span> <span class="kn">import</span> <span class="n">get_peft_model</span><span class="p">,</span> <span class="n">LoraConfig</span><span class="p">,</span> <span class="n">TaskType</span>

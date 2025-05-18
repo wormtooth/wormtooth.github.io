@@ -58,17 +58,7 @@ Zero-Shot Text Classification with pretrained LLM | 叶某人的碎碎念    </t
 <p>Zero-shot text classification is a task in natural language processing where a model is trained on a set of labeled examples but is then able to classify new examples from previously unseen classes.</p>
 </blockquote>
 <p>Simply put, zero-shot text classification is to use preexisting models on classification tasks that the models are not trained upon. Large Language Models backed by <a href="https://arxiv.org/abs/1706.03762">attention</a> have a lot of great applications, such as summarization, chatbot, code completion and etc. It aslo gives zero-shot text classification a huge potential since most LLMs are pretrained on tremendous data which cover most common use case already. LLMs with strong reasoning capability such as deepseek can even perform well on unseen data. In this article, I want to discuss some pratical ways to use pretrained LLMs to do zero-shot classification using <a href="https://huggingface.co/docs/transformers/en/index">🤗 Transformers</a>. </p>
-<!--more--><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-layout="in-article"
-         data-ad-format="fluid"
-         data-ad-client="ca-pub-7674955363445536"
-         data-ad-slot="4714691501"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+<!--more-->
 
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AutoTokenizer</span><span class="p">,</span>

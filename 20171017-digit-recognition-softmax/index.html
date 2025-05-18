@@ -54,17 +54,7 @@ Digit recognition, Softmax | 叶某人的碎碎念    </title>
     <a data-disqus-identifier="20171017-digit-recognition-softmax/" href="/20171017-digit-recognition-softmax/#disqus_thread" class="disqus-comment-count"></a>
     <div class="post-content">
         <p>在这篇博客中，我将使用softmax模型来识别手写数字。文章的第一部分是关于softmax模型的理论推导，而第二部分则是模型的实现。softmax的本质是一个线性模型，所以推导所需要的理论在我之前的一篇博客<a href="https://wormtooth.com/20170920-generalized-linear-model/">Generalized Linear Model</a>已经详细介绍过了。softmax是逻辑回归(logistic regression)的推广：逻辑回归使用Bernoulli分布（二项分布），而softmax使用多项分布。</p>
-<!--more--><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-layout="in-article"
-         data-ad-format="fluid"
-         data-ad-client="ca-pub-7674955363445536"
-         data-ad-slot="4714691501"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+<!--more-->
 
 <h2>softmax模型</h2>
 <p>假设<span class="math">\(y\)</span>取值于<span class="math">\(\{1, 2, \dots, k\}\)</span>，也就是说数据集中包含<span class="math">\(k\)</span>类。一般来说对于输入特征<span class="math">\(x \in \mathbb{R}^{n+1}\)</span>，我们会规定<span class="math">\(x_0 = 1\)</span>。也就是说实际上输入特征是<span class="math">\(n\)</span>维的，引入<span class="math">\(x_0=1\)</span>是为了可以将线性方程写成<br>

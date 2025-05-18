@@ -66,17 +66,7 @@ Chapi | 叶某人的碎碎念    </title>
 
 <p>To be more precise, the flask app was still running, but the home router seemed not forwarding the requests to my pi. Anyway, I have no idea of what have happened. I just shut the app down, flashed a fresh new image to my pi.</p>
 <p>I want a way to communicate with my pi without exposing it. That is the motivation I start the project <a href="https://github.com/wormtooth/chapi">chapi</a>, which means "<strong>cha</strong>t with <strong>pi</strong>".</p>
-<!--more--><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-layout="in-article"
-         data-ad-format="fluid"
-         data-ad-client="ca-pub-7674955363445536"
-         data-ad-slot="4714691501"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+<!--more-->
 
 <h2>Ideas</h2>
 <p>My first thought is to use <a href="https://cloud.google.com/appengine/">Google App Engine</a>(GAE) as a communication hub: run a GAE app that receives clients' api requests and stores them, and a server will periodically asks the GAE app for api requests. This idea is fine for asking the server to do something that is not time sensitive. But the drawbacks are obvious. We need to write extra codes for the GAE app, it is not real-time request and response, it is hard for the server's APIs to return something to clients, and etc.</p>

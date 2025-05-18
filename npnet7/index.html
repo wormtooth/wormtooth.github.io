@@ -54,17 +54,7 @@
     <a data-disqus-identifier="npnet7/" href="/npnet7/#disqus_thread" class="disqus-comment-count"></a>
     <div class="post-content">
         <p>循环神经网络 (RNN, Recurrent Neural Network) 相对于之前的线性模型 (Linear Model) 或者卷积神经网络 (Convolution Neural Network) 能更好地处理具有顺序性的数据。比如说温度，每一个时间点的温度都跟之前若干个时间点的温度有联系。更重要的是，某个地方的温度在一天或者一年的时间内有一定的周期性。又比如说语言，一些单独的字或词需要有序地组织起来才能表达出清晰的意思。这样的数据用 RNN 能更好的归纳出规律。我们在这篇笔记中讨论简单 RNN 的理论以及实现。本文的主要参考文章：<a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">The Unreasonable Effectiveness of Recurrent Neural Networks</a>。</p>
-<!--more--><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-layout="in-article"
-         data-ad-format="fluid"
-         data-ad-client="ca-pub-7674955363445536"
-         data-ad-slot="4714691501"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+<!--more-->
 
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>

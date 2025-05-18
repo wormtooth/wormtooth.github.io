@@ -54,17 +54,7 @@ Prompt Tuning for Sequence Classification | 叶某人的碎碎念    </title>
     <a data-disqus-identifier="20250323-prompt-tuning-for-sequence-classification/" href="/20250323-prompt-tuning-for-sequence-classification/#disqus_thread" class="disqus-comment-count"></a>
     <div class="post-content">
         <p>In my previous blog post <a href="https://wormtooth.com/20250223-zero-shot-classification-with-llm/">Zero-Shot Text Classification with pretrained LLM</a>, I used Qwen2.5-0.5B-Instruct for sentiment analysis without any training. With some tweet on the prompts, we can see an improvement of accuracy from 77.5% to 82.5%. We might be able to squeeze the performance even more with prompt engineering, but it is inefficient as most of the time we don't know why one word is better than another in the prompts. Instead of prompt engineering, we can do <a href="https://arxiv.org/abs/2104.08691">prompt tuning</a> with some labelled data, which is one of the parameter-efficent ways to fine tune a LLM model. Its main idea is to prepend some tunable tokens to some task specific prompt while freezing the LLM model. We then train the embeddings of the prepended tokens on the labelled data so that the learned tokens can align the task specific prompt better to the task. </p>
-<!--more--><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-layout="in-article"
-         data-ad-format="fluid"
-         data-ad-client="ca-pub-7674955363445536"
-         data-ad-slot="4714691501"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+<!--more-->
 
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_dataset</span>
 <span class="kn">from</span> <span class="nn">peft</span> <span class="kn">import</span> <span class="n">PromptTuningConfig</span><span class="p">,</span> <span class="n">get_peft_model</span><span class="p">,</span> <span class="n">PromptTuningInit</span><span class="p">,</span> <span class="n">TaskType</span>

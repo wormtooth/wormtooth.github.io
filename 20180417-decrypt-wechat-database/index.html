@@ -54,17 +54,7 @@
     <a data-disqus-identifier="20180417-decrypt-wechat-database/" href="/20180417-decrypt-wechat-database/#disqus_thread" class="disqus-comment-count"></a>
     <div class="post-content">
         <p>我一直想把自己的微信聊天记录导出来，用来做一些奇奇怪怪的东西。可以用来分析一下过去一年里跟谁聊天了，聊的都是啥，或者做一个带有自己特点的聊天机器人。问题是，微信现在并没有简单导出聊天记录的方法。从我网上搜到的资料，安卓机器上的微信会将聊天记录（还有很多其他数据，比如联系人）保存在一个叫做<code>EnMicroMsg.db</code>的数据库中。这个数据库是使用<a href="https://www.zetetic.net/sqlcipher/">SQLCipher</a>生成的，没有密码是无法正常打开的。这个密码其实可以很容易通过自己手机的信息以及微信的信息计算出来，我也根据网上的教程计算出属于我的密码了。但是我一直没有成功解密我的聊天记录数据库。直到今天我再次搜寻了关于微信数据库的资料，才发现我不仅仅需要密码，还需要其他一下数据库的设置才能正确打开。这篇博文主要的目的是记录我该怎么做才能导出微信聊天记录，以方便以后使用。</p>
-<!--more--><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-layout="in-article"
-         data-ad-format="fluid"
-         data-ad-client="ca-pub-7674955363445536"
-         data-ad-slot="4714691501"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+<!--more-->
 
 <p>我根据<a href="http://www.wjdiankong.cn/archives/845">这篇文章</a>从安卓机器中获得自己的聊天记录数据库<code>EnMicroMsg.db</code>并计算属于自己的密码。我的安卓机器已经<strong>root</strong>了，所以我可以用<code>adb</code>进行如下操作获得微信的<code>uin</code>和<code>EnMicroMsg.db</code>。</p>
 <h3>获取<code>uin</code></h3>

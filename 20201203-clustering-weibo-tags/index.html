@@ -55,17 +55,7 @@ Clustering Weibo Tags | 叶某人的碎碎念    </title>
     <div class="post-content">
         <p>I started a projected last October to collect Weibo's top search data (<a href="https://s.weibo.com/top/summary">微博热搜榜</a>) hourly. Together with the keywords or tags (关键词), most recent related weibos (or tweets) are collected as well. The result is save to a JSON file, with the format explained in this <a href="https://wormtooth.com/weibo-top-searches-json-format/">page</a>.</p>
 <p>In this post, I would like to explore this data set and try to cluster tags. To be more precise, multiple tags can be used to refer to a same event, and these different tags are related and even share the same meaning. The task is to group similar tags together based on the data collected.</p>
-<!--more--><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-layout="in-article"
-         data-ad-format="fluid"
-         data-ad-client="ca-pub-7674955363445536"
-         data-ad-slot="4714691501"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+<!--more-->
 
 <h2>The Graph of Tags</h2>
 <p>The idea shown in this post to cluster tags is to build a graph of tags according to their co-occurance, and treat each connected component as a cluster of tags. In this graph, tags are vertices and the weight of an edge connecting two tags are the number of co-occurances.</p>

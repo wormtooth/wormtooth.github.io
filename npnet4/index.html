@@ -54,17 +54,7 @@
     <a data-disqus-identifier="npnet4/" href="/npnet4/#disqus_thread" class="disqus-comment-count"></a>
     <div class="post-content">
         <p>我们在之前的一篇笔记中使用简单的线性模型去识别 <a href="https://github.com/zalandoresearch/fashion-mnist">Fashion-MNIST</a> 数据集，达到了 75% 到 80% 的准确率。通过对损失 [loss] 的可视化我们发现这个简单的模型并没有过拟合 [overfitting]，说明我们基本达到了这个模型的上限了。我们如何增加提高识别的准确率呢？一个直接的做法就是提高模型的复杂度，比如我们可以使用简单的模型搭建一个复杂的神经网络。这一般来说也是最有效的方法。我们还可以通过数据预处理的方法来榨取原先模型的能力，只是我对此是门外汉，除了使数据具有零平均值 (zero mean) 和单位方差 (unit variance) 之外就一无所知了，所以我就在这方面就不展开了。</p>
-<!--more--><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-layout="in-article"
-         data-ad-format="fluid"
-         data-ad-client="ca-pub-7674955363445536"
-         data-ad-slot="4714691501"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+<!--more-->
 
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
