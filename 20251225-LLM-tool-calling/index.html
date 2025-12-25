@@ -55,7 +55,7 @@ LLM Tool Calling | 叶某人的碎碎念    </title>
     <div class="post-content">
         <p>I recently tried to update my <a href="https://wormtooth.com/movies/">movie page</a> but failed - the package <a href="https://github.com/cinemagoer/cinemagoer">cinemagoer</a> could not fetch all the needed information from <a href="https://www.imdb.com">IMDb</a>. I decided to try LLM instead of a rule based engine to extract movie information. It works and works pretty well with <code>tool calling</code> for a structured output. I am going to document my understanding of tool calling, what it is for, and how to use it for structured output.</p>
 <p>Quick note: Codes are tailored to <a href="https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507">Qwen/Qwen3-4B-Instruct-2507</a> and <a href="https://github.com/ml-explore/mlx-lm">mlx_lm</a>. They might need adjustment with other models and frameworks.</p>
-<!--more>
+<!--more-->
 
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mlx_lm</span> <span class="kn">import</span> <span class="n">load</span><span class="p">,</span> <span class="n">generate</span>
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
@@ -80,31 +80,24 @@ LLM Tool Calling | 叶某人的碎碎念    </title>
 </pre></div>
 
 
-
 <pre>/Users/rye/miniconda3/envs/mlx/lib/python3.12/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
   from .autonotebook import tqdm as notebook_tqdm
 Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 98227.26it/s]
 </pre>
-
 
 <div class="highlight"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;What date is it today?&quot;</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">get_completion</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
 </pre></div>
 
 
-
 <pre>I can't access real-time information, including today
 </pre>
 
-# Tool Calling
-
-A stand-alone LLM cannot answer simple questions such as "What date is it today?". Once the training is done, the internal knowledge of the LLM is fixed and it cannot reliably answer questions beyond its internal knowledge. One common way to increase its knowledge is to include needed context in prompts. Another one is to add tool calling capability to the LLM during the training process so that it can interact with external world to get the needed context on its own judgment.
-
-
+<h1>Tool Calling</h1>
+<p>A stand-alone LLM cannot answer simple questions such as "What date is it today?". Once the training is done, the internal knowledge of the LLM is fixed and it cannot reliably answer questions beyond its internal knowledge. One common way to increase its knowledge is to include needed context in prompts. Another one is to add tool calling capability to the LLM during the training process so that it can interact with external world to get the needed context on its own judgment.</p>
 <div class="highlight"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;Explain tool calling in one paragraph.&quot;</span>
 <span class="n">pprint</span><span class="p">(</span><span class="n">get_completion</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">1024</span><span class="p">))</span>
 </pre></div>
-
 
 
 <pre>('Tool calling is a capability in artificial intelligence, particularly in '
@@ -121,11 +114,9 @@ A stand-alone LLM cannot answer simple questions such as "What date is it today?
  'multi-step reasoning.')
 </pre>
 
-
 <div class="highlight"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;Explain how LLM obtains tool calling capability in one paragraph.&quot;</span>
 <span class="n">pprint</span><span class="p">(</span><span class="n">get_completion</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">1024</span><span class="p">))</span>
 </pre></div>
-
 
 
 <pre>('Large Language Models (LLMs) obtain tool calling capability through a '
@@ -147,11 +138,8 @@ A stand-alone LLM cannot answer simple questions such as "What date is it today?
  'databases, or web search.')
 </pre>
 
-Not all LLMs come with tool calling capability. We should confirm before using the LLM for tool calling. We can read the technical reports, or simply go through its model card. For example, it mentions "tool usage" in the model card of [Qwen/Qwen3-4B-Instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507). We can also find its performance on relevant benchmarks - [BFCL v3](https://gorilla.cs.berkeley.edu/blogs/13_bfcl_v3_multi_turn.html), [Tau 1](https://arxiv.org/abs/2406.12045), and [Tau 2](https://arxiv.org/abs/2506.07982). These are strong evidence that the model has the tool calling capability.
-
-The next step is to get some understanding of how the LLM was trained for the tool calling. Different LLM providers can structure the input and output differntly during the training process. We should align the data layout as much as we can to the training process to maximize LLM's performance. We can take a look at the chat template for some hint. Below is relevant part of the output from `tokenizer.get_chat_template()`:
-
-
+<p>Not all LLMs come with tool calling capability. We should confirm before using the LLM for tool calling. We can read the technical reports, or simply go through its model card. For example, it mentions "tool usage" in the model card of <a href="https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507">Qwen/Qwen3-4B-Instruct-2507</a>. We can also find its performance on relevant benchmarks - <a href="https://gorilla.cs.berkeley.edu/blogs/13_bfcl_v3_multi_turn.html">BFCL v3</a>, <a href="https://arxiv.org/abs/2406.12045">Tau 1</a>, and <a href="https://arxiv.org/abs/2506.07982">Tau 2</a>. These are strong evidence that the model has the tool calling capability.</p>
+<p>The next step is to get some understanding of how the LLM was trained for the tool calling. Different LLM providers can structure the input and output differntly during the training process. We should align the data layout as much as we can to the training process to maximize LLM's performance. We can take a look at the chat template for some hint. Below is relevant part of the output from <code>tokenizer.get_chat_template()</code>:</p>
 <div class="highlight"><pre><span></span><span class="cp">{%</span>- <span class="k">if</span> <span class="nv">tools</span> <span class="cp">%}</span>
 <span class="w">    </span><span class="cp">{{</span><span class="o">-</span> <span class="s1">&#39;&lt;|im_start|&gt;system\n&#39;</span> <span class="cp">}}</span>
 <span class="w">    </span><span class="cp">{%</span>- <span class="k">if</span> <span class="nv">messages</span><span class="o">[</span><span class="m">0</span><span class="o">]</span><span class="nv">.role</span> <span class="o">==</span> <span class="s1">&#39;system&#39;</span> <span class="cp">%}</span>
@@ -167,9 +155,7 @@ The next step is to get some understanding of how the LLM was trained for the to
 </pre></div>
 
 
-
-From the Qwen3's chat template, we can provide `tools` to it via `tokenizer.apply_chat_template`. The tools will be inserted in the system message as a "# Tools" section. The input/output are orgainized in XML tags. Each tool will be formatted to a JSON string by `tojson`. In this [article](https://qwen.readthedocs.io/en/latest/framework/function_call.html), we can also find the specs to describe a tool. Here is a classic `get_current_temperature` example:
-
+<p>From the Qwen3's chat template, we can provide <code>tools</code> to it via <code>tokenizer.apply_chat_template</code>. The tools will be inserted in the system message as a "# Tools" section. The input/output are orgainized in XML tags. Each tool will be formatted to a JSON string by <code>tojson</code>. In this <a href="https://qwen.readthedocs.io/en/latest/framework/function_call.html">article</a>, we can also find the specs to describe a tool. Here is a classic <code>get_current_temperature</code> example:</p>
 <div class="highlight"><pre><span></span><span class="n">temperature_tool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;function&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="s2">&quot;function&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -200,10 +186,7 @@ From the Qwen3's chat template, we can provide `tools` to it via `tokenizer.appl
 </pre></div>
 
 
-
-We can pass in `tools=[temperature_tool]` in `tokenizer.apply_chat_template` to make the tools available to the model. One issue is that it is quite some work to describe a tool using the format above manually. Luckily, since this tool format is so commonly used that the tokenizer implementation from transformers can accept functions with appropriate docstrings as tools. It converts the functions to the format above with information fetched from docstrings. Let's provide a `today` tool to the model so that it can answer the date of today.
-
-
+<p>We can pass in <code>tools=[temperature_tool]</code> in <code>tokenizer.apply_chat_template</code> to make the tools available to the model. One issue is that it is quite some work to describe a tool using the format above manually. Luckily, since this tool format is so commonly used that the tokenizer implementation from transformers can accept functions with appropriate docstrings as tools. It converts the functions to the format above with information fetched from docstrings. Let's provide a <code>today</code> tool to the model so that it can answer the date of today.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
 
 <span class="k">def</span> <span class="nf">today</span><span class="p">():</span>
@@ -216,10 +199,8 @@ We can pass in `tools=[temperature_tool]` in `tokenizer.apply_chat_template` to 
 </pre></div>
 
 
-
 <pre>2025-12-25
 </pre>
-
 
 <div class="highlight"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;What date is it today?&quot;</span>
 <span class="n">messages</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">prompt</span><span class="p">)]</span>
@@ -231,7 +212,6 @@ We can pass in `tools=[temperature_tool]` in `tokenizer.apply_chat_template` to 
 <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">formatted_prompt</span><span class="p">)</span>
 </pre></div>
-
 
 
 <pre><|im_start|>system
@@ -254,9 +234,7 @@ What date is it today?<|im_end|>
 
 </pre>
 
-Please pay attention to `tools=[today]` in `tokenizer.apply_chat_template` and how it is presented as a tool in the system message. With this prompt, the model now has the tool needed to answer the "date" question.
-
-
+<p>Please pay attention to <code>tools=[today]</code> in <code>tokenizer.apply_chat_template</code> and how it is presented as a tool in the system message. With this prompt, the model now has the tool needed to answer the "date" question.</p>
 <div class="highlight"><pre><span></span><span class="n">resp</span> <span class="o">=</span> <span class="n">generate</span><span class="p">(</span>
     <span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">formatted_prompt</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">128</span>
 <span class="p">)</span>
@@ -264,15 +242,12 @@ Please pay attention to `tools=[today]` in `tokenizer.apply_chat_template` and h
 </pre></div>
 
 
-
 <pre><tool_call>
 {"name": "today", "arguments": {}}
 </tool_call>
 </pre>
 
-Instead of saying it cannot answer the question, it responds the need to call a function `today` to get the information needed for the question. Looking at the chat template again, we can learn how to pass the response of the function back to the model.
-
-
+<p>Instead of saying it cannot answer the question, it responds the need to call a function <code>today</code> to get the information needed for the question. Looking at the chat template again, we can learn how to pass the response of the function back to the model.</p>
 <div class="highlight"><pre><span></span><span class="cp">{%</span>- <span class="k">elif</span> <span class="nv">message.role</span> <span class="o">==</span> <span class="s2">&quot;tool&quot;</span> <span class="cp">%}</span>
 <span class="w">    </span><span class="cp">{%</span>- <span class="k">if</span> <span class="nb">loop</span><span class="nv">.first</span> <span class="k">or</span> <span class="o">(</span><span class="nv">messages</span><span class="o">[</span><span class="nb">loop</span><span class="nv">.index0</span> <span class="o">-</span> <span class="m">1</span><span class="o">]</span><span class="nv">.role</span> <span class="o">!=</span> <span class="s2">&quot;tool&quot;</span><span class="o">)</span> <span class="cp">%}</span>
 <span class="w">        </span><span class="cp">{{</span><span class="o">-</span> <span class="s1">&#39;&lt;|im_start|&gt;user&#39;</span> <span class="cp">}}</span>
@@ -287,10 +262,7 @@ Instead of saying it cannot answer the question, it responds the need to call a 
 </pre></div>
 
 
-
-We will pass back the response with `rool="tool"`, and `content` the return of the function. We can go sophisticated on the tool registry and executor. But for simplicity, I assume the tools are defined in `globals()`.
-
-
+<p>We will pass back the response with <code>rool="tool"</code>, and <code>content</code> the return of the function. We can go sophisticated on the tool registry and executor. But for simplicity, I assume the tools are defined in <code>globals()</code>.</p>
 <div class="highlight"><pre><span></span><span class="n">tool_call_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
     <span class="s2">&quot;&lt;tool_call&gt;(.*?)&lt;/tool_call&gt;|&lt;tool_call&gt;(.*)&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span>
 <span class="p">)</span>
@@ -324,11 +296,9 @@ We will pass back the response with `rool="tool"`, and `content` the return of t
 </pre></div>
 
 
-
 <pre>Tool calls: [{'name': 'today', 'arguments': {}}]
 Tool call response: {'role': 'tool', 'content': '2025-12-25'}
 </pre>
-
 
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_completion_with_tools</span><span class="p">(</span>
     <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -377,10 +347,7 @@ Tool call response: {'role': 'tool', 'content': '2025-12-25'}
 </pre></div>
 
 
-
-Let's ask the model again the date of today with tools provided.
-
-
+<p>Let's ask the model again the date of today with tools provided.</p>
 <div class="highlight"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="n">get_completion_with_tools</span><span class="p">(</span>
     <span class="s2">&quot;What date is it today?&quot;</span><span class="p">,</span>
     <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">today</span><span class="p">]</span>
@@ -389,13 +356,10 @@ Let's ask the model again the date of today with tools provided.
 </pre></div>
 
 
-
 <pre>Today's date is December 25, 2025.
 </pre>
 
-We can go further to ask for the weekday of today, with another tool passed in.
-
-
+<p>We can go further to ask for the weekday of today, with another tool passed in.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_weekday</span><span class="p">(</span><span class="n">date_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the weekday of a given date.</span>
 
@@ -413,15 +377,12 @@ We can go further to ask for the weekday of today, with another tool passed in.
 </pre></div>
 
 
-
 <pre>Today is Thursday, December 25, 2025.
 </pre>
-
 
 <div class="highlight"><pre><span></span><span class="c1"># take a look into the seqence of tool calls from the messages</span>
 <span class="n">pprint</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
 </pre></div>
-
 
 
 <pre>[{'content': 'What weekday is it today?', 'role': 'user'},
@@ -437,13 +398,9 @@ We can go further to ask for the weekday of today, with another tool passed in.
  {'content': 'Today is Thursday, December 25, 2025.', 'role': 'assistant'}]
 </pre>
 
-The model is smart enough that it invokes `today` to get the date of today and then uses `get_weekday` with the right argument to get the weekday.
-
-# Structured Output
-
-One clever use of tool calling is to get structured output instead of plain text output. The main idea is in the `arguments` field in the tool calls, which is in JSON format. Let's come back the original quest - extract movie information from IMDb page. We will see the normal output first.
-
-
+<p>The model is smart enough that it invokes <code>today</code> to get the date of today and then uses <code>get_weekday</code> with the right argument to get the weekday.</p>
+<h1>Structured Output</h1>
+<p>One clever use of tool calling is to get structured output instead of plain text output. The main idea is in the <code>arguments</code> field in the tool calls, which is in JSON format. Let's come back the original quest - extract movie information from IMDb page. We will see the normal output first.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 
@@ -464,16 +421,13 @@ One clever use of tool calling is to get structured output instead of plain text
 </pre></div>
 
 
-
 <pre>Avatar: Fire and Ash (2025) - IMDb 
 </pre>
-
 
 <div class="highlight"><pre><span></span><span class="n">movie_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Extract movie information from the given text.</span><span class="se">\n\n</span><span class="s2"># Text</span><span class="se">\n</span><span class="si">{</span><span class="n">page_text</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="n">resp</span> <span class="o">=</span> <span class="n">get_completion</span><span class="p">(</span><span class="n">movie_prompt</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
 </pre></div>
-
 
 
 <pre>Here is the extracted movie information from the provided text:
@@ -491,9 +445,7 @@ One clever use of tool calling is to get structured output instead of plain text
 **Writers:** James Cameron,
 </pre>
 
-The model is pretty good at extracting the relevant movie information. But one problem is that the output is not structured that we still need to parse it into fields before we can save it to a database. Another problem is that the model might not foucs on the information we want. To solve this issue, we can define a tool to specify the structure and information we need to extract.
-
-
+<p>The model is pretty good at extracting the relevant movie information. But one problem is that the output is not structured that we still need to parse it into fields before we can save it to a database. Another problem is that the model might not foucs on the information we want. To solve this issue, we can define a tool to specify the structure and information we need to extract.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">Movie</span><span class="p">(</span>
     <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">rating_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -523,10 +475,7 @@ The model is pretty good at extracting the relevant movie information. But one p
 </pre></div>
 
 
-
-For structured output, we don't really need a function (you can if you want), but just a way to specify the fields we need and the descriptions. We make use of the docstrings to define the structure and pass it to Qwen3 as a tool.
-
-
+<p>For structured output, we don't really need a function (you can if you want), but just a way to specify the fields we need and the descriptions. We make use of the docstrings to define the structure and pass it to Qwen3 as a tool.</p>
 <div class="highlight"><pre><span></span><span class="n">messages</span> <span class="o">=</span> <span class="n">get_completion_with_tools</span><span class="p">(</span>
     <span class="n">movie_prompt</span><span class="p">,</span>
     <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">Movie</span><span class="p">],</span>
@@ -536,7 +485,6 @@ For structured output, we don't really need a function (you can if you want), bu
 <span class="n">resp</span> <span class="o">=</span> <span class="n">messages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;content&quot;</span><span class="p">]</span>
 <span class="n">pprint</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
 </pre></div>
-
 
 
 <pre>('<tool_call>\n'
@@ -554,11 +502,9 @@ For structured output, we don't really need a function (you can if you want), bu
  '</tool_call>')
 </pre>
 
-
 <div class="highlight"><pre><span></span><span class="n">movie</span> <span class="o">=</span> <span class="n">parse_tool_calls</span><span class="p">(</span><span class="n">resp</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span>
 <span class="n">pprint</span><span class="p">(</span><span class="n">movie</span><span class="p">)</span>
 </pre></div>
-
 
 
 <pre>{'desc': "Jake and Neytiri's family grapples with grief, encountering a new, "
@@ -579,9 +525,8 @@ For structured output, we don't really need a function (you can if you want), bu
  'writer': 'James Cameron, Rick Jaffa, Amanda Silver'}
 </pre>
 
-Voilà, we get all the movie information we want in a dictionary `movie`!
-
-Final words: Some may feel weird that we pass in a function for extraction instead of an object. That is the limitation of Qwen3 models. In its documentation for tool calling [here](https://qwen.readthedocs.io/en/latest/framework/function_call.html), it explicitly calls out that `currently only "function" is valid` for the tool type. If `object` type is also supported, we can define `Movie` as a Pydantic class and then pass in the model json schema as the tool. Though it is not officially supported, you can still try it as an exercise :)
+<p>Voilà, we get all the movie information we want in a dictionary <code>movie</code>!</p>
+<p>Final words: Some may feel weird that we pass in a function for extraction instead of an object. That is the limitation of Qwen3 models. In its documentation for tool calling <a href="https://qwen.readthedocs.io/en/latest/framework/function_call.html">here</a>, it explicitly calls out that <code>currently only "function" is valid</code> for the tool type. If <code>object</code> type is also supported, we can define <code>Movie</code> as a Pydantic class and then pass in the model json schema as the tool. Though it is not officially supported, you can still try it as an exercise :)</p>
 
         <div class="tags">
         <a href="/tag/llm">LLM</a>
