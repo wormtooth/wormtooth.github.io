@@ -2,15 +2,6 @@
 <html lang="en">
 
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G153DWZ7W5"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-G153DWZ7W5');
-    </script>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <meta content="yes" name="apple-mobile-web-app-capable" />
@@ -27,8 +18,6 @@ Zero-Shot Text Classification with pretrained LLM | 叶某人的碎碎念    </t
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -92,7 +81,7 @@ As an example, we will use a sentiment dataset <a href="https://huggingface.co/d
 
 
 <pre>Sample size: 453
-Labels: ['negative', 'neutral', 'positive']
+Labels: [&#x27;negative&#x27;, &#x27;neutral&#x27;, &#x27;positive&#x27;]
 Label sample size for negative: 61
 Label sample size for neutral: 265
 Label sample size for positive: 127
@@ -137,13 +126,13 @@ Give your answer in one word.
 </pre></div>
 
 
-<pre><|im_start|>system
-You are a helpful assistant.<|im_end|>
-<|im_start|>user
+<pre>&lt;|im_start|&gt;system
+You are a helpful assistant.&lt;|im_end|&gt;
+&lt;|im_start|&gt;user
 What is the sentiment of the following text related to finance?
 negative, neutral or positive: {text}
-Give your answer in one word.<|im_end|>
-<|im_start|>assistant
+Give your answer in one word.&lt;|im_end|&gt;
+&lt;|im_start|&gt;assistant
 
 </pre>
 
@@ -169,13 +158,13 @@ Sentiment (Truth): negative
 </pre></div>
 
 
-<pre><|im_start|>system
-You are a helpful assistant.<|im_end|>
-<|im_start|>user
+<pre>&lt;|im_start|&gt;system
+You are a helpful assistant.&lt;|im_end|&gt;
+&lt;|im_start|&gt;user
 What is the sentiment of the following text related to finance?
 negative, neutral or positive: In Q2 of 2009 , profit before taxes amounted to EUR 13.6 mn , down from EUR 26.8 mn in Q2 of 2008 .
-Give your answer in one word.<|im_end|>
-<|im_start|>assistant
+Give your answer in one word.&lt;|im_end|&gt;
+&lt;|im_start|&gt;assistant
 
 </pre>
 
@@ -261,7 +250,7 @@ Sentiment (Predicted): negative
 </pre></div>
 
 
-<pre>The set of predicted labels: {'Negative', 'Neutral', 'positive', 'neutral', 'negative', 'Positive'}
+<pre>The set of predicted labels: {&#x27;Negative&#x27;, &#x27;Neutral&#x27;, &#x27;positive&#x27;, &#x27;neutral&#x27;, &#x27;negative&#x27;, &#x27;Positive&#x27;}
 Correct count = 323/453 = 71.30%
 </pre>
 
@@ -379,7 +368,7 @@ The label `neutral` has token id: 59568
 </pre></div>
 
 
-<pre>Some weights of Qwen2ForSequenceClassification were not initialized from the model checkpoint at Qwen/Qwen2.5-0.5B-Instruct and are newly initialized: ['score.weight']
+<pre>Some weights of Qwen2ForSequenceClassification were not initialized from the model checkpoint at Qwen/Qwen2.5-0.5B-Instruct and are newly initialized: [&#x27;score.weight&#x27;]
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
 </pre>
 
@@ -428,7 +417,7 @@ Sentiment (Predicted): negative
 <pre>Device set to use mps
 </pre>
 
-<pre>[{'label': 'negative', 'score': 0.6845569014549255}]</pre>
+<pre>[{&#x27;label&#x27;: &#x27;negative&#x27;, &#x27;score&#x27;: 0.6845569014549255}]</pre>
 
 <div class="highlight"><pre><span></span><span class="n">cls_results</span> <span class="o">=</span> <span class="n">pipe</span><span class="p">(</span><span class="n">df_data</span><span class="p">[</span><span class="s2">&quot;prompt&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">(),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
 <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
@@ -475,13 +464,13 @@ CLS prediction: positive
 </pre></div>
 
 
-<pre><|im_start|>system
-"You are a helpful assistant that good at sentiment analysis on texts related to finance.<|im_end|>
-<|im_start|>user
+<pre>&lt;|im_start|&gt;system
+&quot;You are a helpful assistant that good at sentiment analysis on texts related to finance.&lt;|im_end|&gt;
+&lt;|im_start|&gt;user
 What is the sentiment of the following text related to finance?
 negative, neutral or positive: {text}
-Give your answer in one word.<|im_end|>
-<|im_start|>assistant
+Give your answer in one word.&lt;|im_end|&gt;
+&lt;|im_start|&gt;assistant
 
 </pre>
 
@@ -503,18 +492,6 @@ Give your answer in one word.<|im_end|>
         <a href="/tag/classification">classification</a>
         <a href="/tag/llm">LLM</a>
         </div>
-
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-layout="in-article"
-         data-ad-format="fluid"
-         data-ad-client="ca-pub-7674955363445536"
-         data-ad-slot="4714691501"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
 
 
 <div id="disqus_thread">

@@ -2,15 +2,6 @@
 <html lang="en">
 
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G153DWZ7W5"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-G153DWZ7W5');
-    </script>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <meta content="yes" name="apple-mobile-web-app-capable" />
@@ -27,8 +18,6 @@ LLM Tool Calling | 叶某人的碎碎念    </title>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -82,7 +71,7 @@ LLM Tool Calling | 叶某人的碎碎念    </title>
 
 <pre>/Users/rye/miniconda3/envs/mlx/lib/python3.12/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
   from .autonotebook import tqdm as notebook_tqdm
-Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 98227.26it/s]
+Fetching 10 files: 100%|██████████| 10/10 [00:00&lt;00:00, 98227.26it/s]
 </pre>
 
 <div class="highlight"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;What date is it today?&quot;</span>
@@ -90,7 +79,7 @@ Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 9822
 </pre></div>
 
 
-<pre>I can't access real-time information, including today
+<pre>I can&#x27;t access real-time information, including today
 </pre>
 
 <h1>Tool Calling</h1>
@@ -100,18 +89,18 @@ Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 9822
 </pre></div>
 
 
-<pre>('Tool calling is a capability in artificial intelligence, particularly in '
- 'large language models (LLMs), that allows the model to invoke external '
- 'functions or tools—such as APIs, databases, or software programs—to perform '
- 'specific tasks that the model cannot execute directly. Instead of generating '
- 'a complete response based solely on its internal knowledge, the model '
- 'identifies a relevant action (e.g., searching a database or retrieving '
- 'weather data) and "calls" an appropriate tool to obtain the required '
- 'information. The tool executes the request, returns the result, and the '
- 'model uses that output to complete its response, enabling more accurate, '
- 'up-to-date, and contextually relevant answers. This mechanism enhances the '
- "model's ability to interact with the real world and perform complex, "
- 'multi-step reasoning.')
+<pre>(&#x27;Tool calling is a capability in artificial intelligence, particularly in &#x27;
+ &#x27;large language models (LLMs), that allows the model to invoke external &#x27;
+ &#x27;functions or tools—such as APIs, databases, or software programs—to perform &#x27;
+ &#x27;specific tasks that the model cannot execute directly. Instead of generating &#x27;
+ &#x27;a complete response based solely on its internal knowledge, the model &#x27;
+ &#x27;identifies a relevant action (e.g., searching a database or retrieving &#x27;
+ &#x27;weather data) and &quot;calls&quot; an appropriate tool to obtain the required &#x27;
+ &#x27;information. The tool executes the request, returns the result, and the &#x27;
+ &#x27;model uses that output to complete its response, enabling more accurate, &#x27;
+ &#x27;up-to-date, and contextually relevant answers. This mechanism enhances the &#x27;
+ &quot;model&#x27;s ability to interact with the real world and perform complex, &quot;
+ &#x27;multi-step reasoning.&#x27;)
 </pre>
 
 <div class="highlight"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;Explain how LLM obtains tool calling capability in one paragraph.&quot;</span>
@@ -119,23 +108,23 @@ Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 9822
 </pre></div>
 
 
-<pre>('Large Language Models (LLMs) obtain tool calling capability through a '
- 'combination of architectural modifications and training techniques that '
- 'enable them to recognize, interpret, and execute external tools or '
- 'functions. This is typically achieved by integrating a "tool-use" module '
- 'into the model’s architecture, where the model learns to generate structured '
- 'prompts that specify which tool to invoke and what input parameters to pass. '
- 'During training, the LLM is exposed to examples of human instructions paired '
- 'with tool calls and corresponding outputs, allowing it to learn the mapping '
- 'between natural language queries and appropriate function invocations. '
- 'Additionally, reinforcement learning from human feedback (RLHF) or direct '
- 'preference optimization can refine the model’s ability to select the most '
- 'relevant tools in context. In some cases, the model is trained with a '
- '"tool-aware" instruction-tuning process, where it learns to detect '
- 'tool-relevant phrases and generate function calls in a safe, structured '
- 'format. This enables the LLM to act as an intelligent agent capable of '
- 'performing complex tasks by leveraging external systems like APIs, '
- 'databases, or web search.')
+<pre>(&#x27;Large Language Models (LLMs) obtain tool calling capability through a &#x27;
+ &#x27;combination of architectural modifications and training techniques that &#x27;
+ &#x27;enable them to recognize, interpret, and execute external tools or &#x27;
+ &#x27;functions. This is typically achieved by integrating a &quot;tool-use&quot; module &#x27;
+ &#x27;into the model’s architecture, where the model learns to generate structured &#x27;
+ &#x27;prompts that specify which tool to invoke and what input parameters to pass. &#x27;
+ &#x27;During training, the LLM is exposed to examples of human instructions paired &#x27;
+ &#x27;with tool calls and corresponding outputs, allowing it to learn the mapping &#x27;
+ &#x27;between natural language queries and appropriate function invocations. &#x27;
+ &#x27;Additionally, reinforcement learning from human feedback (RLHF) or direct &#x27;
+ &#x27;preference optimization can refine the model’s ability to select the most &#x27;
+ &#x27;relevant tools in context. In some cases, the model is trained with a &#x27;
+ &#x27;&quot;tool-aware&quot; instruction-tuning process, where it learns to detect &#x27;
+ &#x27;tool-relevant phrases and generate function calls in a safe, structured &#x27;
+ &#x27;format. This enables the LLM to act as an intelligent agent capable of &#x27;
+ &#x27;performing complex tasks by leveraging external systems like APIs, &#x27;
+ &#x27;databases, or web search.&#x27;)
 </pre>
 
 <p>Not all LLMs come with tool calling capability. We should confirm before using the LLM for tool calling. We can read the technical reports, or simply go through its model card. For example, it mentions "tool usage" in the model card of <a href="https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507">Qwen/Qwen3-4B-Instruct-2507</a>. We can also find its performance on relevant benchmarks - <a href="https://gorilla.cs.berkeley.edu/blogs/13_bfcl_v3_multi_turn.html">BFCL v3</a>, <a href="https://arxiv.org/abs/2406.12045">Tau 1</a>, and <a href="https://arxiv.org/abs/2506.07982">Tau 2</a>. These are strong evidence that the model has the tool calling capability.</p>
@@ -214,23 +203,23 @@ Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 9822
 </pre></div>
 
 
-<pre><|im_start|>system
+<pre>&lt;|im_start|&gt;system
 # Tools
 
 You may call one or more functions to assist with the user query.
 
-You are provided with function signatures within <tools></tools> XML tags:
-<tools>
-{"type": "function", "function": {"name": "today", "description": "Get today's date in YYYY-MM-DD.", "parameters": {"type": "object", "properties": {}}}}
-</tools>
+You are provided with function signatures within &lt;tools&gt;&lt;/tools&gt; XML tags:
+&lt;tools&gt;
+{&quot;type&quot;: &quot;function&quot;, &quot;function&quot;: {&quot;name&quot;: &quot;today&quot;, &quot;description&quot;: &quot;Get today&#x27;s date in YYYY-MM-DD.&quot;, &quot;parameters&quot;: {&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {}}}}
+&lt;/tools&gt;
 
-For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
-<tool_call>
-{"name": <function-name>, "arguments": <args-json-object>}
-</tool_call><|im_end|>
-<|im_start|>user
-What date is it today?<|im_end|>
-<|im_start|>assistant
+For each function call, return a json object with function name and arguments within &lt;tool_call&gt;&lt;/tool_call&gt; XML tags:
+&lt;tool_call&gt;
+{&quot;name&quot;: &lt;function-name&gt;, &quot;arguments&quot;: &lt;args-json-object&gt;}
+&lt;/tool_call&gt;&lt;|im_end|&gt;
+&lt;|im_start|&gt;user
+What date is it today?&lt;|im_end|&gt;
+&lt;|im_start|&gt;assistant
 
 </pre>
 
@@ -242,9 +231,9 @@ What date is it today?<|im_end|>
 </pre></div>
 
 
-<pre><tool_call>
-{"name": "today", "arguments": {}}
-</tool_call>
+<pre>&lt;tool_call&gt;
+{&quot;name&quot;: &quot;today&quot;, &quot;arguments&quot;: {}}
+&lt;/tool_call&gt;
 </pre>
 
 <p>Instead of saying it cannot answer the question, it responds the need to call a function <code>today</code> to get the information needed for the question. Looking at the chat template again, we can learn how to pass the response of the function back to the model.</p>
@@ -296,8 +285,8 @@ What date is it today?<|im_end|>
 </pre></div>
 
 
-<pre>Tool calls: [{'name': 'today', 'arguments': {}}]
-Tool call response: {'role': 'tool', 'content': '2025-12-25'}
+<pre>Tool calls: [{&#x27;name&#x27;: &#x27;today&#x27;, &#x27;arguments&#x27;: {}}]
+Tool call response: {&#x27;role&#x27;: &#x27;tool&#x27;, &#x27;content&#x27;: &#x27;2025-12-25&#x27;}
 </pre>
 
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_completion_with_tools</span><span class="p">(</span>
@@ -356,7 +345,7 @@ Tool call response: {'role': 'tool', 'content': '2025-12-25'}
 </pre></div>
 
 
-<pre>Today's date is December 25, 2025.
+<pre>Today&#x27;s date is December 25, 2025.
 </pre>
 
 <p>We can go further to ask for the weekday of today, with another tool passed in.</p>
@@ -385,17 +374,17 @@ Tool call response: {'role': 'tool', 'content': '2025-12-25'}
 </pre></div>
 
 
-<pre>[{'content': 'What weekday is it today?', 'role': 'user'},
- {'content': '<tool_call>\n{"name": "today", "arguments": {}}\n</tool_call>',
-  'role': 'assistant'},
- {'content': '2025-12-25', 'role': 'tool'},
- {'content': '<tool_call>\n'
-             '{"name": "get_weekday", "arguments": {"date_str": '
-             '"2025-12-25"}}\n'
-             '</tool_call>',
-  'role': 'assistant'},
- {'content': 'Thursday', 'role': 'tool'},
- {'content': 'Today is Thursday, December 25, 2025.', 'role': 'assistant'}]
+<pre>[{&#x27;content&#x27;: &#x27;What weekday is it today?&#x27;, &#x27;role&#x27;: &#x27;user&#x27;},
+ {&#x27;content&#x27;: &#x27;&lt;tool_call&gt;\n{&quot;name&quot;: &quot;today&quot;, &quot;arguments&quot;: {}}\n&lt;/tool_call&gt;&#x27;,
+  &#x27;role&#x27;: &#x27;assistant&#x27;},
+ {&#x27;content&#x27;: &#x27;2025-12-25&#x27;, &#x27;role&#x27;: &#x27;tool&#x27;},
+ {&#x27;content&#x27;: &#x27;&lt;tool_call&gt;\n&#x27;
+             &#x27;{&quot;name&quot;: &quot;get_weekday&quot;, &quot;arguments&quot;: {&quot;date_str&quot;: &#x27;
+             &#x27;&quot;2025-12-25&quot;}}\n&#x27;
+             &#x27;&lt;/tool_call&gt;&#x27;,
+  &#x27;role&#x27;: &#x27;assistant&#x27;},
+ {&#x27;content&#x27;: &#x27;Thursday&#x27;, &#x27;role&#x27;: &#x27;tool&#x27;},
+ {&#x27;content&#x27;: &#x27;Today is Thursday, December 25, 2025.&#x27;, &#x27;role&#x27;: &#x27;assistant&#x27;}]
 </pre>
 
 <p>The model is smart enough that it invokes <code>today</code> to get the date of today and then uses <code>get_weekday</code> with the right argument to get the weekday.</p>
@@ -487,19 +476,19 @@ Tool call response: {'role': 'tool', 'content': '2025-12-25'}
 </pre></div>
 
 
-<pre>('<tool_call>\n'
- '{"name": "Movie", "arguments": {"title": "Avatar: Fire and Ash", '
- '"rating_value": 7.5, "rating_count": "46K", "desc": "Jake and Neytiri\'s '
- "family grapples with grief, encountering a new, aggressive Na'vi tribe, the "
- 'Ash People, who are led by the fiery Varang, as the conflict on Pandora '
- 'escalates and a new moral focus emerges.", "genre": "Action Epic, Adventure '
- 'Epic, Epic, Fantasy Epic, Sci-Fi Epic", "duration": "3h 17m", '
- '"publish_date": "December 19, 2025", "stars": "Sam Worthington, Zoe Saldaña, '
- 'Sigourney Weaver, Stephen Lang, Oona Chaplin, Kate Winslet, Cliff Curtis, '
- 'CCH Pounder, Edie Falco, Brendan Cowell, Jemaine Clement, David Thewlis, '
- 'Britain Dalton, Jack Champion", "director": "James Cameron", "writer": '
- '"James Cameron, Rick Jaffa, Amanda Silver"}}\n'
- '</tool_call>')
+<pre>(&#x27;&lt;tool_call&gt;\n&#x27;
+ &#x27;{&quot;name&quot;: &quot;Movie&quot;, &quot;arguments&quot;: {&quot;title&quot;: &quot;Avatar: Fire and Ash&quot;, &#x27;
+ &#x27;&quot;rating_value&quot;: 7.5, &quot;rating_count&quot;: &quot;46K&quot;, &quot;desc&quot;: &quot;Jake and Neytiri\&#x27;s &#x27;
+ &quot;family grapples with grief, encountering a new, aggressive Na&#x27;vi tribe, the &quot;
+ &#x27;Ash People, who are led by the fiery Varang, as the conflict on Pandora &#x27;
+ &#x27;escalates and a new moral focus emerges.&quot;, &quot;genre&quot;: &quot;Action Epic, Adventure &#x27;
+ &#x27;Epic, Epic, Fantasy Epic, Sci-Fi Epic&quot;, &quot;duration&quot;: &quot;3h 17m&quot;, &#x27;
+ &#x27;&quot;publish_date&quot;: &quot;December 19, 2025&quot;, &quot;stars&quot;: &quot;Sam Worthington, Zoe Saldaña, &#x27;
+ &#x27;Sigourney Weaver, Stephen Lang, Oona Chaplin, Kate Winslet, Cliff Curtis, &#x27;
+ &#x27;CCH Pounder, Edie Falco, Brendan Cowell, Jemaine Clement, David Thewlis, &#x27;
+ &#x27;Britain Dalton, Jack Champion&quot;, &quot;director&quot;: &quot;James Cameron&quot;, &quot;writer&quot;: &#x27;
+ &#x27;&quot;James Cameron, Rick Jaffa, Amanda Silver&quot;}}\n&#x27;
+ &#x27;&lt;/tool_call&gt;&#x27;)
 </pre>
 
 <div class="highlight"><pre><span></span><span class="n">movie</span> <span class="o">=</span> <span class="n">parse_tool_calls</span><span class="p">(</span><span class="n">resp</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span>
@@ -507,22 +496,22 @@ Tool call response: {'role': 'tool', 'content': '2025-12-25'}
 </pre></div>
 
 
-<pre>{'desc': "Jake and Neytiri's family grapples with grief, encountering a new, "
-         "aggressive Na'vi tribe, the Ash People, who are led by the fiery "
-         'Varang, as the conflict on Pandora escalates and a new moral focus '
-         'emerges.',
- 'director': 'James Cameron',
- 'duration': '3h 17m',
- 'genre': 'Action Epic, Adventure Epic, Epic, Fantasy Epic, Sci-Fi Epic',
- 'publish_date': 'December 19, 2025',
- 'rating_count': '46K',
- 'rating_value': 7.5,
- 'stars': 'Sam Worthington, Zoe Saldaña, Sigourney Weaver, Stephen Lang, Oona '
-          'Chaplin, Kate Winslet, Cliff Curtis, CCH Pounder, Edie Falco, '
-          'Brendan Cowell, Jemaine Clement, David Thewlis, Britain Dalton, '
-          'Jack Champion',
- 'title': 'Avatar: Fire and Ash',
- 'writer': 'James Cameron, Rick Jaffa, Amanda Silver'}
+<pre>{&#x27;desc&#x27;: &quot;Jake and Neytiri&#x27;s family grapples with grief, encountering a new, &quot;
+         &quot;aggressive Na&#x27;vi tribe, the Ash People, who are led by the fiery &quot;
+         &#x27;Varang, as the conflict on Pandora escalates and a new moral focus &#x27;
+         &#x27;emerges.&#x27;,
+ &#x27;director&#x27;: &#x27;James Cameron&#x27;,
+ &#x27;duration&#x27;: &#x27;3h 17m&#x27;,
+ &#x27;genre&#x27;: &#x27;Action Epic, Adventure Epic, Epic, Fantasy Epic, Sci-Fi Epic&#x27;,
+ &#x27;publish_date&#x27;: &#x27;December 19, 2025&#x27;,
+ &#x27;rating_count&#x27;: &#x27;46K&#x27;,
+ &#x27;rating_value&#x27;: 7.5,
+ &#x27;stars&#x27;: &#x27;Sam Worthington, Zoe Saldaña, Sigourney Weaver, Stephen Lang, Oona &#x27;
+          &#x27;Chaplin, Kate Winslet, Cliff Curtis, CCH Pounder, Edie Falco, &#x27;
+          &#x27;Brendan Cowell, Jemaine Clement, David Thewlis, Britain Dalton, &#x27;
+          &#x27;Jack Champion&#x27;,
+ &#x27;title&#x27;: &#x27;Avatar: Fire and Ash&#x27;,
+ &#x27;writer&#x27;: &#x27;James Cameron, Rick Jaffa, Amanda Silver&#x27;}
 </pre>
 
 <p>Voilà, we get all the movie information we want in a dictionary <code>movie</code>!</p>
@@ -532,18 +521,6 @@ Tool call response: {'role': 'tool', 'content': '2025-12-25'}
         <a href="/tag/llm">LLM</a>
         <a href="/tag/genai">GenAI</a>
         </div>
-
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-layout="in-article"
-         data-ad-format="fluid"
-         data-ad-client="ca-pub-7674955363445536"
-         data-ad-slot="4714691501"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
 
 
 <div id="disqus_thread">

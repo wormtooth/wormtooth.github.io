@@ -2,15 +2,6 @@
 <html lang="en">
 
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G153DWZ7W5"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-G153DWZ7W5');
-    </script>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <meta content="yes" name="apple-mobile-web-app-capable" />
@@ -27,8 +18,6 @@ Prompt Tuning for Sequence Classification | 叶某人的碎碎念    </title>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -83,11 +72,11 @@ Prompt Tuning for Sequence Classification | 叶某人的碎碎念    </title>
 
 <pre>DatasetDict({
     train: Dataset({
-        features: ['text', 'label_experts'],
+        features: [&#x27;text&#x27;, &#x27;label_experts&#x27;],
         num_rows: 1811
     })
     valid: Dataset({
-        features: ['text', 'label_experts'],
+        features: [&#x27;text&#x27;, &#x27;label_experts&#x27;],
         num_rows: 453
     })
 })
@@ -129,13 +118,13 @@ Give your answer in one word.
 </pre></div>
 
 
-<pre><|im_start|>system
-You are a helpful assistant.<|im_end|>
-<|im_start|>user
+<pre>&lt;|im_start|&gt;system
+You are a helpful assistant.&lt;|im_end|&gt;
+&lt;|im_start|&gt;user
 What is the sentiment of the following text related to finance?
 negative, neutral or positive: {text}
-Give your answer in one word.<|im_end|>
-<|im_start|>assistant
+Give your answer in one word.&lt;|im_end|&gt;
+&lt;|im_start|&gt;assistant
 
 </pre>
 
@@ -150,11 +139,11 @@ Give your answer in one word.<|im_end|>
 
 <pre>DatasetDict({
     train: Dataset({
-        features: ['text', 'label_experts', 'prompt'],
+        features: [&#x27;text&#x27;, &#x27;label_experts&#x27;, &#x27;prompt&#x27;],
         num_rows: 1811
     })
     valid: Dataset({
-        features: ['text', 'label_experts', 'prompt'],
+        features: [&#x27;text&#x27;, &#x27;label_experts&#x27;, &#x27;prompt&#x27;],
         num_rows: 453
     })
 })
@@ -188,7 +177,7 @@ Give your answer in one word.<|im_end|>
 
 
 <pre>Sliding Window Attention is enabled but not implemented for `sdpa`; unexpected results may be encountered.
-Some weights of Qwen2ForSequenceClassification were not initialized from the model checkpoint at Qwen/Qwen2.5-0.5B-Instruct and are newly initialized: ['score.weight']
+Some weights of Qwen2ForSequenceClassification were not initialized from the model checkpoint at Qwen/Qwen2.5-0.5B-Instruct and are newly initialized: [&#x27;score.weight&#x27;]
 You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
 </pre>
 
@@ -289,11 +278,11 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 
 <pre>DatasetDict({
     train: Dataset({
-        features: ['input_ids', 'attention_mask', 'labels'],
+        features: [&#x27;input_ids&#x27;, &#x27;attention_mask&#x27;, &#x27;labels&#x27;],
         num_rows: 1358
     })
     test: Dataset({
-        features: ['input_ids', 'attention_mask', 'labels'],
+        features: [&#x27;input_ids&#x27;, &#x27;attention_mask&#x27;, &#x27;labels&#x27;],
         num_rows: 453
     })
 })</pre>
@@ -327,10 +316,10 @@ You should probably TRAIN this model on a down-stream task to be able to use it 
 </pre></div>
 
 
-<pre>No label_names provided for model class `PeftModelForSequenceClassification`. Since `PeftModel` hides base models input arguments, if label_names is not given, label_names can't be set automatically within `Trainer`. Note that empty label_names list will be used instead.
+<pre>No label_names provided for model class `PeftModelForSequenceClassification`. Since `PeftModel` hides base models input arguments, if label_names is not given, label_names can&#x27;t be set automatically within `Trainer`. Note that empty label_names list will be used instead.
 </pre>
 
-<pre><IPython.core.display.HTML object></pre>
+<pre>&lt;IPython.core.display.HTML object&gt;</pre>
 
 <div><progress value='1700' max='1700' style='width:300px; height:20px; vertical-align: middle;'></progress>[1700/1700 20:48, Epoch 10/10]</div>
 
@@ -356,18 +345,6 @@ With only 0.0042% of the original parameters, we are only to improve the accurac
         <a href="/tag/llm">LLM</a>
         <a href="/tag/peft">peft</a>
         </div>
-
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7674955363445536"
-     crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center;"
-         data-ad-layout="in-article"
-         data-ad-format="fluid"
-         data-ad-client="ca-pub-7674955363445536"
-         data-ad-slot="4714691501"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
 
 
 <div id="disqus_thread">
